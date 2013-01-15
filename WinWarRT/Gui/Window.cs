@@ -19,7 +19,46 @@ namespace WinWarRT.Gui
 		}
 		#endregion
 
-		#region FromTextResource
+        #region InitWithTextResource
+        protected void InitWithTextResource(string name)
+        {
+            int idx = KnowledgeBase.IndexByName(name);
+            if (idx == -1)
+                return;
+
+            TextResource tr = WarFile.GetTextResource(idx);
+            InitWithTextResource(tr);
+        }
+
+        protected void InitWithTextResource(TextResource resource)
+        {
+            Components.Clear();
+
+            for (int i = 0; i < resource.Texts.Count; i++)
+            {
+                if (resource.Texts[i].unknown1 == 0)
+                {
+                    Label lbl = new Label(resource.Texts[i].Text);
+                    lbl.X = (int)(resource.Texts[i].X);
+                    lbl.Y = (int)(70 + resource.Texts[i].Y);
+                    Components.Add(lbl);
+                }
+                else
+                {
+                    Button.ButtonType type = Button.ButtonType.MediumButton;
+                    if (resource.Texts[i].unknown4 == 66)
+                        type = Button.ButtonType.SmallButton;
+
+                    Button btn = new Button(resource.Texts[i].Text, type);
+                    btn.X = (int)(resource.Texts[i].X);
+                    btn.Y = (int)(70 + resource.Texts[i].Y);
+                    Components.Add(btn);
+                }
+            }
+        }
+        #endregion
+
+        #region FromTextResource
         public static Window FromTextResource(string name)
         {
             int idx = KnowledgeBase.IndexByName(name);

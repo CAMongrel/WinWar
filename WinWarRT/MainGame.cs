@@ -10,13 +10,16 @@ namespace WinWarRT
     /// </summary>
     public class MainGame : Game
     {
+        #region Variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
         private BaseGameScreen currentGameScreen;
 
         public static MainGame game;
+        #endregion
 
+        #region Properties
         public static int AppWidth
         {
             get
@@ -76,6 +79,7 @@ namespace WinWarRT
                 return game._spriteFont;
             }
         }
+        #endregion
 
         public MainGame()
         {
@@ -122,7 +126,7 @@ namespace WinWarRT
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _spriteFont = this.Content.Load<SpriteFont>("SpriteFont1");
+            _spriteFont = this.Content.Load<SpriteFont>("DefaultFont");
             // TODO: use this.Content to load your game content here
         }
 

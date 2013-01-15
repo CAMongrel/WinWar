@@ -8,6 +8,10 @@ using WinWarRT.Util;
 
 namespace WinWarRT.Gui
 {
+    public delegate void OnMouseDownInside(Vector2 position);
+    public delegate void OnMouseUpInside(Vector2 position);
+    public delegate void OnMouseUpOutside(Vector2 position);
+
 	public abstract class BaseComponent
 	{
 		public int X;

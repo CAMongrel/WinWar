@@ -146,11 +146,15 @@
     </Compile>
     <Compile Include="GameScreens\BaseGameScreen.cs" />
     <Compile Include="GameScreens\MenuGameScreen.cs" />
+    <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
+    <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
     <Compile Include="Graphics\ScreenVertex.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Gui\BaseComponent.cs" />
     <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\Label.cs" />
     <Compile Include="Gui\Window.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +167,7 @@
     </AppxManifest>
     <Content Include="Assets\SpriteFont1.xnb" />
     <Content Include="Assets\DATA.WAR" />
+    <Content Include="Assets\DefaultFont.xnb" />
     <None Include="WinWarRT_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

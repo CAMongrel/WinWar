@@ -28,8 +28,23 @@ namespace WinWarRT.Gui
         private bool isActive;
 		#endregion
 
-		#region Constructor
-		public Button(string setText, ButtonType setType)
+        #region Events
+        public event OnMouseDownInside OnMouseDownInside;
+        public event OnMouseUpInside OnMouseUpInside;
+        #endregion
+
+        #region Properties
+        public string Text
+        {
+            get
+            {
+                return text + hotkey + text2;
+            }
+        }
+        #endregion
+
+        #region Constructor
+        public Button(string setText, ButtonType setType)
 		{
 			type = setType;
 
@@ -88,8 +103,12 @@ namespace WinWarRT.Gui
             background.RenderOnScreen(X, Y, Width, Height);
 
             Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
-            Microsoft.Xna.Framework.Vector2 size2 = MainGame.SpriteFont.MeasureString(hotkey.ToString());
-            Microsoft.Xna.Framework.Vector2 size3 = MainGame.SpriteFont.MeasureString(text2);
+            Microsoft.Xna.Framework.Vector2 size2 = Microsoft.Xna.Framework.Vector2.Zero;
+            if (hotkey != (char)0x00)
+                size2 = MainGame.SpriteFont.MeasureString(hotkey.ToString());
+            Microsoft.Xna.Framework.Vector2 size3 = Microsoft.Xna.Framework.Vector2.Zero; 
+            if (text2 != null)
+                size3 = MainGame.SpriteFont.MeasureString(text2);
 
             Microsoft.Xna.Framework.Vector2 totalSize = size + size2 + size3;
             totalSize.Y = Math.Max(Math.Max(size.Y, size2.Y), size3.Y);
@@ -103,11 +122,17 @@ namespace WinWarRT.Gui
             MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0, 
                 Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
 
-            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
-                Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            if (hotkey != (char)0x00)
+            {
+                MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
+                    Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            }
 
-            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
-                Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            if (text2 != null)
+            {
+                MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
+                    Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            }
 
             MainGame.SpriteBatch.End();
 		}
@@ -121,6 +146,9 @@ namespace WinWarRT.Gui
 
             isActive = true;
 
+            if (OnMouseDownInside != null)
+                OnMouseDownInside(position);
+
             return true;
         }
         #endregion
@@ -133,8 +161,18 @@ namespace WinWarRT.Gui
 
             isActive = false;
 
+            if (OnMouseUpInside != null)
+                OnMouseUpInside(position);
+
 			return true;
 		}
 		#endregion
-	}
+
+        #region ToString
+        public override string ToString()
+        {
+            return Text;
+        }
+        #endregion
+    }
 }

@@ -16,44 +16,55 @@ namespace WinWarRT.GameScreens
 
         private MenuBackgroundWindow backgroundWindow;
 
-        public Window CurrentWindow;
+        private Window currentWindow;
+        private Window nextWindow;
 
         public MenuGameScreen()
         {
             Menu = this;
 
             backgroundWindow = new MenuBackgroundWindow();
-            CurrentWindow = Window.FromTextResource("Main Menu Text");
+            currentWindow = new MainMenuWindow(); 
+            nextWindow = null;
+        }
+
+        public void SetCurrentWidow(Window setWindow)
+        {
+            nextWindow = setWindow;
         }
 
         public override void Update(GameTime gameTime)
         {
-            
+            if (nextWindow != null)
+            {
+                currentWindow = nextWindow;
+                nextWindow = null;
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
             backgroundWindow.Render();
 
-            if (CurrentWindow != null)
+            if (currentWindow != null)
             {
-                CurrentWindow.Render();
+                currentWindow.Render();
             }
         }
 
         public override void MouseDown(Microsoft.Xna.Framework.Vector2 position)
         {
-            if (CurrentWindow != null)
+            if (currentWindow != null)
             {
-                CurrentWindow.MouseDown(position);
+                currentWindow.MouseDown(position);
             }
         }
 
         public override void MouseUp(Microsoft.Xna.Framework.Vector2 position)
         {
-            if (CurrentWindow != null)
+            if (currentWindow != null)
             {
-                CurrentWindow.MouseUp(position);
+                currentWindow.MouseUp(position);
             }
         }
     }
