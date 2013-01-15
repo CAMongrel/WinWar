@@ -1,0 +1,185 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using WinWarRT.GameScreens;
+
+namespace WinWarRT
+{
+    /// <summary>
+    /// This is the main type for your game
+    /// </summary>
+    public class MainGame : Game
+    {
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private SpriteFont _spriteFont;
+        private BaseGameScreen currentGameScreen;
+
+        public static MainGame game;
+
+        public static int AppWidth
+        {
+            get
+            {
+                return game.Window.ClientBounds.Width;
+            }
+        }
+        public static int AppHeight
+        {
+            get
+            {
+                return game.Window.ClientBounds.Height;
+            }
+        }
+
+        public static float ScaleX
+        {
+            get
+            {
+                float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
+                if (aspect > 1.0f)
+                    return (int)(((float)AppWidth / 320.0f) / aspect);
+                return (float)AppWidth / 320.0f;
+            }
+        }
+        public static float ScaleY
+        {
+            get
+            {
+                float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
+                if (aspect < 1.0f)
+                    return (int)(((float)AppHeight / 200.0f) * aspect);
+                return (float)AppHeight / 200.0f;
+            }
+        }
+
+        public static GraphicsDevice Device
+        {
+            get
+            {
+                return game.GraphicsDevice;
+            }
+        }
+
+        public static SpriteBatch SpriteBatch
+        {
+            get
+            {
+                return game._spriteBatch;
+            }
+        }
+
+        public static SpriteFont SpriteFont
+        {
+            get
+            {
+                return game._spriteFont;
+            }
+        }
+
+        public MainGame()
+        {
+            MainGame.game = this;
+
+            currentGameScreen = null;
+
+            _graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Assets";
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override async void Initialize()
+        {
+            // TODO: Add your initialization logic here
+
+            base.Initialize();
+
+            try
+            {
+                await WinWarRT.Data.WarFile.LoadResources();
+            }
+            catch (Exception ex)
+            {
+                Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarRT - WarCraft for Windows Modern UI");
+                dlg.ShowAsync();
+                return;
+            }
+
+            currentGameScreen = new MenuGameScreen();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _spriteFont = this.Content.Load<SpriteFont>("SpriteFont1");
+            // TODO: use this.Content to load your game content here
+        }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            if (currentGameScreen != null)
+            {
+                currentGameScreen.Update(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            if (currentGameScreen != null)
+            {
+                currentGameScreen.Draw(gameTime);
+            }
+
+            base.Draw(gameTime);
+        }
+
+        public void PointerPressed(Microsoft.Xna.Framework.Vector2 position)
+        {
+            if (currentGameScreen != null)
+            {
+                currentGameScreen.MouseDown(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+            }
+        }
+
+        public void PointerReleased(Microsoft.Xna.Framework.Vector2 position)
+        {
+            if (currentGameScreen != null)
+            {
+                currentGameScreen.MouseUp(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+            }
+        }
+    }
+}
