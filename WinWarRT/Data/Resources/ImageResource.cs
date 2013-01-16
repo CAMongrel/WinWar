@@ -81,7 +81,8 @@ namespace WinWarRT.Data.Resources
                                     image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
 									cnt++;
 
-									if ((image_data[cnt - 4] == 228) &&
+									if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
+                                        (image_data[cnt - 4] == 228) &&
 										(image_data[cnt - 3] == 108) &&
 										(image_data[cnt - 2] == 228))
 									{
@@ -90,7 +91,8 @@ namespace WinWarRT.Data.Resources
 										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
 									}
 
-									if ((image_data[cnt - 4] == 204) &&
+                                    if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
+                                        (image_data[cnt - 4] == 204) &&
 										(image_data[cnt - 3] == 0) &&
 										(image_data[cnt - 2] == 212))
 									{

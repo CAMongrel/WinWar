@@ -7,7 +7,7 @@ using WinWarRT.Graphics;
 
 namespace WinWarRT.Gui
 {
-	public class Button : BaseComponent
+	public class UIButton : UIBaseComponent
 	{
 		#region enum ButtonType
 		public enum ButtonType
@@ -44,7 +44,7 @@ namespace WinWarRT.Gui
         #endregion
 
         #region Constructor
-        public Button(string setText, ButtonType setType)
+        public UIButton(string setText, ButtonType setType)
 		{
 			type = setType;
 

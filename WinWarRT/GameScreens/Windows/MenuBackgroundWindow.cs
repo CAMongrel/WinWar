@@ -8,7 +8,7 @@ using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens.Windows
 {
-    class MenuBackgroundWindow : Window
+    class MenuBackgroundWindow : UIWindow
     {
         WWTexture backgroundImage;
 

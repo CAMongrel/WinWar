@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.Gui
 {
-    class Label : BaseComponent
+    class UILabel : UIBaseComponent
     {
         #region Variables
         private string text;
         #endregion
 
         #region Constructor
-        public Label(string setText)
+        public UILabel(string setText)
 		{
             text = setText;
         }

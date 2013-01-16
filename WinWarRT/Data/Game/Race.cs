@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarRT.Gui
+namespace WinWarRT.Data.Game
 {
-    class MapControl : BaseComponent
+    enum Race
     {
+        Humans,
+        Orcs
     }
 }

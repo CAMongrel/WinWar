@@ -4,41 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using WinWarRT.Data.Game;
 using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens.Windows
 {
-    class ChooseCampaignWindow : Window
+    class ChooseCampaignWindow : UIWindow
     {
         public ChooseCampaignWindow()
         {
             InitWithTextResource("Choose Campaign");
 
             // Orc Campaign
-            Button orcBtn = Components[1] as Button;
+            UIButton orcBtn = Components[1] as UIButton;
             orcBtn.OnMouseUpInside += orcBtn_OnMouseUpInside;
 
             // Human Campaign
-            Button humanBtn = Components[2] as Button;
+            UIButton humanBtn = Components[2] as UIButton;
             humanBtn.OnMouseUpInside += humanBtn_OnMouseUpInside;
 
             // Custom Game
-            Button customGameBtn = Components[3] as Button;
+            UIButton customGameBtn = Components[3] as UIButton;
             customGameBtn.OnMouseUpInside += customGameBtn_OnMouseUpInside;
 
             // Cancel
-            Button cancelBtn = Components[4] as Button;
+            UIButton cancelBtn = Components[4] as UIButton;
             cancelBtn.OnMouseUpInside += cancelBtn_OnMouseUpInside;
         }
 
         void orcBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            
+            Player newPlayer = new Player();
+            newPlayer.Race = Race.Orcs;
+
+            MainGame.WinWarGame.SetNextGameScreen(new LevelGameScreen(newPlayer));
         }
 
         void humanBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            
+            Player newPlayer = new Player();
+            newPlayer.Race = Race.Humans;
+
+            MainGame.WinWarGame.SetNextGameScreen(new LevelGameScreen(newPlayer));
         }
 
         async void customGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)

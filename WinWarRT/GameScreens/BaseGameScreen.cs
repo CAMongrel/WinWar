@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.GameScreens
 {
-    abstract class BaseGameScreen
+    public abstract class BaseGameScreen
     {
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime);
 
-        public abstract void MouseDown(Microsoft.Xna.Framework.Vector2 position);
+        public abstract void PointerDown(Microsoft.Xna.Framework.Vector2 position);
 
-        public abstract void MouseUp(Microsoft.Xna.Framework.Vector2 position);
+        public abstract void PointerUp(Microsoft.Xna.Framework.Vector2 position);
     }
 }

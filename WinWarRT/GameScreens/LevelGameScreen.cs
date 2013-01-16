@@ -3,11 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarRT.Data.Game;
+using WinWarRT.GameScreens.Windows;
+using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens
 {
     class LevelGameScreen : BaseGameScreen
     {
+        public static LevelGameScreen Game { get; private set; }
 
+        public Player HumanPlayer { get; private set; }
+
+        private GameBackgroundWindow backgroundWindow;
+
+        public LevelGameScreen(Player setHumanPlayer)
+        {
+            Game = this;
+
+            HumanPlayer = setHumanPlayer;
+
+            backgroundWindow = new GameBackgroundWindow();
+        }
+
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        {
+            
+        }
+
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        {
+            backgroundWindow.Render();
+        }
+
+        public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        {
+            
+        }
+
+        public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        {
+            
+        }
     }
 }

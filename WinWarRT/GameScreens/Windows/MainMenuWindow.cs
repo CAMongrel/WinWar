@@ -8,14 +8,14 @@ using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens.Windows
 {
-    class MainMenuWindow : Window
+    class MainMenuWindow : UIWindow
     {
         public MainMenuWindow()
         {
             InitWithTextResource("Main Menu Text");
 
             // The order in the text resource is wrong, so switch first and second button
-            BaseComponent comp1 = Components[0];
+            UIBaseComponent comp1 = Components[0];
             Components[0] = Components[1];
             Components[1] = comp1;
 
@@ -25,19 +25,19 @@ namespace WinWarRT.GameScreens.Windows
             Components[1].Y = y;
 
             // Start new game
-            Button newGameBtn = Components[0] as Button;
+            UIButton newGameBtn = Components[0] as UIButton;
             newGameBtn.OnMouseUpInside += newGameBtn_OnMouseUpInside;
 
             // Replay introduction
-            Button replayIntroBtn = Components[1] as Button;
+            UIButton replayIntroBtn = Components[1] as UIButton;
             replayIntroBtn.OnMouseUpInside += replayIntroBtn_OnMouseUpInside;
 
             // Load existing game
-            Button loadGameBtn = Components[2] as Button;
+            UIButton loadGameBtn = Components[2] as UIButton;
             loadGameBtn.OnMouseUpInside += loadGameBtn_OnMouseUpInside;
 
             // Quic Game
-            Button quitGameBtn = Components[3] as Button;
+            UIButton quitGameBtn = Components[3] as UIButton;
             quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
         }
 

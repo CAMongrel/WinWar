@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarRT.Data.Game
+namespace WinWarRT.Gui
 {
-    class Campaign
+    class UIMapControl : UIBaseComponent
     {
-        public Campaign()
-        {
-            
-        }
     }
 }

@@ -8,10 +8,10 @@ using WinWarRT.Data.Resources;
 
 namespace WinWarRT.Gui
 {
-	public class Window : BaseComponent
+	public class UIWindow : UIBaseComponent
 	{
 		#region Constructor
-		protected Window()
+		protected UIWindow()
 		{
 			X = Y = 0;
 			Width = MainGame.AppWidth;
@@ -38,18 +38,18 @@ namespace WinWarRT.Gui
             {
                 if (resource.Texts[i].unknown1 == 0)
                 {
-                    Label lbl = new Label(resource.Texts[i].Text);
+                    UILabel lbl = new UILabel(resource.Texts[i].Text);
                     lbl.X = (int)(resource.Texts[i].X);
                     lbl.Y = (int)(70 + resource.Texts[i].Y);
                     Components.Add(lbl);
                 }
                 else
                 {
-                    Button.ButtonType type = Button.ButtonType.MediumButton;
+                    UIButton.ButtonType type = UIButton.ButtonType.MediumButton;
                     if (resource.Texts[i].unknown4 == 66)
-                        type = Button.ButtonType.SmallButton;
+                        type = UIButton.ButtonType.SmallButton;
 
-                    Button btn = new Button(resource.Texts[i].Text, type);
+                    UIButton btn = new UIButton(resource.Texts[i].Text, type);
                     btn.X = (int)(resource.Texts[i].X);
                     btn.Y = (int)(70 + resource.Texts[i].Y);
                     Components.Add(btn);
@@ -59,7 +59,7 @@ namespace WinWarRT.Gui
         #endregion
 
         #region FromTextResource
-        public static Window FromTextResource(string name)
+        public static UIWindow FromTextResource(string name)
         {
             int idx = KnowledgeBase.IndexByName(name);
 			if (idx == -1)
@@ -69,13 +69,13 @@ namespace WinWarRT.Gui
 			return FromTextResource(tr);
         }
 
-		public static Window FromTextResource(TextResource resource)
+		public static UIWindow FromTextResource(TextResource resource)
 		{
-			Window wnd = new Window();
+			UIWindow wnd = new UIWindow();
 
 			for (int i = 0; i < resource.Texts.Count; i++)
 			{
-				Button btn = new Button(resource.Texts[i].Text, Button.ButtonType.MediumButton);
+				UIButton btn = new UIButton(resource.Texts[i].Text, UIButton.ButtonType.MediumButton);
 				btn.X = (int)(resource.Texts[i].X);
                 btn.Y = (int)(70 + resource.Texts[i].Y);
 				wnd.Components.Add(btn);
@@ -98,7 +98,7 @@ namespace WinWarRT.Gui
 		public static void TestWindow()
 		{
             throw new NotImplementedException();
-			Window wnd = null;
+			UIWindow wnd = null;
 
 			/*TestGame.Start("TestWindow",
 				delegate

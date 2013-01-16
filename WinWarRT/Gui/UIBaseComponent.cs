@@ -12,18 +12,18 @@ namespace WinWarRT.Gui
     public delegate void OnMouseUpInside(Vector2 position);
     public delegate void OnMouseUpOutside(Vector2 position);
 
-	public abstract class BaseComponent
+	public abstract class UIBaseComponent
 	{
 		public int X;
 		public int Y;
 		public int Width;
 		public int Height;
 
-		public List<BaseComponent> Components;
+		public List<UIBaseComponent> Components;
 
-		public BaseComponent()
+		public UIBaseComponent()
 		{
-			Components = new List<BaseComponent>();
+			Components = new List<UIBaseComponent>();
 		}
 
 		public virtual void Render()

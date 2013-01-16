@@ -8,30 +8,30 @@ using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens.Windows
 {
-    class NewGameWindow : Window
+    class NewGameWindow : UIWindow
     {
         public NewGameWindow()
         {
             InitWithTextResource("Select Game Type");
 
             // Single Player
-            Button singlePlayerBtn = Components[1] as Button;
+            UIButton singlePlayerBtn = Components[1] as UIButton;
             singlePlayerBtn.OnMouseUpInside += singlePlayerBtn_OnMouseUpInside;
 
             // Modem Game
-            Button modemGameBtn = Components[2] as Button;
+            UIButton modemGameBtn = Components[2] as UIButton;
             modemGameBtn.OnMouseUpInside += modemGameBtn_OnMouseUpInside;
 
             // Network Game
-            Button networkGameBtn = Components[3] as Button;
+            UIButton networkGameBtn = Components[3] as UIButton;
             networkGameBtn.OnMouseUpInside += networkGameBtn_OnMouseUpInside;
 
             // Direct Link Game
-            Button directLinkGameBtn = Components[4] as Button;
+            UIButton directLinkGameBtn = Components[4] as UIButton;
             directLinkGameBtn.OnMouseUpInside += directLinkGameBtn_OnMouseUpInside;
 
             // Cancel
-            Button cancelBtn = Components[5] as Button;
+            UIButton cancelBtn = Components[5] as UIButton;
             cancelBtn.OnMouseUpInside += cancelBtn_OnMouseUpInside;
         }
 

@@ -16,8 +16,8 @@ namespace WinWarRT.GameScreens
 
         private MenuBackgroundWindow backgroundWindow;
 
-        private Window currentWindow;
-        private Window nextWindow;
+        private UIWindow currentWindow;
+        private UIWindow nextWindow;
 
         public MenuGameScreen()
         {
@@ -28,7 +28,7 @@ namespace WinWarRT.GameScreens
             nextWindow = null;
         }
 
-        public void SetCurrentWidow(Window setWindow)
+        public void SetCurrentWidow(UIWindow setWindow)
         {
             nextWindow = setWindow;
         }
@@ -52,7 +52,7 @@ namespace WinWarRT.GameScreens
             }
         }
 
-        public override void MouseDown(Microsoft.Xna.Framework.Vector2 position)
+        public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             if (currentWindow != null)
             {
@@ -60,7 +60,7 @@ namespace WinWarRT.GameScreens
             }
         }
 
-        public override void MouseUp(Microsoft.Xna.Framework.Vector2 position)
+        public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             if (currentWindow != null)
             {

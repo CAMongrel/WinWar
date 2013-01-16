@@ -15,8 +15,9 @@ namespace WinWarRT
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
         private BaseGameScreen currentGameScreen;
+        private BaseGameScreen nextGameScreen;
 
-        public static MainGame game;
+        public static MainGame WinWarGame { get; private set; }
         #endregion
 
         #region Properties
@@ -24,14 +25,14 @@ namespace WinWarRT
         {
             get
             {
-                return game.Window.ClientBounds.Width;
+                return WinWarGame.Window.ClientBounds.Width;
             }
         }
         public static int AppHeight
         {
             get
             {
-                return game.Window.ClientBounds.Height;
+                return WinWarGame.Window.ClientBounds.Height;
             }
         }
 
@@ -60,7 +61,7 @@ namespace WinWarRT
         {
             get
             {
-                return game.GraphicsDevice;
+                return WinWarGame.GraphicsDevice;
             }
         }
 
@@ -68,7 +69,7 @@ namespace WinWarRT
         {
             get
             {
-                return game._spriteBatch;
+                return WinWarGame._spriteBatch;
             }
         }
 
@@ -76,16 +77,17 @@ namespace WinWarRT
         {
             get
             {
-                return game._spriteFont;
+                return WinWarGame._spriteFont;
             }
         }
         #endregion
 
         public MainGame()
         {
-            MainGame.game = this;
+            MainGame.WinWarGame = this;
 
             currentGameScreen = null;
+            nextGameScreen = null;
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Assets";
@@ -114,7 +116,7 @@ namespace WinWarRT
                 return;
             }
 
-            currentGameScreen = new MenuGameScreen();
+            SetNextGameScreen(new MenuGameScreen());
         }
 
         /// <summary>
@@ -139,6 +141,11 @@ namespace WinWarRT
             // TODO: Unload any non ContentManager content here
         }
 
+        public void SetNextGameScreen(BaseGameScreen setNextGameScreen)
+        {
+            nextGameScreen = setNextGameScreen;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -146,6 +153,12 @@ namespace WinWarRT
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (nextGameScreen != null)
+            {
+                currentGameScreen = nextGameScreen;
+                nextGameScreen = null;
+            }
+
             if (currentGameScreen != null)
             {
                 currentGameScreen.Update(gameTime);
@@ -174,7 +187,7 @@ namespace WinWarRT
         {
             if (currentGameScreen != null)
             {
-                currentGameScreen.MouseDown(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+                currentGameScreen.PointerDown(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
             }
         }
 
@@ -182,7 +195,7 @@ namespace WinWarRT
         {
             if (currentGameScreen != null)
             {
-                currentGameScreen.MouseUp(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+                currentGameScreen.PointerUp(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
             }
         }
     }
