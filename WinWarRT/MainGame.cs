@@ -21,6 +21,9 @@ namespace WinWarRT
         #endregion
 
         #region Properties
+        public const int OriginalAppWidth = 320;
+        public const int OriginalAppHeight = 200;
+
         public static int AppWidth
         {
             get
@@ -42,8 +45,8 @@ namespace WinWarRT
             {
                 float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
                 if (aspect > 1.0f)
-                    return (int)(((float)AppWidth / 320.0f) / aspect);
-                return (float)AppWidth / 320.0f;
+                    return (int)(((float)AppWidth / (float)OriginalAppWidth) / aspect);
+                return (float)AppWidth / (float)OriginalAppWidth;
             }
         }
         public static float ScaleY
@@ -52,8 +55,8 @@ namespace WinWarRT
             {
                 float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
                 if (aspect < 1.0f)
-                    return (int)(((float)AppHeight / 200.0f) * aspect);
-                return (float)AppHeight / 200.0f;
+                    return (int)(((float)AppHeight / (float)OriginalAppHeight) * aspect);
+                return (float)AppHeight / (float)OriginalAppHeight;
             }
         }
 
@@ -155,7 +158,13 @@ namespace WinWarRT
         {
             if (nextGameScreen != null)
             {
+                if (currentGameScreen != null)
+                    currentGameScreen.Close();
+
                 currentGameScreen = nextGameScreen;
+                if (currentGameScreen != null)
+                    currentGameScreen.InitUI();
+
                 nextGameScreen = null;
             }
 

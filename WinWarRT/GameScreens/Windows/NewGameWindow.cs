@@ -55,12 +55,14 @@ namespace WinWarRT.GameScreens.Windows
 
         void singlePlayerBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            MenuGameScreen.Menu.SetCurrentWidow(new ChooseCampaignWindow());
+            new ChooseCampaignWindow();
+            Close();
         }
 
         void cancelBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            MenuGameScreen.Menu.SetCurrentWidow(new MainMenuWindow());
+            new MainMenuWindow();
+            Close();
         }
     }
 }

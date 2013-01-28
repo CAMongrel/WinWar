@@ -9,6 +9,10 @@ namespace WinWarRT.GameScreens
 {
     public abstract class BaseGameScreen
     {
+        public abstract void InitUI();
+
+        public abstract void Close();
+
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime);

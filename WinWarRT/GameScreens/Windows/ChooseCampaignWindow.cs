@@ -56,7 +56,8 @@ namespace WinWarRT.GameScreens.Windows
 
         private void cancelBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            MenuGameScreen.Menu.SetCurrentWidow(new NewGameWindow());
+            new NewGameWindow();
+            Close();
         }
     }
 }

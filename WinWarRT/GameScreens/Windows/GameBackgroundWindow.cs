@@ -16,28 +16,27 @@ namespace WinWarRT.GameScreens.Windows
         private UIImage bottomBar;
         private UIImage rightBar;
 
+        private UIButton menuButton;
+
         private UIMapControl mapControl;
 
         public GameBackgroundWindow()
         {
-            mapControl = new UIMapControl();
-
             InitUI();
         }
 
         private void LoadUIImage(ref UIImage img, string name)
         {
-            if (img != null)
-            {
-                this.Components.Remove(img);
-            }
-
             img = UIImage.FromImageResource(name);
-            Components.Add(img);
+            AddComponent(img);
         }
 
         private void InitUI()
         {
+            ClearComponents();
+
+            mapControl = new UIMapControl();
+
             LoadUIImage(ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
             LoadUIImage(ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
             leftSidebar.Y = leftSidebarTop.Height;
@@ -54,6 +53,20 @@ namespace WinWarRT.GameScreens.Windows
 
             mapControl.X = leftSidebarTop.Width;
             mapControl.Y = topBar.Height;
+            AddComponent(mapControl);
+
+            menuButton = new UIButton("Menu", UIButton.ButtonType.SmallButton);
+            menuButton.Width = (int)((float)menuButton.Width * 1.22f);
+            menuButton.Height = (int)((float)menuButton.Height / 1.3f);
+            menuButton.X = leftSidebar.Width / 2 - menuButton.Width / 2 - 1;
+            menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
+            menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
+            AddComponent(menuButton);
+        }
+
+        void menuButton_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        {
+            IngameMenuWindow menu = new IngameMenuWindow();
         }
     }
 }

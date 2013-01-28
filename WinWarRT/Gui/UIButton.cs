@@ -1,4 +1,5 @@
 #region Using directives
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,8 +30,8 @@ namespace WinWarRT.Gui
 		#endregion
 
         #region Events
-        public event OnMouseDownInside OnMouseDownInside;
-        public event OnMouseUpInside OnMouseUpInside;
+        public event OnPointerDownInside OnMouseDownInside;
+        public event OnPointerUpInside OnMouseUpInside;
         #endregion
 
         #region Properties
@@ -100,7 +101,9 @@ namespace WinWarRT.Gui
             else
                 background = backgroundNotClicked;
 
-            background.RenderOnScreen(X, Y, Width, Height);
+            Vector2 screenPos = ScreenPosition;
+
+            background.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
 
             Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
             Microsoft.Xna.Framework.Vector2 size2 = Microsoft.Xna.Framework.Vector2.Zero;
@@ -114,8 +117,8 @@ namespace WinWarRT.Gui
             totalSize.Y = Math.Max(Math.Max(size.Y, size2.Y), size3.Y);
 
             Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2(
-                X + ((float)Width / 2.0f - totalSize.X / 2.0f), 
-                Y + ((float)Height / 2.0f - totalSize.Y / 2.0f));
+                screenPos.X + ((float)Width / 2.0f - totalSize.X / 2.0f),
+                screenPos.Y + ((float)Height / 2.0f - totalSize.Y / 2.0f));
 
             MainGame.SpriteBatch.Begin();
 
@@ -139,9 +142,9 @@ namespace WinWarRT.Gui
 		#endregion
 
         #region MouseDown
-        public override bool MouseDown(Microsoft.Xna.Framework.Vector2 position)
+        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
-            if (!base.MouseDown(position))
+            if (!base.PointerDown(position))
                 return false;
 
             isActive = true;
@@ -154,9 +157,9 @@ namespace WinWarRT.Gui
         #endregion
 
         #region MouseUp
-        public override bool MouseUp(Microsoft.Xna.Framework.Vector2 position)
+        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
 		{
-            if (!base.MouseUp(position))
+            if (!base.PointerUp(position))
 				return false;
 
             isActive = false;

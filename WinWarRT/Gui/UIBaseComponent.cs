@@ -8,9 +8,9 @@ using WinWarRT.Util;
 
 namespace WinWarRT.Gui
 {
-    public delegate void OnMouseDownInside(Vector2 position);
-    public delegate void OnMouseUpInside(Vector2 position);
-    public delegate void OnMouseUpOutside(Vector2 position);
+    public delegate void OnPointerDownInside(Vector2 position);
+    public delegate void OnPointerUpInside(Vector2 position);
+    public delegate void OnPointerUpOutside(Vector2 position);
 
 	public abstract class UIBaseComponent
 	{
@@ -19,43 +19,120 @@ namespace WinWarRT.Gui
 		public int Width;
 		public int Height;
 
-		public List<UIBaseComponent> Components;
+        public Vector2 ScreenPosition
+        {
+            get
+            {
+                if (ParentComponent == null)
+                    return new Vector2(X, Y);
+
+                Vector2 parentScreenPos = ParentComponent.ScreenPosition;
+                return new Vector2(X + parentScreenPos.X, Y + parentScreenPos.Y); 
+            }
+        }
+
+        public UIBaseComponentList Components;
+        private List<UIBaseComponent> components;
+
+        public UIBaseComponent ParentComponent { get; private set; }
 
 		public UIBaseComponent()
 		{
-			Components = new List<UIBaseComponent>();
+            ParentComponent = null;
+            components = new List<UIBaseComponent>();
+            Components = new UIBaseComponentList(components);
 		}
+
+        public void AddComponent(UIBaseComponent newComp)
+        {
+            if (newComp == null)
+                return;
+
+            if (newComp.ParentComponent != null)
+                newComp.ParentComponent.RemoveComponent(newComp);
+
+            newComp.ParentComponent = this;
+            components.Add(newComp);
+        }
+
+        public void RemoveComponent(UIBaseComponent comp)
+        {
+            if (comp == null)
+                return;
+
+            if (components.Contains(comp))
+                components.Remove(comp);
+            comp.ParentComponent = null;
+        }
+
+        public void ClearComponents()
+        {
+            components.Clear();
+        }
+
+        public void CenterOnScreen()
+        {
+            X = MainGame.OriginalAppWidth / 2 - Width / 2;
+            Y = MainGame.OriginalAppHeight / 2 - Height / 2;
+        }
+
+        public void CenterInParent()
+        {
+            if (ParentComponent == null)
+                return;
+
+            X = ParentComponent.Width / 2 - Width / 2;
+            Y = ParentComponent.Height / 2 - Height / 2;
+        }
+
+        public void CenterXInParent()
+        {
+            if (ParentComponent == null)
+                return;
+
+            X = ParentComponent.Width / 2 - Width / 2;
+        }
+
+        public void CenterYInParent()
+        {
+            if (ParentComponent == null)
+                return;
+
+            Y = ParentComponent.Height / 2 - Height / 2;
+        }
 
 		public virtual void Render()
 		{
-			for (int i = 0; i < Components.Count; i++)
+            for (int i = 0; i < components.Count; i++)
 			{
-				Components[i].Render();
+                components[i].Render();
 			}
 		}
 
-        public virtual bool MouseDown(Microsoft.Xna.Framework.Vector2 position)
+        public virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
                 return false;
 
-            for (int i = 0; i < Components.Count; i++)
+            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+            for (int i = components.Count - 1; i >= 0; i--)
             {
-                if (Components[i].MouseDown(position))
+                if (components[i].PointerDown(relPosition))
                     return true;
             }
 
             return true;
         }
 
-		public virtual bool MouseUp(Microsoft.Xna.Framework.Vector2 position)
+		public virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
 		{
 			if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
 				return false;
 
-			for (int i = 0; i < Components.Count; i++)
-			{
-                if (Components[i].MouseUp(position))
+            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+            for (int i = components.Count - 1; i >= 0; i--)
+            {
+                if (components[i].PointerUp(relPosition))
 					return true;
 			}
 

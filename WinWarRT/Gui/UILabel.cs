@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,11 +25,13 @@ namespace WinWarRT.Gui
         {
             base.Render();
 
+            Vector2 screenPos = ScreenPosition;
+
             Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
 
             Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2(
-                X + ((float)Width / 2.0f - size.X / 2.0f),
-                Y + ((float)Height / 2.0f - size.Y / 2.0f));
+                screenPos.X + ((float)Width / 2.0f - size.X / 2.0f),
+                screenPos.Y + ((float)Height / 2.0f - size.Y / 2.0f));
 
             MainGame.SpriteBatch.Begin();
 

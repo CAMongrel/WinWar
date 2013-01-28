@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>WinWarRT_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -152,17 +153,20 @@
     <Compile Include="GameScreens\MenuGameScreen.cs" />
     <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
     <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
     <Compile Include="Graphics\ScreenVertex.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
+    <Compile Include="Gui\UIBaseComponentList.cs" />
     <Compile Include="Gui\UIButton.cs" />
     <Compile Include="Gui\UIImage.cs" />
     <Compile Include="Gui\UILabel.cs" />
     <Compile Include="Gui\UIMapControl.cs" />
     <Compile Include="Gui\UIWindow.cs" />
+    <Compile Include="Gui\UIWindowManager.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\MathHelper.cs" />

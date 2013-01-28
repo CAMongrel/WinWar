@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,9 @@ namespace WinWarRT.Gui
             if (image == null)
                 return;
 
-            image.RenderOnScreen(X, Y, Width, Height);
+            Vector2 screenPos = ScreenPosition;
+
+            image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
         }
     }
 }

@@ -9,13 +9,15 @@ using WinWarRT.Data.Resources;
 namespace WinWarRT.Gui
 {
 	public class UIWindow : UIBaseComponent
-	{
-		#region Constructor
-		protected UIWindow()
+    {
+        #region Constructor
+        protected UIWindow()
 		{
 			X = Y = 0;
 			Width = MainGame.AppWidth;
             Height = MainGame.AppHeight;
+
+            UIWindowManager.AddWindow(this); ;
 		}
 		#endregion
 
@@ -32,7 +34,7 @@ namespace WinWarRT.Gui
 
         protected void InitWithTextResource(TextResource resource)
         {
-            Components.Clear();
+            ClearComponents();
 
             for (int i = 0; i < resource.Texts.Count; i++)
             {
@@ -41,7 +43,7 @@ namespace WinWarRT.Gui
                     UILabel lbl = new UILabel(resource.Texts[i].Text);
                     lbl.X = (int)(resource.Texts[i].X);
                     lbl.Y = (int)(70 + resource.Texts[i].Y);
-                    Components.Add(lbl);
+                    AddComponent(lbl);
                 }
                 else
                 {
@@ -52,7 +54,7 @@ namespace WinWarRT.Gui
                     UIButton btn = new UIButton(resource.Texts[i].Text, type);
                     btn.X = (int)(resource.Texts[i].X);
                     btn.Y = (int)(70 + resource.Texts[i].Y);
-                    Components.Add(btn);
+                    AddComponent(btn);
                 }
             }
         }
@@ -78,19 +80,24 @@ namespace WinWarRT.Gui
 				UIButton btn = new UIButton(resource.Texts[i].Text, UIButton.ButtonType.MediumButton);
 				btn.X = (int)(resource.Texts[i].X);
                 btn.Y = (int)(70 + resource.Texts[i].Y);
-				wnd.Components.Add(btn);
+				wnd.AddComponent(btn);
 			}
 
 			return wnd;
 		}
 		#endregion
 
-		#region Render
-		public override void Render()
+        #region Close
+        public void Close()
+        {
+            UIWindowManager.RemoveWindow(this);
+        }
+        #endregion
+
+        #region Render
+        public override void Render()
 		{
 			base.Render();
-			//BaseGame.StdFont.DrawText(null, "Window (X = " + X + "; Y = " + Y +
-			//	"; Width = " + Width + "; Height = " + Height + ")", X, Y, System.Drawing.Color.White);
 		}
 		#endregion
 

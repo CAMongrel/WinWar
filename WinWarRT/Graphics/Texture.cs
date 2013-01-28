@@ -39,53 +39,6 @@ namespace WinWarRT.Graphics
 
 		public int Width;
 		public int Height;
-
-		static VertexBuffer vertexBuffer = null;
-		static VertexDeclaration vertexDecl;
-
-		/// <summary>
-		/// The DirectX effect we use for rendering.
-		/// Is currently hardcoded below.
-		/// </summary>
-		static Effect primitiveEffect;
-
-		#region Cached shader parameters
-		/// <summary>
-		/// 
-		/// </summary>
-		static EffectParameter positionMatrix;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static EffectParameter texcoordMatrix;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static EffectParameter transformMatrix;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static EffectParameter color;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static EffectParameter diffuseTexture;
-		#endregion
-		#endregion
-
-		#region Static constructor
-		/// <summary>
-		/// Create texture
-		/// </summary>
-		static WWTexture()
-		{
-			CreateEffect();
-			CreateVertexBuffer();
-		} // Texture()
 		#endregion
 
 		#region Constructor
@@ -94,7 +47,7 @@ namespace WinWarRT.Graphics
 			Width = width;
 			Height = height;
 
-            DXTexture = new Texture2D(MainGame.Device, width, height, true, SurfaceFormat.Color);
+            DXTexture = new Texture2D(MainGame.Device, width, height, false, SurfaceFormat.Color);
 		}
 		#endregion
 
@@ -127,74 +80,6 @@ namespace WinWarRT.Graphics
 			res.DXTexture = tex;
 			return res;
 		} // FromDXTexture(tex)
-		#endregion
-
-		#region Private ctor helper functions
-		/// <summary>
-		/// Creates the DirectX effect
-		/// </summary>
-		private static void CreateEffect()
-		{
-            return;
-			// Create the effect
-			/*CompiledEffect compEffect = Effect.CompileEffectFromSource(
-				hardcodedEffectCode, null, null, CompilerOptions.None,
-				TargetPlatform.Windows);
-
-			// If it failed, quit out with an exception
-			if (compEffect.Success == false)
-				throw new InvalidProgramException("Failed to compile " +
-					"PrimitiveEffect for PrimitiveRendererQuad: " +
-					compEffect.ErrorsAndWarnings);
-
-			// Now create the actual runtime effect from the effect byte code.
-			primitiveEffect = new Effect(BaseGame.device, compEffect.GetEffectCode(),
-				CompilerOptions.None, null);
-
-			// Cache the shader parameters we need in this class
-			positionMatrix = primitiveEffect.Parameters["positionMatrix"];
-			texcoordMatrix = primitiveEffect.Parameters["texcoordMatrix"];
-			transformMatrix = primitiveEffect.Parameters["transformMatrix"];
-			color = primitiveEffect.Parameters["color"];
-			diffuseTexture = primitiveEffect.Parameters["diffuseTexture"];*/
-		}
-
-		/// <summary>
-		/// Creates the DirectX vertex buffer
-		/// </summary>
-		private static void CreateVertexBuffer()
-		{
-            return;
-			// Create the vertex buffer using the passed in device.
-			// We use WriteOnly to force it into the GPU memory.
-			/*vertexBuffer = new VertexBuffer(MainGame.Device, typeof(ScreenVertex),
-				4, BufferUsage.WriteOnly);
-
-			// Create quad vertices
-			ScreenVertex[] vertices = new ScreenVertex[4];
-			vertices[0] = new ScreenVertex();
-			vertices[0].Position = new Vector2(0, 0);
-			vertices[0].UV = new Vector2(0, 0);
-			vertices[0].Color = new Vector4(1, 1, 1, 1);
-
-			vertices[1] = new ScreenVertex();
-			vertices[1].Position = new Vector2(1, 0);
-			vertices[1].UV = new Vector2(1, 0);
-			vertices[1].Color = new Vector4(1, 1, 1, 1);
-
-			vertices[2] = new ScreenVertex();
-			vertices[2].Position = new Vector2(0, 1);
-			vertices[2].UV = new Vector2(0, 1);
-			vertices[2].Color = new Vector4(1, 1, 1, 1);
-
-			vertices[3] = new ScreenVertex();
-			vertices[3].Position = new Vector2(1, 1);
-			vertices[3].UV = new Vector2(1, 1);
-			vertices[3].Color = new Vector4(1, 1, 1, 1);
-
-			// Fill buffer with vertices
-			vertexBuffer.SetData<ScreenVertex>(vertices);*/
-		}
 		#endregion
 
 		#region RenderOnScreen
@@ -291,88 +176,6 @@ namespace WinWarRT.Graphics
 			primitiveEffect.End();
              * */
 		}
-		#endregion
-
-		#region Hardcoded effect code
-		static string hardcodedEffectCode =
-@"// ==========================
-// Primitive render effect
-// ==========================
-
-float4x4 positionMatrix;
-float4x4 texcoordMatrix;
-float4x4 transformMatrix;
-
-float4 color;
-
-texture2D diffuseTexture;
-sampler2D diffuseSampler = sampler_state
-{
-	texture = <diffuseTexture>;
-}; // diffuseSampler = sampler_state
-
-struct VS_Input
-{
-	float2 Position : POSITION;
-	float2 TexCoord : TEXCOORD0;
-	float4 Color : COLOR0;
-}; // VS_Input
-
-struct PS_Input
-{
-	float4 Position : POSITION;
-	float4 Color : COLOR0;
-	float2 TexCoord : TEXCOORD0;
-}; // PS_Input
-
-// Main VertexShader
-PS_Input VSMain(VS_Input input)
-{
-	PS_Input output = (PS_Input)0;
-
-	output.Position = float4(input.Position, 0, 1);
-	output.Position = mul(output.Position, positionMatrix);
-	// Transform position from screen space (0..1) into device
-	// space (-1..+1)
-	output.Position = mul(output.Position, transformMatrix);
-
-	// Transform texture coordinates
-	output.TexCoord = mul(float4(input.TexCoord, 0, 1), texcoordMatrix).xy;
-
-	output.Color = input.Color;
-
-	return output;
-} // VSMain(VS_Input input)
-
-// Main PixelShader
-float4 PSMain(PS_Input input) : COLOR0
-{
-	return tex2D(diffuseSampler, input.TexCoord) * color;
-} // VSMain(VS_Input input)
-
-float4 PSMainUntextured(PS_Input input) : COLOR0
-{
-	return color;
-} // VSMain(VS_Input input)
-
-technique Textured
-{
-	pass p0
-	{
-		VertexShader = compile vs_3_0 VSMain();
-		PixelShader = compile ps_3_0 PSMain();
-	} // p0
-} // Textured
-
-technique Untextured
-{
-	pass p0
-	{
-		VertexShader = compile vs_3_0 VSMain();
-		PixelShader = compile ps_3_0 PSMainUntextured();
-	} // p0
-} // Textured
-";
 		#endregion
 
 		#region Unit testing

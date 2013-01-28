@@ -22,28 +22,36 @@ namespace WinWarRT.GameScreens
             Game = this;
 
             HumanPlayer = setHumanPlayer;
+        }
 
+        public override void InitUI()
+        {
             backgroundWindow = new GameBackgroundWindow();
+        }
+
+        public override void Close()
+        {
+            UIWindowManager.Clear();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            
+            //UIWindowManager.Update(gameTime);
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            backgroundWindow.Render();
+            UIWindowManager.Render();
         }
 
         public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
-            
+            UIWindowManager.PointerDown(position);
         }
 
         public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
-            
+            UIWindowManager.PointerUp(position);
         }
     }
 }
