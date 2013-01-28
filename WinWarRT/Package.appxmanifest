@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WinWarRT.App">
-      <VisualElements DisplayName="WarCraft for WindowsRT" Logo="Assets\warcraft-logo-square.png" SmallLogo="Assets\warcraft-logo-square-mini.png" Description="WinWarRT - WarCraft for WindowsRT" ForegroundText="light" BackgroundColor="#464646">
+      <VisualElements DisplayName="WarCraft for WindowsRT" Logo="Assets\warcraft-logo-square.png" SmallLogo="Assets\warcraft-logo-square-mini.png" Description="WinWarRT - WarCraft for WindowsRT" ForegroundText="light" BackgroundColor="#7F0000">
         <DefaultTile ShowName="allLogos" WideLogo="Assets\warcraft-logo-wide.png" />
         <SplashScreen Image="Assets\warcraft-logo.png" />
         <InitialRotationPreference>

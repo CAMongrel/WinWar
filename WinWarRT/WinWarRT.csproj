@@ -154,16 +154,12 @@
     <Content Include="Assets\SpriteFont1.xnb" />
     <Content Include="Assets\DATA.WAR" />
     <Content Include="Assets\DefaultFont.xnb" />
+    <Content Include="Assets\warcraft-logo-square-mini.png" />
     <Content Include="Assets\warcraft-logo-square.png" />
+    <Content Include="Assets\warcraft-logo-store.png" />
     <Content Include="Assets\warcraft-logo-wide.png" />
     <Content Include="Assets\warcraft-logo.png" />
     <None Include="WinWarRT_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
