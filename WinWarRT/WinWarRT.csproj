@@ -102,30 +102,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Reference Include="SharpDX">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XInput">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.XInput.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct2D1">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.MediaFoundation">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.MediaFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\..\Neu\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -157,7 +133,6 @@
     <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
-    <Compile Include="Graphics\ScreenVertex.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
     <Compile Include="Gui\UIBaseComponentList.cs" />
@@ -179,6 +154,9 @@
     <Content Include="Assets\SpriteFont1.xnb" />
     <Content Include="Assets\DATA.WAR" />
     <Content Include="Assets\DefaultFont.xnb" />
+    <Content Include="Assets\warcraft-logo-square.png" />
+    <Content Include="Assets\warcraft-logo-wide.png" />
+    <Content Include="Assets\warcraft-logo.png" />
     <None Include="WinWarRT_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -202,10 +180,33 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+    <ProjectReference Include="..\..\..\..\Download\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
       <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
       <Name>MonoGame.Framework.Windows8</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\..\..\Download\MonoGame\ThirdParty\Libs\SharpDX\Windows 8 Metro\SharpDX.XInput.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
