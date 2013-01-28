@@ -4,7 +4,7 @@
   <Properties>
     <DisplayName>WinWarRT</DisplayName>
     <PublisherDisplayName>Henning</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\warcraft-logo-store.png</Logo>
   </Properties>
   <Prerequisites>
     <OSMinVersion>6.2.1</OSMinVersion>
@@ -15,9 +15,12 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WinWarRT.App">
-      <VisualElements DisplayName="WinWarRT" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="WinWarRT" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
-        <SplashScreen Image="Assets\SplashScreen.png" />
+      <VisualElements DisplayName="WarCraft for WindowsRT" Logo="Assets\warcraft-logo-square.png" SmallLogo="Assets\warcraft-logo-square-mini.png" Description="WinWarRT - WarCraft for WindowsRT" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" WideLogo="Assets\warcraft-logo-wide.png" />
+        <SplashScreen Image="Assets\warcraft-logo.png" />
+        <InitialRotationPreference>
+          <Rotation Preference="landscape" />
+        </InitialRotationPreference>
       </VisualElements>
     </Application>
   </Applications>
