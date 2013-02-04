@@ -113,14 +113,21 @@ namespace WinWarRT
 
             base.Initialize();
 
+            bool success = true;
+
             try
             {
                 await WinWarRT.Data.WarFile.LoadResources();
             }
-            catch (Exception ex)
+            catch (Exception)
+            {
+                success = false;
+            }
+
+            if (!success)
             {
                 Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarRT - WarCraft for Windows Modern UI");
-                dlg.ShowAsync();
+                await dlg.ShowAsync();
                 return;
             }
 

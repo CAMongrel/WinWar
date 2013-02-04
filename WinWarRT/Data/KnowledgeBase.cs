@@ -313,7 +313,7 @@ namespace WinWarRT.Data
 FileLevelInfo:
 Offset				Data
 ------------------------------------------------
-0x0000				Unbekannte Daten (?Header?)		(Länge 0x36)
+0x0000				Unbekannte Daten (Header)		(Länge 0x36)
 0x003A				Unbekannte Daten				(Länge 0x20)
 0x005C				Anfangswert: Lumber
 0x0070				Anfangswert: Gold

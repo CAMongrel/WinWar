@@ -301,17 +301,19 @@ namespace WinWarRT.Data.Resources
 					}
 
 					// Get the text position again
+
+                    StringBuilder sb = new StringBuilder();
+
 					off = *(int*)(&ptr[0x94]);
 
 					byte* b_ptr = &ptr[off];
-					int cnt = 0;
 					while (*b_ptr != 0x00)
 					{
-						b_ptr++;
-						cnt++;
+						sb.Append((char)*b_ptr);
+                        b_ptr++;
 					}
 
-                    _mission_text = "NOT IMPLEMENTED";// new string((sbyte*)&ptr[off], 0, cnt);
+                    _mission_text = sb.ToString();
 				}
 			}
 		}

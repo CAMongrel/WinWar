@@ -27,7 +27,7 @@ namespace WinWarRT.GameScreens
             PlayMovie(resultFile, OnMovieFinished);
         }
 
-        public async static void PlayMovie(StorageFile file, MovieFinished OnMovieFinished)
+        public static void PlayMovie(StorageFile file, MovieFinished OnMovieFinished)
         {
             MovieGameScreen movieGS = new MovieGameScreen();
             movieGS.OnMovieFinished = OnMovieFinished;

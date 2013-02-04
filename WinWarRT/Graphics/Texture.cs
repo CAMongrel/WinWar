@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
 using WinWarRT.Data;
 using WinWarRT.Data.Resources;
@@ -182,9 +181,8 @@ namespace WinWarRT.Graphics
 		public static void TestLoadAndRender()
 		{
             throw new NotImplementedException();
-			WWTexture tex = null;
+			/*WWTexture tex = null;
 			
-            /*
 			TestGame.Start("TestLoadAndRender",
 				delegate
 				{

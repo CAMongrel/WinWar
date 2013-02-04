@@ -105,18 +105,18 @@ namespace WinWarRT.Gui
 		public static void TestWindow()
 		{
             throw new NotImplementedException();
-			UIWindow wnd = null;
+            /*UIWindow wnd = null;
 
-			/*TestGame.Start("TestWindow",
-				delegate
-				{
-					TextResource tr = new TextResource("Main Menu Text");
-					wnd = Window.FromTextResource(tr);
-				},
-				delegate
-				{
-					wnd.Render();
-				});*/
+            TestGame.Start("TestWindow",
+                delegate
+                {
+                    TextResource tr = new TextResource("Main Menu Text");
+                    wnd = Window.FromTextResource(tr);
+                },
+                delegate
+                {
+                    wnd.Render();
+                });*/
 		}
 		#endregion
 	}

@@ -35,7 +35,7 @@ namespace WinWarRT.Data
                 var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
                 resultFile = await localStorage.GetFileAsync("DATAA.WAR");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -48,7 +48,7 @@ namespace WinWarRT.Data
                 localStorage = await localStorage.GetFolderAsync("Assets");
                 resultFile = await localStorage.GetFileAsync("DATA.WAR");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
