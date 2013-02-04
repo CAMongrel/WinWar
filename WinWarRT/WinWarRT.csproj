@@ -176,6 +176,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FLCLib.Metro">
+      <HintPath>..\Libs\FLCLib.Metro.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\MonoGame.Framework.dll</HintPath>
