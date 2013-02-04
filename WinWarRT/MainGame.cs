@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Text;
 using WinWarRT.GameScreens;
 
 namespace WinWarRT
@@ -123,7 +124,8 @@ namespace WinWarRT
                 return;
             }
 
-            MovieGameScreen.PlayMovie("TITLE.WAR", delegate
+            MovieGameScreen.PlayMovie("TITLE.WAR", 
+                delegate
                 {
                     SetNextGameScreen(new MenuGameScreen());
                 });
