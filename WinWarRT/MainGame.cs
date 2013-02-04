@@ -17,6 +17,8 @@ namespace WinWarRT
         private BaseGameScreen currentGameScreen;
         private BaseGameScreen nextGameScreen;
 
+        private Color backgroundClearColor;
+
         public static MainGame WinWarGame { get; private set; }
         #endregion
 
@@ -89,6 +91,8 @@ namespace WinWarRT
         {
             MainGame.WinWarGame = this;
 
+            backgroundClearColor = new Color(0x7F, 0x00, 0x00);
+
             currentGameScreen = null;
             nextGameScreen = null;
 
@@ -119,7 +123,10 @@ namespace WinWarRT
                 return;
             }
 
-            SetNextGameScreen(new MenuGameScreen());
+            MovieGameScreen.PlayMovie("TITLE.WAR", delegate
+                {
+                    SetNextGameScreen(new MenuGameScreen());
+                });
         }
 
         /// <summary>
@@ -182,11 +189,15 @@ namespace WinWarRT
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             if (currentGameScreen != null)
             {
+                GraphicsDevice.Clear(currentGameScreen.BackgroundColor);
+
                 currentGameScreen.Draw(gameTime);
+            }
+            else
+            {
+                GraphicsDevice.Clear(backgroundClearColor);
             }
 
             base.Draw(gameTime);

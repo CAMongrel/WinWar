@@ -49,8 +49,18 @@ namespace WinWarRT.GameScreens.Windows
 
         async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            MessageDialog dlg = new MessageDialog("Not implemented yet");
-            await dlg.ShowAsync();
+            var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
+            localStorage = await localStorage.GetFolderAsync("Assets\\Data");
+            var resultFile = await localStorage.GetFileAsync("TITLE.WAR");
+
+            MovieGameScreen.PlayMovie(resultFile,
+                delegate
+                {
+                    if (MenuGameScreen.Menu == null)
+                        MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen());
+                    else
+                        MainGame.WinWarGame.SetNextGameScreen(MenuGameScreen.Menu);
+                });
         }
 
         void newGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)

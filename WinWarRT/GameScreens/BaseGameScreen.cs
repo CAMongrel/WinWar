@@ -7,18 +7,45 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.GameScreens
 {
-    public abstract class BaseGameScreen
+    public class BaseGameScreen
     {
-        public abstract void InitUI();
+        private Color standardBackgroundColor;
 
-        public abstract void Close();
+        public BaseGameScreen()
+        {
+            standardBackgroundColor = new Color(0x7F, 0x00, 0x00);
+        }
 
-        public abstract void Update(GameTime gameTime);
+        public virtual Color BackgroundColor
+        {
+            get
+            {
+                return standardBackgroundColor;
+            }
+        }
 
-        public abstract void Draw(GameTime gameTime);
+        public virtual void InitUI()
+        {
+        }
 
-        public abstract void PointerDown(Microsoft.Xna.Framework.Vector2 position);
+        public virtual void Close()
+        {
+        }
 
-        public abstract void PointerUp(Microsoft.Xna.Framework.Vector2 position);
+        public virtual void Update(GameTime gameTime)
+        {
+        }
+
+        public virtual void Draw(GameTime gameTime)
+        {
+        }
+
+        public virtual void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        {
+        }
+
+        public virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        {
+        }
     }
 }

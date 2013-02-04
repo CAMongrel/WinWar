@@ -4,6 +4,7 @@ Thumbs.db
 #Ignore files build by Visual Studio
 *.obj
 *.exe
+*.WAR
 WinWarRT/*.pdb
 *.user
 *.aps
