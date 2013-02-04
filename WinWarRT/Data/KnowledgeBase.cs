@@ -54,6 +54,7 @@ namespace WinWarRT.Data
 	{
 		#region Hardcoded palette
 		// Number of entries = 128 * 3 = 384
+        // 0, 0, 0 => means unknown
 		public static byte[] hardcoded_pal = {
 							255, 255, 255,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
@@ -151,7 +152,7 @@ namespace WinWarRT.Data
 							252, 152, 40,	// 93
 							252, 180, 56,	// 94
 							252, 208, 72,	// 95
-							0, 0, 0,	// 96		bekannt! ==> schwarz
+							0, 0, 0,	// 96		known! ==> black
 							0, 0, 0,	// 97
 							64, 20, 20,	// 98
 							88, 24, 24,	// 99
@@ -688,19 +689,19 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(469, WarFileType.FileText, 0, "Level lost (Orcs?)"),
 				new KnowledgeEntry(470, WarFileType.FileImage, 457, "Human Win/Animation 2"),
 				new KnowledgeEntry(471, WarFileType.FileImage, 459, "Orc Win/Animation 2"),
-				new KnowledgeEntry(472, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(473, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(474, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(475, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(476, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(477, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(478, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(479, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(480, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(481, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(482, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(483, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(484, WarFileType.FileUnknown, 0, "Unknown"),
+				new KnowledgeEntry(472, WarFileType.FileWave, 0, "Unknown"),
+				new KnowledgeEntry(473, WarFileType.FileWave, 0, "Unknown"),
+				new KnowledgeEntry(474, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(475, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(476, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(477, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(478, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(479, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(480, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(481, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(482, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(483, WarFileType.FileVOC, 0, "Unknown"),
+				new KnowledgeEntry(484, WarFileType.FileVOC, 0, "Unknown"),
 				new KnowledgeEntry(485, WarFileType.FileWave, 0, "Clicking noise")
 			};
 
@@ -721,8 +722,14 @@ Wenn Typ==32 (Goldmine)
 		}
 		#endregion
 
-		#region KEByName
-		public static KnowledgeEntry KEByName(string name)
+        #region Dump
+        public static void Dump()
+        {
+        }
+        #endregion
+
+        #region KEByName
+        public static KnowledgeEntry KEByName(string name)
 		{
 			name = name.ToLowerInvariant();
 
