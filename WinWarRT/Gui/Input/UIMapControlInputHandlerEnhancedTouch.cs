@@ -9,8 +9,8 @@ namespace WinWarRT.Gui.Input
 {
     class UIMapControlInputHandlerEnhancedTouch : UIMapControlInputHandler
     {
-        private float mapOffsetX;
-        private float mapOffsetY;
+        private float camOffsetX;
+        private float camOffsetY;
         private bool isPressed;
         private Vector2 lastPos;
 
@@ -18,8 +18,16 @@ namespace WinWarRT.Gui.Input
             : base(InputMode.EnhancedTouch, setUIMapControl)
         {
             isPressed = false;
-            mapOffsetX = 0;
-            mapOffsetY = 0;
+            camOffsetX = 0;
+            camOffsetY = 0;
+        }
+
+        public override void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        {
+            camOffsetX = setCamOffsetX;
+            camOffsetY = setCamOffsetY;
+
+            InvokeOnMapDidScroll(camOffsetX, camOffsetY);
         }
 
         public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
@@ -44,24 +52,24 @@ namespace WinWarRT.Gui.Input
                 float dx = lastPos.X - position.X;
                 float dy = lastPos.Y - position.Y;
 
-                mapOffsetX += dx;
-                mapOffsetY += dy;
+                camOffsetX += dx;
+                camOffsetY += dy;
 
-                if (mapOffsetX < 0)
-                    mapOffsetX = 0;
-                if (mapOffsetY < 0)
-                    mapOffsetY = 0;
+                if (camOffsetX < 0)
+                    camOffsetX = 0;
+                if (camOffsetY < 0)
+                    camOffsetY = 0;
 
                 float maxX = (MapControl.MapWidth * MapControl.TileWidth) - MapControl.Width;
-                if (mapOffsetX > maxX)
-                    mapOffsetX = maxX;
+                if (camOffsetX > maxX)
+                    camOffsetX = maxX;
                 float maxY = (MapControl.MapHeight * MapControl.TileHeight) - MapControl.Height;
-                if (mapOffsetY > maxY)
-                    mapOffsetY = maxY;
+                if (camOffsetY > maxY)
+                    camOffsetY = maxY;
 
                 lastPos = position;
 
-                InvokeOnMapDidScroll(mapOffsetX, mapOffsetY);
+                InvokeOnMapDidScroll(camOffsetX, camOffsetY);
             }
 
             return true;

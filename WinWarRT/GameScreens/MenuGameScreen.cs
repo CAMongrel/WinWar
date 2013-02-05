@@ -30,10 +30,6 @@ namespace WinWarRT.GameScreens
             UIWindowManager.Clear();
         }
 
-        public override void Update(GameTime gameTime)
-        {
-        }
-
         public override void Draw(GameTime gameTime)
         {
             UIWindowManager.Render();

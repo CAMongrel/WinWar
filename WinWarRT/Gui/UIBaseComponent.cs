@@ -12,7 +12,7 @@ namespace WinWarRT.Gui
     public delegate void OnPointerUpInside(Vector2 position);
     public delegate void OnPointerUpOutside(Vector2 position);
 
-	public abstract class UIBaseComponent
+    public abstract class UIBaseComponent : IDisposable
 	{
 		public int X;
 		public int Y;
@@ -101,6 +101,46 @@ namespace WinWarRT.Gui
             Y = ParentComponent.Height / 2 - Height / 2;
         }
 
+        public Vector2 ConvertGlobalToLocal(Vector2 globalCoords)
+        {
+            Vector2 result = globalCoords;
+            UIBaseComponent comp = this;
+
+            while (comp != null)
+            {
+                result.X -= comp.X;
+                result.Y -= comp.Y;
+
+                comp = comp.ParentComponent;
+            }
+
+            return result;
+        }
+
+        public Vector2 ConvertLocalToGlobal(Vector2 localCoords)
+        {
+            Vector2 result = localCoords;
+            UIBaseComponent comp = this;
+
+            while (comp != null)
+            {
+                result.X += comp.X;
+                result.Y += comp.Y;
+
+                comp = comp.ParentComponent;
+            }
+
+            return result;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            for (int i = 0; i < components.Count; i++)
+            {
+                components[i].Update(gameTime);
+            }
+        }
+
 		public virtual void Render()
 		{
             for (int i = 0; i < components.Count; i++)
@@ -111,12 +151,13 @@ namespace WinWarRT.Gui
 
         public virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
-                return false;
-
             Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
             for (int i = components.Count - 1; i >= 0; i--)
             {
+                Vector2 screenPos = components[i].ScreenPosition;
+                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+                    continue;
+
                 if (components[i].PointerDown(relPosition))
                     return true;
             }
@@ -126,12 +167,13 @@ namespace WinWarRT.Gui
 
 		public virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
 		{
-			if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
-				return false;
-
             Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
             for (int i = components.Count - 1; i >= 0; i--)
             {
+                Vector2 screenPos = components[i].ScreenPosition;
+                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+                    continue;
+
                 if (components[i].PointerUp(relPosition))
 					return true;
 			}
@@ -141,17 +183,23 @@ namespace WinWarRT.Gui
 
         public virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
-                return false;
-
             Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
             for (int i = components.Count - 1; i >= 0; i--)
             {
+                Vector2 screenPos = components[i].ScreenPosition;
+                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+                    continue;
+
                 if (components[i].PointerMoved(relPosition))
                     return true;
             }
 
             return true;
         }
-	}
+
+        public virtual void Dispose()
+        {
+            //
+        }
+    }
 }

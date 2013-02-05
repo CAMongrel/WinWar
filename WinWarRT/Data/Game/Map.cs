@@ -5,6 +5,7 @@
 // Last modified: 27.11.2009 23:04
 
 #region Using directives
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,19 +72,34 @@ namespace WinWarRT.Data.Game
             if (tilesToDrawY + startTileY > MapHeight)
                 tilesToDrawY = MapHeight - startTileY;
 
-            float innerTileOffsetX = (float)((int)(tileOffsetX * 100) % (TileWidth * 100)) / 100.0f;
-            float innerTileOffsetY = (float)((int)(tileOffsetY * 100) % (TileHeight * 100)) / 100.0f;
+            //float innerTileOffsetX = (float)((int)(tileOffsetX * 100) % (TileWidth * 100)) / 100.0f;
+            //float innerTileOffsetY = (float)((int)(tileOffsetY * 100) % (TileHeight * 100)) / 100.0f;
+            int innerTileOffsetX = ((int)tileOffsetX % TileWidth);
+            int innerTileOffsetY = ((int)tileOffsetY % TileHeight);
 
             for (int y = 0; y < tilesToDrawY; y++)
 			{
                 for (int x = 0; x < tilesToDrawX; x++)
 				{
-                    tileSet.DrawTile(levelVisual.visualData[(x + startTileX) + ((y + startTileY) * 64)], 
+                    tileSet.DrawTile(levelVisual.visualData[(x + startTileX) + ((y + startTileY) * MapWidth)], 
                         setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
 				}
 			}
 		} // Render()
 		#endregion
+
+        public Color[] GetMinimap()
+        {
+            Color[] result = new Color[MapWidth * MapHeight];
+            for (int y = 0; y < MapHeight; y++)
+            {
+                for (int x = 0; x < MapWidth; x++)
+                {
+                    result[x + y * MapWidth] = tileSet.GetTileAverageColor(levelVisual.visualData[x + (y  * MapWidth)]);
+                }
+            }
+            return result;
+        }
 		
 		#region Unit-testing
 		/// <summary>

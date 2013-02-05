@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,14 @@ namespace WinWarRT.Gui
         public static void Clear()
         {
             windows.Clear();
+        }
+
+        public static void Update(GameTime gameTime)
+        {
+            for (int i = 0; i < windows.Count; i++)
+            {
+                windows[i].Update(gameTime);
+            }
         }
 
         public static void Render()

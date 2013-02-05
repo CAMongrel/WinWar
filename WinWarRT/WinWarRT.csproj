@@ -145,6 +145,7 @@
     <Compile Include="Gui\UILabel.cs" />
     <Compile Include="Gui\UIMapControl.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
+    <Compile Include="Gui\UIMinimapControl.cs" />
     <Compile Include="Gui\UIWindow.cs" />
     <Compile Include="Gui\UIWindowManager.cs" />
     <Compile Include="MainGame.cs" />

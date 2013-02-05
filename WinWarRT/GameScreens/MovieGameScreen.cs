@@ -86,11 +86,6 @@ namespace WinWarRT.GameScreens
             //
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
-        {
-            //
-        }
-
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             if (curTexture != null)

@@ -16,39 +16,55 @@ namespace WinWarRT.Gui
         private float mapOffsetX;
         private float mapOffsetY;
 
+        public int CameraTileX { get { return ((int)mapOffsetX / TileWidth); } }
+        public int CameraTileY { get { return ((int)mapOffsetY / TileHeight); } }
+
         public int MapWidth
         {
-            get { return (curMap != null ? curMap.MapWidth : 0); }
+            get { return (CurrentMap != null ? CurrentMap.MapWidth : 0); }
         }
         public int MapHeight
         {
-            get { return (curMap != null ? curMap.MapHeight : 0); }
+            get { return (CurrentMap != null ? CurrentMap.MapHeight : 0); }
         }
         public int TileWidth
         {
-            get { return (curMap != null ? curMap.TileWidth : 0); }
+            get { return (CurrentMap != null ? CurrentMap.TileWidth : 0); }
         }
         public int TileHeight
         {
-            get { return (curMap != null ? curMap.TileHeight : 0); }
+            get { return (CurrentMap != null ? CurrentMap.TileHeight : 0); }
+        }
+        public int WidthInTiles
+        {
+            get { return (CurrentMap != null ? Width / TileWidth : 0); }
+        }
+        public int HeightInTiles
+        {
+            get { return (CurrentMap != null ? Height / TileHeight : 0); }
         }
 
-        private Map curMap;
+        public Map CurrentMap { get; private set; }
 
-        private UIMapControlInputHandler inputHandler;
+        public UIMapControlInputHandler InputHandler { get; private set; }
 
         public UIMapControl()
         {
-            curMap = null;
+            CurrentMap = null;
 
-            inputHandler = new UIMapControlInputHandlerEnhancedTouch(this);
-            inputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
+            InputHandler = new UIMapControlInputHandlerEnhancedMouse(this);
+            InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
         }
 
         void inputHandler_OnMapDidScroll(float setMapOffsetX, float setMapOffsetY)
         {
-            mapOffsetX = setMapOffsetX;
-            mapOffsetY = setMapOffsetY;
+            SetCameraOffset(setMapOffsetX, setMapOffsetY);
+        }
+
+        public void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        {
+            mapOffsetX = setCamOffsetX;
+            mapOffsetY = setCamOffsetY;
         }
 
         public void LoadCampaignLevel(string basename)
@@ -57,7 +73,7 @@ namespace WinWarRT.Gui
             LevelPassableResource levelPassable = new LevelPassableResource(basename + " (Passable)");
             LevelVisualResource levelVisual = new LevelVisualResource(basename + " (Visual)");
 
-            curMap = new Map(levelInfo, levelVisual, levelPassable);
+            CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
         }
 
         public void LoadCustomLevel(string basename)
@@ -65,32 +81,32 @@ namespace WinWarRT.Gui
             LevelPassableResource levelPassable = new LevelPassableResource(basename + " (Passable)");
             LevelVisualResource levelVisual = new LevelVisualResource(basename + " (Visual)");
 
-            curMap = new Map(null, levelVisual, levelPassable);
+            CurrentMap = new Map(null, levelVisual, levelPassable);
         }
 
         public override void Render()
         {
             base.Render();
 
-            if (curMap != null)
+            if (CurrentMap != null)
             {
-                curMap.Render(this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
+                CurrentMap.Render(this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
             }
         }
 
         public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
-            return inputHandler.PointerDown(position);
+            return InputHandler.PointerDown(position);
         }
 
         public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
-            return inputHandler.PointerUp(position);
+            return InputHandler.PointerUp(position);
         }
 
         public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
-            return inputHandler.PointerMoved(position);
+            return InputHandler.PointerMoved(position);
         }
     }
 }

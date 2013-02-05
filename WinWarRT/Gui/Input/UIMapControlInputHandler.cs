@@ -28,6 +28,11 @@ namespace WinWarRT.Gui
             InputMode = setInputMode;
         }
 
+        public virtual void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        {
+            //
+        }
+
         public virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;

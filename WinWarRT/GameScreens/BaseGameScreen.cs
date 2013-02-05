@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens
 {
@@ -34,6 +35,7 @@ namespace WinWarRT.GameScreens
 
         public virtual void Update(GameTime gameTime)
         {
+            UIWindowManager.Update(gameTime);
         }
 
         public virtual void Draw(GameTime gameTime)
