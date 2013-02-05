@@ -14,8 +14,8 @@ namespace WinWarRT.Gui
         protected UIWindow()
 		{
 			X = Y = 0;
-			Width = MainGame.AppWidth;
-            Height = MainGame.AppHeight;
+			Width = (int)((float)MainGame.AppWidth / MainGame.ScaleX);
+            Height = (int)((float)MainGame.AppHeight / MainGame.ScaleY);
 
             UIWindowManager.AddWindow(this); ;
 		}

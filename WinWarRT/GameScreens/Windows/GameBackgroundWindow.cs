@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,15 @@ namespace WinWarRT.GameScreens.Windows
         public UIMapControl MapControl { get; private set; }
         public UIMinimapControl MinimapControl { get; private set; }
 
+        private Vector2 currentPointerPos;
+        private Vector2 scrollDelta;
+        private float scrollSpeed;
+
         public GameBackgroundWindow()
         {
+            scrollSpeed = 125.0f;
+            currentPointerPos = new Vector2(50, 50);
+
             InitUI();
         }
 
@@ -85,6 +93,51 @@ namespace WinWarRT.GameScreens.Windows
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (MapControl.InputHandler.InputMode == InputMode.EnhancedMouse)
+            {
+                bool shouldScroll = false;
+
+                if (currentPointerPos.X <= 3)
+                {
+                    shouldScroll = true;
+                    scrollDelta.X -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                if (currentPointerPos.Y <= 3)
+                {
+                    shouldScroll = true;
+                    scrollDelta.Y -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                if (currentPointerPos.X >= Width - 3)
+                {
+                    shouldScroll = true;
+                    scrollDelta.X += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                if (currentPointerPos.Y >= Height - 3)
+                {
+                    shouldScroll = true;
+                    scrollDelta.Y += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+
+                if (shouldScroll)
+                {
+                    Vector2 clampedScrollDelta = scrollDelta;
+                    clampedScrollDelta.X = (float)((int)scrollDelta.X / MapControl.TileWidth) * MapControl.TileWidth;
+                    clampedScrollDelta.Y = (float)((int)scrollDelta.Y / MapControl.TileHeight) * MapControl.TileHeight;
+
+                    MapControl.SetCameraOffset(MapControl.CameraTileX * MapControl.TileWidth + clampedScrollDelta.X, MapControl.CameraTileY * MapControl.TileHeight + clampedScrollDelta.Y);
+
+                    if (clampedScrollDelta.X != 0)
+                        scrollDelta.X = 0;
+                    if (clampedScrollDelta.Y != 0)
+                        scrollDelta.Y = 0;
+                }
+                else
+                {
+                    scrollDelta.X = 0;
+                    scrollDelta.Y = 0;
+                }
+            }
         }
 
         public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
@@ -94,6 +147,7 @@ namespace WinWarRT.GameScreens.Windows
 
         public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
+            currentPointerPos = position;
             return base.PointerMoved(position);
         }
 

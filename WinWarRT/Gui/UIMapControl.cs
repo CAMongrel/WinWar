@@ -65,6 +65,18 @@ namespace WinWarRT.Gui
         {
             mapOffsetX = setCamOffsetX;
             mapOffsetY = setCamOffsetY;
+
+            if (mapOffsetX < 0)
+                mapOffsetX = 0;
+            if (mapOffsetY < 0)
+                mapOffsetY = 0;
+
+            float maxX = (this.MapWidth * this.TileWidth) - this.Width;
+            if (mapOffsetX > maxX)
+                mapOffsetX = maxX;
+            float maxY = (this.MapHeight * this.TileHeight) - this.Height;
+            if (mapOffsetY > maxY)
+                mapOffsetY = maxY;
         }
 
         public void LoadCampaignLevel(string basename)
