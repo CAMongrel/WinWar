@@ -134,6 +134,9 @@
     <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
+    <Compile Include="GameSettingsFlyout.xaml.cs">
+      <DependentUpon>GameSettingsFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
@@ -204,6 +207,11 @@
     <Content Include="Assets\Data\TITLE.WAR" />
     <Content Include="Assets\Data\WIN1.WAR" />
     <Content Include="Assets\Data\WIN2.WAR" />
+    <Page Include="GameSettingsFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Include="packages.config" />
     <None Include="WinWarRT_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +229,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Callisto">
+      <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
+    </Reference>
     <Reference Include="FLCLib.Metro">
       <HintPath>..\Libs\FLCLib.Metro.dll</HintPath>
     </Reference>
