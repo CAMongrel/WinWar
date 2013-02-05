@@ -151,26 +151,26 @@ namespace WinWarRT.Data.Game
 				for (int i = 0; i < numTiles; i++)
 				{
 					tile1 = *ptr;
-					tile1_flip_y = ((tile1 & 0x01) == 1);
-					tile1_flip_x = ((tile1 & 0x02) == 1);
+					tile1_flip_y = ((tile1 & 0x01) >= 1);
+					tile1_flip_x = ((tile1 & 0x02) >= 1);
 					tile1 = (ushort)((tile1 & 0xFFFC) * 2);
 					ptr++;
 
 					tile2 = *ptr;
-					tile2_flip_y = ((tile2 & 0x01) == 1);
-					tile2_flip_x = ((tile2 & 0x02) == 1);
+					tile2_flip_y = ((tile2 & 0x01) >= 1);
+					tile2_flip_x = ((tile2 & 0x02) >= 1);
 					tile2 = (ushort)((tile2 & 0xFFFC) * 2);
 					ptr++;
 
 					tile3 = *ptr;
-					tile3_flip_y = ((tile3 & 0x01) == 1);
-					tile3_flip_x = ((tile3 & 0x02) == 1);
+					tile3_flip_y = ((tile3 & 0x01) >= 1);
+					tile3_flip_x = ((tile3 & 0x02) >= 1);
 					tile3 = (ushort)((tile3 & 0xFFFC) * 2);
 					ptr++;
 
 					tile4 = *ptr;
-					tile4_flip_y = ((tile4 & 0x01) == 1);
-					tile4_flip_x = ((tile4 & 0x02) == 1);
+					tile4_flip_y = ((tile4 & 0x01) >= 1);
+					tile4_flip_x = ((tile4 & 0x02) >= 1);
 					tile4 = (ushort)((tile4 & 0xFFFC) * 2);
 					ptr++;
 
@@ -205,9 +205,9 @@ namespace WinWarRT.Data.Game
 					for (x = 0; x < 8; x++)
 					{
 						pos = ((tile1_flip_x ? 7 - x : x) + (tile1_flip_y ? 7 - y : y) * 16) * 4;
-						data[pos + 0] = palette[*b_ptr * 3 + 2];
+						data[pos + 0] = palette[*b_ptr * 3 + 0];
 						data[pos + 1] = palette[*b_ptr * 3 + 1];
-						data[pos + 2] = palette[*b_ptr * 3 + 0];
+						data[pos + 2] = palette[*b_ptr * 3 + 2];
 						data[pos + 3] = 255;
 
 						if (data[pos + 0] < 255 - lightup)
@@ -238,9 +238,9 @@ namespace WinWarRT.Data.Game
 					for (x = 8; x < 16; x++)
 					{
 						pos = ((tile2_flip_x ? 8 + (15 - x) : x) + (tile2_flip_y ? 7 - y : y) * 16) * 4;
-						data[pos + 0] = palette[*b_ptr * 3 + 2];
+						data[pos + 0] = palette[*b_ptr * 3 + 0];
 						data[pos + 1] = palette[*b_ptr * 3 + 1];
-						data[pos + 2] = palette[*b_ptr * 3 + 0];
+						data[pos + 2] = palette[*b_ptr * 3 + 2];
 						data[pos + 3] = 255;
 
 						if (data[pos + 0] < 255 - lightup)
@@ -271,9 +271,9 @@ namespace WinWarRT.Data.Game
 					for (x = 0; x < 8; x++)
 					{
 						pos = ((tile3_flip_x ? 7 - x : x) + (tile3_flip_y ? 8 + (15 - y) : y) * 16) * 4;
-						data[pos + 0] = palette[*b_ptr * 3 + 2];
+						data[pos + 0] = palette[*b_ptr * 3 + 0];
 						data[pos + 1] = palette[*b_ptr * 3 + 1];
-						data[pos + 2] = palette[*b_ptr * 3 + 0];
+						data[pos + 2] = palette[*b_ptr * 3 + 2];
 						data[pos + 3] = 255;
 
 						if (data[pos + 0] < 255 - lightup)
@@ -304,9 +304,9 @@ namespace WinWarRT.Data.Game
 					for (x = 8; x < 16; x++)
 					{
 						pos = ((tile4_flip_x ? 8 + (15 - x) : x) + (tile4_flip_y ? 8 + (15 - y) : y) * 16) * 4;
-						data[pos + 0] = palette[*b_ptr * 3 + 2];
+						data[pos + 0] = palette[*b_ptr * 3 + 0];
 						data[pos + 1] = palette[*b_ptr * 3 + 1];
-						data[pos + 2] = palette[*b_ptr * 3 + 0];
+						data[pos + 2] = palette[*b_ptr * 3 + 2];
 						data[pos + 3] = 255;
 
 						if (data[pos + 0] < 255 - lightup)
@@ -346,7 +346,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Get tile average color
 		/// </summary>
-		public Vector4 GetTileAverageColor(int index)
+		public Color GetTileAverageColor(int index)
 		{
 			return tilesList[index].AverageColor;
 		} // GetTileAverageColor(index)

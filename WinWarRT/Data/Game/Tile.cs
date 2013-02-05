@@ -29,11 +29,11 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Average color of this tile
 		/// </summary>
-		Vector4 averageColor;
+        Color averageColor;
 		/// <summary>
 		/// Average color of this tile
 		/// </summary>
-		public Vector4 AverageColor
+		public Color AverageColor
 		{
 			get
 			{
@@ -49,25 +49,29 @@ namespace WinWarRT.Data.Game
 			if (data.Length != 256 * 4)
 				throw new InvalidDataException("Wrong length of tile data array, must be 1024 bytes.");
 		
-			averageColor = new Vector4(0, 0, 0, 1);
+			averageColor = Color.Black;
 
             Texture2D DXTexture = new Texture2D(MainGame.Device, 16, 16, false, SurfaceFormat.Color);
 			DXTexture.SetData<byte>(data);
 
             texture = WWTexture.FromDXTexture(DXTexture);
-			
+
+            int avgR = 0;
+            int avgG = 0;
+            int avgB = 0;
+
 			// Calc average color
 			for (int i = 0; i < 256; i+=4)
 			{
-				averageColor.X += (float)data[i + 0] / 255.0f;
-				averageColor.Y += (float)data[i + 1] / 255.0f;
-				averageColor.Z += (float)data[i + 2] / 255.0f;
+                avgR += data[i + 0];
+                avgG += data[i + 1];
+                avgB += data[i + 2];
 			}
-			
-			averageColor.X /= 256.0f;
-			averageColor.Y /= 256.0f;
-			averageColor.Z /= 256.0f;
-			averageColor.W = 1.0f;
+
+            averageColor.R = (byte)(avgR / 64);
+            averageColor.G = (byte)(avgG / 64);
+            averageColor.B = (byte)(avgB / 64);
+			averageColor.A = 255;
 		} // Tile(data)
 		
 		/// <summary>
