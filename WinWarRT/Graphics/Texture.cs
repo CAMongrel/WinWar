@@ -112,7 +112,7 @@ namespace WinWarRT.Graphics
             Rectangle dstRect = new Rectangle((int)(destRect.X * MainGame.ScaleX), (int)(destRect.Y * MainGame.ScaleY), 
                 (int)(destRect.Width * MainGame.ScaleX), (int)(destRect.Height * MainGame.ScaleY));
 
-            MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone);
+            MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             MainGame.SpriteBatch.Draw(DXTexture, dstRect, srcRect, col);
             MainGame.SpriteBatch.End();
             /*return;

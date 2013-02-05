@@ -745,10 +745,13 @@ Wenn Typ==32 (Goldmine)
 		{
 			name = name.ToLowerInvariant();
 
-			object value = hashes[name];
-			if (value == null)
-				return -1;
-			return (int)value;
+            if (hashes.ContainsKey(name))
+            {
+                int value = hashes[name];
+                return value;
+            }
+
+            return -1;
 		}
 		#endregion
 	}

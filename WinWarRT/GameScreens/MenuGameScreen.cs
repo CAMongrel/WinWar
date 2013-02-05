@@ -48,5 +48,10 @@ namespace WinWarRT.GameScreens
         {
             UIWindowManager.PointerUp(position);
         }
+
+        public override void PointerMoved(Vector2 position)
+        {
+            UIWindowManager.PointerMoved(position);
+        }
     }
 }

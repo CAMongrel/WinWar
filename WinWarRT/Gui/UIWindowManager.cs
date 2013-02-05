@@ -62,5 +62,16 @@ namespace WinWarRT.Gui
 
             return false;
         }
+
+        public static bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+            for (int i = windows.Count - 1; i >= 0; i--)
+            {
+                if (windows[i].PointerMoved(position))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

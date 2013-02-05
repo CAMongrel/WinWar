@@ -118,6 +118,7 @@ namespace WinWarRT
             try
             {
                 await WinWarRT.Data.WarFile.LoadResources();
+                WinWarRT.Data.Game.MapTileset.LoadAllTilesets();
             }
             catch (Exception)
             {
@@ -225,6 +226,14 @@ namespace WinWarRT
             if (currentGameScreen != null)
             {
                 currentGameScreen.PointerUp(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+            }
+        }
+
+        public void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+            if (currentGameScreen != null)
+            {
+                currentGameScreen.PointerMoved(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
             }
         }
     }

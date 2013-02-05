@@ -47,5 +47,9 @@ namespace WinWarRT.GameScreens
         public virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
         }
+
+        public virtual void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+        }
     }
 }

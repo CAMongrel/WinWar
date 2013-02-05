@@ -7,6 +7,13 @@ namespace WinWarRT.Data.Resources
 	public class LevelPassableResource : BasicResource
 	{
 		short[] passableData;
+
+        public LevelPassableResource(string res_name)
+        {
+            this.data = WarFile.GetResourceByName(res_name);
+
+            CreatePassableData();
+        }
 	
 		/// <summary>
 		/// Create level visual resource

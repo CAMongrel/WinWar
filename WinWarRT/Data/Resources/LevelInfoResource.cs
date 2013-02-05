@@ -104,12 +104,9 @@ namespace WinWarRT.Data.Resources
 		#region Struct LevelObject
 		public struct LevelObject
 		{
-			public byte x,
-				y;
+			public byte x, y;
 			public LevelObjectType type;
-			public byte player,
-				value1,
-				value2;
+			public byte player, value1, value2;
 		};
 		#endregion
 

@@ -33,5 +33,12 @@ namespace WinWarRT
 
             _game.PointerReleased(new Microsoft.Xna.Framework.Vector2((float)pp.Position.X, (float)pp.Position.Y));
         }
+
+        private void SwapChainBackgroundPanel_PointerMoved_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            Windows.UI.Input.PointerPoint pp = e.GetCurrentPoint(null);
+
+            _game.PointerMoved(new Microsoft.Xna.Framework.Vector2((float)pp.Position.X, (float)pp.Position.Y));
+        }
     }
 }

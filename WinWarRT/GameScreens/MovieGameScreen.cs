@@ -15,6 +15,7 @@ namespace WinWarRT.GameScreens
     class MovieGameScreen : BaseGameScreen
     {
         private Texture2D curTexture;
+        private FLCPlayer player;
 
         private MovieFinished OnMovieFinished;
 
@@ -48,7 +49,7 @@ namespace WinWarRT.GameScreens
         {
             curTexture = null;
 
-            FLCPlayer player = new FLCPlayer(MainGame.Device);
+            player = new FLCPlayer(MainGame.Device);
             player.OnFrameUpdated += player_OnFrameUpdated;
             player.OnPlaybackFinished += player_OnPlaybackFinished;
 
@@ -112,7 +113,8 @@ namespace WinWarRT.GameScreens
 
         public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
-            //
+            if (player != null && player.IsPlaying)
+                player.Stop();
         }
     }
 }

@@ -27,6 +27,8 @@ namespace WinWarRT.GameScreens
         public override void InitUI()
         {
             backgroundWindow = new GameBackgroundWindow();
+
+            backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race + " 1");
         }
 
         public override void Close()
@@ -52,6 +54,11 @@ namespace WinWarRT.GameScreens
         public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerUp(position);
+        }
+
+        public override void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+            UIWindowManager.PointerMoved(position);
         }
     }
 }

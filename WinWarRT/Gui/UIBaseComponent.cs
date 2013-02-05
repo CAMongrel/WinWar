@@ -138,5 +138,20 @@ namespace WinWarRT.Gui
 
 			return true;
 		}
+
+        public virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle(X, Y, Width, Height)))
+                return false;
+
+            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+            for (int i = components.Count - 1; i >= 0; i--)
+            {
+                if (components[i].PointerMoved(relPosition))
+                    return true;
+            }
+
+            return true;
+        }
 	}
 }

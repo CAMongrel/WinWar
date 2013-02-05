@@ -18,7 +18,7 @@ namespace WinWarRT.GameScreens.Windows
 
         private UIButton menuButton;
 
-        private UIMapControl mapControl;
+        public UIMapControl MapControl { get; private set; }
 
         public GameBackgroundWindow()
         {
@@ -35,7 +35,8 @@ namespace WinWarRT.GameScreens.Windows
         {
             ClearComponents();
 
-            mapControl = new UIMapControl();
+            MapControl = new UIMapControl();
+            AddComponent(MapControl);
 
             LoadUIImage(ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
             LoadUIImage(ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
@@ -51,9 +52,10 @@ namespace WinWarRT.GameScreens.Windows
             LoadUIImage(ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
             rightBar.X = 320 - rightBar.Width;
 
-            mapControl.X = leftSidebarTop.Width;
-            mapControl.Y = topBar.Height;
-            AddComponent(mapControl);
+            MapControl.X = leftSidebarTop.Width;
+            MapControl.Y = topBar.Height;
+            MapControl.Width = rightBar.X - MapControl.X;
+            MapControl.Height = bottomBar.Y - MapControl.Y;            
 
             menuButton = new UIButton("Menu", UIButton.ButtonType.SmallButton);
             menuButton.Width = (int)((float)menuButton.Width * 1.22f);

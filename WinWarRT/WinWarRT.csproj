@@ -135,12 +135,16 @@
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
     <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
     <Compile Include="Gui\UIBaseComponentList.cs" />
     <Compile Include="Gui\UIButton.cs" />
     <Compile Include="Gui\UIImage.cs" />
     <Compile Include="Gui\UILabel.cs" />
     <Compile Include="Gui\UIMapControl.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
     <Compile Include="Gui\UIWindow.cs" />
     <Compile Include="Gui\UIWindowManager.cs" />
     <Compile Include="MainGame.cs" />
