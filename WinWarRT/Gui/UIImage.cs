@@ -13,7 +13,7 @@ namespace WinWarRT.Gui
     {
         private WWTexture image;
 
-        public UIImage(WWTexture setImage)
+        internal UIImage(WWTexture setImage)
         {
             image = setImage;
 
@@ -21,19 +21,19 @@ namespace WinWarRT.Gui
             Height = image.Height;
         }
 
-        public static UIImage FromImageResource(string name)
+        internal static UIImage FromImageResource(string name)
         {
             UIImage res = new UIImage(WWTexture.FromImageResource(name));
             return res;
         }
 
-        public static UIImage FromImageResource(ImageResource resource)
+        internal static UIImage FromImageResource(ImageResource resource)
         {
             UIImage res = new UIImage(WWTexture.FromImageResource(resource));
             return res;
         }
 
-        public override void Render()
+        internal override void Render()
         {
             base.Render();
 

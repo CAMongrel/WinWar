@@ -12,14 +12,14 @@ namespace WinWarRT.Gui
 {
     class UIMinimapControl : UIBaseComponent
     {
-        public UIMapControl MapControl { get; private set; }
+        internal UIMapControl MapControl { get; private set; }
 
         private Texture2D minimapTexInternal;
         private WWTexture minimapTex;
 
         private bool isPressed;
 
-        public Map CurrentMap
+        internal Map CurrentMap
         {
             get
             {
@@ -27,7 +27,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public UIMinimapControl(UIMapControl setUIMapControl)
+        internal UIMinimapControl(UIMapControl setUIMapControl)
         {
             isPressed = false;
             MapControl = setUIMapControl;
@@ -44,7 +44,7 @@ namespace WinWarRT.Gui
             base.Dispose();
         }
 
-        public void Init()
+        internal void Init()
         {
             minimapTexInternal = new Texture2D(MainGame.Device, Width, Height, false, SurfaceFormat.Color);
 
@@ -73,7 +73,7 @@ namespace WinWarRT.Gui
             MapControl.SetCameraOffset((float)tileX * MapControl.TileWidth, (float)tileY * MapControl.TileHeight);
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             CenterOnPosition(position);
 
@@ -82,7 +82,7 @@ namespace WinWarRT.Gui
             return base.PointerDown(position);
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             if (isPressed)
             {
@@ -91,14 +91,14 @@ namespace WinWarRT.Gui
             return base.PointerMoved(position);
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             isPressed = false;
 
             return base.PointerUp(position);
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        internal override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             base.Update(gameTime);
 
@@ -131,7 +131,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public override void Render()
+        internal override void Render()
         {
             base.Render();
 

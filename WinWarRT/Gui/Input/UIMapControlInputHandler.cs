@@ -13,14 +13,14 @@ namespace WinWarRT.Gui
         EnhancedTouch
     }
 
-    public delegate void MapDidScroll(float setMapOffsetX, float setMapOffsetY);
+    internal delegate void MapDidScroll(float setMapOffsetX, float setMapOffsetY);
 
     class UIMapControlInputHandler
     {
-        public InputMode InputMode { get; private set; }
-        public UIMapControl MapControl { get; private set; }
+        internal InputMode InputMode { get; private set; }
+        internal UIMapControl MapControl { get; private set; }
 
-        public event MapDidScroll OnMapDidScroll;
+        internal event MapDidScroll OnMapDidScroll;
 
         protected UIMapControlInputHandler(InputMode setInputMode, UIMapControl setUIMapControl)
         {
@@ -28,22 +28,22 @@ namespace WinWarRT.Gui
             InputMode = setInputMode;
         }
 
-        public virtual void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        internal virtual void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
         {
             //
         }
 
-        public virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }

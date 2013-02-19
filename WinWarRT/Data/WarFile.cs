@@ -16,159 +16,172 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.Data
 {
-	public class WarFile
-	{
-		#region Members
-		//static string dataFilename;
-		static int nrOfEntries;
-		static int[] offsets;
-		static List<WarResource> resources;
-		#endregion
+   internal class WarFile
+   {
+      #region Members
+      //static string dataFilename;
+      static int nrOfEntries;
+      static int[] offsets;
+      static List<WarResource> resources;
+      #endregion
 
-		#region LoadResources
-        private async static Task<Windows.Storage.StorageFile> GetDataWarFile()
-        {
-            Windows.Storage.StorageFile resultFile = null;
+      #region LoadResources
+      private async static Task<Windows.Storage.StorageFile> GetDataWarFile()
+      {
+         Windows.Storage.StorageFile resultFile = null;
 
-            try
-            {
-                var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
-                resultFile = await localStorage.GetFileAsync("DATAA.WAR");
-            }
-            catch (Exception)
-            {
-            }
+         try
+         {
+            var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
+            resultFile = await localStorage.GetFileAsync("DATAA.WAR");
+         }
+         catch (Exception)
+         {
+         }
 
-            if (resultFile != null)
-                return resultFile;
-
-            try
-            {
-                var localStorage = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                localStorage = await localStorage.GetFolderAsync("Assets");
-                resultFile = await localStorage.GetFileAsync("DATA.WAR");
-            }
-            catch (Exception)
-            {
-            }
-
+         if (resultFile != null)
             return resultFile;
-        }
 
-		public async static Task LoadResources()
-		{
-            Windows.Storage.StorageFile dataFile = await GetDataWarFile();
+         try
+         {
+            var localStorage = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            localStorage = await localStorage.GetFolderAsync("Assets");
+            resultFile = await localStorage.GetFileAsync("DATA.WAR");
+         }
+         catch (Exception)
+         {
+         }
 
-            Stream stream = null;
-            BinaryReader reader = null;
-            try
+         return resultFile;
+      }
+
+      internal async static Task LoadResources()
+      {
+         Windows.Storage.StorageFile dataFile = await GetDataWarFile();
+
+         Stream stream = null;
+         BinaryReader reader = null;
+         try
+         {
+            stream = await dataFile.OpenStreamForReadAsync();
+
+            reader = new BinaryReader(stream);
+
+            reader.ReadInt32();							// ID
+            nrOfEntries = (int)reader.ReadInt16();		// Number of entries
+            reader.ReadInt16();							// File ID
+
+            offsets = new int[nrOfEntries];
+            for (int i = 0; i < nrOfEntries; i++)
+               offsets[i] = reader.ReadInt32();
+
+            resources = new List<WarResource>(nrOfEntries);
+
+            ReadResources(reader);
+         }
+         finally
+         {
+            reader.Dispose();
+            stream.Dispose();
+         }
+      }
+      #endregion
+
+      #region ReadResources
+      private static void ReadResources(BinaryReader br)
+      {
+         for (int i = 0; i < nrOfEntries; i++)
+         {
+            // Happens with demo data
+            if (offsets[i] == -1)
             {
-                stream = await dataFile.OpenStreamForReadAsync();
-
-                reader = new BinaryReader(stream);
-                
-                reader.ReadInt32();							// ID
-                nrOfEntries = (int)reader.ReadInt16();		// Number of entries
-                reader.ReadInt16();							// File ID
-
-                offsets = new int[nrOfEntries];
-                for (int i = 0; i < nrOfEntries; i++)
-                    offsets[i] = reader.ReadInt32();
-
-                resources = new List<WarResource>(nrOfEntries);
-
-                ReadResources(reader);
+               resources.Add(null);
+               continue;
             }
-            finally
-            {
-                reader.Dispose();
-                stream.Dispose();
-            }
-		}
-		#endregion
 
-		#region ReadResources
-        private static void ReadResources(BinaryReader br)
-		{
-			for (int i = 0; i < nrOfEntries; i++)
-			{
-				// Happens with demo data
-				if (offsets[i] == -1)
-				{
-					resources.Add(null);
-					continue;
-				}
+            br.BaseStream.Seek((long)offsets[i], SeekOrigin.Begin);
 
-                br.BaseStream.Seek((long)offsets[i], SeekOrigin.Begin);
+            int length = 0;
+            if (i < nrOfEntries - 1)
+               length = offsets[i + 1] - offsets[i];
+            else
+               length = (int)br.BaseStream.Length - offsets[i];
 
-				int length = 0;
-				if (i < nrOfEntries - 1)
-					length = offsets[i + 1] - offsets[i];
-				else
-                    length = (int)br.BaseStream.Length - offsets[i];
+            resources.Add(new WarResource(br, offsets[i], length, i));
+         }
+      }
+      #endregion
 
-				resources.Add(new WarResource(br, offsets[i], length, i));
-			}
-		}
-		#endregion
+      #region GetImageResource
+      internal static ImageResource GetImageResource(int id)
+      {
+         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+            return null;
 
-		#region GetImageResource
-		public static ImageResource GetImageResource(int id)
-		{
-			if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
-				return null;
+         if (KnowledgeBase.KB_List[id].type != WarFileType.FileImage)
+            return null;
 
-			if (KnowledgeBase.KB_List[id].type != WarFileType.FileImage)
-				return null;
+         return new ImageResource(GetResource(id), GetResource(KnowledgeBase.KB_List[id].param));
+      }
+      #endregion
 
-			return new ImageResource(GetResource(id), GetResource(KnowledgeBase.KB_List[id].param));
-		}
-		#endregion
+      #region GetSpriteResource
+      internal static SpriteResource GetSpriteResource(int id)
+      {
+         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+            return null;
 
-        #region GetTextResource
-        public static TextResource GetTextResource(int id)
-        {
-            if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
-                return null;
+         if (KnowledgeBase.KB_List[id].type != WarFileType.FileSprite)
+            return null;
 
-            if (KnowledgeBase.KB_List[id].type != WarFileType.FileText)
-                return null;
+         return new SpriteResource(GetResource(id), GetResource(KnowledgeBase.KB_List[id].param));
+      }
+      #endregion
 
-            return new TextResource(GetResource(id));
-        }
-        #endregion
+      #region GetTextResource
+      internal static TextResource GetTextResource(int id)
+      {
+         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+            return null;
 
-		#region GetResource
-		public static WarResource GetResource(int index)
-		{
-			if ((index < 0) || (index >= Count))
-				return null;
+         if (KnowledgeBase.KB_List[id].type != WarFileType.FileText)
+            return null;
 
-			return resources[index];
-		}
-		#endregion
+         return new TextResource(GetResource(id));
+      }
+      #endregion
 
-		#region GetResourceByName
-		/// <summary>
-		/// Returns the resource using a hash table indexed by the names
-		/// </summary>
-		/// <param name="name">Name of the resource</param>
-		/// <returns>The resource or null if no resource of the given name exists</returns>
-		public static WarResource GetResourceByName(string name)
-		{
-			int idx = KnowledgeBase.IndexByName(name);
-			if (idx == -1)
-				return null;
+      #region GetResource
+      internal static WarResource GetResource(int index)
+      {
+         if ((index < 0) || (index >= Count))
+            return null;
 
-			return resources[idx];
-		}
-		#endregion
+         return resources[index];
+      }
+      #endregion
 
-		#region Properties
-		public static int Count
-		{
-			get { return resources.Count; }
-		}
-		#endregion
-	}
+      #region GetResourceByName
+      /// <summary>
+      /// Returns the resource using a hash table indexed by the names
+      /// </summary>
+      /// <param name="name">Name of the resource</param>
+      /// <returns>The resource or null if no resource of the given name exists</returns>
+      internal static WarResource GetResourceByName(string name)
+      {
+         int idx = KnowledgeBase.IndexByName(name);
+         if (idx == -1)
+            return null;
+
+         return resources[idx];
+      }
+      #endregion
+
+      #region Properties
+      internal static int Count
+      {
+         get { return resources.Count; }
+      }
+      #endregion
+   }
 }

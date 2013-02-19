@@ -11,12 +11,12 @@ namespace WinWarRT.Gui.Input
         private float camOffsetX;
         private float camOffsetY;
 
-        public UIMapControlInputHandlerEnhancedMouse(UIMapControl setUIMapControl)
+        internal UIMapControlInputHandlerEnhancedMouse(UIMapControl setUIMapControl)
             : base(InputMode.EnhancedMouse, setUIMapControl)
         {
         }
 
-        public override void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        internal override void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
         {
             camOffsetX = setCamOffsetX;
             camOffsetY = setCamOffsetY;
@@ -24,17 +24,17 @@ namespace WinWarRT.Gui.Input
             InvokeOnMapDidScroll(camOffsetX, camOffsetY);
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             if (position.X <= 0)
             {

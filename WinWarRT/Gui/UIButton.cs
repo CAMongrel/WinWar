@@ -9,10 +9,10 @@ using WinWarRT.Graphics;
 
 namespace WinWarRT.Gui
 {
-	public class UIButton : UIBaseComponent
+	internal class UIButton : UIBaseComponent
 	{
 		#region enum ButtonType
-		public enum ButtonType
+		internal enum ButtonType
 		{
 			SmallButton,
 			MediumButton,
@@ -31,12 +31,12 @@ namespace WinWarRT.Gui
 		#endregion
 
         #region Events
-        public event OnPointerDownInside OnMouseDownInside;
-        public event OnPointerUpInside OnMouseUpInside;
+        internal event OnPointerDownInside OnMouseDownInside;
+        internal event OnPointerUpInside OnMouseUpInside;
         #endregion
 
         #region Properties
-        public string Text
+        internal string Text
         {
             get
             {
@@ -46,7 +46,7 @@ namespace WinWarRT.Gui
         #endregion
 
         #region Constructor
-        public UIButton(string setText, ButtonType setType)
+        internal UIButton(string setText, ButtonType setType)
 		{
 			type = setType;
 
@@ -92,7 +92,7 @@ namespace WinWarRT.Gui
 		#endregion
 
 		#region Render
-		public override void Render()
+		internal override void Render()
 		{
 			base.Render();
 
@@ -143,7 +143,7 @@ namespace WinWarRT.Gui
 		#endregion
 
         #region MouseDown
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             if (!base.PointerDown(position))
                 return false;
@@ -158,7 +158,7 @@ namespace WinWarRT.Gui
         #endregion
 
         #region MouseUp
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
 		{
             if (!base.PointerUp(position))
 				return false;

@@ -8,7 +8,7 @@ namespace WinWarRT.Data.Game
 {
     class Campaign
     {
-        public Campaign()
+        internal Campaign()
         {
             
         }

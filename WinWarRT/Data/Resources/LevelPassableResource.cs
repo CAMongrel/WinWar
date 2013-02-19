@@ -4,11 +4,11 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public class LevelPassableResource : BasicResource
+	internal class LevelPassableResource : BasicResource
 	{
 		short[] passableData;
 
-        public LevelPassableResource(string res_name)
+        internal LevelPassableResource(string res_name)
         {
             this.data = WarFile.GetResourceByName(res_name);
 
@@ -18,7 +18,7 @@ namespace WinWarRT.Data.Resources
 		/// <summary>
 		/// Create level visual resource
 		/// </summary>
-		public LevelPassableResource(WarResource setData)
+		internal LevelPassableResource(WarResource setData)
 		{
 			this.data = setData;
 			
@@ -57,7 +57,7 @@ namespace WinWarRT.Data.Resources
 		/// <summary>
 		/// Destroy visual data
 		/// </summary>
-		public void DestroyPassableData()
+		internal void DestroyPassableData()
 		{
 		} // DestroyVisualData()
 	}

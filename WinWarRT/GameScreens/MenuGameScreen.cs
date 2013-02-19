@@ -12,40 +12,40 @@ namespace WinWarRT.GameScreens
 {
     class MenuGameScreen : BaseGameScreen
     {
-        public static MenuGameScreen Menu { get; private set; }
+        internal static MenuGameScreen Menu { get; private set; }
 
-        public MenuGameScreen()
+        internal MenuGameScreen()
         {
             Menu = this;
         }
 
-        public override void InitUI()
+        internal override void InitUI()
         {
             new MenuBackgroundWindow();
-            new MainMenuWindow(); 
+            new MainMenuWindow();
         }
 
-        public override void Close()
+        internal override void Close()
         {
             UIWindowManager.Clear();
         }
 
-        public override void Draw(GameTime gameTime)
+        internal override void Draw(GameTime gameTime)
         {
             UIWindowManager.Render();
         }
 
-        public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerDown(position);
         }
 
-        public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerUp(position);
         }
 
-        public override void PointerMoved(Vector2 position)
+        internal override void PointerMoved(Vector2 position)
         {
             UIWindowManager.PointerMoved(position);
         }

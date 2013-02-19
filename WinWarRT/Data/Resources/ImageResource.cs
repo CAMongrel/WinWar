@@ -4,14 +4,14 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public class ImageResource : BasicImgResource
+	internal class ImageResource : BasicImgResource
 	{
-		public ImageResource(WarResource data, WarResource palette)
+		internal ImageResource(WarResource data, WarResource palette)
 			: this(data, palette, false)
 		{
 		}
 
-		public ImageResource(WarResource data, WarResource palette, bool bForceGrayscale)
+		internal ImageResource(WarResource data, WarResource palette, bool bForceGrayscale)
 			: base(palette, data)
 		{
 			unsafe
@@ -27,10 +27,8 @@ namespace WinWarRT.Data.Resources
 			CreateImageData(bForceGrayscale);
 		}
 
-		public override void CreateImageData(bool bForceGrayscale)
+		internal override void CreateImageData(bool bForceGrayscale)
 		{
-			base.CreateImageData(bForceGrayscale);
-
 			unsafe
 			{
 				fixed (byte* org_ptr = &data.data[0])

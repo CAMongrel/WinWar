@@ -11,7 +11,7 @@ namespace WinWarRT.GameScreens.Windows
 {
     class ChooseCampaignWindow : UIWindow
     {
-        public ChooseCampaignWindow()
+        internal ChooseCampaignWindow()
         {
             InitWithTextResource("Choose Campaign");
 

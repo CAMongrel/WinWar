@@ -16,39 +16,39 @@ namespace WinWarRT.Gui
         private float mapOffsetX;
         private float mapOffsetY;
 
-        public int CameraTileX { get { return ((int)mapOffsetX / TileWidth); } }
-        public int CameraTileY { get { return ((int)mapOffsetY / TileHeight); } }
+        internal int CameraTileX { get { return ((int)mapOffsetX / TileWidth); } }
+        internal int CameraTileY { get { return ((int)mapOffsetY / TileHeight); } }
 
-        public int MapWidth
+        internal int MapWidth
         {
             get { return (CurrentMap != null ? CurrentMap.MapWidth : 0); }
         }
-        public int MapHeight
+        internal int MapHeight
         {
             get { return (CurrentMap != null ? CurrentMap.MapHeight : 0); }
         }
-        public int TileWidth
+        internal int TileWidth
         {
             get { return (CurrentMap != null ? CurrentMap.TileWidth : 0); }
         }
-        public int TileHeight
+        internal int TileHeight
         {
             get { return (CurrentMap != null ? CurrentMap.TileHeight : 0); }
         }
-        public int WidthInTiles
+        internal int WidthInTiles
         {
             get { return (CurrentMap != null ? Width / TileWidth : 0); }
         }
-        public int HeightInTiles
+        internal int HeightInTiles
         {
             get { return (CurrentMap != null ? Height / TileHeight : 0); }
         }
 
-        public Map CurrentMap { get; private set; }
+        internal Map CurrentMap { get; private set; }
 
-        public UIMapControlInputHandler InputHandler { get; private set; }
+        internal UIMapControlInputHandler InputHandler { get; private set; }
 
-        public UIMapControl()
+        internal UIMapControl()
         {
             CurrentMap = null;
 
@@ -61,7 +61,7 @@ namespace WinWarRT.Gui
             SetCameraOffset(setMapOffsetX, setMapOffsetY);
         }
 
-        public void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        internal void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
         {
             mapOffsetX = setCamOffsetX;
             mapOffsetY = setCamOffsetY;
@@ -79,7 +79,7 @@ namespace WinWarRT.Gui
                 mapOffsetY = maxY;
         }
 
-        public void LoadCampaignLevel(string basename)
+        internal void LoadCampaignLevel(string basename)
         {
             LevelInfoResource levelInfo = new LevelInfoResource(basename);
             LevelPassableResource levelPassable = new LevelPassableResource(basename + " (Passable)");
@@ -88,7 +88,7 @@ namespace WinWarRT.Gui
             CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
         }
 
-        public void LoadCustomLevel(string basename)
+        internal void LoadCustomLevel(string basename)
         {
             LevelPassableResource levelPassable = new LevelPassableResource(basename + " (Passable)");
             LevelVisualResource levelVisual = new LevelVisualResource(basename + " (Visual)");
@@ -96,7 +96,7 @@ namespace WinWarRT.Gui
             CurrentMap = new Map(null, levelVisual, levelPassable);
         }
 
-        public override void Render()
+        internal override void Render()
         {
             base.Render();
 
@@ -106,17 +106,17 @@ namespace WinWarRT.Gui
             }
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return InputHandler.PointerDown(position);
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             return InputHandler.PointerUp(position);
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             return InputHandler.PointerMoved(position);
         }

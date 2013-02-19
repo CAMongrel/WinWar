@@ -5,16 +5,16 @@ using System.Runtime.InteropServices;
 
 namespace WinWarRT.Util
 {
-	public unsafe class UnsafeReader : IDisposable
+	internal unsafe class UnsafeReader : IDisposable
 	{
 		GCHandle handle;
 
-		public UnsafeReader(byte[] data)
+		internal UnsafeReader(byte[] data)
 		{
 			handle = GCHandle.Alloc(data);			
 		}
 
-		public void Dispose()
+      public void Dispose()
 		{
 			if (handle != null && handle.IsAllocated)
 				handle.Free();

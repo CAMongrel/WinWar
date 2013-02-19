@@ -67,7 +67,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Create map tileset
 		/// </summary>
-		public MapTileset(Tileset setTilesetType,
+		internal MapTileset(Tileset setTilesetType,
 			WarResource setTileset, WarResource setTiles,
 			WarResource setTilesetPal)
 		{
@@ -86,7 +86,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Get tileset
 		/// </summary>
-		public static MapTileset GetTileset(Tileset tileSetType)
+		internal static MapTileset GetTileset(Tileset tileSetType)
 		{
 			for (int i = 0; i < knownTilesets.Count; i++)
 			{
@@ -102,7 +102,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Load all tilesets
 		/// </summary>
-		public static void LoadAllTilesets()
+		internal static void LoadAllTilesets()
 		{
 			WarResource tileset = WarFile.GetResourceByName("Barrens 1");
 			WarResource tiles = WarFile.GetResourceByName("Barrens 2");
@@ -336,7 +336,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Draw tile
 		/// </summary>
-		public void DrawTile(int index, float x, float y, float scale)
+		internal void DrawTile(int index, float x, float y, float scale)
 		{
 			tilesList[index].Render(x, y, scale);
 		} // DrawTile(x, y)
@@ -346,7 +346,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Get tile average color
 		/// </summary>
-		public Color GetTileAverageColor(int index)
+		internal Color GetTileAverageColor(int index)
 		{
 			return tilesList[index].AverageColor;
 		} // GetTileAverageColor(index)
@@ -356,7 +356,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Draw tiles
 		/// </summary>
-		public void DrawTiles()
+		internal void DrawTiles()
 		{
 			for (int i = 0; i < tilesList.Length; i++)
             {
@@ -369,7 +369,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Test tileset
 		/// </summary>
-		public static void TestTileset()
+		internal static void TestTileset()
 		{
             throw new NotImplementedException();
 			/*TestGame.Start("TestTileset",

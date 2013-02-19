@@ -11,47 +11,47 @@ namespace WinWarRT.GameScreens
 {
     class LevelGameScreen : BaseGameScreen
     {
-        public static LevelGameScreen Game { get; private set; }
+        internal static LevelGameScreen Game { get; private set; }
 
-        public Player HumanPlayer { get; private set; }
+        internal Player HumanPlayer { get; private set; }
 
         private GameBackgroundWindow backgroundWindow;
 
-        public LevelGameScreen(Player setHumanPlayer)
+        internal LevelGameScreen(Player setHumanPlayer)
         {
             Game = this;
 
             HumanPlayer = setHumanPlayer;
         }
 
-        public override void InitUI()
+        internal override void InitUI()
         {
             backgroundWindow = new GameBackgroundWindow();
 
             backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race + " 1");
         }
 
-        public override void Close()
+        internal override void Close()
         {
             UIWindowManager.Clear();
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        internal override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             UIWindowManager.Render();
         }
 
-        public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerDown(position);
         }
 
-        public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerUp(position);
         }
 
-        public override void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             UIWindowManager.PointerMoved(position);
         }

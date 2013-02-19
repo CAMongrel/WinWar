@@ -109,6 +109,8 @@
     <Compile Include="Data\Game\Map.cs" />
     <Compile Include="Data\Game\Player.cs" />
     <Compile Include="Data\Game\Race.cs" />
+    <Compile Include="Data\Game\Sprite.cs" />
+    <Compile Include="Data\Game\SpriteAnimation.cs" />
     <Compile Include="Data\Game\Tile.cs" />
     <Compile Include="Data\Game\Tileset.cs" />
     <Compile Include="Data\KnowledgeBase.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Data\Resources\LevelInfoResource.cs" />
     <Compile Include="Data\Resources\LevelPassableResource.cs" />
     <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\SpriteResource.cs" />
     <Compile Include="Data\Resources\TextResource.cs" />
     <Compile Include="Data\WarFile.cs" />
     <Compile Include="Data\WarResource.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Gui\UIMapControl.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
     <Compile Include="Gui\UIMinimapControl.cs" />
+    <Compile Include="Gui\UISpriteImage.cs" />
     <Compile Include="Gui\UIWindow.cs" />
     <Compile Include="Gui\UIWindowManager.cs" />
     <Compile Include="MainGame.cs" />

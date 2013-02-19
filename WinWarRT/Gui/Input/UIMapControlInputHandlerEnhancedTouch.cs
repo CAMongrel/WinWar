@@ -14,7 +14,7 @@ namespace WinWarRT.Gui.Input
         private bool isPressed;
         private Vector2 lastPos;
 
-        public UIMapControlInputHandlerEnhancedTouch(UIMapControl setUIMapControl)
+        internal UIMapControlInputHandlerEnhancedTouch(UIMapControl setUIMapControl)
             : base(InputMode.EnhancedTouch, setUIMapControl)
         {
             isPressed = false;
@@ -22,7 +22,7 @@ namespace WinWarRT.Gui.Input
             camOffsetY = 0;
         }
 
-        public override void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        internal override void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
         {
             camOffsetX = setCamOffsetX;
             camOffsetY = setCamOffsetY;
@@ -30,7 +30,7 @@ namespace WinWarRT.Gui.Input
             InvokeOnMapDidScroll(camOffsetX, camOffsetY);
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             isPressed = true;
             lastPos = position;
@@ -38,14 +38,14 @@ namespace WinWarRT.Gui.Input
             return true;
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             isPressed = false;
 
             return true;
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             if (isPressed)
             {

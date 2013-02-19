@@ -19,14 +19,14 @@ namespace WinWarRT.GameScreens.Windows
 
         private UIButton menuButton;
 
-        public UIMapControl MapControl { get; private set; }
-        public UIMinimapControl MinimapControl { get; private set; }
+        internal UIMapControl MapControl { get; private set; }
+        internal UIMinimapControl MinimapControl { get; private set; }
 
         private Vector2 currentPointerPos;
         private Vector2 scrollDelta;
         private float scrollSpeed;
 
-        public GameBackgroundWindow()
+        internal GameBackgroundWindow()
         {
             scrollSpeed = 125.0f;
             currentPointerPos = new Vector2(50, 50);
@@ -90,7 +90,7 @@ namespace WinWarRT.GameScreens.Windows
             IngameMenuWindow menu = new IngameMenuWindow();
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        internal override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             base.Update(gameTime);
 
@@ -140,18 +140,18 @@ namespace WinWarRT.GameScreens.Windows
             }
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return base.PointerDown(position);
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             currentPointerPos = position;
             return base.PointerMoved(position);
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             return base.PointerUp(position);
         }

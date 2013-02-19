@@ -6,10 +6,10 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public class LevelInfoResource : BasicResource
+	internal class LevelInfoResource : BasicResource
 	{
 		#region enum RoadType
-		public enum RoadType
+		internal enum RoadType
 		{
 			EndPieceLeft,
 			EndPieceRight,
@@ -30,16 +30,16 @@ namespace WinWarRT.Data.Resources
 		#endregion
 
 		#region struct Road
-		public struct Road
+		internal struct Road
 		{
-			public byte x,
+			internal byte x,
 				y;
-			public RoadType type;
+			internal RoadType type;
 		}
 		#endregion
 
 		#region enum LevelObjectType
-		public enum LevelObjectType
+		internal enum LevelObjectType
 		{
 			//Units:
 			Warrior,		// 0x00
@@ -102,11 +102,11 @@ namespace WinWarRT.Data.Resources
 		#endregion
 
 		#region Struct LevelObject
-		public struct LevelObject
+		internal struct LevelObject
 		{
-			public byte x, y;
-			public LevelObjectType type;
-			public byte player, value1, value2;
+			internal byte x, y;
+			internal LevelObjectType type;
+			internal byte player, value1, value2;
 		};
 		#endregion
 
@@ -128,12 +128,12 @@ namespace WinWarRT.Data.Resources
 		#endregion
 
 		#region Constructor
-		public LevelInfoResource(WarResource data, int offset)
+		internal LevelInfoResource(WarResource data, int offset)
 		{
 			Init(data, offset);
 		}
 
-		public LevelInfoResource(string name)
+		internal LevelInfoResource(string name)
 		{
 			KnowledgeEntry ke = KnowledgeBase.KEByName(name);
 
@@ -389,7 +389,7 @@ namespace WinWarRT.Data.Resources
 		#endregion
 
 		#region Unit testing
-		public static void TestLoadLevelInfo()
+		internal static void TestLoadLevelInfo()
 		{
             throw new NotImplementedException();
 			/*TestGame.Start("TestLoadLevelInfo",

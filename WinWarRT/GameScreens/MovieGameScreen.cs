@@ -10,7 +10,7 @@ using Windows.Storage;
 
 namespace WinWarRT.GameScreens
 {
-    public delegate void MovieFinished();
+    internal delegate void MovieFinished();
 
     class MovieGameScreen : BaseGameScreen
     {
@@ -19,7 +19,7 @@ namespace WinWarRT.GameScreens
 
         private MovieFinished OnMovieFinished;
 
-        public async static void PlayMovie(string moviename, MovieFinished OnMovieFinished)
+        internal async static void PlayMovie(string moviename, MovieFinished OnMovieFinished)
         {
             var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
             localStorage = await localStorage.GetFolderAsync("Assets\\Data");
@@ -28,7 +28,7 @@ namespace WinWarRT.GameScreens
             PlayMovie(resultFile, OnMovieFinished);
         }
 
-        public static void PlayMovie(StorageFile file, MovieFinished OnMovieFinished)
+        internal static void PlayMovie(StorageFile file, MovieFinished OnMovieFinished)
         {
             MovieGameScreen movieGS = new MovieGameScreen();
             movieGS.OnMovieFinished = OnMovieFinished;
@@ -37,7 +37,7 @@ namespace WinWarRT.GameScreens
             MainGame.WinWarGame.SetNextGameScreen(movieGS);
         }
 
-        public override Color BackgroundColor
+        internal override Color BackgroundColor
         {
             get
             {
@@ -76,17 +76,17 @@ namespace WinWarRT.GameScreens
             curTexture = texture;
         }
 
-        public override void InitUI()
+        internal override void InitUI()
         {
             //
         }
 
-        public override void Close()
+        internal override void Close()
         {
             //
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        internal override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             if (curTexture != null)
             {
@@ -101,12 +101,12 @@ namespace WinWarRT.GameScreens
             }
         }
 
-        public override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             //
         }
 
-        public override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             if (player != null && player.IsPlaying)
                 player.Stop();

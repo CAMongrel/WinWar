@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.Gui
 {
-    public static class UIWindowManager
+    internal static class UIWindowManager
     {
         private static List<UIWindow> windows;
 
@@ -16,12 +16,12 @@ namespace WinWarRT.Gui
             windows = new List<UIWindow>();
         }
 
-        public static void AddWindow(UIWindow window)
+        internal static void AddWindow(UIWindow window)
         {
             windows.Add(window);
         }
 
-        public static void RemoveWindow(UIWindow window)
+        internal static void RemoveWindow(UIWindow window)
         {
             if (windows.Contains(window))
             {
@@ -29,12 +29,12 @@ namespace WinWarRT.Gui
             }
         }
 
-        public static void Clear()
+        internal static void Clear()
         {
             windows.Clear();
         }
 
-        public static void Update(GameTime gameTime)
+        internal static void Update(GameTime gameTime)
         {
             for (int i = 0; i < windows.Count; i++)
             {
@@ -42,7 +42,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public static void Render()
+        internal static void Render()
         {
             for (int i = 0; i < windows.Count; i++)
             {
@@ -50,7 +50,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public static bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal static bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {
@@ -61,7 +61,7 @@ namespace WinWarRT.Gui
             return false;
         }
 
-        public static bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal static bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {
@@ -72,7 +72,7 @@ namespace WinWarRT.Gui
             return false;
         }
 
-        public static bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal static bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {

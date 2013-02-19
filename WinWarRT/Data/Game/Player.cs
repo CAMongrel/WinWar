@@ -8,10 +8,10 @@ namespace WinWarRT.Data.Game
 {
     class Player
     {
-        public string Name { get; set; }
-        public Race Race { get; set; }
+        internal string Name { get; set; }
+        internal Race Race { get; set; }
 
-        public Player()
+        internal Player()
         {
             Name = "Player";
             Race = Game.Race.Humans;

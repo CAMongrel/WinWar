@@ -14,11 +14,11 @@ namespace WinWarRT
     /// <summary>
     /// The root page used to display the game.
     /// </summary>
-    public sealed partial class GamePage : SwapChainBackgroundPanel
+    internal sealed partial class GamePage : SwapChainBackgroundPanel
     {
         readonly MainGame _game;
 
-        public GamePage(string launchArguments)
+        internal GamePage(string launchArguments)
         {
             this.InitializeComponent();
 

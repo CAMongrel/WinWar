@@ -8,16 +8,16 @@ using WinWarRT.Gui;
 
 namespace WinWarRT.GameScreens
 {
-    public class BaseGameScreen
+    internal class BaseGameScreen
     {
         private Color standardBackgroundColor;
 
-        public BaseGameScreen()
+        internal BaseGameScreen()
         {
             standardBackgroundColor = new Color(0x7F, 0x00, 0x00);
         }
 
-        public virtual Color BackgroundColor
+        internal virtual Color BackgroundColor
         {
             get
             {
@@ -25,32 +25,32 @@ namespace WinWarRT.GameScreens
             }
         }
 
-        public virtual void InitUI()
+        internal virtual void InitUI()
         {
         }
 
-        public virtual void Close()
+        internal virtual void Close()
         {
         }
 
-        public virtual void Update(GameTime gameTime)
+        internal virtual void Update(GameTime gameTime)
         {
             UIWindowManager.Update(gameTime);
         }
 
-        public virtual void Draw(GameTime gameTime)
+        internal virtual void Draw(GameTime gameTime)
         {
         }
 
-        public virtual void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual void PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
         }
 
-        public virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
         }
 
-        public virtual void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal virtual void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
         }
     }

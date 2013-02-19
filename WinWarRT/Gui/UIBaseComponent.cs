@@ -8,198 +8,198 @@ using WinWarRT.Util;
 
 namespace WinWarRT.Gui
 {
-    public delegate void OnPointerDownInside(Vector2 position);
-    public delegate void OnPointerUpInside(Vector2 position);
-    public delegate void OnPointerUpOutside(Vector2 position);
+   internal delegate void OnPointerDownInside(Vector2 position);
+   internal delegate void OnPointerUpInside(Vector2 position);
+   internal delegate void OnPointerUpOutside(Vector2 position);
 
-    public abstract class UIBaseComponent : IDisposable
-	{
-		public int X;
-		public int Y;
-		public int Width;
-		public int Height;
+   internal abstract class UIBaseComponent : IDisposable
+   {
+      internal int X;
+      internal int Y;
+      internal int Width;
+      internal int Height;
 
-        public Vector2 ScreenPosition
-        {
-            get
-            {
-                if (ParentComponent == null)
-                    return new Vector2(X, Y);
-
-                Vector2 parentScreenPos = ParentComponent.ScreenPosition;
-                return new Vector2(X + parentScreenPos.X, Y + parentScreenPos.Y); 
-            }
-        }
-
-        public UIBaseComponentList Components;
-        private List<UIBaseComponent> components;
-
-        public UIBaseComponent ParentComponent { get; private set; }
-
-		public UIBaseComponent()
-		{
-            ParentComponent = null;
-            components = new List<UIBaseComponent>();
-            Components = new UIBaseComponentList(components);
-		}
-
-        public void AddComponent(UIBaseComponent newComp)
-        {
-            if (newComp == null)
-                return;
-
-            if (newComp.ParentComponent != null)
-                newComp.ParentComponent.RemoveComponent(newComp);
-
-            newComp.ParentComponent = this;
-            components.Add(newComp);
-        }
-
-        public void RemoveComponent(UIBaseComponent comp)
-        {
-            if (comp == null)
-                return;
-
-            if (components.Contains(comp))
-                components.Remove(comp);
-            comp.ParentComponent = null;
-        }
-
-        public void ClearComponents()
-        {
-            components.Clear();
-        }
-
-        public void CenterOnScreen()
-        {
-            X = MainGame.OriginalAppWidth / 2 - Width / 2;
-            Y = MainGame.OriginalAppHeight / 2 - Height / 2;
-        }
-
-        public void CenterInParent()
-        {
+      internal Vector2 ScreenPosition
+      {
+         get
+         {
             if (ParentComponent == null)
-                return;
+               return new Vector2(X, Y);
 
-            X = ParentComponent.Width / 2 - Width / 2;
-            Y = ParentComponent.Height / 2 - Height / 2;
-        }
+            Vector2 parentScreenPos = ParentComponent.ScreenPosition;
+            return new Vector2(X + parentScreenPos.X, Y + parentScreenPos.Y);
+         }
+      }
 
-        public void CenterXInParent()
-        {
-            if (ParentComponent == null)
-                return;
+      internal UIBaseComponentList Components;
+      private List<UIBaseComponent> components;
 
-            X = ParentComponent.Width / 2 - Width / 2;
-        }
+      internal UIBaseComponent ParentComponent { get; private set; }
 
-        public void CenterYInParent()
-        {
-            if (ParentComponent == null)
-                return;
+      internal UIBaseComponent()
+      {
+         ParentComponent = null;
+         components = new List<UIBaseComponent>();
+         Components = new UIBaseComponentList(components);
+      }
 
-            Y = ParentComponent.Height / 2 - Height / 2;
-        }
+      internal void AddComponent(UIBaseComponent newComp)
+      {
+         if (newComp == null)
+            return;
 
-        public Vector2 ConvertGlobalToLocal(Vector2 globalCoords)
-        {
-            Vector2 result = globalCoords;
-            UIBaseComponent comp = this;
+         if (newComp.ParentComponent != null)
+            newComp.ParentComponent.RemoveComponent(newComp);
 
-            while (comp != null)
-            {
-                result.X -= comp.X;
-                result.Y -= comp.Y;
+         newComp.ParentComponent = this;
+         components.Add(newComp);
+      }
 
-                comp = comp.ParentComponent;
-            }
+      internal void RemoveComponent(UIBaseComponent comp)
+      {
+         if (comp == null)
+            return;
 
-            return result;
-        }
+         if (components.Contains(comp))
+            components.Remove(comp);
+         comp.ParentComponent = null;
+      }
 
-        public Vector2 ConvertLocalToGlobal(Vector2 localCoords)
-        {
-            Vector2 result = localCoords;
-            UIBaseComponent comp = this;
+      internal void ClearComponents()
+      {
+         components.Clear();
+      }
 
-            while (comp != null)
-            {
-                result.X += comp.X;
-                result.Y += comp.Y;
+      internal void CenterOnScreen()
+      {
+         X = MainGame.OriginalAppWidth / 2 - Width / 2;
+         Y = MainGame.OriginalAppHeight / 2 - Height / 2;
+      }
 
-                comp = comp.ParentComponent;
-            }
+      internal void CenterInParent()
+      {
+         if (ParentComponent == null)
+            return;
 
-            return result;
-        }
+         X = ParentComponent.Width / 2 - Width / 2;
+         Y = ParentComponent.Height / 2 - Height / 2;
+      }
 
-        public virtual void Update(GameTime gameTime)
-        {
-            for (int i = 0; i < components.Count; i++)
-            {
-                components[i].Update(gameTime);
-            }
-        }
+      internal void CenterXInParent()
+      {
+         if (ParentComponent == null)
+            return;
 
-		public virtual void Render()
-		{
-            for (int i = 0; i < components.Count; i++)
-			{
-                components[i].Render();
-			}
-		}
+         X = ParentComponent.Width / 2 - Width / 2;
+      }
 
-        public virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
-        {
-            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
-            for (int i = components.Count - 1; i >= 0; i--)
-            {
-                Vector2 screenPos = components[i].ScreenPosition;
-                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
-                    continue;
+      internal void CenterYInParent()
+      {
+         if (ParentComponent == null)
+            return;
 
-                if (components[i].PointerDown(relPosition))
-                    return true;
-            }
+         Y = ParentComponent.Height / 2 - Height / 2;
+      }
 
-            return true;
-        }
+      internal Vector2 ConvertGlobalToLocal(Vector2 globalCoords)
+      {
+         Vector2 result = globalCoords;
+         UIBaseComponent comp = this;
 
-		public virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
-		{
-            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
-            for (int i = components.Count - 1; i >= 0; i--)
-            {
-                Vector2 screenPos = components[i].ScreenPosition;
-                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
-                    continue;
+         while (comp != null)
+         {
+            result.X -= comp.X;
+            result.Y -= comp.Y;
 
-                if (components[i].PointerUp(relPosition))
-					return true;
-			}
+            comp = comp.ParentComponent;
+         }
 
-			return true;
-		}
+         return result;
+      }
 
-        public virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
-        {
-            Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
-            for (int i = components.Count - 1; i >= 0; i--)
-            {
-                Vector2 screenPos = components[i].ScreenPosition;
-                if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
-                    continue;
+      internal Vector2 ConvertLocalToGlobal(Vector2 localCoords)
+      {
+         Vector2 result = localCoords;
+         UIBaseComponent comp = this;
 
-                if (components[i].PointerMoved(relPosition))
-                    return true;
-            }
+         while (comp != null)
+         {
+            result.X += comp.X;
+            result.Y += comp.Y;
 
-            return true;
-        }
+            comp = comp.ParentComponent;
+         }
 
-        public virtual void Dispose()
-        {
-            //
-        }
-    }
+         return result;
+      }
+
+      internal virtual void Update(GameTime gameTime)
+      {
+         for (int i = 0; i < components.Count; i++)
+         {
+            components[i].Update(gameTime);
+         }
+      }
+
+      internal virtual void Render()
+      {
+         for (int i = 0; i < components.Count; i++)
+         {
+            components[i].Render();
+         }
+      }
+
+      internal virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      {
+         Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+         for (int i = components.Count - 1; i >= 0; i--)
+         {
+            Vector2 screenPos = components[i].ScreenPosition;
+            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+               continue;
+
+            if (components[i].PointerDown(relPosition))
+               return true;
+         }
+
+         return true;
+      }
+
+      internal virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      {
+         Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+         for (int i = components.Count - 1; i >= 0; i--)
+         {
+            Vector2 screenPos = components[i].ScreenPosition;
+            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+               continue;
+
+            if (components[i].PointerUp(relPosition))
+               return true;
+         }
+
+         return true;
+      }
+
+      internal virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+      {
+         Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
+         for (int i = components.Count - 1; i >= 0; i--)
+         {
+            Vector2 screenPos = components[i].ScreenPosition;
+            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+               continue;
+
+            if (components[i].PointerMoved(relPosition))
+               return true;
+         }
+
+         return true;
+      }
+
+      public virtual void Dispose()
+      {
+         //
+      }
+   }
 }

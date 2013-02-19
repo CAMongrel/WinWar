@@ -6,29 +6,29 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public class TextResource : BasicResource
+	internal class TextResource : BasicResource
 	{
 		#region Subclass MenuEntry
-		public class MenuEntry
+		internal class MenuEntry
 		{
-			public string Text;
-			public ushort X;
-			public ushort Y;
-			public int ButtonID;
+			internal string Text;
+			internal ushort X;
+			internal ushort Y;
+			internal int ButtonID;
 
-			public int unknown1;
-			public int unknown3;
-			public int unknown4;
-			public int unknown5;
+			internal int unknown1;
+			internal int unknown3;
+			internal int unknown4;
+			internal int unknown5;
 		}
 		#endregion
 
 		#region Variables
-		public List<MenuEntry> Texts;
+		internal List<MenuEntry> Texts;
 		#endregion
 
 		#region Constructor
-		public TextResource(string name)
+		internal TextResource(string name)
 		{
 			WarResource res = WarFile.GetResourceByName(name);
 
@@ -38,7 +38,7 @@ namespace WinWarRT.Data.Resources
 			Init(res);
 		}
 
-		public TextResource(WarResource data)
+		internal TextResource(WarResource data)
 		{
 			if (data == null)
 				throw new ArgumentNullException("data");

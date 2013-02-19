@@ -8,7 +8,7 @@ using WinWarRT.Data.Resources;
 
 namespace WinWarRT.Gui
 {
-	public class UIWindow : UIBaseComponent
+	internal class UIWindow : UIBaseComponent
     {
         #region Constructor
         protected UIWindow()
@@ -61,7 +61,7 @@ namespace WinWarRT.Gui
         #endregion
 
         #region FromTextResource
-        public static UIWindow FromTextResource(string name)
+        internal static UIWindow FromTextResource(string name)
         {
             int idx = KnowledgeBase.IndexByName(name);
 			if (idx == -1)
@@ -71,7 +71,7 @@ namespace WinWarRT.Gui
 			return FromTextResource(tr);
         }
 
-		public static UIWindow FromTextResource(TextResource resource)
+		internal static UIWindow FromTextResource(TextResource resource)
 		{
 			UIWindow wnd = new UIWindow();
 
@@ -88,21 +88,21 @@ namespace WinWarRT.Gui
 		#endregion
 
         #region Close
-        public void Close()
+        internal void Close()
         {
             UIWindowManager.RemoveWindow(this);
         }
         #endregion
 
         #region Render
-        public override void Render()
+        internal override void Render()
 		{
 			base.Render();
 		}
 		#endregion
 
 		#region Unit testing
-		public static void TestWindow()
+		internal static void TestWindow()
 		{
             throw new NotImplementedException();
             /*UIWindow wnd = null;

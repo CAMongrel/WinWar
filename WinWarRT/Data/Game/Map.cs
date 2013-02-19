@@ -23,16 +23,16 @@ namespace WinWarRT.Data.Game
 
         private MapTileset tileSet;
 
-        public int TileWidth { get; private set; }
-        public int TileHeight { get; private set; }
-        public int MapWidth { get; private set; }
-        public int MapHeight { get; private set; }
+        internal int TileWidth { get; private set; }
+        internal int TileHeight { get; private set; }
+        internal int MapWidth { get; private set; }
+        internal int MapHeight { get; private set; }
 		
 		#region ctor
 		/// <summary>
 		/// Create map
 		/// </summary>
-		public Map(LevelInfoResource setLevelInfo, 
+		internal Map(LevelInfoResource setLevelInfo, 
 			LevelVisualResource setLevelVisual,
 			LevelPassableResource setLevelPassable)
 		{
@@ -54,7 +54,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Render
 		/// </summary>
-		public void Render(int setX, int setY, int setWidth, int setHeight, float tileOffsetX, float tileOffsetY)
+		internal void Render(int setX, int setY, int setWidth, int setHeight, float tileOffsetX, float tileOffsetY)
 		{
             if (tileOffsetX < 0.0f)
                 tileOffsetX = 0.0f;
@@ -88,7 +88,7 @@ namespace WinWarRT.Data.Game
 		} // Render()
 		#endregion
 
-        public Color[] GetMinimap()
+        internal Color[] GetMinimap()
         {
             Color[] result = new Color[MapWidth * MapHeight];
             for (int y = 0; y < MapHeight; y++)
@@ -105,7 +105,7 @@ namespace WinWarRT.Data.Game
 		/// <summary>
 		/// Test map
 		/// </summary>
-		public static void TestMap()
+		internal static void TestMap()
 		{
             throw new NotImplementedException();
 			/*Map map = null;

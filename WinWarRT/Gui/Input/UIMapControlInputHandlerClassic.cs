@@ -8,22 +8,22 @@ namespace WinWarRT.Gui.Input
 {
     class UIMapControlInputHandlerClassic : UIMapControlInputHandler
     {
-        public UIMapControlInputHandlerClassic(UIMapControl setUIMapControl)
+        internal UIMapControlInputHandlerClassic(UIMapControl setUIMapControl)
             : base(InputMode.Classic, setUIMapControl)
         {
         }
 
-        public override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }
 
-        public override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
         {
             return true;
         }

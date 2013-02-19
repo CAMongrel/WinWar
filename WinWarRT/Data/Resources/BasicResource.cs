@@ -4,9 +4,9 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public abstract class BasicResource
+	internal abstract class BasicResource
 	{
-		public WarResource data;
+		internal WarResource data;
 
 		protected BasicResource()
 		{

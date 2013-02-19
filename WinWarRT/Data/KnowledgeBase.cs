@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WinWarRT.Data
 {
-	public enum WarFileType : int
+	internal enum WarFileType : int
 	{
 		FileUnknown,
 		FileImage,
@@ -25,22 +25,22 @@ namespace WinWarRT.Data
 		FileTilePAL
 	}
 
-	public enum Tileset : int
+	internal enum Tileset : int
 	{
 		Summer,
 		Swamp,
 		Dungeon
 	}
 
-	public struct KnowledgeEntry
+	internal struct KnowledgeEntry
 	{
-		public int id;
-		public WarFileType type;
-		public int param;
-		public string text;
+		internal int id;
+		internal WarFileType type;
+		internal int param;
+		internal string text;
 
 		#region KnowledgeEntry
-		public KnowledgeEntry(int id, WarFileType type, int param, string text)
+		internal KnowledgeEntry(int id, WarFileType type, int param, string text)
 		{
 			this.id = id;
 			this.type = type;
@@ -50,12 +50,12 @@ namespace WinWarRT.Data
 		#endregion
 	}
 
-	public class KnowledgeBase
+	internal class KnowledgeBase
 	{
 		#region Hardcoded palette
 		// Number of entries = 128 * 3 = 384
         // 0, 0, 0 => means unknown
-		public static byte[] hardcoded_pal = {
+		internal static byte[] hardcoded_pal = {
 							255, 255, 255,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
@@ -187,8 +187,8 @@ namespace WinWarRT.Data
 						};
 		#endregion
 
-		//public const int KB_Size = 370;
-		public static KnowledgeEntry[] KB_List = 
+		//internal const int KB_Size = 370;
+		internal static KnowledgeEntry[] KB_List = 
 			{
 				new KnowledgeEntry(0, WarFileType.FileXMID, 0, "Music0"),
 				new KnowledgeEntry(1, WarFileType.FileXMID, 0, "Music1"),
@@ -723,13 +723,13 @@ Wenn Typ==32 (Goldmine)
 		#endregion
 
         #region Dump
-        public static void Dump()
+        internal static void Dump()
         {
         }
         #endregion
 
         #region KEByName
-        public static KnowledgeEntry KEByName(string name)
+        internal static KnowledgeEntry KEByName(string name)
 		{
 			name = name.ToLowerInvariant();
 
@@ -741,7 +741,7 @@ Wenn Typ==32 (Goldmine)
 		#endregion
 
 		#region IndexByName
-		public static int IndexByName(string name)
+		internal static int IndexByName(string name)
 		{
 			name = name.ToLowerInvariant();
 

@@ -16,9 +16,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WinWarRT
 {
-    public sealed partial class GameSettingsFlyout : UserControl
+    internal sealed partial class GameSettingsFlyout : UserControl
     {
-        public GameSettingsFlyout()
+        internal GameSettingsFlyout()
         {
             this.InitializeComponent();
         }

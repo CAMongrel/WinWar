@@ -15,7 +15,7 @@ namespace WinWarRT.GameScreens.Windows
         UIButton closeButton;
         UIButton quitButton;
 
-        public IngameMenuWindow()
+        internal IngameMenuWindow()
         {
             background = new UIImage(WWTexture.FromImageResource("Window Border"));
             Width = background.Width;

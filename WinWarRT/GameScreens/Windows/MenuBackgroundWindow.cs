@@ -12,12 +12,12 @@ namespace WinWarRT.GameScreens.Windows
     {
         WWTexture backgroundImage;
 
-        public MenuBackgroundWindow()
+        internal MenuBackgroundWindow()
         {
             backgroundImage = WWTexture.FromImageResource("Mainmenu Background");
         }
 
-        public override void Render()
+        internal override void Render()
         {
             backgroundImage.RenderOnScreen(0, 0);
 

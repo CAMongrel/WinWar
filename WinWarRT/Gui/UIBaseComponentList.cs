@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WinWarRT.Gui
 {
-    public class UIBaseComponentList
+    internal class UIBaseComponentList
     {
         private List<UIBaseComponent> components;
 
-        public int Count
+        internal int Count
         {
             get
             {
@@ -18,7 +18,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public UIBaseComponent this[int index]
+        internal UIBaseComponent this[int index]
         {
             get
             {
@@ -30,7 +30,7 @@ namespace WinWarRT.Gui
             }
         }
 
-        public UIBaseComponentList(List<UIBaseComponent> setComponents)
+        internal UIBaseComponentList(List<UIBaseComponent> setComponents)
         {
             components = setComponents;
         }

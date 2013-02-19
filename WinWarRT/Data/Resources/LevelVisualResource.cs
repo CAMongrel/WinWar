@@ -12,12 +12,12 @@ using System.Text;
 
 namespace WinWarRT.Data.Resources
 {
-	public class LevelVisualResource : BasicResource
+	internal class LevelVisualResource : BasicResource
 	{
-		public ushort[] visualData;
+		internal ushort[] visualData;
 
 		Tileset tileset;
-		public Tileset Tileset
+		internal Tileset Tileset
 		{
 			get
 			{
@@ -28,7 +28,7 @@ namespace WinWarRT.Data.Resources
 		/// <summary>
 		/// Create level visual resource
 		/// </summary>
-		public LevelVisualResource(WarResource setData, Tileset setTileset)
+		internal LevelVisualResource(WarResource setData, Tileset setTileset)
 		{
 			Init(setData, setTileset);
 		} // LevelVisualResource(setData, setOffset)
@@ -36,7 +36,7 @@ namespace WinWarRT.Data.Resources
 		/// <summary>
 		/// Create level visual resource
 		/// </summary>
-		public LevelVisualResource(string name)
+		internal LevelVisualResource(string name)
 		{
 			KnowledgeEntry ke = KnowledgeBase.KEByName(name);
 
@@ -90,7 +90,7 @@ namespace WinWarRT.Data.Resources
 		/// <summary>
 		/// Destroy visual data
 		/// </summary>
-		public void DestroyVisualData()
+		internal void DestroyVisualData()
 		{
 		} // DestroyVisualData()
 	}

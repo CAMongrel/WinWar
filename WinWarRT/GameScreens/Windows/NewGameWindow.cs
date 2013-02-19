@@ -10,7 +10,7 @@ namespace WinWarRT.GameScreens.Windows
 {
     class NewGameWindow : UIWindow
     {
-        public NewGameWindow()
+        internal NewGameWindow()
         {
             InitWithTextResource("Select Game Type");
 
