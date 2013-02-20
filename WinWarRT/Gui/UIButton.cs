@@ -9,174 +9,175 @@ using WinWarRT.Graphics;
 
 namespace WinWarRT.Gui
 {
-	internal class UIButton : UIBaseComponent
-	{
-		#region enum ButtonType
-		internal enum ButtonType
-		{
-			SmallButton,
-			MediumButton,
-			LargeButton,
-		}
-		#endregion
+   internal class UIButton : UIBaseComponent
+   {
+      #region enum ButtonType
+      internal enum ButtonType
+      {
+         SmallButton,
+         MediumButton,
+         LargeButton,
+      }
+      #endregion
 
-		#region Variables
-        private string text;
-        private string text2;
-        private char hotkey;
-        private ButtonType type;
-        private WWTexture backgroundNotClicked;
-        private WWTexture backgroundClicked;
-        private bool isActive;
-		#endregion
+      #region Variables
+      private string text;
+      private string text2;
+      private char hotkey;
+      private ButtonType type;
+      private WWTexture backgroundNotClicked;
+      private WWTexture backgroundClicked;
+      private bool isActive;
+      #endregion
 
-        #region Events
-        internal event OnPointerDownInside OnMouseDownInside;
-        internal event OnPointerUpInside OnMouseUpInside;
-        #endregion
+      #region Events
+      internal event OnPointerDownInside OnMouseDownInside;
+      internal event OnPointerUpInside OnMouseUpInside;
+      #endregion
 
-        #region Properties
-        internal string Text
-        {
-            get
+      #region Properties
+      internal string Text
+      {
+         get
+         {
+            return text + hotkey + text2;
+         }
+      }
+      #endregion
+
+      #region Constructor
+      internal UIButton(string setText, ButtonType setType)
+      {
+         type = setType;
+
+         isActive = false;
+
+         switch (type)
+         {
+            case ButtonType.SmallButton:
+               backgroundNotClicked = WWTexture.FromImageResource("Small Button");
+               backgroundClicked = WWTexture.FromImageResource("Small Button (Clicked)");
+               break;
+            case ButtonType.MediumButton:
+               backgroundNotClicked = WWTexture.FromImageResource("Medium Button");
+               backgroundClicked = WWTexture.FromImageResource("Medium Button (Clicked)");
+               break;
+            case ButtonType.LargeButton:
+               backgroundNotClicked = WWTexture.FromImageResource("Large Button");
+               backgroundClicked = WWTexture.FromImageResource("Large Button (Clicked)");
+               break;
+         }
+
+         Width = (int)(backgroundNotClicked.Width);
+         Height = (int)(backgroundNotClicked.Height);
+
+         hotkey = (char)0x00;
+
+         int idx = setText.IndexOf("@1");
+         if (idx != -1)
+         {
+            int idx2 = setText.IndexOf("@2", idx + 1);
+            if (idx2 != -1)
             {
-                return text + hotkey + text2;
+               text = setText.Substring(0, idx);
+               hotkey = setText[idx + 2];
+               text2 = setText.Substring(idx2 + 2);
+
+               return;
             }
-        }
-        #endregion
+         }
 
-        #region Constructor
-        internal UIButton(string setText, ButtonType setType)
-		{
-			type = setType;
+         text = setText;
+      }
+      #endregion
 
-            isActive = false;
+      #region Render
+      internal override void Render()
+      {
+         base.Render();
 
-			switch (type)
-			{
-				case ButtonType.SmallButton:
-					backgroundNotClicked = WWTexture.FromImageResource("Small Button");
-					backgroundClicked = WWTexture.FromImageResource("Small Button (Clicked)");
-					break;
-				case ButtonType.MediumButton:
-					backgroundNotClicked = WWTexture.FromImageResource("Medium Button");
-					backgroundClicked = WWTexture.FromImageResource("Medium Button (Clicked)");
-					break;
-				case ButtonType.LargeButton:
-					backgroundNotClicked = WWTexture.FromImageResource("Large Button");
-					backgroundClicked = WWTexture.FromImageResource("Large Button (Clicked)");
-					break;
-			}
+         WWTexture background = null;
+         if (isActive)
+            background = backgroundClicked;
+         else
+            background = backgroundNotClicked;
 
-			Width = (int)(backgroundNotClicked.Width);
-            Height = (int)(backgroundNotClicked.Height);
+         Vector2 screenPos = ScreenPosition;
 
-			hotkey = (char)0x00;
+         Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
+         background.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height, col);
 
-			int idx = setText.IndexOf("@1");
-			if (idx != -1)
-			{
-				int idx2 = setText.IndexOf("@2", idx + 1);
-				if (idx2 != -1)
-				{
-					text = setText.Substring(0, idx);
-					hotkey = setText[idx + 2];
-					text2 = setText.Substring(idx2 + 2);
+         Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
+         Microsoft.Xna.Framework.Vector2 size2 = Microsoft.Xna.Framework.Vector2.Zero;
+         if (hotkey != (char)0x00)
+            size2 = MainGame.SpriteFont.MeasureString(hotkey.ToString());
+         Microsoft.Xna.Framework.Vector2 size3 = Microsoft.Xna.Framework.Vector2.Zero;
+         if (text2 != null)
+            size3 = MainGame.SpriteFont.MeasureString(text2);
 
-					return;
-				}
-			}
-			
-			text = setText;
-		}
-		#endregion
+         Microsoft.Xna.Framework.Vector2 totalSize = size + size2 + size3;
+         totalSize.Y = Math.Max(Math.Max(size.Y, size2.Y), size3.Y);
 
-		#region Render
-		internal override void Render()
-		{
-			base.Render();
+         Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2(
+             screenPos.X + ((float)Width / 2.0f - totalSize.X / 2.0f),
+             screenPos.Y + ((float)Height / 2.0f - totalSize.Y / 2.0f));
 
-            WWTexture background = null;
-            if (isActive)
-                background = backgroundClicked;
-            else
-                background = backgroundNotClicked;
+         MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-            Vector2 screenPos = ScreenPosition;
+         MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
+             Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
 
-            background.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
-
-            Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
-            Microsoft.Xna.Framework.Vector2 size2 = Microsoft.Xna.Framework.Vector2.Zero;
-            if (hotkey != (char)0x00)
-                size2 = MainGame.SpriteFont.MeasureString(hotkey.ToString());
-            Microsoft.Xna.Framework.Vector2 size3 = Microsoft.Xna.Framework.Vector2.Zero; 
-            if (text2 != null)
-                size3 = MainGame.SpriteFont.MeasureString(text2);
-
-            Microsoft.Xna.Framework.Vector2 totalSize = size + size2 + size3;
-            totalSize.Y = Math.Max(Math.Max(size.Y, size2.Y), size3.Y);
-
-            Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2(
-                screenPos.X + ((float)Width / 2.0f - totalSize.X / 2.0f),
-                screenPos.Y + ((float)Height / 2.0f - totalSize.Y / 2.0f));
-
-            MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-
-            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0, 
+         if (hotkey != (char)0x00)
+         {
+            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
                 Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+         }
 
-            if (hotkey != (char)0x00)
-            {
-                MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
-                    Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
-            }
+         if (text2 != null)
+         {
+            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
+                Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+         }
 
-            if (text2 != null)
-            {
-                MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
-                    Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
-            }
+         MainGame.SpriteBatch.End();
+      }
+      #endregion
 
-            MainGame.SpriteBatch.End();
-		}
-		#endregion
+      #region MouseDown
+      internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      {
+         if (!base.PointerDown(position))
+            return false;
 
-        #region MouseDown
-        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
-        {
-            if (!base.PointerDown(position))
-                return false;
+         isActive = true;
 
-            isActive = true;
+         if (OnMouseDownInside != null)
+            OnMouseDownInside(position);
 
-            if (OnMouseDownInside != null)
-                OnMouseDownInside(position);
+         return true;
+      }
+      #endregion
 
-            return true;
-        }
-        #endregion
+      #region MouseUp
+      internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      {
+         if (!base.PointerUp(position))
+            return false;
 
-        #region MouseUp
-        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
-		{
-            if (!base.PointerUp(position))
-				return false;
+         isActive = false;
 
-            isActive = false;
+         if (OnMouseUpInside != null)
+            OnMouseUpInside(position);
 
-            if (OnMouseUpInside != null)
-                OnMouseUpInside(position);
+         return true;
+      }
+      #endregion
 
-			return true;
-		}
-		#endregion
-
-        #region ToString
-        public override string ToString()
-        {
-            return Text;
-        }
-        #endregion
-    }
+      #region ToString
+      public override string ToString()
+      {
+         return Text;
+      }
+      #endregion
+   }
 }

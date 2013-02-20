@@ -19,6 +19,22 @@ namespace WinWarRT.Gui
       internal int Width;
       internal int Height;
 
+      internal float Alpha;
+
+      internal bool UserInteractionEnabled { get; set; }
+      internal bool Visible { get; set; }
+
+      internal float CompositeAlpha
+      {
+         get
+         {
+            if (ParentComponent == null)
+               return Alpha;
+
+            return Alpha * ParentComponent.CompositeAlpha;
+         }
+      }
+
       internal Vector2 ScreenPosition
       {
          get
@@ -38,6 +54,9 @@ namespace WinWarRT.Gui
 
       internal UIBaseComponent()
       {
+         UserInteractionEnabled = true;
+         Visible = true;
+         Alpha = 1.0f;
          ParentComponent = null;
          components = new List<UIBaseComponent>();
          Components = new UIBaseComponentList(components);
@@ -145,12 +164,18 @@ namespace WinWarRT.Gui
       {
          for (int i = 0; i < components.Count; i++)
          {
+            if (components[i].Visible == false)
+               continue;
+
             components[i].Render();
          }
       }
 
       internal virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
       {
+         if (UserInteractionEnabled == false)
+            return false;
+
          Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
          for (int i = components.Count - 1; i >= 0; i--)
          {
@@ -167,6 +192,9 @@ namespace WinWarRT.Gui
 
       internal virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
       {
+         if (UserInteractionEnabled == false)
+            return false;
+
          Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
          for (int i = components.Count - 1; i >= 0; i--)
          {
@@ -183,6 +211,9 @@ namespace WinWarRT.Gui
 
       internal virtual bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
       {
+         if (UserInteractionEnabled == false)
+            return false;
+
          Vector2 relPosition = new Vector2(position.X - X, position.Y - Y);
          for (int i = components.Count - 1; i >= 0; i--)
          {

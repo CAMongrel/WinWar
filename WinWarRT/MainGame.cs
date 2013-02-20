@@ -132,13 +132,56 @@ namespace WinWarRT
             return;
          }
 
-         SetNextGameScreen(new MenuGameScreen());
+         //SearchForText("Black Rock");
+
+         //SetNextGameScreen(new BlizzardGameScreen());
+
+         SetNextGameScreen(new IntroGameScreen(
+            delegate(bool wasCancelled)
+            {
+               SetNextGameScreen(new MenuGameScreen(!wasCancelled));
+            }));
+
+         //SetNextGameScreen(new MenuGameScreen());
          /*MovieGameScreen.PlayMovie("TITLE.WAR", 
              delegate
              {
-                 SetNextGameScreen(new MenuGameScreen());
+                 SetNextGameScreen(new MenuGameScreen(true));
              });*/
       }
+
+      /*private bool HasData(byte[] blob, byte[] dataToSearch)
+      {
+         int counter = 0;
+         for (int i = 0; i < blob.Length; i++)
+         {
+            if (blob[i] == dataToSearch[counter])
+               counter++;
+            else
+               counter = 0;
+
+            if (counter >= dataToSearch.Length)
+               return true;
+         }
+
+         return false;
+      }
+
+      private void SearchForText(string text)
+      {
+         byte[] byteData = Encoding.UTF8.GetBytes(text);
+
+         for (int i = 0; i < 485; i++)
+         {
+            WinWarRT.Data.WarResource res = WinWarRT.Data.WarFile.GetResource(i);
+
+            bool hasData = HasData(res.data, byteData);
+            if (hasData)
+            {
+               int hehe = 42;
+            }
+         }
+      }*/
 
       /// <summary>
       /// LoadContent will be called once per game and is the place to load

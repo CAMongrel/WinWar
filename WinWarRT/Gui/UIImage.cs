@@ -42,7 +42,7 @@ namespace WinWarRT.Gui
 
             Vector2 screenPos = ScreenPosition;
 
-            image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
+            image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height, Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha)));
         }
     }
 }

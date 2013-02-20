@@ -113,6 +113,8 @@
     <Compile Include="Data\Game\SpriteAnimation.cs" />
     <Compile Include="Data\Game\Tile.cs" />
     <Compile Include="Data\Game\Tileset.cs" />
+    <Compile Include="Data\Game\UnitSprite.cs" />
+    <Compile Include="Data\IntroStoryboard.cs" />
     <Compile Include="Data\KnowledgeBase.cs" />
     <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
@@ -128,6 +130,8 @@
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameScreens\BaseGameScreen.cs" />
+    <Compile Include="GameScreens\BlizzardGameScreen.cs" />
+    <Compile Include="GameScreens\IntroGameScreen.cs" />
     <Compile Include="GameScreens\LevelGameScreen.cs" />
     <Compile Include="GameScreens\MenuGameScreen.cs" />
     <Compile Include="GameScreens\MovieGameScreen.cs" />

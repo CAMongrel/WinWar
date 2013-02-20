@@ -28,6 +28,7 @@ namespace WinWarRT.Gui
 
          Vector2 screenPos = ScreenPosition;
 
+         Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
          Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
 
          Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2(
@@ -36,7 +37,7 @@ namespace WinWarRT.Gui
 
          MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-         MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), Microsoft.Xna.Framework.Color.White, 0,
+         MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
              Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
 
          MainGame.SpriteBatch.End();

@@ -477,7 +477,7 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(255, WarFileType.FilePalette, 0, "Humans"),
 				new KnowledgeEntry(256, WarFileType.FileImage, 255, "Button 'ok'"),
 				new KnowledgeEntry(257, WarFileType.FileImage, 255, "Button 'ok' 2"),
-				new KnowledgeEntry(258, WarFileType.FileImage, 255, "Text 'WarCraft'"),
+				new KnowledgeEntry(258, WarFileType.FileImage, 260, "Text 'WarCraft'"),
 				new KnowledgeEntry(259, WarFileType.FileText, 0, "Main Menu Text"),
 				new KnowledgeEntry(260, WarFileType.FileUnknown, 0, "Unknown"),
 				new KnowledgeEntry(261, WarFileType.FileImage, 260, "Mainmenu Background"),

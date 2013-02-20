@@ -43,7 +43,7 @@ namespace WinWarRT.GameScreens.Windows
          UIButton quitGameBtn = Components[3] as UIButton;
          quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
 
-         UISpriteImage sprImg = new UISpriteImage(new Sprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Human Warrior"))));
+         UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Human Warrior"))));
          AddComponent(sprImg);
       }
 
@@ -63,9 +63,12 @@ namespace WinWarRT.GameScreens.Windows
              delegate
              {
                 if (MenuGameScreen.Menu == null)
-                   MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen());
+                   MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen(true));
                 else
+                {
+                   MenuGameScreen.Menu.ResetFade();
                    MainGame.WinWarGame.SetNextGameScreen(MenuGameScreen.Menu);
+                }
              });
       }
 

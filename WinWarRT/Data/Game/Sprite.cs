@@ -30,7 +30,7 @@ namespace WinWarRT.Data.Game
       {
          get
          {
-            if (frames == null || frames.Length <= 0 || CurrentAnimation == null)
+            if (frames == null || frames.Length <= 0 || CurrentAnimation == null || CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
                return null;
 
             return frames[CurrentAnimation.CurrentFrameIndex].texture;
@@ -64,6 +64,7 @@ namespace WinWarRT.Data.Game
          SpriteAnimation anim = new SpriteAnimation(name);
          anim.FrameDelay = delay;
          anim.AddAnimationFrames(frames);
+         allAnimations.Add(anim);
       }
 
       internal void SetCurrentAnimation(string name)
