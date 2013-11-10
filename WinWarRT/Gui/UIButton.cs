@@ -28,6 +28,7 @@ namespace WinWarRT.Gui
       private WWTexture backgroundNotClicked;
       private WWTexture backgroundClicked;
       private bool isActive;
+      private SpriteFont font;
       #endregion
 
       #region Events
@@ -49,6 +50,7 @@ namespace WinWarRT.Gui
       internal UIButton(string setText, ButtonType setType)
       {
          type = setType;
+         font = MainGame.DefaultFont;
 
          isActive = false;
 
@@ -107,13 +109,13 @@ namespace WinWarRT.Gui
          Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
          background.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height, col);
 
-         Microsoft.Xna.Framework.Vector2 size = MainGame.SpriteFont.MeasureString(text);
+         Microsoft.Xna.Framework.Vector2 size = font.MeasureString(text);
          Microsoft.Xna.Framework.Vector2 size2 = Microsoft.Xna.Framework.Vector2.Zero;
          if (hotkey != (char)0x00)
-            size2 = MainGame.SpriteFont.MeasureString(hotkey.ToString());
+            size2 = font.MeasureString(hotkey.ToString());
          Microsoft.Xna.Framework.Vector2 size3 = Microsoft.Xna.Framework.Vector2.Zero;
          if (text2 != null)
-            size3 = MainGame.SpriteFont.MeasureString(text2);
+            size3 = font.MeasureString(text2);
 
          Microsoft.Xna.Framework.Vector2 totalSize = size + size2 + size3;
          totalSize.Y = Math.Max(Math.Max(size.Y, size2.Y), size3.Y);
@@ -124,18 +126,18 @@ namespace WinWarRT.Gui
 
          MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-         MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
+         MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
              Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
 
          if (hotkey != (char)0x00)
          {
-            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
+            MainGame.SpriteBatch.DrawString(font, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
                 Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
          }
 
          if (text2 != null)
          {
-            MainGame.SpriteBatch.DrawString(MainGame.SpriteFont, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
+            MainGame.SpriteBatch.DrawString(font, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
                 Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
          }
 

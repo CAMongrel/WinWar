@@ -79,7 +79,15 @@ namespace WinWarRT
          }
       }
 
-      internal static SpriteFont SpriteFont
+      internal static SpriteFont DefaultFont
+      {
+         get
+         {
+            return WinWarGame._spriteFont;
+         }
+      }
+
+      private static SpriteFont SpriteFont
       {
          get
          {
