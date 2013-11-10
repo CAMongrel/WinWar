@@ -2,7 +2,8 @@
 =============
    
    - Finalize intro with text
-
-
-
+   - Figure out animation sequences for units (Movement, Attack, etc...)
+   - Add support for demo DATA.WAR
+OK - Centralize text rendering
+OK - Allow each UIControl to have its own font
 

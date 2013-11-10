@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WinWarRT.Graphics;
+using WinWarRT.Gui.Rendering;
 #endregion
 
 namespace WinWarRT.Gui
@@ -126,19 +127,16 @@ namespace WinWarRT.Gui
 
          MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-         MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(position.X * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
-             Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+         FontRenderer.DrawString(font, text, position.X, position.Y, col);
 
          if (hotkey != (char)0x00)
          {
-            MainGame.SpriteBatch.DrawString(font, hotkey.ToString(), new Microsoft.Xna.Framework.Vector2((position.X + size.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
-                Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            FontRenderer.DrawString(font, hotkey.ToString(), (position.X + size.X), position.Y, col);
          }
 
          if (text2 != null)
          {
-            MainGame.SpriteBatch.DrawString(font, text2, new Microsoft.Xna.Framework.Vector2((position.X + size.X + size2.X) * MainGame.ScaleX, position.Y * MainGame.ScaleY), col, 0,
-                Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+            FontRenderer.DrawString(font, text2, (position.X + size.X + size2.X), position.Y, col);
          }
 
          MainGame.SpriteBatch.End();

@@ -86,14 +86,6 @@ namespace WinWarRT
             return WinWarGame._spriteFont;
          }
       }
-
-      private static SpriteFont SpriteFont
-      {
-         get
-         {
-            return WinWarGame._spriteFont;
-         }
-      }
       #endregion
 
       public MainGame()

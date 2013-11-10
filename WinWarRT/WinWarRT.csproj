@@ -148,6 +148,7 @@
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
+    <Compile Include="Gui\Rendering\FontRenderer.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
     <Compile Include="Gui\UIBaseComponentList.cs" />
     <Compile Include="Gui\UIButton.cs" />
@@ -215,6 +216,7 @@
     <Content Include="Assets\Data\TITLE.WAR" />
     <Content Include="Assets\Data\WIN1.WAR" />
     <Content Include="Assets\Data\WIN2.WAR" />
+    <Content Include="TODO.txt" />
     <Page Include="GameSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
