@@ -240,40 +240,41 @@
     <Reference Include="Callisto">
       <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
-    <Reference Include="FLCLib.Metro">
-      <HintPath>..\Libs\FLCLib.Metro.dll</HintPath>
+    <Reference Include="FLCLib.Metro, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\FLCLib.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\Libs\WinRT\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct2D1, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.Direct2D1.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.MediaFoundation, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.MediaFoundation.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XAudio2, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SharpDX.XInput.dll</HintPath>
+      <HintPath>..\Libs\WinRT\SharpDX.XInput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

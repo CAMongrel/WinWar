@@ -109,32 +109,35 @@ namespace WinWarRT
       /// </summary>
       protected override async void Initialize()
       {
-         // TODO: Add your initialization logic here
-
          base.Initialize();
 
-         bool success = true;
-
-         try
-         {
-            await WinWarRT.Data.WarFile.LoadResources();
-            WinWarRT.Data.Game.MapTileset.LoadAllTilesets();
-         }
-         catch (Exception)
-         {
-            success = false;
-         }
-
-         if (!success)
+         Windows.Storage.StorageFile warFile = await WinWarRT.Data.WarFile.GetDataWarFile();
+         if (warFile == null)
          {
             Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarRT - WarCraft for Windows Modern UI");
             await dlg.ShowAsync();
             return;
          }
 
-         //SearchForText("Black Rock");
+         Exception loadingException = null;
 
-         //SetNextGameScreen(new BlizzardGameScreen());
+         try
+         {
+            await WinWarRT.Data.WarFile.LoadResources();
+            WinWarRT.Data.Game.MapTileset.LoadAllTilesets();
+         }
+         catch (Exception ex)
+         {
+            loadingException = ex;
+         }
+
+         if (loadingException != null)
+         {
+            Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").", 
+               "WinWarRT - WarCraft for Windows Modern UI");
+            await dlg.ShowAsync();
+            return;
+         }
 
          SetNextGameScreen(new IntroGameScreen(
             delegate(bool wasCancelled)

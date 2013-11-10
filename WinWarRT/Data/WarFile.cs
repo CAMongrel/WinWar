@@ -26,7 +26,7 @@ namespace WinWarRT.Data
       #endregion
 
       #region LoadResources
-      private async static Task<Windows.Storage.StorageFile> GetDataWarFile()
+      internal async static Task<Windows.Storage.StorageFile> GetDataWarFile()
       {
          Windows.Storage.StorageFile resultFile = null;
 
