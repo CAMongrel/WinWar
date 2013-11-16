@@ -101,6 +101,43 @@ namespace WinWarRT.Data
          }
       }
 
+      internal string GetCurrentIntroText()
+      {
+         switch (Stage)
+         {
+            default:
+            case IntroStage.None:
+               return string.Empty;
+
+            case IntroStage.Castle:
+               return "IntroStage.Castle";
+
+            case IntroStage.CastleLoop:
+               return "IntroStage.CastleLoop";
+
+            case IntroStage.Swamp:
+               return "IntroStage.Swamp";
+
+            case IntroStage.SwampLoop:
+               return "IntroStage.SwampLoop";
+
+            case IntroStage.CaveLoop:
+               return "IntroStage.CaveLoop";
+
+            case IntroStage.SwampFortressEnter:
+               return "IntroStage.SwampFortressEnter";
+
+            case IntroStage.CaveEnter:
+               return "IntroStage.CaveEnter";
+
+            case IntroStage.CaveExit:
+               return "IntroStage.CaveExit";
+
+            case IntroStage.BlizzardLogo:
+               return "IntroStage.BlizzardLogo";
+         }
+      }
+
       private void EnterStage(IntroStage setStage)
       {
          Stage = setStage;

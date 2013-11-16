@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using WinWarRT.Data;
+using WinWarRT.Gui.Rendering;
 
 namespace WinWarRT.GameScreens
 {
@@ -169,6 +170,9 @@ namespace WinWarRT.GameScreens
             MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
             MainGame.SpriteBatch.Draw(curTexture, rect, Color.FromNonPremultiplied(new Vector4(Vector3.One, storyboard.CurrentAlpha)));
             MainGame.SpriteBatch.End();
+
+            string introText = storyboard.GetCurrentIntroText();
+            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, 0, Color.White);
          }
       }
 
