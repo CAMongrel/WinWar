@@ -5,7 +5,7 @@ namespace WinWarCS.Platform
 {
    public static class IO
    {
-      public static Stream GetFileStream(string filename)
+      public static FileStream GetFileStream(string filename)
       {
          return new FileStream (filename, FileMode.OpenOrCreate);
       }
@@ -15,7 +15,7 @@ namespace WinWarCS.Platform
       /// </summary>
       /// <returns>The content file relative to the installed location/application directoy</returns>
       /// <param name="relativeFilename">Relative filename.</param>
-      public static Stream OpenContentFile(string relativeFilename)
+      public static FileStream OpenContentFile(string relativeFilename)
       {
          string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
          return GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));

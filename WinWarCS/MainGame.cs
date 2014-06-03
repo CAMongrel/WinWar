@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Text;
 using WinWarCS.GameScreens;
+using Microsoft.Xna.Framework.Input;
 
 namespace WinWarCS
 {
@@ -220,6 +221,8 @@ namespace WinWarCS
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Update(GameTime gameTime)
       {
+         Platform.Input.UpdateInput (gameTime);
+
          if (nextGameScreen != null)
          {
             if (currentGameScreen != null)

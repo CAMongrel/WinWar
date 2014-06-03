@@ -103,6 +103,7 @@
     <Compile Include="Platform\Linux\IO.cs" />
     <Compile Include="Platform\Linux\UI.cs" />
     <Compile Include="Platform\Linux\Sys.cs" />
+    <Compile Include="Platform\Linux\Input.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -136,46 +137,126 @@
     <None Include="Assets\warcraft-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Data\CAVE1.WAR" />
-    <None Include="Assets\Data\CAVE2.WAR" />
-    <None Include="Assets\Data\CAVE3.WAR" />
-    <None Include="Assets\Data\DATA.WAR" />
-    <None Include="Assets\Data\HFINALE.WAR" />
-    <None Include="Assets\Data\HINTRO1.WAR" />
-    <None Include="Assets\Data\HINTRO2.WAR" />
-    <None Include="Assets\Data\HMAP01.WAR" />
-    <None Include="Assets\Data\HMAP02.WAR" />
-    <None Include="Assets\Data\HMAP03.WAR" />
-    <None Include="Assets\Data\HMAP04.WAR" />
-    <None Include="Assets\Data\HMAP05.WAR" />
-    <None Include="Assets\Data\HMAP06.WAR" />
-    <None Include="Assets\Data\HMAP07.WAR" />
-    <None Include="Assets\Data\HMAP08.WAR" />
-    <None Include="Assets\Data\HMAP09.WAR" />
-    <None Include="Assets\Data\HMAP10.WAR" />
-    <None Include="Assets\Data\HMAP11.WAR" />
-    <None Include="Assets\Data\HMAP12.WAR" />
-    <None Include="Assets\Data\LOSE1.WAR" />
-    <None Include="Assets\Data\LOSE2.WAR" />
-    <None Include="Assets\Data\OFINALE.WAR" />
-    <None Include="Assets\Data\OINTRO1.WAR" />
-    <None Include="Assets\Data\OINTRO2.WAR" />
-    <None Include="Assets\Data\OINTRO3.WAR" />
-    <None Include="Assets\Data\OMAP01.WAR" />
-    <None Include="Assets\Data\OMAP02.WAR" />
-    <None Include="Assets\Data\OMAP03.WAR" />
-    <None Include="Assets\Data\OMAP04.WAR" />
-    <None Include="Assets\Data\OMAP05.WAR" />
-    <None Include="Assets\Data\OMAP06.WAR" />
-    <None Include="Assets\Data\OMAP07.WAR" />
-    <None Include="Assets\Data\OMAP08.WAR" />
-    <None Include="Assets\Data\OMAP09.WAR" />
-    <None Include="Assets\Data\OMAP10.WAR" />
-    <None Include="Assets\Data\OMAP11.WAR" />
-    <None Include="Assets\Data\OMAP12.WAR" />
-    <None Include="Assets\Data\TITLE.WAR" />
-    <None Include="Assets\Data\WIN1.WAR" />
-    <None Include="Assets\Data\WIN2.WAR" />
+    <None Include="Assets\Data\CAVE1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\CAVE2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\CAVE3.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\DATA.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HFINALE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HINTRO1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HINTRO2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP01.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP02.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP03.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP04.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP05.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP06.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP07.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP08.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP09.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP10.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP11.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP12.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\LOSE1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\LOSE2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OFINALE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO3.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP01.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP02.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP03.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP04.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP05.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP06.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP07.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP08.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP09.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP10.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP11.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP12.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\TITLE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\WIN1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\WIN2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Platform\WindowsRT\IO.cs" />
     <None Include="Platform\WindowsRT\UI.cs" />
     <None Include="Platform\WindowsRT\Sys.cs" />

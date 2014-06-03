@@ -123,18 +123,16 @@ namespace WinWarCS.GameScreens
 
       internal FileStream GetMovieFile(string filename)
       {
-         //var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
-         //localStorage = await localStorage.GetFolderAsync("Assets\\Data");
-         return null;//await localStorage.GetFileAsync(filename);
+         return Platform.IO.OpenContentFile(Path.Combine("Assets" + Path.DirectorySeparatorChar + "Data", filename));
       }
 
       void player_OnPlaybackFinished(FLCFile file, bool didFinishNormally)
       {
-         /*if (didFinishNormally)
+         if (didFinishNormally)
          {
             storyboard.NotifyMovieDidFinish();
          }
-         else*/
+         else
          {
             if (introFinished != null)
                introFinished(true);

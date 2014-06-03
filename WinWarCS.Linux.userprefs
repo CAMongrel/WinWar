@@ -1,18 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/GameScreens/IntroGameScreen.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Graphics/Texture.cs">
     <Files>
+      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="178" Column="1" />
       <File FileName="WinWarCS/MainGame.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Platform/Linux/Program.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/WarFile.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/WarResource.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="30" Column="10" />
-      <File FileName="WinWarCS/GameScreens/MovieGameScreen.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/ChooseCampaignWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/NewGameWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Graphics/Texture.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Platform/Linux/IO.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/Platform/Linux/Input.cs" Line="23" Column="1" />
+      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="39" Column="13" />
+      <File FileName="WinWarCS/Gui/UIButton.cs" Line="111" Column="44" />
+      <File FileName="WinWarCS/Graphics/Texture.cs" Line="123" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
