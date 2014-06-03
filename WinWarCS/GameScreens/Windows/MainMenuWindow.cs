@@ -7,6 +7,7 @@ using WinWarRT.Data;
 using WinWarRT.Data.Game;
 using WinWarRT.Data.Resources;
 using WinWarRT.Gui;
+using System.IO;
 
 namespace WinWarRT.GameScreens.Windows
 {
@@ -48,15 +49,12 @@ namespace WinWarRT.GameScreens.Windows
 
       async void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
-         MessageDialog dlg = new MessageDialog("Not implemented yet");
-         await dlg.ShowAsync();
+         await WinWarCS.Platform.UI.ShowMessageDialog ("Not implemented yet!");
       }
 
       async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
-         var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
-         localStorage = await localStorage.GetFolderAsync("Assets\\Data");
-         var resultFile = await localStorage.GetFileAsync("TITLE.WAR");
+         Stream resultFile = WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Path.DirectorySeparatorChar + "Data", "TITLE.WAR"));
 
          MovieGameScreen.PlayMovie(resultFile,
              delegate
@@ -79,7 +77,7 @@ namespace WinWarRT.GameScreens.Windows
 
       void quitGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
-         App.Current.Exit();
+         WinWarCS.Platform.Sys.Exit ();
       }
    }
 }

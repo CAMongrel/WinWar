@@ -10,21 +10,6 @@ namespace WinWarCS.Platform
          return new FileStream (filename, FileMode.OpenOrCreate);
       }
 
-      /// <summary>
-      /// Opens a file inside the content directory
-      /// </summary>
-      /// <returns>The content file relative to the installed location/application directoy</returns>
-      /// <param name="relativeFilename">Relative filename.</param>
-      public static Stream OpenContentFile(string relativeFilename)
-      {
-         string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
-         return GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
-      }
-
-      /*var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
-         localStorage = await localStorage.GetFolderAsync("Assets\\Data");
-         var resultFile = await localStorage.GetFileAsync("TITLE.WAR");*/
-
       /*internal async static Task<Windows.Storage.StorageFile> GetDataWarFile()
       {
          Windows.Storage.StorageFile resultFile = null;

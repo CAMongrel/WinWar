@@ -21,7 +21,7 @@ namespace WinWarRT.GameScreens
 
       internal async static void PlayMovie(string moviename, MovieFinished OnMovieFinished)
       {
-         FileStream resultFile = WinWarCS.IO.GetFileStream (Path.Combine ("Assets" + Path.DirectorySeparatorChar + "Data", moviename));
+         Stream resultFile = WinWarCS.Platform.IO.GetFileStream (Path.Combine ("Assets" + Path.DirectorySeparatorChar + "Data", moviename));
          if (resultFile == null)
             // TODO: Log error
             return;
@@ -29,7 +29,7 @@ namespace WinWarRT.GameScreens
          PlayMovie(resultFile, OnMovieFinished);
       }
 
-      internal static void PlayMovie(FileStream file, MovieFinished OnMovieFinished)
+      internal static void PlayMovie(Stream file, MovieFinished OnMovieFinished)
       {
          MovieGameScreen movieGS = new MovieGameScreen();
          movieGS.OnMovieFinished = OnMovieFinished;
@@ -46,7 +46,7 @@ namespace WinWarRT.GameScreens
          }
       }
 
-      private async void PlayMovie(FileStream file)
+      private async void PlayMovie(Stream file)
       {
          curTexture = null;
 
@@ -54,7 +54,7 @@ namespace WinWarRT.GameScreens
          player.OnFrameUpdated += player_OnFrameUpdated;
          player.OnPlaybackFinished += player_OnPlaybackFinished;
 
-         await player.Open(file);
+         player.Open(file);
          player.ShouldLoop = false;
          player.Play();
       }

@@ -101,11 +101,14 @@
     <Compile Include="Util\UnsafeReader.cs" />
     <Compile Include="Platform\Linux\Program.cs" />
     <Compile Include="Platform\Linux\IO.cs" />
+    <Compile Include="Platform\Linux\UI.cs" />
+    <Compile Include="Platform\Linux\Sys.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Platform\" />
     <Folder Include="Platform\Linux\" />
+    <Folder Include="Platform\WindowsRT\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -157,5 +160,8 @@
     <None Include="Assets\Data\TITLE.WAR" />
     <None Include="Assets\Data\WIN1.WAR" />
     <None Include="Assets\Data\WIN2.WAR" />
+    <None Include="Platform\WindowsRT\IO.cs" />
+    <None Include="Platform\WindowsRT\UI.cs" />
+    <None Include="Platform\WindowsRT\Sys.cs" />
   </ItemGroup>
 </Project>

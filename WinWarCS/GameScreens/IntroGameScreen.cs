@@ -64,55 +64,55 @@ namespace WinWarRT.GameScreens
          switch (newStage)
          {
             case IntroStage.Castle:
-               await player.Open(await GetMovieFile("HINTRO1.WAR"));
+               player.Open(GetMovieFile("HINTRO1.WAR"));
                player.PauseAfterFirstFrame = true;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CastleLoop:
-               await player.Open(await GetMovieFile("HINTRO2.WAR"));
+               player.Open(GetMovieFile("HINTRO2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.Swamp:
-               await player.Open(await GetMovieFile("OINTRO1.WAR"));
+               player.Open(GetMovieFile("OINTRO1.WAR"));
                player.PauseAfterFirstFrame = true;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.SwampLoop:
-               await player.Open(await GetMovieFile("OINTRO2.WAR"));
+               player.Open(GetMovieFile("OINTRO2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.SwampFortressEnter:
-               await player.Open(await GetMovieFile("OINTRO3.WAR"));
+               player.Open(GetMovieFile("OINTRO3.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CaveEnter:
-               await player.Open(await GetMovieFile("CAVE1.WAR"));
+               player.Open(GetMovieFile("CAVE1.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CaveLoop:
-               await player.Open(await GetMovieFile("CAVE2.WAR"));
+               player.Open(GetMovieFile("CAVE2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.CaveExit:
-               await player.Open(await GetMovieFile("CAVE3.WAR"));
+               player.Open(GetMovieFile("CAVE3.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.BlizzardLogo:
-               await player.Open(await GetMovieFile("TITLE.WAR"));
+               player.Open(GetMovieFile("TITLE.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
