@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Util;
+using WinWarCS.Util;
 #endregion
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
    internal delegate void OnPointerDownInside(Vector2 position);
    internal delegate void OnPointerUpInside(Vector2 position);
@@ -180,7 +180,7 @@ namespace WinWarRT.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerDown(relPosition))
@@ -199,7 +199,7 @@ namespace WinWarRT.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerUp(relPosition))
@@ -218,7 +218,7 @@ namespace WinWarRT.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerMoved(relPosition))

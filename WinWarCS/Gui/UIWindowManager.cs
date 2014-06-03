@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
    internal static class UIWindowManager
    {
@@ -59,7 +59,7 @@ namespace WinWarRT.Gui
             if (windows[i].UserInteractionEnabled == false)
                continue;
 
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
             if (windows[i].PointerDown(position))
@@ -76,7 +76,7 @@ namespace WinWarRT.Gui
             if (windows[i].UserInteractionEnabled == false)
                continue;
 
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
             if (windows[i].PointerUp(position))
@@ -93,7 +93,7 @@ namespace WinWarRT.Gui
             if (windows[i].UserInteractionEnabled == false)
                continue;
 
-            if (!WinWarRT.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
             if (windows[i].PointerMoved(position))

@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Data;
-using WinWarRT.Data.Resources;
+using WinWarCS.Data;
+using WinWarCS.Data.Resources;
 #endregion
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
    internal class UIWindow : UIBaseComponent
    {

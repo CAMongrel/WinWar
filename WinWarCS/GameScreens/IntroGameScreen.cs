@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data;
-using WinWarRT.Gui.Rendering;
+using WinWarCS.Data;
+using WinWarCS.Gui.Rendering;
 using System.IO;
 
-namespace WinWarRT.GameScreens
+namespace WinWarCS.GameScreens
 {
    internal delegate void IntroFinished(bool wasCancelled);
 
@@ -59,7 +59,7 @@ namespace WinWarRT.GameScreens
          }
       }
 
-      async void storyboard_OnStageSwitched(IntroStage newStage)
+      void storyboard_OnStageSwitched(IntroStage newStage)
       {
          switch (newStage)
          {

@@ -11,10 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using WinWarRT.Graphics;
+using WinWarCS.Graphics;
 #endregion
 
-namespace WinWarRT.Data.Game
+namespace WinWarCS.Data.Game
 {
    /// <summary>
    /// Tile

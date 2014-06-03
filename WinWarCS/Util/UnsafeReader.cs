@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace WinWarRT.Util
+namespace WinWarCS.Util
 {
 	internal unsafe class UnsafeReader : IDisposable
 	{

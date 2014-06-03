@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data.Resources;
-using WinWarRT.Graphics;
+using WinWarCS.Data.Resources;
+using WinWarCS.Graphics;
 
-namespace WinWarRT.Data.Game
+namespace WinWarCS.Data.Game
 {
    struct SpriteFrame
    {

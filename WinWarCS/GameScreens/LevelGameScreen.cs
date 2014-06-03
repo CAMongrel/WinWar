@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data.Game;
-using WinWarRT.GameScreens.Windows;
-using WinWarRT.Gui;
+using WinWarCS.Data.Game;
+using WinWarCS.GameScreens.Windows;
+using WinWarCS.Gui;
 
-namespace WinWarRT.GameScreens
+namespace WinWarCS.GameScreens
 {
     class LevelGameScreen : BaseGameScreen
     {

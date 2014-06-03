@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data.Game;
-using WinWarRT.Gui;
+using WinWarCS.Data.Game;
+using WinWarCS.Gui;
 
-namespace WinWarRT.GameScreens.Windows
+namespace WinWarCS.GameScreens.Windows
 {
     class GameBackgroundWindow : UIWindow
     {

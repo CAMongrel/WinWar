@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarRT.Gui.Rendering
+namespace WinWarCS.Gui.Rendering
 {
    internal static class FontRenderer
    {

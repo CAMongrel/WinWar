@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Text;
-using WinWarRT.GameScreens;
+using WinWarCS.GameScreens;
 
-namespace WinWarRT
+namespace WinWarCS
 {
    /// <summary>
    /// This is the main type for your game
@@ -111,10 +111,10 @@ namespace WinWarRT
       {
          base.Initialize();
 
-         /*Windows.Storage.StorageFile warFile = await WinWarRT.Data.WarFile.GetDataWarFile();
+         /*Windows.Storage.StorageFile warFile = await WinWarCS.Data.WarFile.GetDataWarFile();
          if (warFile == null)
          {
-            /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarRT - WarCraft for Windows Modern UI");
+            /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarCS - WarCraft for Windows Modern UI");
             await dlg.ShowAsync();
             return;
          }*/
@@ -123,8 +123,8 @@ namespace WinWarRT
 
          try
          {
-            WinWarRT.Data.WarFile.LoadResources();
-            WinWarRT.Data.Game.MapTileset.LoadAllTilesets();
+            WinWarCS.Data.WarFile.LoadResources();
+            WinWarCS.Data.Game.MapTileset.LoadAllTilesets();
          }
          catch (Exception ex)
          {
@@ -134,7 +134,7 @@ namespace WinWarRT
          if (loadingException != null)
          {
             /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").", 
-               "WinWarRT - WarCraft for Windows Modern UI");
+               "WinWarCS - WarCraft for Windows Modern UI");
             await dlg.ShowAsync();*/
             return;
          }
@@ -176,7 +176,7 @@ namespace WinWarRT
 
          for (int i = 0; i < 485; i++)
          {
-            WinWarRT.Data.WarResource res = WinWarRT.Data.WarFile.GetResource(i);
+            WinWarCS.Data.WarResource res = WinWarCS.Data.WarFile.GetResource(i);
 
             bool hasData = HasData(res.data, byteData);
             if (hasData)

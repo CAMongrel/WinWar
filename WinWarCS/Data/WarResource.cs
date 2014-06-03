@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarRT.Data
+namespace WinWarCS.Data
 {
    internal class WarResource
    {

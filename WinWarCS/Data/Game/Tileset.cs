@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Data;
+using WinWarCS.Data;
 #endregion
 
-namespace WinWarRT.Data.Game
+namespace WinWarCS.Data.Game
 {
 	/// <summary>
 	/// Map tileset

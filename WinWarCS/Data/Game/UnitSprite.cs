@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data.Resources;
+using WinWarCS.Data.Resources;
 
-namespace WinWarRT.Data.Game
+namespace WinWarCS.Data.Game
 {
    class UnitSprite : Sprite
    {

@@ -9,11 +9,11 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Data.Resources;
+using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
 
 #endregion
-namespace WinWarRT.Data
+namespace WinWarCS.Data
 {
    internal class WarFile
    {

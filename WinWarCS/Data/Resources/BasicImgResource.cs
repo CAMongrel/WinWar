@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarRT.Data.Resources
+namespace WinWarCS.Data.Resources
 {
 	internal abstract class BasicImgResource : BasicResource
 	{

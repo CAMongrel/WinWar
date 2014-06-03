@@ -10,15 +10,15 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Data;
-using WinWarRT.Data.Resources;
+using WinWarCS.Data;
+using WinWarCS.Data.Resources;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using RectangleF = System.Drawing.RectangleF;
 using Matrix = Microsoft.Xna.Framework.Matrix;
 #endregion
 
-namespace WinWarRT.Graphics
+namespace WinWarCS.Graphics
 {
    internal class WWTexture
    {

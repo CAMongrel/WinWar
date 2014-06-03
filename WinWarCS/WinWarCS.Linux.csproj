@@ -112,14 +112,30 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Assets\DATA.WAR" />
-    <None Include="Assets\DefaultFont.xnb" />
-    <None Include="Assets\SpriteFont1.xnb" />
-    <None Include="Assets\warcraft-logo-square-mini.png" />
-    <None Include="Assets\warcraft-logo-square.png" />
-    <None Include="Assets\warcraft-logo-store.png" />
-    <None Include="Assets\warcraft-logo-wide.png" />
-    <None Include="Assets\warcraft-logo.png" />
+    <None Include="Assets\DATA.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\DefaultFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\SpriteFont1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\warcraft-logo-square-mini.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\warcraft-logo-square.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\warcraft-logo-store.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\warcraft-logo-wide.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\warcraft-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Data\CAVE1.WAR" />
     <None Include="Assets\Data\CAVE2.WAR" />
     <None Include="Assets\Data\CAVE3.WAR" />

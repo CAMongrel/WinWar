@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarRT.Graphics;
-using WinWarRT.Gui.Rendering;
+using WinWarCS.Graphics;
+using WinWarCS.Gui.Rendering;
 #endregion
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
    internal class UIButton : UIBaseComponent
    {

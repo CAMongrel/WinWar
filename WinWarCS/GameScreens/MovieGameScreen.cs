@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace WinWarRT.GameScreens
+namespace WinWarCS.GameScreens
 {
    internal delegate void MovieFinished(bool wasCancelled);
 

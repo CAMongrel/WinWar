@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarRT.Data
+namespace WinWarCS.Data
 {
 	internal enum WarFileType : int
 	{

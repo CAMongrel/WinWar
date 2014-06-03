@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarRT.Gui.Input
+namespace WinWarCS.Gui.Input
 {
     class UIMapControlInputHandlerEnhancedMouse : UIMapControlInputHandler
     {

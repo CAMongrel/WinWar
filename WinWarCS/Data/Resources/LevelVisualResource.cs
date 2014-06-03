@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 #endregion
 
-namespace WinWarRT.Data.Resources
+namespace WinWarCS.Data.Resources
 {
 	internal class LevelVisualResource : BasicResource
 	{

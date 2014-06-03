@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Data;
-using WinWarRT.Data.Game;
-using WinWarRT.Data.Resources;
-using WinWarRT.Gui.Input;
+using WinWarCS.Data;
+using WinWarCS.Data.Game;
+using WinWarCS.Data.Resources;
+using WinWarCS.Gui.Input;
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
     class UIMapControl : UIBaseComponent
     {

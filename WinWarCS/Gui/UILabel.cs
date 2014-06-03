@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarRT.Gui.Rendering;
+using WinWarCS.Gui.Rendering;
 
-namespace WinWarRT.Gui
+namespace WinWarCS.Gui
 {
    class UILabel : UIBaseComponent
    {

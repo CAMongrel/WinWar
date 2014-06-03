@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace WinWarRT.Util
+namespace WinWarCS.Util
 {
 	class MathHelper
 	{
