@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8A28BB3-C996-4745-AC2C-6A48B2997750}</ProjectGuid>
+    <ProjectTypeGuids>{9B831FEF-F496-498F-9FE8-180DA5CB4258};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>WinWarCS.Linux</RootNamespace>
+    <MonoGamePlatform>Linux</MonoGamePlatform>
+    <AssemblyName>WinWarCS.Linux</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="MonoGame.Framework" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="FLCLib.MonoGame">
+      <HintPath>..\Libs\Linux\FLCLib.MonoGame.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Data\IntroStoryboard.cs" />
+    <Compile Include="Data\KnowledgeBase.cs" />
+    <Compile Include="Data\WarFile.cs" />
+    <Compile Include="Data\WarResource.cs" />
+    <Compile Include="Data\Game\Campaign.cs" />
+    <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\Player.cs" />
+    <Compile Include="Data\Game\Race.cs" />
+    <Compile Include="Data\Game\Sprite.cs" />
+    <Compile Include="Data\Game\SpriteAnimation.cs" />
+    <Compile Include="Data\Game\Tile.cs" />
+    <Compile Include="Data\Game\Tileset.cs" />
+    <Compile Include="Data\Game\UnitSprite.cs" />
+    <Compile Include="Data\Resources\BasicImgResource.cs" />
+    <Compile Include="Data\Resources\BasicResource.cs" />
+    <Compile Include="Data\Resources\ImageResource.cs" />
+    <Compile Include="Data\Resources\LevelInfoResource.cs" />
+    <Compile Include="Data\Resources\LevelPassableResource.cs" />
+    <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\SpriteResource.cs" />
+    <Compile Include="Data\Resources\TextResource.cs" />
+    <Compile Include="GameScreens\BaseGameScreen.cs" />
+    <Compile Include="GameScreens\BlizzardGameScreen.cs" />
+    <Compile Include="GameScreens\IntroGameScreen.cs" />
+    <Compile Include="GameScreens\LevelGameScreen.cs" />
+    <Compile Include="GameScreens\MenuGameScreen.cs" />
+    <Compile Include="GameScreens\MovieGameScreen.cs" />
+    <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
+    <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
+    <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Gui\UIBaseComponent.cs" />
+    <Compile Include="Gui\UIBaseComponentList.cs" />
+    <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIImage.cs" />
+    <Compile Include="Gui\UILabel.cs" />
+    <Compile Include="Gui\UIMapControl.cs" />
+    <Compile Include="Gui\UIMinimapControl.cs" />
+    <Compile Include="Gui\UISpriteImage.cs" />
+    <Compile Include="Gui\UIWindow.cs" />
+    <Compile Include="Gui\UIWindowManager.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
+    <Compile Include="Gui\Rendering\FontRenderer.cs" />
+    <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\UnsafeReader.cs" />
+    <Compile Include="Platform\Linux\Program.cs" />
+    <Compile Include="Platform\Linux\IO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Platform\" />
+    <Folder Include="Platform\Linux\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Assets\DATA.WAR" />
+    <None Include="Assets\DefaultFont.xnb" />
+    <None Include="Assets\SpriteFont1.xnb" />
+    <None Include="Assets\warcraft-logo-square-mini.png" />
+    <None Include="Assets\warcraft-logo-square.png" />
+    <None Include="Assets\warcraft-logo-store.png" />
+    <None Include="Assets\warcraft-logo-wide.png" />
+    <None Include="Assets\warcraft-logo.png" />
+    <None Include="Assets\Data\CAVE1.WAR" />
+    <None Include="Assets\Data\CAVE2.WAR" />
+    <None Include="Assets\Data\CAVE3.WAR" />
+    <None Include="Assets\Data\DATA.WAR" />
+    <None Include="Assets\Data\HFINALE.WAR" />
+    <None Include="Assets\Data\HINTRO1.WAR" />
+    <None Include="Assets\Data\HINTRO2.WAR" />
+    <None Include="Assets\Data\HMAP01.WAR" />
+    <None Include="Assets\Data\HMAP02.WAR" />
+    <None Include="Assets\Data\HMAP03.WAR" />
+    <None Include="Assets\Data\HMAP04.WAR" />
+    <None Include="Assets\Data\HMAP05.WAR" />
+    <None Include="Assets\Data\HMAP06.WAR" />
+    <None Include="Assets\Data\HMAP07.WAR" />
+    <None Include="Assets\Data\HMAP08.WAR" />
+    <None Include="Assets\Data\HMAP09.WAR" />
+    <None Include="Assets\Data\HMAP10.WAR" />
+    <None Include="Assets\Data\HMAP11.WAR" />
+    <None Include="Assets\Data\HMAP12.WAR" />
+    <None Include="Assets\Data\LOSE1.WAR" />
+    <None Include="Assets\Data\LOSE2.WAR" />
+    <None Include="Assets\Data\OFINALE.WAR" />
+    <None Include="Assets\Data\OINTRO1.WAR" />
+    <None Include="Assets\Data\OINTRO2.WAR" />
+    <None Include="Assets\Data\OINTRO3.WAR" />
+    <None Include="Assets\Data\OMAP01.WAR" />
+    <None Include="Assets\Data\OMAP02.WAR" />
+    <None Include="Assets\Data\OMAP03.WAR" />
+    <None Include="Assets\Data\OMAP04.WAR" />
+    <None Include="Assets\Data\OMAP05.WAR" />
+    <None Include="Assets\Data\OMAP06.WAR" />
+    <None Include="Assets\Data\OMAP07.WAR" />
+    <None Include="Assets\Data\OMAP08.WAR" />
+    <None Include="Assets\Data\OMAP09.WAR" />
+    <None Include="Assets\Data\OMAP10.WAR" />
+    <None Include="Assets\Data\OMAP11.WAR" />
+    <None Include="Assets\Data\OMAP12.WAR" />
+    <None Include="Assets\Data\TITLE.WAR" />
+    <None Include="Assets\Data\WIN1.WAR" />
+    <None Include="Assets\Data\WIN2.WAR" />
+  </ItemGroup>
+</Project>
