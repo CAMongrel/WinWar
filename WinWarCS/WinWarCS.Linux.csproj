@@ -109,7 +109,6 @@
     <Folder Include="Content\" />
     <Folder Include="Platform\" />
     <Folder Include="Platform\Linux\" />
-    <Folder Include="Platform\WindowsRT\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -257,8 +256,5 @@
     <None Include="Assets\Data\WIN2.WAR">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Platform\WindowsRT\IO.cs" />
-    <None Include="Platform\WindowsRT\UI.cs" />
-    <None Include="Platform\WindowsRT\Sys.cs" />
   </ItemGroup>
 </Project>
