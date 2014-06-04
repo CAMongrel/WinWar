@@ -127,7 +127,7 @@ namespace WinWarCS.Graphics
       internal void RenderOnScreen(RectangleF sourceRect, RectangleF destRect, Color col)
       {
          Rectangle srcRect = new Rectangle((int)sourceRect.X, (int)sourceRect.Y, (int)sourceRect.Width, (int)sourceRect.Height);
-         Rectangle dstRect = new Rectangle((int)(destRect.X * MainGame.ScaleX), (int)(destRect.Y * MainGame.ScaleY),
+			Rectangle dstRect = new Rectangle(MainGame.ScaledOffsetX + (int)(destRect.X * MainGame.ScaleX), MainGame.ScaledOffsetY + (int)(destRect.Y * MainGame.ScaleY),
              (int)(destRect.Width * MainGame.ScaleX), (int)(destRect.Height * MainGame.ScaleY));
 
          MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);

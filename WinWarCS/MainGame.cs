@@ -43,13 +43,30 @@ namespace WinWarCS
          }
       }
 
+		internal static int ScaledOffsetX
+		{
+			get
+			{
+				float fullWidth = (float)OriginalAppWidth * ScaleX;
+				return (int)((AppWidth - (float)fullWidth) * 0.5f);
+			}
+		}
+		internal static int ScaledOffsetY
+		{
+			get
+			{
+				float fullHeight = (float)OriginalAppHeight * ScaleY;
+				return (int)((AppHeight - (float)fullHeight) * 0.5f);
+			}
+		}
+
       internal static float ScaleX
       {
          get
          {
             float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
             if (aspect > 1.0f)
-               return (int)(((float)AppWidth / (float)OriginalAppWidth) / aspect);
+					return (float)(((float)AppWidth / (float)OriginalAppWidth) / aspect);
             return (float)AppWidth / (float)OriginalAppWidth;
          }
       }
@@ -59,7 +76,7 @@ namespace WinWarCS
          {
             float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
             if (aspect < 1.0f)
-               return (int)(((float)AppHeight / (float)OriginalAppHeight) * aspect);
+					return (float)(((float)AppHeight / (float)OriginalAppHeight) * aspect);
             return (float)AppHeight / (float)OriginalAppHeight;
          }
       }
@@ -99,6 +116,8 @@ namespace WinWarCS
          nextGameScreen = null;
 
          _graphics = new GraphicsDeviceManager(this);
+			_graphics.PreferredBackBufferWidth = 800;
+			_graphics.PreferredBackBufferHeight = 600;
 			Content.RootDirectory = "Assets";
       }
 
@@ -267,7 +286,7 @@ namespace WinWarCS
       {
          if (currentGameScreen != null)
          {
-            currentGameScreen.PointerDown(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+				currentGameScreen.PointerDown(new Microsoft.Xna.Framework.Vector2((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
          }
       }
 
@@ -275,7 +294,7 @@ namespace WinWarCS
       {
          if (currentGameScreen != null)
          {
-            currentGameScreen.PointerUp(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+				currentGameScreen.PointerUp(new Microsoft.Xna.Framework.Vector2((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
          }
       }
 
@@ -283,7 +302,7 @@ namespace WinWarCS
       {
          if (currentGameScreen != null)
          {
-            currentGameScreen.PointerMoved(new Microsoft.Xna.Framework.Vector2(position.X / ScaleX, position.Y / ScaleY));
+				currentGameScreen.PointerMoved(new Microsoft.Xna.Framework.Vector2((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
          }
       }
    }

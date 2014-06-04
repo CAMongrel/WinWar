@@ -15,7 +15,7 @@ namespace WinWarCS.Gui.Rendering
       /// </summary>
       internal static void DrawString(SpriteFont font, string text, float x, float y, Color color)
       {
-         MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(x * MainGame.ScaleX, y * MainGame.ScaleY), color, 0,
+			MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(MainGame.ScaledOffsetX + (x * MainGame.ScaleX), MainGame.ScaledOffsetY + (y * MainGame.ScaleY)), color, 0,
              Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
       }
 
@@ -26,7 +26,7 @@ namespace WinWarCS.Gui.Rendering
       {
          MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-         MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(x * MainGame.ScaleX, y * MainGame.ScaleY), color, 0,
+			MainGame.SpriteBatch.DrawString(font, text, new Microsoft.Xna.Framework.Vector2(MainGame.ScaledOffsetX + (x * MainGame.ScaleX), MainGame.ScaledOffsetY + (y * MainGame.ScaleY)), color, 0,
              Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(MainGame.ScaleX, MainGame.ScaleY), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
 
          MainGame.SpriteBatch.End();
