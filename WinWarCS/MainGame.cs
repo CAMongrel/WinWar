@@ -99,7 +99,7 @@ namespace WinWarCS
          nextGameScreen = null;
 
          _graphics = new GraphicsDeviceManager(this);
-         Content.RootDirectory = "Assets";
+			Content.RootDirectory = "Assets";
       }
 
       /// <summary>

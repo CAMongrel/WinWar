@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonoGame.Framework.Net</name>
+    </assembly>
+    <members>
+        <member name="P:Microsoft.Xna.Framework.Net.MonoGamerPeer.SimulatedLatency">
+            <summary>
+            Used to Simulate the delay between computers
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Net.MonoGamerPeer.SimulatedPacketLoss">
+            <summary>
+            Used to simulate the number of packets you might expect to loose.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Net.MonoGamerPeer.GetServerList(Lidgren.Network.NetPeer)">
+            <summary>
+            Contacts the Master Server on the net and gets a list of available host games
+            </summary>
+            <param name="netPeer">
+            </param>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.GamerServices.GuideViewController">
+            <summary>
+            Used as a parent view controller for iOS 5 (and older) Game Center view controllers.
+            No longer used for iOS 6+ because it's unnecessary and generates runtime warnings.
+            (See comments for ShowGuideViewController below for more information.)
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowViewController(MonoTouch.UIKit.UIViewController)">
+            <summary>
+            Shows guide view controllers, e.g., Game Center view controllers.
+            In iOS 5 and older, the guide is presented using GuideViewController.
+            In iOS 6+, the guide is presented using the root view controller.
+            (The iOS 5 method generates runtime warnings.)
+            </summary>
+            <param name="viewController">The view controller to be shown, e.g., Game Center view controllers</param>
+        </member>
+        <!--FIXME: Invalid documentation markup was found for member M:Microsoft.Xna.Framework.GamerServices.Guide.ShowMatchMaker(System.Int32,System.Int32,System.String[])-->
+        <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowMatchMaker(System.Int32,System.Int32)">
+            <summary>
+            Displays the iOS matchmaker to the player.
+            </summary>
+            <remarks>
+            Note this is not overloaded in derived classes on purpose.  This is
+            only a reason this exists is for caching effects.
+            </remarks>
+            <param name="minPlayers">Minimum players to find</param>
+            <param name="maxPlayers">Maximum players to find</param>
+        </member>
+    </members>
+</doc>

@@ -34,7 +34,7 @@ namespace WinWarCS.Data
          BinaryReader reader = null;
          try
          {
-            stream = WinWarCS.Platform.IO.GetFileStream ("Assets/DATA.WAR");
+				stream = WinWarCS.Platform.IO.OpenContentFile ("Assets/Data/DATA.WAR");
 
             reader = new BinaryReader (stream);
 
