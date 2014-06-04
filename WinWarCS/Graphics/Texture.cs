@@ -84,14 +84,17 @@ namespace WinWarCS.Graphics
       #region RenderOnScreen
       internal void RenderOnScreen(float x, float y)
       {
-         RenderOnScreen(new RectangleF(0, 0, (float)this.Width, (float)this.Height),
-            new RectangleF(x, y, x + (float)this.Width, y + (float)this.Height), Color.White);
+			RenderOnScreen (x, y, Color.White);
       }
 
       internal void RenderOnScreen(float x, float y, Color color)
       {
          RenderOnScreen(new RectangleF(0, 0, (float)this.Width, (float)this.Height),
-            new RectangleF(x, y, x + (float)this.Width, y + (float)this.Height), color);
+				#if ABSOLUTE_COORDS
+				new RectangleF(x, y, x + (float)this.Width, y + (float)this.Height), color);
+				#else
+				new RectangleF(x, y, (float)this.Width, (float)this.Height), color);
+				#endif
       }
 
       internal void RenderOnScreen(RectangleF display_rect)
@@ -103,14 +106,17 @@ namespace WinWarCS.Graphics
 
       internal void RenderOnScreen(float x, float y, float width, float height)
       {
-         RenderOnScreen(new RectangleF(0, 0, (float)this.Width, (float)this.Height),
-            new RectangleF(x, y, x + width, y + height), Color.White);
+			RenderOnScreen(x, y, width, height, Color.White);
       }
 
       internal void RenderOnScreen(float x, float y, float width, float height, Color color)
       {
          RenderOnScreen(new RectangleF(0, 0, (float)this.Width, (float)this.Height),
-            new RectangleF(x, y, x + width, y + height), color);
+				#if ABSOLUTE_COORDS
+				new RectangleF(x, y, x + width, y + height), color);
+				#else
+				new RectangleF(x, y, width, height), color);
+				#endif
       }
 
       internal void RenderOnScreen(RectangleF sourceRect, RectangleF destRect)
