@@ -13,14 +13,14 @@ namespace WinWarCS.Gui
 {
    class UISpriteImage : UIBaseComponent
    {
-      private Sprite sprite;
+      public Sprite Sprite { get; private set; }
 
       internal UISpriteImage(Sprite setSprite)
       {
-         sprite = setSprite;
+         Sprite = setSprite;
 
-         Width = sprite.MaxWidth;
-         Height = sprite.MaxHeight;
+         Width = Sprite.MaxWidth;
+         Height = Sprite.MaxHeight;
       }
 
       internal static UISpriteImage FromSpriteResource(string name)
@@ -39,20 +39,20 @@ namespace WinWarCS.Gui
       {
          base.Update(gameTime);
 
-         if (sprite != null)
-            sprite.Update(gameTime);
+         if (Sprite != null)
+            Sprite.Update(gameTime);
       }
 
       internal override void Render()
       {
          base.Render();
 
-         if (sprite == null)
+         if (Sprite == null)
             return;
 
          Vector2 screenPos = ScreenPosition;
 
-         WWTexture image = sprite.CurrentFrame;
+         WWTexture image = Sprite.CurrentFrame;
          if (image != null)
             image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
       }

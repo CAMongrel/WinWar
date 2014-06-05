@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -59,16 +59,33 @@ namespace WinWarCS.Data.Game
          }
       }
 
-      internal void AddAnimation(string name, double delay, params int[] frames)
+      internal void DumpToDirectory(string fullDirectory, string prefix)
       {
-         SpriteAnimation anim = new SpriteAnimation(name);
+         if (System.IO.Directory.Exists (fullDirectory) == false)
+            System.IO.Directory.CreateDirectory (fullDirectory);
+
+         for (int i = 0; i < frames.Length; i++)
+         {
+            frames [i].texture.WriteToFile (System.IO.Path.Combine (fullDirectory, prefix + i + ".png"));
+         }
+      }
+
+      internal void AddAnimation(string name, double delay, SpriteAnimationParams setParams, params int[] frames)
+      {
+         SpriteAnimation anim = new SpriteAnimation(name, setParams);
          anim.FrameDelay = delay;
          anim.AddAnimationFrames(frames);
          allAnimations.Add(anim);
       }
 
-      internal void SetCurrentAnimation(string name)
+      internal void SetCurrentAnimationByName(string name)
       {
+         if (CurrentAnimation != null)
+         {
+            //CurrentAnimation.OnAnimationDidStart = null;
+            //CurrentAnimation.OnAnimationDidFinish = null;
+         }
+
          SpriteAnimation animation = (from anim in allAnimations where anim.Name.ToLowerInvariant() == name.ToLowerInvariant() select anim).FirstOrDefault();
          if (animation != null)
          {

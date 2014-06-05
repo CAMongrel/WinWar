@@ -22,7 +22,6 @@ namespace WinWarCS.Graphics
 {
    internal class WWTexture
    {
-
       #region Constants
 
       /// <summary>
@@ -145,6 +144,33 @@ namespace WinWarCS.Graphics
          MainGame.SpriteBatch.End ();
       }
 
+      #endregion
+
+      #region WriteToFile
+      internal void WriteToFile(string fullFilename)
+      {
+         byte[] outputData = new byte[Width * Height * 4];
+         DXTexture.GetData<byte> (outputData);
+
+         int scale = 8;
+
+         System.Drawing.Bitmap bm = new System.Drawing.Bitmap (Width * scale, Height * scale, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+         for (int y = 0; y < Height; y++)
+         {
+            for (int x = 0; x < Width; x++)
+            {
+               int pixelIndex = (x + y * Width) * 4;
+
+               System.Drawing.Color col = 
+                  System.Drawing.Color.FromArgb (0xFF, outputData [pixelIndex + 0], outputData [pixelIndex + 1], outputData [pixelIndex + 2]);
+
+               for (int y2 = 0; y2 < scale; y2++)
+                  for (int x2 = 0; x2 < scale; x2++)
+                     bm.SetPixel (x * scale + x2, y * scale + y2, col);
+            }
+         }
+         bm.Save (fullFilename, System.Drawing.Imaging.ImageFormat.Png);
+      }
       #endregion
 
       #region Unit testing

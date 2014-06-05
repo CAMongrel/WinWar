@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace WinWarCS.Data.Game
 {
+   [Flags]
+   enum SpriteAnimationParams
+   {
+      None,
+      RandomDuration,
+      FiveFrameDirection,
+      Loop
+   }
+
+   enum SpriteAnimationPhase
+   {
+      Initialized,
+      Running,
+      Finished
+   }
+
+   internal delegate void AnimationDidChange();
+
    class SpriteAnimation
    {
       private int currentAnimationFrame;
@@ -17,6 +35,12 @@ namespace WinWarCS.Data.Game
       private double currentFrameTime;
       internal double FrameDelay { get; set; }
 
+      internal SpriteAnimationParams Params { get; private set; }
+      internal SpriteAnimationPhase Phase { get; private set; }
+
+      internal event AnimationDidChange OnAnimationDidStart;
+      internal event AnimationDidChange OnAnimationDidFinish;
+
       internal int CurrentFrameIndex
       {
          get
@@ -25,12 +49,14 @@ namespace WinWarCS.Data.Game
          }
       }
 
-      internal SpriteAnimation(string setName)
+      internal SpriteAnimation(string setName, SpriteAnimationParams setParams)
       {
+         Params = setParams;
          currentFrameTime = 0;
          Name = setName;
          currentAnimationFrame = 0;
          animationFrames = new List<int>();
+         Phase = SpriteAnimationPhase.Initialized;
       }
 
       internal void AddAnimationFrame(int frameIndex)
@@ -45,6 +71,16 @@ namespace WinWarCS.Data.Game
 
       internal void Update(GameTime gameTime)
       {
+         if (Phase == SpriteAnimationPhase.Initialized)
+         {
+            Phase = SpriteAnimationPhase.Running;
+            if (OnAnimationDidStart != null)
+               OnAnimationDidStart ();
+         }
+
+         if (Phase == SpriteAnimationPhase.Finished)
+            return;
+
          currentFrameTime += gameTime.ElapsedGameTime.TotalSeconds;
 
          int frameSteps = (int)(currentFrameTime / FrameDelay);
@@ -57,13 +93,25 @@ namespace WinWarCS.Data.Game
 
          // Loop
          if (currentAnimationFrame >= animationFrames.Count)
-            currentAnimationFrame %= animationFrames.Count;
+         {
+            if (Params.HasFlag (SpriteAnimationParams.Loop))
+            {
+               currentAnimationFrame %= animationFrames.Count;
+            } else
+            {
+               currentAnimationFrame = animationFrames.Count - 1;
+               Phase = SpriteAnimationPhase.Finished;
+               if (OnAnimationDidFinish != null)
+                  OnAnimationDidFinish ();
+            }
+         }
       }
 
       internal void Reset()
       {
          currentAnimationFrame = 0;
          currentFrameTime = 0;
+         Phase = SpriteAnimationPhase.Initialized;
       }
    }
 }

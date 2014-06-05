@@ -116,8 +116,9 @@ namespace WinWarCS
          nextGameScreen = null;
 
          _graphics = new GraphicsDeviceManager(this);
-			_graphics.PreferredBackBufferWidth = 800;
-			_graphics.PreferredBackBufferHeight = 600;
+         _graphics.PreferredBackBufferWidth = 1024;
+         _graphics.PreferredBackBufferHeight = 768;
+
 			Content.RootDirectory = "Assets";
       }
 

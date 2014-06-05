@@ -43,8 +43,21 @@ namespace WinWarCS.GameScreens.Windows
          UIButton quitGameBtn = Components[3] as UIButton;
          quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
 
-         UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Orc Grunt"))));
+         string unitName = "Garana";
+
+         UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
+         sprImg.Sprite.SetCurrentAnimationByName ("Walk");
+         sprImg.X = 10;
+         sprImg.Y = 10;
          AddComponent(sprImg);
+
+         sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
+         sprImg.Sprite.SetCurrentAnimationByName ("Attack");
+         sprImg.X = 30;
+         sprImg.Y = 10;
+         AddComponent(sprImg);
+
+         sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }
 
       async void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +12,23 @@ namespace WinWarCS.Data.Game
       public UnitSprite(SpriteResource resource)
          : base(resource)
       {
-         AddAnimation("WalkAll", 0.5, 15, 30, 46, 47, 48, 49, 50);
+         ApplyWarriorAnimationSet ();
 
-         int[] frames = new int[80];
-         for (int i = 0; i < frames.Length; i++)
-            frames[i] = i;
+         SetCurrentAnimationByName("Idle");
+      }
 
-         AddAnimation("Walk", 0.5, frames);
+      public void ApplyWarriorAnimationSet()
+      {
+         // Applicable for: Orc Grunt, Human Warrior, Orc Peon, Human Peasant, Medivh, Lothar
 
-         AddAnimation("Attack", 1.0, 5, 5);
+         AddAnimation ("Idle", 0.5, SpriteAnimationParams.RandomDuration | SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 0);
 
-         SetCurrentAnimation("Walk");
+         AddAnimation ("Death1", 0.5, SpriteAnimationParams.None, 10, 25, 40);
+         AddAnimation ("Death2", 0.5, SpriteAnimationParams.None, 12, 27, 42);
+
+         AddAnimation ("Walk", 0.5, SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 15, 30, 15, 0, 55, 45, 55, 0);
+
+         AddAnimation ("Attack", 0.3, SpriteAnimationParams.FiveFrameDirection, 5, 20, 35, 50, 60, 50, 35, 20, 5);
       }
    }
 }
