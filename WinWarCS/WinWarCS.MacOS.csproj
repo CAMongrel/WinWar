@@ -158,6 +158,8 @@
     <Compile Include="Platform\MacOS\IO.cs" />
     <Compile Include="Platform\MacOS\Sys.cs" />
     <Compile Include="Platform\MacOS\UI.cs" />
+    <Compile Include="Data\Game\Entity.cs" />
+    <Compile Include="Data\Game\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

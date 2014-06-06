@@ -15,7 +15,7 @@ namespace WinWarCS.Data.Game
       internal WWTexture texture;
    }
 
-   class Sprite
+   internal class Sprite
    {
       private SpriteFrame[] frames;
 
