@@ -91,14 +91,10 @@ namespace WinWarCS.GameScreens
       {
          if (curTexture != null)
          {
-            float scale = 1;//MainGame.AppWidth / curTexture.Width;
-            if (MainGame.ScaleX > MainGame.ScaleY)
-               scale = MainGame.ScaleX;
-            else
-               scale = MainGame.ScaleY;
+            float unscaledOffset = (MainGame.OriginalAppHeight - curTexture.Height) / 2;
 
-            Rectangle rect = new Rectangle(0, 0, (int)(curTexture.Width * scale), (int)(curTexture.Height * scale));
-            rect.Y = MainGame.AppHeight / 2 - rect.Height / 2;
+            Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY), 
+               (int)(curTexture.Width * MainGame.ScaleX), (int)(curTexture.Height * MainGame.ScaleY));
 
             MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
             MainGame.SpriteBatch.Draw(curTexture, rect, Color.White);
