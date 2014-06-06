@@ -15,6 +15,11 @@ using WinWarCS.Data.Resources;
 #endregion
 namespace WinWarCS.Data.Game
 {
+   /// <summary>
+   /// The Map class is the center point of a playable level (or map) in WinWar
+   /// The map handles all spawned entities, updates states, etc... and creates its own
+   /// update thread to update the game logic.
+   /// </summary>
    class Map
    {
       private LevelInfoResource levelInfo;
@@ -29,6 +34,12 @@ namespace WinWarCS.Data.Game
       internal int MapWidth { get; private set; }
 
       internal int MapHeight { get; private set; }
+
+      /// <summary>
+      /// All placed roads
+      /// </summary>
+      /// <value>The roads.</value>
+      internal Road[] Roads { get; private set; }
 
       #region ctor
 
@@ -50,8 +61,19 @@ namespace WinWarCS.Data.Game
          levelPassable = setLevelPassable;
 			
          tileSet = MapTileset.GetTileset (levelVisual.Tileset);
+
+         BuildInitialRoads ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
+
+      #endregion
+
+      #region Update
+
+      internal void Update()
+      {
+
+      }
 
       #endregion
 
@@ -97,11 +119,11 @@ namespace WinWarCS.Data.Game
          }
 
          // Render Roads
-         for (int i = 0; i < levelInfo.Roads.Length; i++) 
+         for (int i = 0; i < Roads.Length; i++) 
          {
             bool isVisible = true;
 
-            WinWarCS.Data.Resources.LevelInfoResource.Road road = levelInfo.Roads [i];
+            Road road = Roads [i];
 
             int x = road.x - startTileX;
             int y = road.y - startTileY;
@@ -124,6 +146,91 @@ namespace WinWarCS.Data.Game
          }
          return result;
       }
+
+      #region BuildRoadTypes
+
+      private void DetermineRoadType(Road road, int index)
+      {
+         int x = road.x;
+         int y = road.y;
+
+         bool topNeighbour = false;
+         bool bottomNeighbour = false;
+         bool leftNeighbour = false;
+         bool rightNeighbour = false;
+
+         for (int j = 0; j < Roads.Length; j++) 
+         {
+            if (index == j)
+               continue;
+
+            if (topNeighbour == false)
+               topNeighbour = (Roads [j].x == x && Roads [j].y == y - 1);
+            if (bottomNeighbour == false)
+               bottomNeighbour = (Roads [j].x == x && Roads [j].y == y + 1);
+            if (leftNeighbour == false)
+               leftNeighbour = (Roads [j].x == x - 1 && Roads [j].y == y);
+            if (rightNeighbour == false)
+               rightNeighbour = (Roads [j].x == x + 1 && Roads [j].y == y);
+         }
+
+         // Endpieces
+         if (topNeighbour && !bottomNeighbour && !leftNeighbour && !rightNeighbour)
+            road.type = RoadType.EndPieceBottom;
+         if (!topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
+            road.type = RoadType.EndPieceTop;
+         if (!topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
+            road.type = RoadType.EndPieceLeft;
+         if (!topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
+            road.type = RoadType.EndPieceRight;
+
+         // Corner pieces
+         if (topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
+            road.type = RoadType.CornerLeftTop;
+         if (!topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
+            road.type = RoadType.CornerLeftBottom;
+         if (topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
+            road.type = RoadType.CornerRightTop;
+         if (!topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
+            road.type = RoadType.CornerRightBottom;
+
+         // Middle pieces
+         if (!topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
+            road.type = RoadType.MiddlePieceLeftRight;
+         if (topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
+            road.type = RoadType.MiddlePieceTopBottom;
+
+         // Quad piece
+         if (topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
+            road.type = RoadType.QuadPiece;
+
+         // T-Corners
+         if (topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
+            road.type = RoadType.TPieceLeft;
+         if (topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
+            road.type = RoadType.TPieceRight;
+         if (!topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
+            road.type = RoadType.TPieceBottom;
+         if (topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
+            road.type = RoadType.TPieceTop;
+      }
+
+      private void BuildInitialRoads ()
+      {
+         Roads = new Road[levelInfo.startRoads.Length];
+         Array.Copy (levelInfo.startRoads, Roads, levelInfo.startRoads.Length);
+
+         for (int i = 0; i < Roads.Length; i++) 
+         {
+            // Check the neighbouring road pieces
+            Road road = Roads [i];
+
+            DetermineRoadType (road, i);
+         }
+      }
+
+      #endregion
+
 
       #region Unit-testing
 

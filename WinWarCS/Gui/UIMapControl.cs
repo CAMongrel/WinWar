@@ -21,27 +21,27 @@ namespace WinWarCS.Gui
       internal int CameraTileY { get { return ((int)mapOffsetY / TileHeight); } }
 
       internal int MapWidth {
-         get { return (CurrentMap != null ? CurrentMap.MapWidth : 0); }
+         get { return (CurrentMap != null ? CurrentMap.MapWidth : 1); }
       }
 
       internal int MapHeight {
-         get { return (CurrentMap != null ? CurrentMap.MapHeight : 0); }
+         get { return (CurrentMap != null ? CurrentMap.MapHeight : 1); }
       }
 
       internal int TileWidth {
-         get { return (CurrentMap != null ? CurrentMap.TileWidth : 0); }
+         get { return (CurrentMap != null ? CurrentMap.TileWidth : 1); }
       }
 
       internal int TileHeight {
-         get { return (CurrentMap != null ? CurrentMap.TileHeight : 0); }
+         get { return (CurrentMap != null ? CurrentMap.TileHeight : 1); }
       }
 
       internal int WidthInTiles {
-         get { return (CurrentMap != null ? Width / TileWidth : 0); }
+         get { return (CurrentMap != null ? Width / TileWidth : 1); }
       }
 
       internal int HeightInTiles {
-         get { return (CurrentMap != null ? Height / TileHeight : 0); }
+         get { return (CurrentMap != null ? Height / TileHeight : 1); }
       }
 
       internal Map CurrentMap { get; private set; }
