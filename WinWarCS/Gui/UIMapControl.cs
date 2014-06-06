@@ -56,6 +56,12 @@ namespace WinWarCS.Gui
          InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
       }
 
+      internal void GetTileXY(float x, float y, out int tileX, out int tileY)
+      {
+         tileX = (int)((x + mapOffsetX) / (float)TileWidth);
+         tileY = (int)((y + mapOffsetY) / (float)TileHeight);
+      }
+
       void inputHandler_OnMapDidScroll (float setMapOffsetX, float setMapOffsetY)
       {
          SetCameraOffset (setMapOffsetX, setMapOffsetY);
@@ -113,6 +119,12 @@ namespace WinWarCS.Gui
 
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
       {
+         int tileX = 0;
+         int tileY = 0;
+         GetTileXY (position.X, position.Y, out tileX, out tileY);
+         if (CurrentMap != null)
+            CurrentMap.PlaceRoad (tileX, tileY);
+
          return InputHandler.PointerUp (position);
       }
 

@@ -39,7 +39,7 @@ namespace WinWarCS.Data.Game
       /// All placed roads
       /// </summary>
       /// <value>The roads.</value>
-      internal Road[] Roads { get; private set; }
+      internal List<Road> Roads { get; private set; }
 
       #region ctor
 
@@ -70,7 +70,7 @@ namespace WinWarCS.Data.Game
 
       #region Update
 
-      internal void Update()
+      internal void Update(GameTime gameTime)
       {
 
       }
@@ -119,7 +119,7 @@ namespace WinWarCS.Data.Game
          }
 
          // Render Roads
-         for (int i = 0; i < Roads.Length; i++) 
+         for (int i = 0; i < Roads.Count; i++) 
          {
             bool isVisible = true;
 
@@ -147,6 +147,19 @@ namespace WinWarCS.Data.Game
          return result;
       }
 
+      public void PlaceRoad(int x, int y)
+      {
+         Road road = new Road ();
+         road.x = (byte)x;
+         road.y = (byte)y;
+         road.type = RoadType.EndPieceBottom;
+
+         Roads.Add (road);
+
+         // TODO: Only check adjacent roads
+         DetermineRoadTypeForAllRoads ();
+      }
+
       #region BuildRoadTypes
 
       private void DetermineRoadType(Road road, int index)
@@ -159,7 +172,7 @@ namespace WinWarCS.Data.Game
          bool leftNeighbour = false;
          bool rightNeighbour = false;
 
-         for (int j = 0; j < Roads.Length; j++) 
+         for (int j = 0; j < Roads.Count; j++) 
          {
             if (index == j)
                continue;
@@ -217,10 +230,14 @@ namespace WinWarCS.Data.Game
 
       private void BuildInitialRoads ()
       {
-         Roads = new Road[levelInfo.startRoads.Length];
-         Array.Copy (levelInfo.startRoads, Roads, levelInfo.startRoads.Length);
+         Roads = new List<Road> (levelInfo.startRoads);
 
-         for (int i = 0; i < Roads.Length; i++) 
+         DetermineRoadTypeForAllRoads ();
+      }
+
+      private void DetermineRoadTypeForAllRoads ()
+      {
+         for (int i = 0; i < Roads.Count; i++) 
          {
             // Check the neighbouring road pieces
             Road road = Roads [i];
