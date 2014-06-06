@@ -129,19 +129,17 @@ namespace WinWarCS.Data.Resources
 
       int _offset;
 
-      int StartGold;
-      int StartLumber;
+      public int StartGold { get; private set; }
+      public int StartLumber { get; private set; }
 
       public string MissionText { get; private set; }
 
-      //int _numObjects;
-      List<LevelObject> _objects;
+      private List<LevelObject> _objects;
 
-      int StartCameraX;
-      int StartCameraY;
+      public int StartCameraX { get; private set; }
+      public int StartCameraY { get; private set; }
 
-      //int _numRoads;
-      public Road[] Roads;
+      public Road[] Roads { get; private set; }
 
       #endregion
 
