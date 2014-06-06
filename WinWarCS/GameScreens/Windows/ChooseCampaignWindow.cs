@@ -35,6 +35,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          Player newPlayer = new Player ();
          newPlayer.Race = Race.Orcs;
+         newPlayer.StartNewCampaign ();
 
          MainGame.WinWarGame.SetNextGameScreen (new LevelGameScreen (newPlayer));
       }
@@ -43,6 +44,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          Player newPlayer = new Player ();
          newPlayer.Race = Race.Humans;
+         newPlayer.StartNewCampaign ();
 
          MainGame.WinWarGame.SetNextGameScreen (new LevelGameScreen (newPlayer));
       }

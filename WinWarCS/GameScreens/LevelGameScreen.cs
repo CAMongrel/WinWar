@@ -9,51 +9,62 @@ using WinWarCS.Gui;
 
 namespace WinWarCS.GameScreens
 {
-    class LevelGameScreen : BaseGameScreen
-    {
-        internal static LevelGameScreen Game { get; private set; }
+   class LevelGameScreen : BaseGameScreen
+   {
+      internal static LevelGameScreen Game { get; private set; }
 
-        internal Player HumanPlayer { get; private set; }
+      internal Player HumanPlayer { get; private set; }
 
-        private GameBackgroundWindow backgroundWindow;
+      internal bool IsCampaignLevel
+      {
+         get
+         {
+            return HumanPlayer.Campaign != null;
+         }
+      }
 
-        internal LevelGameScreen(Player setHumanPlayer)
-        {
-            Game = this;
+      private GameBackgroundWindow backgroundWindow;
 
-            HumanPlayer = setHumanPlayer;
-        }
+      internal LevelGameScreen (Player setHumanPlayer)
+      {
+         Game = this;
 
-        internal override void InitUI()
-        {
-            backgroundWindow = new GameBackgroundWindow();
+         HumanPlayer = setHumanPlayer;
+      }
 
-            backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race + " 1");
-        }
+      internal override void InitUI ()
+      {
+         backgroundWindow = new GameBackgroundWindow ();
 
-        internal override void Close()
-        {
-            UIWindowManager.Clear();
-        }
+         if (IsCampaignLevel) 
+         {
+            backgroundWindow.MapControl.LoadCampaignLevel (HumanPlayer.Campaign.GetCurrentLevelName());
+         }
+      }
 
-        internal override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
-        {
-            UIWindowManager.Render();
-        }
+      internal override void Close ()
+      {
+         UIWindowManager.Clear ();
+      }
 
-        internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
-        {
-            UIWindowManager.PointerDown(position);
-        }
+      internal override void Draw (Microsoft.Xna.Framework.GameTime gameTime)
+      {
+         UIWindowManager.Render ();
+      }
 
-        internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
-        {
-            UIWindowManager.PointerUp(position);
-        }
+      internal override void PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      {
+         UIWindowManager.PointerDown (position);
+      }
 
-        internal override void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
-        {
-            UIWindowManager.PointerMoved(position);
-        }
-    }
+      internal override void PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      {
+         UIWindowManager.PointerUp (position);
+      }
+
+      internal override void PointerMoved (Microsoft.Xna.Framework.Vector2 position)
+      {
+         UIWindowManager.PointerMoved (position);
+      }
+   }
 }

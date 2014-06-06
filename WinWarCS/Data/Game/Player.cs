@@ -6,15 +6,25 @@ using System.Threading.Tasks;
 
 namespace WinWarCS.Data.Game
 {
-    class Player
-    {
-        internal string Name { get; set; }
-        internal Race Race { get; set; }
+   class Player
+   {
+      internal string Name { get; set; }
 
-        internal Player()
-        {
-            Name = "Player";
-            Race = Game.Race.Humans;
-        }
-    }
+      internal Race Race { get; set; }
+
+      internal Campaign Campaign { get; private set; }
+
+      internal Player ()
+      {
+         Name = "Player";
+         Race = Game.Race.Humans;
+         Campaign = null;
+      }
+
+      internal void StartNewCampaign()
+      {
+         Campaign = new Campaign (this);
+         Campaign.StartNew ();
+      }
+   }
 }

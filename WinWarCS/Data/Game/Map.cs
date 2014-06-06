@@ -62,6 +62,7 @@ namespace WinWarCS.Data.Game
       /// </summary>
       internal void Render (int setX, int setY, int setWidth, int setHeight, float tileOffsetX, float tileOffsetY)
       {
+         // Render tiles
          if (tileOffsetX < 0.0f)
             tileOffsetX = 0.0f;
          if (tileOffsetY < 0.0f)
@@ -83,13 +84,28 @@ namespace WinWarCS.Data.Game
          int innerTileOffsetX = ((int)tileOffsetX % TileWidth);
          int innerTileOffsetY = ((int)tileOffsetY % TileHeight);
 
+         //int count = 170;
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
             {
-               tileSet.DrawTile (levelVisual.visualData [(x + startTileX) + ((y + startTileY) * MapWidth)], 
-                  setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+               int index = levelVisual.visualData [(x + startTileX) + ((y + startTileY) * MapWidth)];
+               //index = count++;
+
+               tileSet.DrawTile (index, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
             }
+         }
+
+         // Render Roads
+         for (int i = 0; i < levelInfo.Roads.Length; i++) 
+         {
+            bool isVisible = true;
+
+            WinWarCS.Data.Resources.LevelInfoResource.Road road = levelInfo.Roads [i];
+
+            int x = road.x - startTileX;
+            int y = road.y - startTileY;
+            tileSet.DrawRoadTile(road.type, x * TileWidth - innerTileOffsetX, y * TileHeight - innerTileOffsetY, 1.0f);
          }
       }
       // Render()
