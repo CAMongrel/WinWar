@@ -40,91 +40,90 @@ namespace WinWarCS.Data.Resources
 
    #endregion
 
+   #region enum LevelObjectType
+
+   internal enum LevelObjectType
+   {
+      //Units:
+      Warrior,
+      // 0x00
+      Grunt,
+      Peasant,
+      Peon,
+      Ballista,
+      Catapult,
+      Knight,
+      Rider,
+      Bowman,
+      Spearman,
+      Conjurer,
+      // 0x0A
+      Warlock,
+      Cleric,
+      Necrolyte,
+      Medivh,
+      Lothar,
+      Wounded,
+      Unk1,
+      Garona,
+      Unk2,
+      Ogre,
+      Spider,
+      Slime,
+      Fire_Elemental,
+      Scorpion,
+      Brigand,
+      Skeleton,
+      Skeleton2,
+      Daemon,
+      Dragon_Cyclops_Giant,
+      Unk3,
+      Water_Elemental,
+      // 0x1F
+
+      //Buildings:
+      Human_Farm,
+      // 0x20
+      Orc_Farm,
+      Human_Barracks,
+      Orc_Barracks,
+      Human_Church,
+      Orc_Temple,
+      Human_Tower,
+      Orc_Tower,
+      Human_HQ,
+      Orc_HQ,
+      Human_Mill,
+      // 0x2A
+      Orc_Mill,
+      Human_Stables,
+      Orc_Kennel,
+      Human_Blacksmith,
+      Orc_Blacksmith,
+      Stormwind,
+      Black_Rock,
+      Goldmine,
+      // 0x32
+
+      //Other:
+      Orc_corpse,
+      // 0x33
+   }
+
+   #endregion
+
+   #region Struct LevelObject
+
+   internal struct LevelObject
+   {
+      internal byte x, y;
+      internal LevelObjectType type;
+      internal byte player, value1, value2;
+   };
+
+   #endregion
    internal class LevelInfoResource : BasicResource
    {
-      #region enum LevelObjectType
-
-      internal enum LevelObjectType
-      {
-         //Units:
-         Warrior,
-         // 0x00
-         Grunt,
-         Peasant,
-         Peon,
-         Ballista,
-         Catapult,
-         Knight,
-         Rider,
-         Bowman,
-         Spearman,
-         Conjurer,
-         // 0x0A
-         Warlock,
-         Cleric,
-         Necrolyte,
-         Medivh,
-         Lothar,
-         Wounded,
-         Unk1,
-         Garona,
-         Unk2,
-         Ogre,
-         Spider,
-         Slime,
-         Fire_Elemental,
-         Scorpion,
-         Brigand,
-         Skeleton,
-         Skeleton2,
-         Daemon,
-         Dragon_Cyclops_Giant,
-         Unk3,
-         Water_Elemental,
-         // 0x1F
-
-         //Buildings:
-         Human_Farm,
-         // 0x20
-         Orc_Farm,
-         Human_Barracks,
-         Orc_Barracks,
-         Human_Church,
-         Orc_Temple,
-         Human_Tower,
-         Orc_Tower,
-         Human_HQ,
-         Orc_HQ,
-         Human_Mill,
-         // 0x2A
-         Orc_Mill,
-         Human_Stables,
-         Orc_Kennel,
-         Human_Blacksmith,
-         Orc_Blacksmith,
-         Stormwind,
-         Black_Rock,
-         Goldmine,
-         // 0x32
-
-         //Other:
-         Orc_corpse,
-         // 0x33
-      }
-
-      #endregion
-
-      #region Struct LevelObject
-
-      internal struct LevelObject
-      {
-         internal byte x, y;
-         internal LevelObjectType type;
-         internal byte player, value1, value2;
-      };
-
-      #endregion
-
       #region Variables
 
       int _offset;
@@ -134,12 +133,11 @@ namespace WinWarCS.Data.Resources
 
       public string MissionText { get; private set; }
 
-      private List<LevelObject> _objects;
-
       public int StartCameraX { get; private set; }
       public int StartCameraY { get; private set; }
 
-      public Road[] startRoads { get; private set; }
+      public Road[] StartRoads { get; private set; }
+      public LevelObject[] StartObjects { get; private set; }
 
       #endregion
 
@@ -192,7 +190,7 @@ namespace WinWarCS.Data.Resources
                int off = 0;
                byte x, y;
 
-               _objects = new List<LevelObject> ();
+               List<LevelObject> _objects = new List<LevelObject> ();
                // Add objects
                do {
                   x = ptr [_offset + off];
@@ -220,6 +218,8 @@ namespace WinWarCS.Data.Resources
                   }
                   _objects.Add (lo);
                } while (_offset + off < len);
+
+               StartObjects = _objects.ToArray ();
 
                _offset = _offset + off;
 
@@ -299,7 +299,7 @@ namespace WinWarCS.Data.Resources
                      off++;
                   } while(_offset + off < len);
 
-                  startRoads = _roads.ToArray ();
+                  StartRoads = _roads.ToArray ();
                }
 
                // Get the text position again

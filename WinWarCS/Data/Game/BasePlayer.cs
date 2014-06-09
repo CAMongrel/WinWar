@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace WinWarCS.Data.Game
 {
-   class Player
+   enum PlayerType
+   {
+      Human,
+      AI
+   }
+
+   internal class BasePlayer
    {
       internal string Name { get; set; }
 
       internal Race Race { get; set; }
 
-      internal Campaign Campaign { get; private set; }
+      internal PlayerType PlayerType { get; private set; }
 
-      internal Player ()
+      internal BasePlayer (PlayerType setPlayerType)
       {
          Name = "Player";
          Race = Game.Race.Humans;
-         Campaign = null;
-      }
-
-      internal void StartNewCampaign()
-      {
-         Campaign = new Campaign (this);
-         Campaign.StartNew ();
+         PlayerType = setPlayerType;
       }
    }
 }

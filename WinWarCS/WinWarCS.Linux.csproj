@@ -54,7 +54,6 @@
     <Compile Include="Data\WarResource.cs" />
     <Compile Include="Data\Game\Campaign.cs" />
     <Compile Include="Data\Game\Map.cs" />
-    <Compile Include="Data\Game\Player.cs" />
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
@@ -104,6 +103,9 @@
     <Compile Include="Platform\Linux\UI.cs" />
     <Compile Include="Platform\Linux\Sys.cs" />
     <Compile Include="Platform\Linux\Input.cs" />
+    <Compile Include="Data\Game\BasePlayer.cs" />
+    <Compile Include="Data\Game\HumanPlayer.cs" />
+    <Compile Include="Data\Game\AIPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

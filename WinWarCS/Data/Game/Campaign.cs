@@ -10,9 +10,9 @@ namespace WinWarCS.Data.Game
    {
       public int Level { get; private set; }
 
-      private Player curPlayer;
+      private BasePlayer curPlayer;
 
-      internal Campaign (Player refPlayer)
+      internal Campaign (BasePlayer refPlayer)
       {
          curPlayer = refPlayer;
          Level = 1;

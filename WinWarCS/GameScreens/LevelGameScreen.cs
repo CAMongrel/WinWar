@@ -13,7 +13,7 @@ namespace WinWarCS.GameScreens
    {
       internal static LevelGameScreen Game { get; private set; }
 
-      internal Player HumanPlayer { get; private set; }
+      internal HumanPlayer HumanPlayer { get; private set; }
 
       internal bool IsCampaignLevel
       {
@@ -25,7 +25,7 @@ namespace WinWarCS.GameScreens
 
       private GameBackgroundWindow backgroundWindow;
 
-      internal LevelGameScreen (Player setHumanPlayer)
+      internal LevelGameScreen (HumanPlayer setHumanPlayer)
       {
          Game = this;
 

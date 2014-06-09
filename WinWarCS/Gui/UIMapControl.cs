@@ -103,6 +103,14 @@ namespace WinWarCS.Gui
          CurrentMap = new Map (null, levelVisual, levelPassable);
       }
 
+      internal void SetHumanPlayer(BasePlayer player)
+      {
+      }
+
+      internal void SetComputerPlayer(BasePlayer player, byte index)
+      {
+      }
+
       internal override void Render ()
       {
          base.Render ();

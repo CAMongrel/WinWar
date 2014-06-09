@@ -7,6 +7,7 @@
 #region Using directives
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Data;
@@ -41,6 +42,18 @@ namespace WinWarCS.Data.Game
       /// <value>The roads.</value>
       internal List<Road> Roads { get; private set; }
 
+      internal List<BasePlayer> Players { get; private set; }
+
+      internal BasePlayer HumanPlayer
+      {
+         get
+         {
+            return (from pl in Players
+                            where pl.PlayerType == PlayerType.Human
+                            select pl).FirstOrDefault ();
+         }
+      }
+
       #region ctor
 
       /// <summary>
@@ -62,11 +75,19 @@ namespace WinWarCS.Data.Game
 			
          tileSet = MapTileset.GetTileset (levelVisual.Tileset);
 
+         Players = new List<BasePlayer> ();
+
          BuildInitialRoads ();
+         PopulateInitialEntities ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
 
       #endregion
+
+      internal void Start()
+      {
+
+      }
 
       #region Update
 
@@ -76,6 +97,17 @@ namespace WinWarCS.Data.Game
       }
 
       #endregion
+
+      void PopulateInitialEntities ()
+      {
+         if (levelInfo == null)
+            return;
+
+         for (int i = 0; i < levelInfo.StartObjects.Length; i++)
+         {
+            //
+         }
+      }
 
       #region Render
 
@@ -134,6 +166,7 @@ namespace WinWarCS.Data.Game
 
       #endregion
 
+      #region GetMinimap
       internal Color[] GetMinimap ()
       {
          Color[] result = new Color[MapWidth * MapHeight];
@@ -146,7 +179,9 @@ namespace WinWarCS.Data.Game
          }
          return result;
       }
+      #endregion
 
+      #region Roads
       public void PlaceRoad(int x, int y)
       {
          Road road = new Road ();
@@ -230,7 +265,7 @@ namespace WinWarCS.Data.Game
 
       private void BuildInitialRoads ()
       {
-         Roads = new List<Road> (levelInfo.startRoads);
+         Roads = new List<Road> (levelInfo.StartRoads);
 
          DetermineRoadTypeForAllRoads ();
       }
@@ -247,7 +282,7 @@ namespace WinWarCS.Data.Game
       }
 
       #endregion
-
+      #endregion
 
       #region Unit-testing
 

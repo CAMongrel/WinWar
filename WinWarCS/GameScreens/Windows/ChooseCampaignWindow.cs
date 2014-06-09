@@ -33,7 +33,7 @@ namespace WinWarCS.GameScreens.Windows
 
       void orcBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         Player newPlayer = new Player ();
+         HumanPlayer newPlayer = new HumanPlayer ();
          newPlayer.Race = Race.Orcs;
          newPlayer.StartNewCampaign ();
 
@@ -42,7 +42,7 @@ namespace WinWarCS.GameScreens.Windows
 
       void humanBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         Player newPlayer = new Player ();
+         HumanPlayer newPlayer = new HumanPlayer ();
          newPlayer.Race = Race.Humans;
          newPlayer.StartNewCampaign ();
 
