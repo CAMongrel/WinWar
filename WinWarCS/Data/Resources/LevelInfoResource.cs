@@ -114,7 +114,7 @@ namespace WinWarCS.Data.Resources
 
    #region Struct LevelObject
 
-   internal struct LevelObject
+   internal class LevelObject
    {
       internal byte x, y;
       internal LevelObjectType type;

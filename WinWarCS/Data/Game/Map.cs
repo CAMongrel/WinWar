@@ -78,7 +78,6 @@ namespace WinWarCS.Data.Game
          Players = new List<BasePlayer> ();
 
          BuildInitialRoads ();
-         PopulateInitialEntities ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
 
@@ -86,7 +85,9 @@ namespace WinWarCS.Data.Game
 
       internal void Start()
       {
+         // NOTE: All players must exist at this point
 
+         PopulateInitialEntities ();
       }
 
       #region Update
@@ -98,15 +99,29 @@ namespace WinWarCS.Data.Game
 
       #endregion
 
-      void PopulateInitialEntities ()
+      private BasePlayer getPlayer(byte playerIndex)
+      {
+         if (playerIndex >= 0 && playerIndex < Players.Count)
+            return Players [playerIndex];
+
+         return null;
+      }
+
+      private void PopulateInitialEntities ()
       {
          if (levelInfo == null)
             return;
 
          for (int i = 0; i < levelInfo.StartObjects.Length; i++)
          {
-            //
+            LevelObject lo = levelInfo.StartObjects [i];
+            //BasePlayer newOwner
          }
+      }
+
+      private void PlaceEntity(int x, int y, Entity entity, BasePlayer owner)
+      {
+
       }
 
       #region Render

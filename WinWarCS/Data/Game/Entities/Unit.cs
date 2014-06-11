@@ -1,7 +1,6 @@
 ﻿using System;
-using WinWarCS.Data.Game;
 
-namespace WinWarCS.MacOS
+namespace WinWarCS.Data.Game
 {
    internal  class Unit : Entity
    {

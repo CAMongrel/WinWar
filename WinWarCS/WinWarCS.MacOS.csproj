@@ -99,6 +99,10 @@
     <Folder Include="Graphics\" />
     <Folder Include="GameScreens\" />
     <Folder Include="Assets\" />
+    <Folder Include="Data\Game\Entities\" />
+    <Folder Include="Data\Game\Entities\Humans\" />
+    <Folder Include="Data\Game\Entities\Orcs\" />
+    <Folder Include="Data\Game\Entities\Neutral\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IntroStoryboard.cs" />
@@ -107,7 +111,6 @@
     <Compile Include="Data\WarResource.cs" />
     <Compile Include="Data\Game\Campaign.cs" />
     <Compile Include="Data\Game\Map.cs" />
-    <Compile Include="Data\Game\Player.cs" />
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
@@ -158,8 +161,11 @@
     <Compile Include="Platform\MacOS\IO.cs" />
     <Compile Include="Platform\MacOS\Sys.cs" />
     <Compile Include="Platform\MacOS\UI.cs" />
-    <Compile Include="Data\Game\Entity.cs" />
-    <Compile Include="Data\Game\Unit.cs" />
+    <Compile Include="Data\Game\AIPlayer.cs" />
+    <Compile Include="Data\Game\BasePlayer.cs" />
+    <Compile Include="Data\Game\HumanPlayer.cs" />
+    <Compile Include="Data\Game\Entities\Entity.cs" />
+    <Compile Include="Data\Game\Entities\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
