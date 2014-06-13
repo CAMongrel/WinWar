@@ -40,12 +40,15 @@ namespace WinWarCS.Data.Game
          int startTileX = ((int)tileOffsetX / TileWidth);
          int startTileY = ((int)tileOffsetY / TileHeight);
 
+         bool shouldFlipX = sprite.ShouldFlipX;
          SpriteFrame curFrame = sprite.CurrentFrame;
 
          System.Drawing.RectangleF rect = new System.Drawing.RectangleF ();
          rect.X = offsetX + (X - startTileX) * TileWidth - (TileWidth / 2);
+         if (shouldFlipX)
+            rect.X += sprite.MaxWidth;
          rect.Y = offsetY + (Y - startTileY) * TileHeight - (TileHeight / 2);
-         rect.Width = sprite.MaxWidth;
+         rect.Width = shouldFlipX ? -sprite.MaxWidth : sprite.MaxWidth;
          rect.Height = sprite.MaxHeight;
 
          curFrame.texture.RenderOnScreen (rect);
@@ -55,11 +58,19 @@ namespace WinWarCS.Data.Game
       {
          switch (entityType) 
          {
+         // Orc Units
+         case LevelObjectType.Peon:
+            return new OrcPeon ();
+
          case LevelObjectType.Grunt:
             return new OrcGrunt ();
 
-         case LevelObjectType.Peon:
-            return new OrcPeon ();
+         case LevelObjectType.Spearman:
+            return new OrcAxethrower ();
+
+            // Human Units
+         case LevelObjectType.Peasant:
+            return new HumanPeasant ();
 
          case LevelObjectType.Warrior:
             return new HumanWarrior ();
@@ -67,12 +78,21 @@ namespace WinWarCS.Data.Game
          case LevelObjectType.Bowman:
             return new HumanArcher ();
 
+            // Orc Buildings
          case LevelObjectType.Orc_Farm:
             return new OrcFarm ();
 
          case LevelObjectType.Orc_HQ:
             return new OrcBase ();
 
+            // Human Buildings
+         case LevelObjectType.Human_Farm:
+            return new HumanFarm ();
+
+         case LevelObjectType.Human_HQ:
+            return new HumanBase ();
+
+            // Neutral
          case LevelObjectType.Goldmine:
             return new Goldmine ();
 

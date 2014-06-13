@@ -30,6 +30,17 @@ namespace WinWarCS.Data.Game
 
       internal SpriteAnimation CurrentAnimation { get; private set; }
 
+      internal bool ShouldFlipX
+      {
+         get
+         {
+            if (CurrentAnimation == null)
+               return false;
+
+            return CurrentAnimation.ShouldFlipX;
+         }
+      }
+
       internal SpriteFrame CurrentFrame
       {
          get
@@ -114,7 +125,7 @@ namespace WinWarCS.Data.Game
          allAnimations.Add(anim);
       }
 
-      internal void SetCurrentAnimationByName(string name)
+      internal virtual void SetCurrentAnimationByName(string name)
       {
          if (CurrentAnimation != null)
          {

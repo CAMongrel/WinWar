@@ -9,19 +9,48 @@ namespace WinWarCS.Data.Game
 {
    class UnitSprite : Sprite
    {
+      internal Orientation SpriteOrientation
+      {
+         get
+         {
+            if (CurrentAnimation == null)
+               return Orientation.North;
+
+            return CurrentAnimation.Orientation;
+         }
+         set
+         { 
+            if (CurrentAnimation == null)
+               return;
+
+            CurrentAnimation.Orientation = value;
+         }
+      }
+
       public UnitSprite(SpriteResource resource)
          : base(resource)
       {
          ApplyWarriorAnimationSet ();
 
          SetCurrentAnimationByName("Idle");
+
+         SpriteOrientation = Orientation.NorthWest;
+      }
+
+      internal override void SetCurrentAnimationByName(string name)
+      {
+         Orientation curOrientation = SpriteOrientation;
+
+         base.SetCurrentAnimationByName (name);
+
+         SpriteOrientation = curOrientation;
       }
 
       public void ApplyWarriorAnimationSet()
       {
          // Applicable for: Orc Grunt, Human Warrior, Orc Peon, Human Peasant, Medivh, Lothar
 
-         AddAnimation ("Idle", 0.5, SpriteAnimationParams.RandomDuration | SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 0);
+         AddAnimation ("Idle", 0.5, SpriteAnimationParams.RandomDuration | SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 0, 1, 2, 3, 4);
 
          AddAnimation ("Death1", 0.5, SpriteAnimationParams.None, 10, 25, 40);
          AddAnimation ("Death2", 0.5, SpriteAnimationParams.None, 12, 27, 42);

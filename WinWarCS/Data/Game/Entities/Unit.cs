@@ -2,8 +2,32 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal  class Unit : Entity
+   enum Orientation
    {
+      North,
+      NorthEast,
+      East,
+      SouthEast,
+      South,
+      SouthWest,
+      West,
+      NorthWest,
+   }
+
+   internal class Unit : Entity
+   {
+      internal Orientation Orientation
+      {
+         get
+         { 
+            return Sprite.SpriteOrientation;
+         }
+         set
+         { 
+            Sprite.SpriteOrientation = value;
+         }
+      }
+
       public UnitSprite Sprite
       {
          get
