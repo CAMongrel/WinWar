@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using WinWarCS.GameScreens;
 using Microsoft.Xna.Framework.Input;
+using WinWarCS.Data;
 
 namespace WinWarCS
 {

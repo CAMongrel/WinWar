@@ -111,7 +111,11 @@ namespace WinWarCS.Data
          if (KnowledgeBase.KB_List [id].type != WarFileType.FileSprite)
             return null;
 
-         return new SpriteResource (GetResource (id), GetResource (KnowledgeBase.KB_List [id].param));
+         WarResource pal = null;
+         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == WarFileType.FilePalette)
+            pal = GetResource (KnowledgeBase.KB_List [id].param);
+
+         return new SpriteResource (GetResource (id), pal);
       }
 
       #endregion

@@ -68,13 +68,13 @@ namespace WinWarCS.Data.Resources
 
                   int temp_index;
 
-                  byte* b_ptr = &org_ptr[offset];
+                  //byte* b_ptr = &org_ptr[offset];
 
-                  if ((palette == null) || (bForceGrayscale))	// No palette for this image or grayscale forced ... use grayscale palette
-                  {
-                     for (y = Frames[i].disp_y; y < (Frames[i].height + Frames[i].disp_y); y++)
+                  if (bForceGrayscale) 
+                  {	// No palette for this image or grayscale forced ... use grayscale palette
+                     for (y = Frames [i].disp_y; y < (Frames [i].height + Frames [i].disp_y); y++) 
                      {
-                        for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
+                        for (x = Frames [i].disp_x; x < (Frames [i].width + Frames [i].disp_x); x++) 
                         {
                            alt_x = (flip_x ? (MaxWidth - 1 - x) : x);
                            alt_y = (flip_y ? (MaxHeight - 1 - y) : y);
@@ -82,9 +82,67 @@ namespace WinWarCS.Data.Resources
                            temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
 
                            for (c = 0; c < 3; c++)
-                              Frames[i].image_data[temp_index + c] = org_ptr[offset];
+                              Frames [i].image_data [temp_index + c] = org_ptr [offset];
 
+                           Frames [i].image_data [temp_index + 3] = 255;
+
+                           offset++;
+                        }
+                     }
+                  } 
+                  else if (palette == null) 
+                  {
+                     int pal_index;
+
+                     for (y = Frames[i].disp_y; y < (Frames[i].height + Frames[i].disp_y); y++)
+                     {
+                        for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
+                        {
+                           alt_x = (flip_x ? ((Frames[i].width + Frames[i].disp_x) - 1 - (x - Frames[i].disp_x)) : x);
+                           alt_y = (flip_y ? ((Frames[i].height + Frames[i].disp_y) - 1 - (y - Frames[i].disp_y)) : y);
+
+                           temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
+                           pal_index = org_ptr[offset] * 3;
+
+                           if ((pal_index / 3) == 96) 
+                           {
+                              Frames [i].image_data [temp_index] = 0;
+                              Frames [i].image_data [temp_index + 1] = 0;
+                              Frames [i].image_data [temp_index + 2] = 0;
+                              Frames[i].image_data[temp_index + 3] = 127;
+                              offset++;
+                              continue;
+                           }
+
+                           Frames [i].image_data [temp_index] = KnowledgeBase.hardcoded_pal[pal_index];
+                           Frames [i].image_data [temp_index + 1] = KnowledgeBase.hardcoded_pal[pal_index + 1];
+                           Frames [i].image_data [temp_index + 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
                            Frames[i].image_data[temp_index + 3] = 255;
+
+                           // Detect unavailable colors on hardcoded pal
+                           if (pal_index > 0 &&
+                              Frames [i].image_data [temp_index + 0] == 0 &&
+                              Frames [i].image_data [temp_index + 1] == 0 &&
+                              Frames [i].image_data [temp_index + 2] == 0) 
+                           {
+                              Frames [i].image_data [temp_index] = 255;
+                              Frames [i].image_data [temp_index + 1] = (byte)(pal_index / 3);
+                              Frames [i].image_data [temp_index + 2] = 255;
+                           }
+
+                           Frames[i].image_data[temp_index + 3] = (((Frames[i].image_data[temp_index] == 0) && (Frames[i].image_data[temp_index + 1] == 0) &&
+                              (Frames[i].image_data[temp_index + 2] == 0)) ? (byte)0 : (byte)255);
+                              
+                           // Shadow
+                           if ((Frames[i].image_data[temp_index] >= 252) &&
+                              (Frames[i].image_data[temp_index + 1] >= 252) &&
+                              (Frames[i].image_data[temp_index + 2] >= 252))
+                           {
+                              Frames[i].image_data[temp_index] = 0;
+                              Frames[i].image_data[temp_index + 1] = 0;
+                              Frames[i].image_data[temp_index + 2] = 0;
+                              Frames[i].image_data[temp_index + 3] = 127;
+                           }
 
                            offset++;
                         }
@@ -106,7 +164,7 @@ namespace WinWarCS.Data.Resources
                               alt_y = (flip_y ? ((Frames[i].height + Frames[i].disp_y) - 1 - (y - Frames[i].disp_y)) : y);
 
                               temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
-                              pal_index = org_ptr[offset];
+                              pal_index = org_ptr[offset] * 3;
 
                               for (c = 0; c < 3; c++)
                                  Frames[i].image_data[temp_index + c] = (byte)(pal_dataptr[pal_index * 3 + c] * 4);
@@ -118,9 +176,9 @@ namespace WinWarCS.Data.Resources
                                  (Frames[i].image_data[temp_index + 1] == 108) &&
                                  (Frames[i].image_data[temp_index + 2] == 228))
                               {
-                                 Frames[i].image_data[temp_index] = KnowledgeBase.hardcoded_pal[pal_index];
-                                 Frames[i].image_data[temp_index + 1] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-                                 Frames[i].image_data[temp_index + 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
+                                 Frames [i].image_data [temp_index] = KnowledgeBase.hardcoded_pal[pal_index];
+                                 Frames [i].image_data [temp_index + 1] = KnowledgeBase.hardcoded_pal[pal_index + 1];
+                                 Frames [i].image_data [temp_index + 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
                                  Frames[i].image_data[temp_index + 3] = 255;
                               }
 

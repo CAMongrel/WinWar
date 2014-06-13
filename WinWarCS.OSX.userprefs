@@ -1,20 +1,24 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="11.06.2014 06:42:16">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="13.06.2014 07:41:04">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Map.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Gui/UISpriteImage.cs">
     <Files>
-      <File FileName="WinWarCS/MainGame.cs" Line="235" Column="1" />
-      <File FileName="WinWarCS/Platform/MacOS/IO.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Platform/MacOS/Program.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/WarFile.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/Game/Entities/Unit.cs" Line="1" Column="14" />
-      <File FileName="WinWarCS/Data/Game/UnitSprite.cs" Line="8" Column="29" />
-      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="1" Column="14" />
-      <File FileName="WinWarCS/Data/Game/Map.cs" Line="118" Column="34" />
+      <File FileName="WinWarCS/Data/Game/Map.cs" Line="179" Column="35" />
+      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="49" Column="1" />
+      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="46" Column="41" />
+      <File FileName="WinWarCS/Platform/MacOS/Program.cs" Line="58" Column="1" />
+      <File FileName="WinWarCS/MainGame.cs" Line="147" Column="5" />
+      <File FileName="WinWarCS/Graphics/Texture.cs" Line="150" Column="7" />
+      <File FileName="WinWarCS/Data/Resources/SpriteResource.cs" Line="122" Column="76" />
+      <File FileName="WinWarCS/Data/KnowledgeBase.cs" Line="503" Column="72" />
+      <File FileName="WinWarCS/Data/Game/UnitSprite.cs" Line="13" Column="1" />
+      <File FileName="WinWarCS/Data/Game/SpriteAnimation.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/Data/Game/Sprite.cs" Line="77" Column="35" />
+      <File FileName="WinWarCS/Gui/UISpriteImage.cs" Line="48" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/henningthole/Projekte/Research/WinWarCS/WinWarCS/Data/Game/Map.cs" line="117" column="1" />
+      <Breakpoint file="/Users/henningthole/Projekte/Research/WinWarCS/WinWarCS/Data/Game/Entities/Entity.cs" line="49" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

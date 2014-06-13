@@ -16,7 +16,7 @@ namespace WinWarCS.GameScreens.Windows
 
       internal IngameMenuWindow ()
       {
-         background = new UIImage (WWTexture.FromImageResource ("Window Border"));
+         background = new UIImage (WWTexture.FromImageResource ("Large Box (Orcs)"));
          Width = background.Width;
          Height = background.Height;
          AddComponent (background);

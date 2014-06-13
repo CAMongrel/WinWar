@@ -166,6 +166,14 @@
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
+    <Compile Include="Data\Game\Entities\Building.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

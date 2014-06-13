@@ -56,7 +56,7 @@ namespace WinWarCS.Data
 		// Number of entries = 128 * 3 = 384
         // 0, 0, 0 => means unknown
 		internal static byte[] hardcoded_pal = {
-							255, 255, 255,	// not part of the hardcoded palette
+         0, 0, 0,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
 							255, 255, 255,	// not part of the hardcoded palette
@@ -100,7 +100,7 @@ namespace WinWarCS.Data
 							76, 92, 84,		// 41
 							64, 76, 68,	// 42
 							52, 64, 64,	// 43
-							0, 0, 0,	// 44
+                     39, 51, 51,	// 44
 							32, 40, 44,		// 45
 							24, 32, 36,	// 46
 							16, 24, 24,	// 47
@@ -112,8 +112,8 @@ namespace WinWarCS.Data
 							84, 56, 8,	// 53
 							68, 44, 4,	// 54
 							56, 36, 4,	// 55
-							0, 0, 0,	// 56
-							0, 0, 0,	// 57
+         42, 27, 3,	// 56
+         30, 19, 0,	// 57
 							0, 0, 0,	// 58
 							0, 0, 0,	// 59
 							0, 0, 0,	// 60
@@ -133,7 +133,7 @@ namespace WinWarCS.Data
 							48, 32, 28,	// 74
 							56, 36, 28,	// 75
 							64, 44, 32,	// 76
-							0, 0, 0,	// 77
+         76, 51, 36,	// 77
 							88, 60, 40,	// 78
 							104, 72, 48,	// 79
 							92, 68, 48,	// 80
@@ -152,7 +152,7 @@ namespace WinWarCS.Data
 							252, 152, 40,	// 93
 							252, 180, 56,	// 94
 							252, 208, 72,	// 95
-							0, 0, 0,	// 96		known! ==> black
+         0, 0, 0,	// 96		known! ==> black (actually: transparent shadow!)
 							0, 0, 0,	// 97
 							64, 20, 20,	// 98
 							88, 24, 24,	// 99
@@ -183,7 +183,99 @@ namespace WinWarCS.Data
 							0, 0, 0,	// 124
 							0, 0, 0,	// 125
 							0, 0, 0,	// 126
-							0, 0, 0	// 127
+         0, 0, 0,	 // 127
+         0, 0, 0,  // 128
+         0, 0, 0,  // 129
+         0, 0, 0,  // 130
+         0, 0, 0,  // 131
+         0, 0, 0,  // 132
+         0, 0, 0,  // 133
+         31, 14, 5,  // 134
+         51, 27, 18,  // 135
+         81, 39, 23,  // 136
+         104, 51, 31,  // 137
+         130, 68, 43,  // 138
+         76, 51, 36,  // 139
+         175, 101, 75,  // 140
+         203, 120, 90,  // 141
+         227, 141, 104,  // 142
+         0, 0, 0,  // 143
+         0, 0, 0,  // 144
+         0, 0, 0,  // 145
+         0, 0, 0,  // 146
+         0, 0, 0,  // 147
+         0, 0, 0,  // 148
+         0, 0, 0,  // 149
+         0, 0, 0,  // 150
+         0, 0, 0,  // 151
+         0, 0, 0,  // 152
+         0, 0, 0,  // 153
+         0, 0, 0,  // 154
+         0, 0, 0,  // 155
+         0, 0, 0,  // 156
+         0, 0, 0,  // 157
+         0, 0, 0,  // 158
+         0, 0, 0,  // 159
+         0, 0, 0,  // 160
+         0, 0, 0,  // 161
+         0, 0, 0,  // 162
+         0, 0, 0,  // 163
+         0, 0, 0,  // 164
+         0, 0, 0,  // 165
+         0, 0, 0,  // 166
+         0, 0, 0,  // 167
+         1, 23, 11,  // 168
+         2, 34, 14,  // 169
+         5, 51, 15,  // 170
+         11, 69, 10,  // 171
+         22, 85, 14,  // 172
+         48, 108, 48,  // 173
+         72, 139, 17,  // 174
+         109, 166, 21,  // 175
+         56, 0, 0,  // 176
+         72, 0, 0,  // 177
+         92, 1, 0,  // 178
+         106, 0, 7,  // 179
+         134, 9, 9,  // 180
+         154, 22, 29,  // 181
+         181, 31, 24,  // 182
+         207, 43, 27,  // 183
+         11, 18, 11,  // 184
+         27, 31, 31,  // 185
+         54, 64, 69,  // 186
+         89, 97, 105,  // 187
+         117, 130, 141,  // 188
+         146, 159, 177,  // 189
+         178, 186, 211,  // 190
+         211, 211, 239,  // 191
+         0, 0, 0,  // 192
+         182, 93, 52,  // 193
+         215, 143, 80,  // 194
+         249, 192, 112,  // 195
+         214, 0, 22,  // 196
+         78, 0, 13,  // 197
+         0, 0, 0,  // 198
+         0, 0, 0,  // 199
+         0, 3, 35,  // 200
+         3, 9, 64,  // 201
+         10, 20, 96,  // 202
+         18, 29, 129,  // 203
+         27, 25, 153,  // 204
+         40, 14, 181,  // 205
+         0, 0, 0,  // 206
+         0, 0, 0,  // 207
+         0, 0, 0,  // 208
+         0, 0, 0,  // 209
+         0, 0, 0,  // 210
+         0, 0, 0,  // 211
+         0, 0, 0,  // 212
+         0, 0, 0,  // 213
+         0, 0, 0,  // 214
+         0, 0, 0,  // 215
+         0, 0, 0,  // 216
+         0, 0, 0,  // 217
+         0, 0, 0,  // 218
+         0, 0, 0,  // 219
 						};
 		#endregion
 
@@ -470,18 +562,18 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(248, WarFileType.FileImage, 217, "Window Border"),
 				new KnowledgeEntry(249, WarFileType.FileImage, 217, "Saving/Loading Screen (Humans)"),
 				new KnowledgeEntry(250, WarFileType.FileImage, 217, "Saving/Loading Screen (Orcs)"),
-				new KnowledgeEntry(251, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(252, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(253, WarFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry(251, WarFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry(252, WarFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry(253, WarFileType.FilePalette, 0, "Unknown"),
 				new KnowledgeEntry(254, WarFileType.FileImage, 255, "Hot keys"),
 				new KnowledgeEntry(255, WarFileType.FilePalette, 0, "Humans"),
 				new KnowledgeEntry(256, WarFileType.FileImage, 255, "Button 'ok'"),
 				new KnowledgeEntry(257, WarFileType.FileImage, 255, "Button 'ok' 2"),
 				new KnowledgeEntry(258, WarFileType.FileImage, 260, "Text 'WarCraft'"),
 				new KnowledgeEntry(259, WarFileType.FileText, 0, "Main Menu Text"),
-				new KnowledgeEntry(260, WarFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry(260, WarFileType.FilePalette, 0, "Unknown"),
 				new KnowledgeEntry(261, WarFileType.FileImage, 260, "Mainmenu Background"),
-				new KnowledgeEntry(262, WarFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry(262, WarFileType.FilePalette, 0, "Pointer Palette"),
 				new KnowledgeEntry(263, WarFileType.FileCursor, 262, "Normal Pointer"),
 				new KnowledgeEntry(264, WarFileType.FileCursor, 262, "Not allowed"),
 				new KnowledgeEntry(265, WarFileType.FileCursor, 262, "Crosshair Orange"),
@@ -498,15 +590,15 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(276, WarFileType.FileCursor, 262, "Scroll Bottomleft"),
 				new KnowledgeEntry(277, WarFileType.FileCursor, 262, "Scroll Left"),
 				new KnowledgeEntry(278, WarFileType.FileCursor, 262, "Scroll Topleft"),
-				new KnowledgeEntry(279, WarFileType.FileSprite, 217, "Human Warrior"),
-				new KnowledgeEntry(280, WarFileType.FileSprite, 217, "Orc Grunt"),
+         new KnowledgeEntry(279, WarFileType.FileSprite, 0, "Human Warrior"),
+         new KnowledgeEntry(280, WarFileType.FileSprite, 0, "Orc Grunt"),
 				new KnowledgeEntry(281, WarFileType.FileSprite, 217, "Human Peasant"),
-				new KnowledgeEntry(282, WarFileType.FileSprite, 217, "Orc Peon"),
+         new KnowledgeEntry(282, WarFileType.FileSprite, 0, "Orc Peon"),
 				new KnowledgeEntry(283, WarFileType.FileSprite, 217, "Human Catapult"),
 				new KnowledgeEntry(284, WarFileType.FileSprite, 217, "Orc Catapult"),
 				new KnowledgeEntry(285, WarFileType.FileSprite, 217, "Human Knight"),
 				new KnowledgeEntry(286, WarFileType.FileSprite, 217, "Orc Rider"),
-				new KnowledgeEntry(287, WarFileType.FileSprite, 217, "Human Bowman"),
+         new KnowledgeEntry(287, WarFileType.FileSprite, 0, "Human Bowman"),
 				new KnowledgeEntry(288, WarFileType.FileSprite, 217, "Orc Axethrower"),
 				new KnowledgeEntry(289, WarFileType.FileSprite, 217, "Human Wizard"),
 				new KnowledgeEntry(290, WarFileType.FileSprite, 217, "Orc Wizard"),
@@ -526,16 +618,16 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(304, WarFileType.FileSprite, 217, "Skeleton 2"),
 				new KnowledgeEntry(305, WarFileType.FileSprite, 217, "Demon"),
 				new KnowledgeEntry(306, WarFileType.FileSprite, 217, "Water Elemental"),
-				new KnowledgeEntry(307, WarFileType.FileSprite, 217, "Human Farm"),
-				new KnowledgeEntry(308, WarFileType.FileSprite, 217, "Orc Farm"),
-				new KnowledgeEntry(309, WarFileType.FileSprite, 217, "Human Barracks"),
+         new KnowledgeEntry(307, WarFileType.FileSprite, 217, "Human Farm"),
+         new KnowledgeEntry(308, WarFileType.FileSprite, 0, "Orc Farm"),
+         new KnowledgeEntry(309, WarFileType.FileSprite, 217, "Human Barracks"),
 				new KnowledgeEntry(310, WarFileType.FileSprite, 217, "Orc Barracks"),
 				new KnowledgeEntry(311, WarFileType.FileSprite, 217, "Human Church"),
 				new KnowledgeEntry(312, WarFileType.FileSprite, 217, "Orc Stone Circle"),
 				new KnowledgeEntry(313, WarFileType.FileSprite, 217, "Human Tower"),
 				new KnowledgeEntry(314, WarFileType.FileSprite, 217, "Orc Skull"),
 				new KnowledgeEntry(315, WarFileType.FileSprite, 217, "Human Base"),
-				new KnowledgeEntry(316, WarFileType.FileSprite, 217, "Orc Base"),
+         new KnowledgeEntry(316, WarFileType.FileSprite, 0, "Orc Base"),
 				new KnowledgeEntry(317, WarFileType.FileSprite, 217, "Human Smith"),
 				new KnowledgeEntry(318, WarFileType.FileSprite, 217, "Orc Smith"),
 				new KnowledgeEntry(319, WarFileType.FileSprite, 217, "Human Stables"),
@@ -544,7 +636,7 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(322, WarFileType.FileSprite, 217, "Orc Smith"),
 				new KnowledgeEntry(323, WarFileType.FileSprite, 217, "Stormwind"),
 				new KnowledgeEntry(324, WarFileType.FileSprite, 217, "Black Spire"),
-				new KnowledgeEntry(325, WarFileType.FileSprite, 217, "Goldmine"),
+         new KnowledgeEntry(325, WarFileType.FileSprite, 0, "Goldmine"),
 				new KnowledgeEntry(326, WarFileType.FileSprite, 217, "Corpse"),
 				new KnowledgeEntry(327, WarFileType.FileSprite, 217, "Human Peasant with Lumber"),
 				new KnowledgeEntry(328, WarFileType.FileSprite, 217, "Orc Peon with Lumber"),
@@ -632,6 +724,8 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(410, WarFileType.FileImage, 413, "%complete"),
 				new KnowledgeEntry(411, WarFileType.FileImage, 413, "Human point summary"),
 				new KnowledgeEntry(412, WarFileType.FileImage, 413, "Orc point summary"),
+         new KnowledgeEntry(413, WarFileType.FilePalette, 0, "Summary palette"),
+         new KnowledgeEntry(414, WarFileType.FilePalette, 0, "Unknown pal"),
 				new KnowledgeEntry(415, WarFileType.FileImage, 416, "Background Victory"),
 				new KnowledgeEntry(416, WarFileType.FilePalette, 0, "for 415"),
 				new KnowledgeEntry(417, WarFileType.FileImage, 418, "Background Defeat"),
@@ -640,8 +734,8 @@ Wenn Typ==32 (Goldmine)
 				new KnowledgeEntry(420, WarFileType.FileImage, 423, "Defeat Text"),
 				new KnowledgeEntry(421, WarFileType.FileImage, 423, "Human Briefing"),
 				new KnowledgeEntry(422, WarFileType.FileImage, 424, "Orc Briefing"),
-				new KnowledgeEntry(423, WarFileType.FileUnknown, 0, "Unknown"),
-				new KnowledgeEntry(424, WarFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry(423, WarFileType.FilePalette, 0, "Briefing Palette 1"),
+         new KnowledgeEntry(424, WarFileType.FilePalette, 0, "Briefing Palette 2"),
 				new KnowledgeEntry(425, WarFileType.FileSprite, 424, "Burning Fire Anim"),
 				new KnowledgeEntry(426, WarFileType.FileSprite, 424, "Talking Orc Anim"),
 				new KnowledgeEntry(427, WarFileType.FileSprite, 424, "Talking Orc 2 Anim"),

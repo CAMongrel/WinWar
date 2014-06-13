@@ -54,6 +54,8 @@ namespace WinWarCS.Data.Game
          }
       }
 
+      private List<Entity> entities;
+
       #region ctor
 
       /// <summary>
@@ -83,9 +85,11 @@ namespace WinWarCS.Data.Game
 
       #endregion
 
-      internal void Start()
+      internal void Start(List<BasePlayer> allPlayers)
       {
-         // NOTE: All players must exist at this point
+         Players.AddRange (allPlayers);
+
+         entities = new List<Entity> ();
 
          PopulateInitialEntities ();
       }
@@ -115,13 +119,17 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < levelInfo.StartObjects.Length; i++)
          {
             LevelObject lo = levelInfo.StartObjects [i];
-            //BasePlayer newOwner
+            BasePlayer newOwner = getPlayer (lo.player);
+            CreateEntity (lo.x, lo.y, lo.type, newOwner);
          }
       }
 
-      private void PlaceEntity(int x, int y, Entity entity, BasePlayer owner)
+      private void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
-
+         Entity newEnt = Entity.CreateEntityFromType (entityType);
+         newEnt.SetPosition (x, y);
+         newEnt.AssignOwner (owner);
+         entities.Add (newEnt);
       }
 
       #region Render
@@ -174,7 +182,14 @@ namespace WinWarCS.Data.Game
 
             int x = road.x - startTileX;
             int y = road.y - startTileY;
-            tileSet.DrawRoadTile(road.type, x * TileWidth - innerTileOffsetX, y * TileHeight - innerTileOffsetY, 1.0f);
+            tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+         }
+
+         // Render entities
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            Entity ent = entities [i];
+            ent.Render (setX, setY, tileOffsetX, tileOffsetY, TileWidth, TileHeight);
          }
       }
       // Render()

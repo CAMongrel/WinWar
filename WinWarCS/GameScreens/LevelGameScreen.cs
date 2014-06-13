@@ -15,6 +15,8 @@ namespace WinWarCS.GameScreens
 
       internal HumanPlayer HumanPlayer { get; private set; }
 
+      internal List<BasePlayer> Players;
+
       internal bool IsCampaignLevel
       {
          get
@@ -30,6 +32,9 @@ namespace WinWarCS.GameScreens
          Game = this;
 
          HumanPlayer = setHumanPlayer;
+
+         Players = new List<BasePlayer> ();
+         Players.Add (HumanPlayer);
       }
 
       internal override void InitUI ()
@@ -38,7 +43,21 @@ namespace WinWarCS.GameScreens
 
          if (IsCampaignLevel) 
          {
-            backgroundWindow.MapControl.LoadCampaignLevel (HumanPlayer.Campaign.GetCurrentLevelName());
+            // Create AI player
+            BasePlayer ai = new AIPlayer ();
+            ai.Race = Race.Humans;
+            if (HumanPlayer.Race == Race.Humans)
+               ai.Race = Race.Orcs;
+            ai.Name = ai.Race.ToString ();
+            Players.Add (ai);
+
+            // Load map
+            backgroundWindow.MapControl.LoadCampaignLevel (HumanPlayer.Campaign.GetCurrentLevelName ());
+            backgroundWindow.MapControl.CurrentMap.Start (Players);
+         } 
+         else 
+         {
+            throw new NotImplementedException ();
          }
       }
 

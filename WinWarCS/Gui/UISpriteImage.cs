@@ -52,7 +52,7 @@ namespace WinWarCS.Gui
 
          Vector2 screenPos = ScreenPosition;
 
-         WWTexture image = Sprite.CurrentFrame;
+         WWTexture image = Sprite.CurrentFrameTexture;
          if (image != null)
             image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
       }

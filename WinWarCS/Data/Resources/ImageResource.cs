@@ -76,7 +76,7 @@ namespace WinWarCS.Data.Resources
 									cnt++;
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 2] * 4);
 									cnt++;
-                                    image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
+                           image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
 									cnt++;
 
 									if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
@@ -89,8 +89,8 @@ namespace WinWarCS.Data.Resources
 										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
 									}
 
-                                    if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                                        (image_data[cnt - 4] == 204) &&
+                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
+                              (image_data[cnt - 4] == 204) &&
 										(image_data[cnt - 3] == 0) &&
 										(image_data[cnt - 2] == 212))
 									{

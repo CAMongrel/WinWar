@@ -152,7 +152,7 @@ namespace WinWarCS.Graphics
          byte[] outputData = new byte[Width * Height * 4];
          DXTexture.GetData<byte> (outputData);
 
-         int scale = 8;
+         int scale = 1;
 
          System.Drawing.Bitmap bm = new System.Drawing.Bitmap (Width * scale, Height * scale, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
          for (int y = 0; y < Height; y++)

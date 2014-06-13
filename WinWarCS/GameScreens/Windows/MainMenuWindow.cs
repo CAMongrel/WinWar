@@ -43,19 +43,35 @@ namespace WinWarCS.GameScreens.Windows
          UIButton quitGameBtn = Components[3] as UIButton;
          quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
 
-         string unitName = "Garana";
+         /*string unitName = "Goldmine";
 
-         UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
-         sprImg.Sprite.SetCurrentAnimationByName ("Walk");
+         SpriteResource res = WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName));
+         res.CreateImageData (false, false, false);
+         Sprite spr = new Sprite (res);
+         spr.CurrentFrame.WriteToFile ("/Users/henningthole/temp/paltest/mine_kb.png");
+
+         for (int i = 0; i < WarFile.Count; i++) 
+         {
+            if (KnowledgeBase.KB_List [i].type == WarFileType.FilePalette) 
+            {
+               res = new SpriteResource (WarFile.GetResourceByName (unitName), WarFile.GetResource (i));
+               res.CreateImageData (false, false, false);
+               spr = new Sprite (res);
+               spr.CurrentFrame.WriteToFile ("/Users/henningthole/temp/paltest/mine_pal_" + i + ".png");
+            }
+         }*/
+            
+         /*UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
+         //sprImg.Sprite.SetCurrentAnimationByName ("Walk");
          sprImg.X = 10;
          sprImg.Y = 10;
-         AddComponent(sprImg);
+         AddComponent(sprImg);*/
 
-         sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
+         /*sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
          sprImg.Sprite.SetCurrentAnimationByName ("Attack");
          sprImg.X = 30;
          sprImg.Y = 10;
-         AddComponent(sprImg);
+         AddComponent(sprImg);*/
 
          //sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }

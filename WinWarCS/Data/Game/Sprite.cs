@@ -10,8 +10,12 @@ using WinWarCS.Graphics;
 
 namespace WinWarCS.Data.Game
 {
-   struct SpriteFrame
+   class SpriteFrame
    {
+      internal byte OffsetX;
+      internal byte OffsetY;
+      internal byte Width;
+      internal byte Height;
       internal WWTexture texture;
    }
 
@@ -26,11 +30,38 @@ namespace WinWarCS.Data.Game
 
       internal SpriteAnimation CurrentAnimation { get; private set; }
 
-      internal WWTexture CurrentFrame
+      internal SpriteFrame CurrentFrame
       {
          get
          {
-            if (frames == null || frames.Length <= 0 || CurrentAnimation == null || CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
+            if (frames == null || frames.Length <= 0)
+               return null;
+
+            if (CurrentAnimation == null) 
+            {
+               return frames [0];
+            }
+
+            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
+               return null;
+
+            return frames[CurrentAnimation.CurrentFrameIndex];
+         }
+      }
+
+      internal WWTexture CurrentFrameTexture
+      {
+         get
+         {
+            if (frames == null || frames.Length <= 0)
+               return null;
+
+            if (CurrentAnimation == null) 
+            {
+               return frames [0].texture;
+            }
+
+            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
                return null;
 
             return frames[CurrentAnimation.CurrentFrameIndex].texture;
@@ -55,6 +86,11 @@ namespace WinWarCS.Data.Game
             Texture2D DXTexture = new Texture2D(MainGame.Device, resource.MaxWidth, resource.MaxHeight, false, SurfaceFormat.Color);
             DXTexture.SetData<byte>(resource.Frames[i].image_data);
 
+            frames [i] = new SpriteFrame ();
+            frames [i].OffsetX = resource.Frames [i].disp_x;
+            frames [i].OffsetY = resource.Frames [i].disp_y;
+            frames [i].Width = resource.Frames [i].width;
+            frames [i].Height = resource.Frames [i].height;
             frames[i].texture = WWTexture.FromDXTexture(DXTexture);
          }
       }
