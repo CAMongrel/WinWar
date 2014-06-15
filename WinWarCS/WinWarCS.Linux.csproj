@@ -106,11 +106,29 @@
     <Compile Include="Data\Game\BasePlayer.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\AIPlayer.cs" />
+    <Compile Include="Data\Game\Entities\Building.cs" />
+    <Compile Include="Data\Game\Entities\Entity.cs" />
+    <Compile Include="Data\Game\Entities\Unit.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\AI\AStar.cs" />
+    <Compile Include="Data\Game\AI\BinaryHeap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Platform\" />
     <Folder Include="Platform\Linux\" />
+    <Folder Include="Data\Game\Entities\" />
+    <Folder Include="Data\Game\AI\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -258,5 +276,6 @@
     <None Include="Assets\Data\WIN2.WAR">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Data\Game\AI\StateMachine.cs" />
   </ItemGroup>
 </Project>
