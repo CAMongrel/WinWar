@@ -1,19 +1,14 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="13.06.2014 07:41:04">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="16.06.2014 11:03:19">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Entities/Entity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Map.cs">
     <Files>
-      <File FileName="WinWarCS/Data/Game/Map.cs" Line="192" Column="20" />
-      <File FileName="WinWarCS/Data/Game/SpriteAnimation.cs" Line="118" Column="71" />
-      <File FileName="WinWarCS/Data/Game/UnitSprite.cs" Line="39" Column="7" />
-      <File FileName="WinWarCS/Data/Game/Entities/Humans/HumanBase.cs" Line="9" Column="101" />
-      <File FileName="WinWarCS/Data/Game/Entities/Humans/HumanFarm.cs" Line="14" Column="1" />
-      <File FileName="WinWarCS/Data/Game/Entities/Orcs/OrcBase.cs" Line="9" Column="99" />
-      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="55" Column="8" />
-      <File FileName="WinWarCS/Data/Game/Entities/Humans/HumanPeasant.cs" Line="9" Column="103" />
-      <File FileName="WinWarCS/Data/Game/Entities/Orcs/OrcAxethrower.cs" Line="9" Column="104" />
-      <File FileName="WinWarCS/Data/Game/Entities/Humans/HumanArcher.cs" Line="9" Column="107" />
-      <File FileName="WinWarCS/Data/Game/Entities/Orcs/OrcGrunt.cs" Line="9" Column="104" />
-      <File FileName="WinWarCS/Data/Resources/LevelInfoResource.cs" Line="58" Column="15" />
+      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="62" Column="30" />
+      <File FileName="WinWarCS/Data/Game/AI/HateList.cs" Line="177" Column="27" />
+      <File FileName="WinWarCS/Data/Game/Map.cs" Line="176" Column="34" />
+      <File FileName="WinWarCS/Data/Game/AI/StateMachine.cs" Line="94" Column="45" />
+      <File FileName="../WinWar/WinWarCS/WinWar.ScriptEnv/Game/BuildEntity.cs" Line="17" Column="3" />
+      <File FileName="WinWarCS/Data/Game/Entities/Unit.cs" Line="40" Column="29" />
+      <File FileName="WinWarCS/Data/Game/Entities/BuildEntity.cs" Line="13" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -4,7 +4,8 @@ namespace WinWarCS.Data.Game
 {
    internal class HumanBase : Building
    {
-      public HumanBase ()
+      public HumanBase (Map currentMap)
+         : base(currentMap)
       {
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Base")));
       }

@@ -26,13 +26,9 @@
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
-    <I18n>
-    </I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -103,6 +99,7 @@
     <Folder Include="Data\Game\Entities\Humans\" />
     <Folder Include="Data\Game\Entities\Orcs\" />
     <Folder Include="Data\Game\Entities\Neutral\" />
+    <Folder Include="Data\Game\AI\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IntroStoryboard.cs" />
@@ -178,10 +175,15 @@
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
+    <Compile Include="Data\Game\AI\AStar.cs" />
+    <Compile Include="Data\Game\AI\BinaryHeap.cs" />
+    <Compile Include="Data\Game\AI\HateList.cs" />
+    <Compile Include="Data\Game\Entities\BuildEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
     <None Include="Info.plist" />
+    <None Include="Data\Game\AI\StateMachine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

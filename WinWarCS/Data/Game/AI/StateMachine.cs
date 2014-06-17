@@ -69,7 +69,7 @@ namespace WinWarCS.Data.Game
 			if (currentBuildingTime <= 0)
 			{
 				// TODO: Find empty spot to spawn
-				int x, y, x2, y2;
+				float x, y, x2, y2;
 
 				x = this.Owner.X;
 				y = this.Owner.Y - 1;
@@ -91,7 +91,7 @@ namespace WinWarCS.Data.Game
 						x = this.Owner.X + x2;
 						y = this.Owner.Y + y2;
 
-						if (Level.GetEntityAt(x, y) == null)
+                  if (Owner.CurrentMap.GetEntityAt(x, y) == null)
 						{
 							bFound = true;
 						}

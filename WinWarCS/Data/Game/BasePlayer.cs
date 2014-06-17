@@ -20,11 +20,46 @@ namespace WinWarCS.Data.Game
 
       internal PlayerType PlayerType { get; private set; }
 
+      internal List<Entity> Entities { get; private set; }
+
       internal BasePlayer (PlayerType setPlayerType)
       {
          Name = "Player";
          Race = Game.Race.Humans;
          PlayerType = setPlayerType;
+         Entities = new List<Entity> ();
+      }
+
+      internal void ClaimeOwnership(Entity setEntity)
+      {
+         if (setEntity == null)
+            return;
+
+         if (setEntity.Owner == this)
+            return;
+
+         Entities.Add (setEntity);
+
+         setEntity.AssignOwner (this);
+      }
+
+      internal void RemoveOwnership(Entity setEntity)
+      {
+         if (setEntity == null)
+            return;
+
+         if (setEntity.Owner != this)
+            return;
+
+         if (Entities.Contains (setEntity))
+            Entities.Remove (setEntity);
+
+         setEntity.AssignOwner(null);
+      }
+
+      public bool IsNeutralTowards (Entity entity)
+      {
+         return false;
       }
    }
 }

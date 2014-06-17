@@ -2,9 +2,10 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class Building : Entity
+   internal class Building : BuildEntity
    {
-      public Building ()
+      public Building (Map currentMap)
+         : base(currentMap)
       {
       }
    }

@@ -1,64 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WinWarCS.Data.Game;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class LevelPassableResource : BasicResource
-	{
-		short[] passableData;
+   internal class LevelPassableResource : BasicResource
+   {
+      private short width;
+      private short height;
+      private short[,] passableData;
 
-        internal LevelPassableResource(string res_name)
-        {
-            this.data = WarFile.GetResourceByName(res_name);
+      internal LevelPassableResource (string res_name)
+      {
+         // Levels are always 64 x 64 in size
+         width = 64;
+         height = 64;
 
-            CreatePassableData();
-        }
-	
-		/// <summary>
-		/// Create level visual resource
-		/// </summary>
-		internal LevelPassableResource(WarResource setData)
-		{
-			this.data = setData;
+         this.data = WarFile.GetResourceByName (res_name);
+
+         CreatePassableData ();
+      }
+
+      /// <summary>
+      /// Create level visual resource
+      /// </summary>
+      internal LevelPassableResource (WarResource setData)
+      {
+         this.data = setData;
 			
-			CreatePassableData();
-		} // LevelVisualResource(setData, setOffset)
+         CreatePassableData ();
+      }
+      // LevelVisualResource(setData, setOffset)
+
+      internal void FillAStar(AStar2D astar)
+      {
+         astar.SetField (passableData, width, height);
+      }
 		
-		/// <summary>
-		/// Create visual data
-		/// </summary>
-		void CreatePassableData()
-		{
-			// Levels are always 64 x 64 in size
-			passableData = new short[64 * 64];
+      /// <summary>
+      /// Create visual data
+      /// </summary>
+      private void CreatePassableData ()
+      {
+         passableData = new short[width, height];
 			
-			if (data.data != null)
-			{
-				unsafe 
-				{
-					fixed (byte* org_ptr = &data.data[0])
-					{
-						short* ptr = (short*)org_ptr;
+         if (data.data != null) 
+         {
+            unsafe 
+            {
+               fixed (byte* org_ptr = &data.data[0]) 
+               {
+                  short* ptr = (short*)org_ptr;
 						
-						for (int y = 0; y < 64; y++)
-                        {
-                        	for (int x = 0; x < 64; x++)
-                            {
-								passableData[x + y * 64] = *ptr;
-                            	ptr++;
-                            }
-                        }
-					} // fixed
-				} // fixed
-			} // if
-		} // CreateVisualData()
+                  for (int y = 0; y < height; y++) 
+                  {
+                     for (int x = 0; x < width; x++) 
+                     {
+                        passableData [x, y] = *ptr;
+                        ptr++;
+                     }
+                  }
+               } // fixed
+            } // fixed
+         } // if
+      }
+      // CreateVisualData()
 		
-		/// <summary>
-		/// Destroy visual data
-		/// </summary>
-		internal void DestroyPassableData()
-		{
-		} // DestroyVisualData()
-	}
+      /// <summary>
+      /// Destroy visual data
+      /// </summary>
+      internal void DestroyPassableData ()
+      {
+      }
+      // DestroyVisualData()
+   }
 }

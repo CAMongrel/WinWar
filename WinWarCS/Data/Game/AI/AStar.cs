@@ -24,7 +24,7 @@ namespace WinWarCS.Data.Game
 	{
 		static byte[] SQRT = new byte[] { 0, 10, 14 };
 
-		byte[,] field = null;
+		short[,] field = null;
 		int startX;
 		int startY;
 		int endX;
@@ -57,7 +57,7 @@ namespace WinWarCS.Data.Game
 			endY = 0;
 		}
 
-		public void SetField(byte[,] field, int width, int height)
+		public void SetField(short[,] field, int width, int height)
 		{
 			this.field = field;
 			this.width = width;
@@ -71,7 +71,7 @@ namespace WinWarCS.Data.Game
 
 		public void SetEmptyField(int width, int height)
 		{
-			this.field = new byte[height, width];
+         this.field = new short[height, width];
 			this.width = width;
 			this.height = height;
 
@@ -320,7 +320,7 @@ namespace WinWarCS.Data.Game
 			return Path[index];
 		}
 
-		public byte this[int x, int y]
+      public short this[int x, int y]
 		{
 			get { return field[y, x]; }
 			set { field[y, x] = value; }

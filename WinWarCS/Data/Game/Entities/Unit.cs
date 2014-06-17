@@ -36,7 +36,8 @@ namespace WinWarCS.Data.Game
          }
       }
 
-      public Unit ()
+      public Unit (Map currentMap)
+         : base (currentMap)
       {
       }
    }

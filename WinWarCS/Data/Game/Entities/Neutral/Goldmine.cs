@@ -5,7 +5,8 @@ namespace WinWarCS.Data.Game
 {
    internal class Goldmine : Building
    {
-      public Goldmine ()
+      public Goldmine (Map currentMap)
+         : base(currentMap)
       {
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Goldmine")));
       }

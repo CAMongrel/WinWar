@@ -4,7 +4,8 @@ namespace WinWarCS.Data.Game
 {
    internal class OrcFarm : Building
    {
-      public OrcFarm ()
+      public OrcFarm (Map currentMap)
+         : base(currentMap)
       {
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Farm")));
       }

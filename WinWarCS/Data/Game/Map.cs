@@ -56,6 +56,8 @@ namespace WinWarCS.Data.Game
 
       private List<Entity> entities;
 
+      internal AStar2D Pathfinder;
+
       #region ctor
 
       /// <summary>
@@ -78,6 +80,9 @@ namespace WinWarCS.Data.Game
          tileSet = MapTileset.GetTileset (levelVisual.Tileset);
 
          Players = new List<BasePlayer> ();
+
+         Pathfinder = new AStar2D ();
+         levelPassable.FillAStar (Pathfinder);
 
          BuildInitialRoads ();
       }
@@ -126,10 +131,11 @@ namespace WinWarCS.Data.Game
 
       private void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
-         Entity newEnt = Entity.CreateEntityFromType (entityType);
+         Entity newEnt = Entity.CreateEntityFromType (entityType, this);
          newEnt.SetPosition (x, y);
-         newEnt.AssignOwner (owner);
          entities.Add (newEnt);
+
+         owner.ClaimeOwnership (newEnt);
       }
 
       #region Render

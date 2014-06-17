@@ -12,9 +12,64 @@ namespace WinWarCS.Data.Game
 
       public BasePlayer Owner { get; private set; }
 
-      public Entity ()
+      public HateList HateList { get; private set; }
+
+      public Map CurrentMap { get; private set; }
+
+      private Entity currentTarget;
+
+      public Entity PreviousTarget { get; private set; }
+
+      /// <summary>
+      /// Attack range
+      /// </summary>
+      public byte AttackRange;
+      /// <summary>
+      /// Armor points
+      /// </summary>
+      public short ArmorPoints;
+      /// <summary>
+      /// Hit points
+      /// </summary>
+      public short HitPoints;
+      /// <summary>
+      /// Maximum hit points
+      /// </summary>
+      public short MaxHitPoints;
+      /// <summary>
+      /// Minimum damage
+      /// </summary>
+      public byte MinDamage;
+      /// <summary>
+      /// Random damage
+      /// </summary>
+      public byte RandomDamage;
+      /// <summary>
+      /// Time to build
+      /// </summary>
+      public short TimeToBuild;
+      /// <summary>
+      /// Gold cost
+      /// </summary>
+      public short GoldCost;
+      /// <summary>
+      /// Lumber cost
+      /// </summary>
+      public short LumberCost;
+      /// <summary>
+      /// Decay rate
+      /// </summary>
+      public short DecayRate;
+
+      public Entity (Map currentMap)
       {
+         currentTarget = null;
+         PreviousTarget = null;
+
+         CurrentMap = currentMap;
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Peasant")));
+
+         HateList = new HateList ();
       }
 
       public void SetPosition(float newX, float newY)
@@ -24,7 +79,7 @@ namespace WinWarCS.Data.Game
       }
 
       /// <summary>
-      /// Assigns the owner.
+      /// Assigns the owner. Do not call manually.
       /// </summary>
       /// <param name="owner">New owner. May be null</param>
       public void AssignOwner(BasePlayer setOwner)
@@ -54,50 +109,94 @@ namespace WinWarCS.Data.Game
          curFrame.texture.RenderOnScreen (rect);
       }
 
-      public static Entity CreateEntityFromType (LevelObjectType entityType)
+      /// <summary>
+      /// Updates the hate list by adding new entities to it, that just entered 
+      /// the aggro range.
+      /// Note: This is done automatically by the game each tick and does not 
+      /// need to be called from script.
+      /// </summary>
+      public void UpdateHateList()
+      {
+         float sqr_aggrorange = 0;//aggrorange * aggrorange;
+
+         for (int i = 0; i < CurrentMap.Players.Count; i++)
+         {
+            BasePlayer pl = CurrentMap.Players[i];
+            if (pl == this.Owner || pl.IsNeutralTowards(this))
+               continue;
+
+            foreach (Entity ent in pl.Entities)
+            {
+               float offx = X - ent.X;
+               float offy = Y - ent.Y;
+
+               float dist = (offx * offx + offy * offy);
+
+               if (dist < sqr_aggrorange)
+               {
+                  HateList.SetHateValue(ent, 1, HateListParam.IgnoreIfPresent);
+               }
+            } // foreach
+         } // foreach
+      } // UpdateHateList()
+
+      /// <summary>
+      /// Gets or sets the current target entity of this entity.
+      /// </summary>
+      public Entity CurrentTarget
+      {
+         get { return currentTarget; }
+         set
+         {
+            PreviousTarget = currentTarget;
+            currentTarget = value;
+         }
+      } // CurrentTarget
+
+      public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
       {
          switch (entityType) 
          {
          // Orc Units
          case LevelObjectType.Peon:
-            return new OrcPeon ();
+            return new OrcPeon (inMap);
 
          case LevelObjectType.Grunt:
-            return new OrcGrunt ();
+            return new OrcGrunt (inMap);
 
          case LevelObjectType.Spearman:
-            return new OrcAxethrower ();
+            return new OrcAxethrower (inMap);
 
             // Human Units
          case LevelObjectType.Peasant:
-            return new HumanPeasant ();
+            return new HumanPeasant (inMap);
 
          case LevelObjectType.Warrior:
-            return new HumanWarrior ();
+            return new HumanWarrior (inMap);
 
          case LevelObjectType.Bowman:
-            return new HumanArcher ();
+            return new HumanArcher (inMap);
 
             // Orc Buildings
          case LevelObjectType.Orc_Farm:
-            return new OrcFarm ();
+            return new OrcFarm (inMap);
 
          case LevelObjectType.Orc_HQ:
-            return new OrcBase ();
+            return new OrcBase (inMap);
 
             // Human Buildings
          case LevelObjectType.Human_Farm:
-            return new HumanFarm ();
+            return new HumanFarm (inMap);
 
          case LevelObjectType.Human_HQ:
-            return new HumanBase ();
+            return new HumanBase (inMap);
 
             // Neutral
          case LevelObjectType.Goldmine:
-            return new Goldmine ();
+            return new Goldmine (inMap);
 
          default:
-            return new Entity ();
+            return new Entity (inMap);
          }
       }
    }
