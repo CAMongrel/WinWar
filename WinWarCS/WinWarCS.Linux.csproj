@@ -39,10 +39,12 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework" />
     <Reference Include="System.Drawing" />
     <Reference Include="FLCLib.MonoGame">
       <HintPath>..\Libs\Linux\FLCLib.MonoGame.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\Libs\Linux\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +124,8 @@
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
     <Compile Include="Data\Game\AI\AStar.cs" />
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
+    <Compile Include="Data\Game\Entities\BuildEntity.cs" />
+    <Compile Include="Data\Game\AI\HateList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -278,4 +282,5 @@
     </None>
     <None Include="Data\Game\AI\StateMachine.cs" />
   </ItemGroup>
+  <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
 </Project>

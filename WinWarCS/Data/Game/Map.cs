@@ -135,7 +135,9 @@ namespace WinWarCS.Data.Game
          newEnt.SetPosition (x, y);
          entities.Add (newEnt);
 
-         owner.ClaimeOwnership (newEnt);
+         if (owner != null)
+            // Neutral entities may not have an owner
+            owner.ClaimeOwnership (newEnt);
       }
 
       #region Render

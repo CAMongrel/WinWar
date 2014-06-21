@@ -108,6 +108,7 @@ namespace WinWarCS
 			_graphics = new GraphicsDeviceManager (this);
          _graphics.PreferredBackBufferWidth = 320 * 3;
          _graphics.PreferredBackBufferHeight = 200 * 3;
+         _graphics.ApplyChanges ();
 
 			Content.RootDirectory = "Assets";
 		}

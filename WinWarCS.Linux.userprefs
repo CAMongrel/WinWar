@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/AI/StateMachine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/MainGame.cs">
     <Files>
-      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="30" Column="10" />
       <File FileName="WinWarCS/MainGame.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Platform/Linux/IO.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Platform/Linux/Input.cs" Line="1" Column="1" />
@@ -11,7 +11,10 @@
       <File FileName="WinWarCS/Graphics/Texture.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Data/Game/AI/AStar.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Data/Game/AI/BinaryHeap.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/Game/AI/StateMachine.cs" Line="26" Column="4" />
+      <File FileName="WinWarCS/Data/Game/AI/StateMachine.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/Data/Game/Entities/Building.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/Data/Game/Map.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
