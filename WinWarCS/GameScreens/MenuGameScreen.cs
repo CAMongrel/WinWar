@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +37,8 @@ namespace WinWarCS.GameScreens
       internal override void InitUI()
       {
          elapsedTime = 0;
+
+         MouseCursor.State = MouseCursorState.CrosshairGreen;
 
          backgroundWindow = new MenuBackgroundWindow();
          mainMenuWindow = new MainMenuWindow();

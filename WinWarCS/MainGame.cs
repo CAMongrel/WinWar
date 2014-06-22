@@ -5,6 +5,7 @@ using System.Text;
 using WinWarCS.GameScreens;
 using Microsoft.Xna.Framework.Input;
 using WinWarCS.Data;
+using WinWarCS.Gui;
 
 namespace WinWarCS
 {
@@ -99,6 +100,8 @@ namespace WinWarCS
 		public MainGame ()
 		{
 			MainGame.WinWarGame = this;
+
+         this.IsMouseVisible = false;
 
 			backgroundClearColor = new Color (0x7F, 0x00, 0x00);
 
@@ -262,26 +265,28 @@ namespace WinWarCS
 			}
 
 			base.Draw (gameTime);
+
+         MouseCursor.Render (gameTime);
 		}
 
-		internal void PointerPressed (Microsoft.Xna.Framework.Vector2 position)
+      internal void PointerPressed (Microsoft.Xna.Framework.Vector2 scaledPosition)
 		{
 			if (currentGameScreen != null) {
-				currentGameScreen.PointerDown (new Microsoft.Xna.Framework.Vector2 ((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
+            currentGameScreen.PointerDown (scaledPosition);
 			}
 		}
 
-		internal void PointerReleased (Microsoft.Xna.Framework.Vector2 position)
+      internal void PointerReleased (Microsoft.Xna.Framework.Vector2 scaledPosition)
 		{
 			if (currentGameScreen != null) {
-				currentGameScreen.PointerUp (new Microsoft.Xna.Framework.Vector2 ((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
+            currentGameScreen.PointerUp (scaledPosition);
 			}
 		}
 
-		internal void PointerMoved (Microsoft.Xna.Framework.Vector2 position)
+      internal void PointerMoved (Microsoft.Xna.Framework.Vector2 scaledPosition)
 		{
 			if (currentGameScreen != null) {
-				currentGameScreen.PointerMoved (new Microsoft.Xna.Framework.Vector2 ((position.X - MainGame.ScaledOffsetX) / ScaleX, (position.Y - MainGame.ScaledOffsetY) / ScaleY));
+            currentGameScreen.PointerMoved (scaledPosition);
 			}
 		}
 	}

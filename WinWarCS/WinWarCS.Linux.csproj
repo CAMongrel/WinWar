@@ -126,6 +126,8 @@
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
     <Compile Include="Data\Game\Entities\BuildEntity.cs" />
     <Compile Include="Data\Game\AI\HateList.cs" />
+    <Compile Include="Gui\MouseCursor.cs" />
+    <Compile Include="Data\Resources\CursorResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

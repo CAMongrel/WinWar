@@ -101,6 +101,25 @@ namespace WinWarCS.Data
 
       #endregion
 
+      #region GetCursorResource
+
+      internal static CursorResource GetCursorResource (int id)
+      {
+         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+            return null;
+
+         if (KnowledgeBase.KB_List [id].type != WarFileType.FileCursor)
+            return null;
+
+         WarResource pal = null;
+         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == WarFileType.FilePalette)
+            pal = GetResource (KnowledgeBase.KB_List [id].param);
+
+         return new CursorResource (GetResource (id), pal);
+      }
+
+      #endregion
+
       #region GetSpriteResource
 
       internal static SpriteResource GetSpriteResource (int id)
