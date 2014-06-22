@@ -29,8 +29,6 @@ namespace WinWarCS.Data.Resources
                HotSpotX = *usptr++;
                HotSpotY = *usptr++;
 
-               Console.WriteLine ("X: " + HotSpotX + "; Y: " + HotSpotY);
-
                width = *usptr++;
                height = *usptr++;
 
