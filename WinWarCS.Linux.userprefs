@@ -1,11 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/MainGame.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/GameScreens/LevelGameScreen.cs">
     <Files>
-      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="32" Column="10" />
       <File FileName="WinWarCS/Platform/Linux/IO.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Platform/Linux/Input.cs" Line="25" Column="42" />
-      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Gui/UIButton.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Graphics/Texture.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Data/Game/AI/AStar.cs" Line="1" Column="1" />
@@ -15,18 +13,29 @@
       <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Data/Game/Map.cs" Line="1" Column="1" />
       <File FileName="WinWarCS/Platform/Linux/Program.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Gui/MouseCursor.cs" Line="34" Column="10" />
-      <File FileName="WinWarCS/MainGame.cs" Line="177" Column="11" />
+      <File FileName="WinWarCS/Gui/MouseCursor.cs" Line="135" Column="106" />
+      <File FileName="WinWarCS/Data/KnowledgeBase.cs" Line="592" Column="74" />
+      <File FileName="WinWarCS/GameScreens/MenuGameScreen.cs" Line="41" Column="10" />
+      <File FileName="WinWarCS/GameScreens/MovieGameScreen.cs" Line="83" Column="12" />
+      <File FileName="WinWarCS/GameScreens/BlizzardGameScreen.cs" Line="33" Column="47" />
+      <File FileName="WinWarCS/GameScreens/LevelGameScreen.cs" Line="42" Column="54" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="WinWarCS.Linux" expanded="True">
+            <Node name="Data" expanded="True">
+              <Node name="Game" expanded="True" />
+              <Node name="Resources" expanded="True" />
+            </Node>
+            <Node name="GameScreens" expanded="True">
+              <Node name="Windows" expanded="True" />
+              <Node name="LevelGameScreen.cs" selected="True" />
+            </Node>
             <Node name="Gui" expanded="True" />
             <Node name="Platform" expanded="True">
               <Node name="Linux" expanded="True" />
             </Node>
-            <Node name="MainGame.cs" selected="True" />
           </Node>
         </State>
       </Pad>

@@ -39,6 +39,8 @@ namespace WinWarCS.GameScreens
 
       internal override void InitUI ()
       {
+         MouseCursor.State = MouseCursorState.Pointer;
+
          backgroundWindow = new GameBackgroundWindow ();
 
          if (IsCampaignLevel) 

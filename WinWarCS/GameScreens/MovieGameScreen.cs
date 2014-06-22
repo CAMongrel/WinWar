@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using WinWarCS.Gui;
 
 namespace WinWarCS.GameScreens
 {
@@ -79,7 +80,7 @@ namespace WinWarCS.GameScreens
 
       internal override void InitUI()
       {
-         //
+         MouseCursor.State = MouseCursorState.None;
       }
 
       internal override void Close()

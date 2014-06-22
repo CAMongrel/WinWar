@@ -30,6 +30,8 @@ namespace WinWarCS.GameScreens
       {
          base.InitUI();
 
+         MouseCursor.State = MouseCursorState.None;
+
          UIWindow wnd = new UIWindow();
 
          img = new UIImage(WWTexture.FromImageResource("Background 'Blizzard'"));

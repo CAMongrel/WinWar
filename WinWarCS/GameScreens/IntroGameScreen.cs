@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WinWarCS.Data;
 using WinWarCS.Gui.Rendering;
 using System.IO;
+using WinWarCS.Gui;
 
 namespace WinWarCS.GameScreens
 {
@@ -27,6 +28,8 @@ namespace WinWarCS.GameScreens
       {
          curTexture = null;
          introFinished = setIntroFinished;
+
+         MouseCursor.State = MouseCursorState.None;
 
          storyboard = new IntroStoryboard();
          storyboard.OnStageSwitched += storyboard_OnStageSwitched;

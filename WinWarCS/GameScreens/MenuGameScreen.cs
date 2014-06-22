@@ -38,7 +38,7 @@ namespace WinWarCS.GameScreens
       {
          elapsedTime = 0;
 
-         MouseCursor.State = MouseCursorState.CrosshairGreen;
+         MouseCursor.State = MouseCursorState.Pointer;
 
          backgroundWindow = new MenuBackgroundWindow();
          mainMenuWindow = new MainMenuWindow();
