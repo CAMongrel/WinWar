@@ -107,7 +107,8 @@ namespace WinWarCS.Gui
       {
          base.Render ();
 
-         if (CurrentMap != null) {
+         if (CurrentMap != null) 
+         {
             CurrentMap.Render (this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
          }
       }

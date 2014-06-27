@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,151 +9,178 @@ using WinWarCS.Gui;
 
 namespace WinWarCS.GameScreens.Windows
 {
-    class GameBackgroundWindow : UIWindow
-    {
-        private UIImage leftSidebar;
-        private UIImage leftSidebarTop;
-        private UIImage topBar;
-        private UIImage bottomBar;
-        private UIImage rightBar;
+   class GameBackgroundWindow : UIWindow
+   {
+      private UIImage leftSidebar;
+      private UIImage leftSidebarTop;
+      private UIImage topBar;
+      private UIImage bottomBar;
+      private UIImage rightBar;
+      private UIButton menuButton;
 
-        private UIButton menuButton;
+      internal UIMapControl MapControl { get; private set; }
 
-        internal UIMapControl MapControl { get; private set; }
-        internal UIMinimapControl MinimapControl { get; private set; }
+      internal UIMinimapControl MinimapControl { get; private set; }
 
-        private Vector2 currentPointerPos;
-        private Vector2 scrollDelta;
-        private float scrollSpeed;
+      private Vector2 currentPointerPos;
+      private Vector2 scrollDelta;
+      private float scrollSpeed;
 
-        internal GameBackgroundWindow()
-        {
-            scrollSpeed = 125.0f;
-            currentPointerPos = new Vector2(50, 50);
+      internal GameBackgroundWindow ()
+      {
+         scrollSpeed = 125.0f;
+         currentPointerPos = new Vector2 (50, 50);
 
-            InitUI();
-        }
+         InitUI ();
+      }
 
-        private void LoadUIImage(ref UIImage img, string name)
-        {
-            img = UIImage.FromImageResource(name);
-            AddComponent(img);
-        }
+      private void LoadUIImage (ref UIImage img, string name)
+      {
+         img = UIImage.FromImageResource (name);
+         AddComponent (img);
+      }
 
-        private void InitUI()
-        {
-            ClearComponents();
+      private void InitUI ()
+      {
+         ClearComponents ();
 
-            MapControl = new UIMapControl();
-            AddComponent(MapControl);
+         MapControl = new UIMapControl ();
+         AddComponent (MapControl);
 
-            MinimapControl = new UIMinimapControl(MapControl);
+         MinimapControl = new UIMinimapControl (MapControl);
 
-            LoadUIImage(ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-            LoadUIImage(ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-            leftSidebar.Y = leftSidebarTop.Height;
+         LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         leftSidebar.Y = leftSidebarTop.Height;
 
-            LoadUIImage(ref topBar, "Topbar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-            LoadUIImage(ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref topBar, "Topbar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
 
-            topBar.X = leftSidebarTop.Width;
-            bottomBar.X = leftSidebar.Width;
-            bottomBar.Y = 200 - bottomBar.Height;
+         topBar.X = leftSidebarTop.Width;
+         bottomBar.X = leftSidebar.Width;
+         bottomBar.Y = 200 - bottomBar.Height;
 
-            LoadUIImage(ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-            rightBar.X = 320 - rightBar.Width;
+         LoadUIImage (ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         rightBar.X = 320 - rightBar.Width;
 
-            MapControl.X = leftSidebarTop.Width;
-            MapControl.Y = topBar.Height;
-            MapControl.Width = rightBar.X - MapControl.X;
-            MapControl.Height = bottomBar.Y - MapControl.Y;
+         MapControl.X = leftSidebarTop.Width;
+         MapControl.Y = topBar.Height;
+         MapControl.Width = rightBar.X - MapControl.X;
+         MapControl.Height = bottomBar.Y - MapControl.Y;
 
-            MinimapControl.X = 3;
-            MinimapControl.Y = 6;
-            MinimapControl.Width = 64;
-            MinimapControl.Height = 64;
-            MinimapControl.Init();
+         MinimapControl.X = 3;
+         MinimapControl.Y = 6;
+         MinimapControl.Width = 64;
+         MinimapControl.Height = 64;
+         MinimapControl.Init ();
 
-            menuButton = new UIButton("Menu", UIButton.ButtonType.SmallButton);
-            menuButton.Width = (int)((float)menuButton.Width * 1.22f);
-            menuButton.Height = (int)((float)menuButton.Height / 1.3f);
-            menuButton.X = leftSidebar.Width / 2 - menuButton.Width / 2 - 1;
-            menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
-            menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
-            AddComponent(menuButton);
+         menuButton = new UIButton ("Menu", UIButton.ButtonType.SmallButton);
+         menuButton.Width = (int)((float)menuButton.Width * 1.22f);
+         menuButton.Height = (int)((float)menuButton.Height / 1.3f);
+         menuButton.X = leftSidebar.Width / 2 - menuButton.Width / 2 - 1;
+         menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
+         menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
+         AddComponent (menuButton);
 
-            AddComponent(MinimapControl);
-        }
+         AddComponent (MinimapControl);
+      }
 
-        void menuButton_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
-        {
-            IngameMenuWindow menu = new IngameMenuWindow();
-        }
+      void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      {
+         IngameMenuWindow menu = new IngameMenuWindow ();
+      }
 
-        internal override void Update(Microsoft.Xna.Framework.GameTime gameTime)
-        {
-            base.Update(gameTime);
+      internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
+      {
+         base.Update (gameTime);
 
-            if (MapControl.InputHandler.InputMode == InputMode.EnhancedMouse)
-            {
-                bool shouldScroll = false;
+         bool leftClickNeeded = false;
+         if (MapControl.InputHandler.InputMode == InputMode.Classic)
+            // TODO: Use me
+            leftClickNeeded = true;
 
-                if (currentPointerPos.X <= 3)
-                {
-                    shouldScroll = true;
-                    scrollDelta.X -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-                if (currentPointerPos.Y <= 3)
-                {
-                    shouldScroll = true;
-                    scrollDelta.Y -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-                if (currentPointerPos.X >= Width - 3)
-                {
-                    shouldScroll = true;
-                    scrollDelta.X += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-                if (currentPointerPos.Y >= Height - 3)
-                {
-                    shouldScroll = true;
-                    scrollDelta.Y += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
+         bool shouldScroll = false;
 
-                if (shouldScroll)
-                {
-                    Vector2 clampedScrollDelta = scrollDelta;
-                    clampedScrollDelta.X = (float)((int)scrollDelta.X / MapControl.TileWidth) * MapControl.TileWidth;
-                    clampedScrollDelta.Y = (float)((int)scrollDelta.Y / MapControl.TileHeight) * MapControl.TileHeight;
+         MouseCursorState newState = MouseCursorState.None;
 
-                    MapControl.SetCameraOffset(MapControl.CameraTileX * MapControl.TileWidth + clampedScrollDelta.X, MapControl.CameraTileY * MapControl.TileHeight + clampedScrollDelta.Y);
+         if (currentPointerPos.X <= 3)
+         {
+            shouldScroll = true;
+            scrollDelta.X -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    if (clampedScrollDelta.X != 0)
-                        scrollDelta.X = 0;
-                    if (clampedScrollDelta.Y != 0)
-                        scrollDelta.Y = 0;
-                }
-                else
-                {
-                    scrollDelta.X = 0;
-                    scrollDelta.Y = 0;
-                }
-            }
-        }
+            newState = MouseCursorState.ScrollLeft;
+         }
+         if (currentPointerPos.Y <= 3)
+         {
+            shouldScroll = true;
+            scrollDelta.Y -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
-        {
-            return base.PointerDown(position);
-        }
+            if (newState == MouseCursorState.None)
+               newState = MouseCursorState.ScrollTop;
+            else
+               newState = MouseCursorState.ScrollTopleft;
+         }
+         if (currentPointerPos.X >= Width - 3)
+         {
+            shouldScroll = true;
+            scrollDelta.X += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
-        {
-            currentPointerPos = position;
-            return base.PointerMoved(position);
-        }
+            if (newState == MouseCursorState.ScrollTop)
+               newState = MouseCursorState.ScrollTopright;
+            else
+               newState = MouseCursorState.ScrollRight;
+         }
+         if (currentPointerPos.Y >= Height - 3)
+         {
+            shouldScroll = true;
+            scrollDelta.Y += scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
-        {
-            return base.PointerUp(position);
-        }
-    }
+            if (newState == MouseCursorState.ScrollLeft)
+               newState = MouseCursorState.ScrollBottomleft;
+            else if (newState == MouseCursorState.ScrollRight)
+               newState = MouseCursorState.ScrollBottomright;
+            else
+               newState = MouseCursorState.ScrollBottom;
+         }
+
+         if (shouldScroll)
+         {
+            MouseCursor.State = newState;
+
+            Vector2 clampedScrollDelta = scrollDelta;
+            clampedScrollDelta.X = (float)((int)scrollDelta.X / MapControl.TileWidth) * MapControl.TileWidth;
+            clampedScrollDelta.Y = (float)((int)scrollDelta.Y / MapControl.TileHeight) * MapControl.TileHeight;
+
+            MapControl.SetCameraOffset (MapControl.CameraTileX * MapControl.TileWidth + clampedScrollDelta.X, 
+               MapControl.CameraTileY * MapControl.TileHeight + clampedScrollDelta.Y);
+
+            if (clampedScrollDelta.X != 0)
+               scrollDelta.X = 0;
+            if (clampedScrollDelta.Y != 0)
+               scrollDelta.Y = 0;
+         } else
+         {
+            scrollDelta.X = 0;
+            scrollDelta.Y = 0;
+
+            MouseCursor.State = MouseCursorState.Pointer;
+         }
+      }
+
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      {
+         return base.PointerDown (position);
+      }
+
+      internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
+      {
+         currentPointerPos = position;
+         return base.PointerMoved (position);
+      }
+
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      {
+         return base.PointerUp (position);
+      }
+   }
 }
