@@ -12,6 +12,8 @@ namespace WinWarCS.GameScreens.Windows
    {
       internal ChooseCampaignWindow ()
       {
+         this.Y = 70;
+
          InitWithTextResource ("Choose Campaign");
 
          // Orc Campaign

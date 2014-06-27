@@ -15,6 +15,8 @@ namespace WinWarCS.GameScreens.Windows
    {
       internal MainMenuWindow()
       {
+         this.Y = 70;
+
          InitWithTextResource("Main Menu Text");
 
          // The order in the text resource is wrong, so switch first and second button

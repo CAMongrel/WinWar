@@ -26,8 +26,11 @@ namespace WinWarCS.GameScreens.Windows
       private Vector2 scrollDelta;
       private float scrollSpeed;
 
-      internal GameBackgroundWindow ()
+      private LevelGameScreen levelGameScreenOwner;
+
+      internal GameBackgroundWindow (LevelGameScreen setLevelGameScreenOwner)
       {
+         levelGameScreenOwner = setLevelGameScreenOwner;
          scrollSpeed = 125.0f;
          currentPointerPos = new Vector2 (50, 50);
 
@@ -87,7 +90,7 @@ namespace WinWarCS.GameScreens.Windows
 
       void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         IngameMenuWindow menu = new IngameMenuWindow ();
+         IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.HumanPlayer.Race);
       }
 
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)

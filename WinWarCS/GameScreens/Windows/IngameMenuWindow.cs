@@ -5,37 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Graphics;
 using WinWarCS.Gui;
+using WinWarCS.Data.Game;
+using WinWarCS.Data;
 
 namespace WinWarCS.GameScreens.Windows
 {
    class IngameMenuWindow : UIWindow
    {
       UIImage background;
-      UIButton closeButton;
+      UIButton continueButton;
       UIButton quitButton;
 
-      internal IngameMenuWindow ()
+      internal IngameMenuWindow (Race setRace)
       {
-         background = new UIImage (WWTexture.FromImageResource ("Large Box (Orcs)"));
-         Width = background.Width;
-         Height = background.Height;
+         BackgroundColor = new Microsoft.Xna.Framework.Color (0.3f, 0.0f, 0.0f, 0.5f);
+
+         //Width = background.Width;
+         //Height = background.Height;
+
+         background = new UIImage (WWTexture.FromImageResource ("Large Box (" + setRace + ")"));
+         background.InitWithTextResource (WarFile.GetTextResource (369));
          AddComponent (background);
 
-         closeButton = new UIButton ("Return to Game", UIButton.ButtonType.SmallButton);
-         closeButton.OnMouseUpInside += closeButton_OnMouseUpInside;
-         AddComponent (closeButton);
+         background.X = 120;
+         background.Y = 20;
 
-         quitButton = new UIButton ("Quit to DOS", UIButton.ButtonType.SmallButton);
+         ((UIButton)background.Components [1]).Type = UIButton.ButtonType.MediumButton;
+         ((UIButton)background.Components [2]).Type = UIButton.ButtonType.MediumButton;
+         ((UIButton)background.Components [3]).Type = UIButton.ButtonType.MediumButton;
+         ((UIButton)background.Components [4]).Type = UIButton.ButtonType.MediumButton;
+         ((UIButton)background.Components [5]).Type = UIButton.ButtonType.SmallButton;
+         ((UIButton)background.Components [6]).Type = UIButton.ButtonType.SmallButton;
+
+         continueButton = (UIButton)background.Components [6];
+         continueButton.OnMouseUpInside += closeButton_OnMouseUpInside;
+
+         quitButton = (UIButton)background.Components [5];
          quitButton.OnMouseUpInside += quitButton_OnMouseUpInside;
-         AddComponent (quitButton);
-
-         closeButton.CenterXInParent ();
-         closeButton.Y = 4;
-
-         quitButton.CenterXInParent ();
-         quitButton.Y = quitButton.ParentComponent.Height - 4 - quitButton.Height;
-
-         CenterOnScreen ();
       }
 
       void quitButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)

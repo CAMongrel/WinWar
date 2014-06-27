@@ -41,7 +41,7 @@ namespace WinWarCS.GameScreens
       {
          MouseCursor.State = MouseCursorState.Pointer;
 
-         backgroundWindow = new GameBackgroundWindow ();
+         backgroundWindow = new GameBackgroundWindow (this);
 
          if (IsCampaignLevel) 
          {

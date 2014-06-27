@@ -11,6 +11,8 @@ namespace WinWarCS.GameScreens.Windows
    {
       internal NewGameWindow ()
       {
+         this.Y = 70;
+
          InitWithTextResource ("Select Game Type");
 
          // Single Player
