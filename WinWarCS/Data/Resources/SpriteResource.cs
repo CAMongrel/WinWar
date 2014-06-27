@@ -104,7 +104,8 @@ namespace WinWarCS.Data.Resources
                            temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
                            pal_index = org_ptr[offset] * 3;
 
-                           if ((pal_index / 3) == 96) 
+                           if ((pal_index / 3) == 96 ||
+                              (pal_index / 3) == 73) 
                            {
                               Frames [i].image_data [temp_index] = 0;
                               Frames [i].image_data [temp_index + 1] = 0;
