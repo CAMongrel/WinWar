@@ -41,6 +41,23 @@ namespace WinWarCS.Graphics
       internal int Width;
       internal int Height;
 
+      private static WWTexture singleWhite;
+
+      #endregion
+
+      #region Static properties
+      public static WWTexture SingleWhite
+      {
+         get
+         {
+            if (singleWhite != null)
+               return singleWhite;
+
+            singleWhite = new WWTexture (1, 1);
+            singleWhite.DXTexture.SetData<byte> (new byte[] { 255, 255, 255, 255 });
+            return singleWhite;
+         }
+      }
       #endregion
 
       #region Constructor

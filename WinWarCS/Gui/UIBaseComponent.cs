@@ -4,6 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Util;
+using WinWarCS.Graphics;
+using WinWarCS.Data.Resources;
+using WinWarCS.Data;
+
+
 #endregion
 
 namespace WinWarCS.Gui
@@ -20,6 +25,8 @@ namespace WinWarCS.Gui
       internal int Height;
 
       internal float Alpha;
+
+      internal Color BackgroundColor;
 
       internal bool UserInteractionEnabled { get; set; }
       internal bool Visible { get; set; }
@@ -54,6 +61,7 @@ namespace WinWarCS.Gui
 
       internal UIBaseComponent()
       {
+         BackgroundColor = new Color (1.0f, 1.0f, 1.0f, 0.0f);
          UserInteractionEnabled = true;
          Visible = true;
          Alpha = 1.0f;
@@ -74,6 +82,19 @@ namespace WinWarCS.Gui
          components.Add(newComp);
       }
 
+      internal void InsertComponent(UIBaseComponent newComp, int atPosition)
+      {
+         if (newComp == null)
+            return;
+
+         if (newComp.ParentComponent != null)
+            newComp.ParentComponent.RemoveComponent(newComp);
+
+         newComp.ParentComponent = this;
+
+         components.Insert (atPosition, newComp);
+      }
+
       internal void RemoveComponent(UIBaseComponent comp)
       {
          if (comp == null)
@@ -88,6 +109,65 @@ namespace WinWarCS.Gui
       {
          components.Clear();
       }
+
+      #region InitWithTextResource
+      internal void InitWithTextResource(string name)
+      {
+         int idx = KnowledgeBase.IndexByName(name);
+         if (idx == -1)
+            return;
+
+         TextResource tr = WarFile.GetTextResource(idx);
+         InitWithTextResource(tr);
+      }
+
+      internal void InitWithTextResource(TextResource resource)
+      {
+         ClearComponents();
+
+         for (int i = 0; i < resource.Texts.Count; i++)
+         {
+            if (resource.Texts[i].unknown1 == 0)
+            {
+               UILabel lbl = new UILabel(resource.Texts[i].Text);
+               lbl.X = (int)(resource.Texts[i].X);
+               lbl.Y = (int)(resource.Texts[i].Y);
+               AddComponent(lbl);
+            }
+            else
+            {
+               UIButton.ButtonType type = UIButton.ButtonType.MediumButton;
+               if (resource.Texts[i].unknown4 == 66)
+                  type = UIButton.ButtonType.SmallButton;
+
+               UIButton btn = new UIButton(resource.Texts[i].Text, type);
+               btn.X = (int)(resource.Texts[i].X);
+               btn.Y = (int)(resource.Texts[i].Y);
+               AddComponent(btn);
+            }
+         }
+      }
+      #endregion
+
+      #region FromTextResource
+      internal static UIWindow FromTextResource(string name)
+      {
+         int idx = KnowledgeBase.IndexByName(name);
+         if (idx == -1)
+            return null;
+
+         TextResource tr = WarFile.GetTextResource(idx);
+         return FromTextResource(tr);
+      }
+
+      internal static UIWindow FromTextResource(TextResource resource)
+      {
+         UIWindow wnd = new UIWindow();
+         wnd.InitWithTextResource (resource);
+
+         return wnd;
+      }
+      #endregion
 
       internal void CenterOnScreen()
       {
@@ -162,6 +242,11 @@ namespace WinWarCS.Gui
 
       internal virtual void Render()
       {
+         if (BackgroundColor.A > 0)
+         {
+            WWTexture.SingleWhite.RenderOnScreen (this.X, this.Y, this.Width, this.Height, BackgroundColor);
+         }
+
          for (int i = 0; i < components.Count; i++)
          {
             if (components[i].Visible == false)
