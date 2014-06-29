@@ -15,15 +15,32 @@ using System.Threading.Tasks;
 #endregion
 namespace WinWarCS.Data
 {
+   internal enum DataWarFileType
+   {
+      Unknown,
+      Demo,
+      Retail,
+      RetailCD
+   }
+
    internal class WarFile
    {
       #region Members
 
       //static string dataFilename;
-      static int nrOfEntries;
-      static int[] offsets;
-      static List<WarResource> resources;
+      private static int nrOfEntries;
+      private static int[] offsets;
+      private static List<WarResource> resources;
 
+      /// <summary>
+      /// The maximum number of entries allowed for the Data.WAR that's currently la
+      /// </summary>
+      private static int maxNrOfEntries;
+
+      #endregion
+
+      #region Properties
+      public static DataWarFileType Type { get; private set; }
       #endregion
 
       #region LoadResources
@@ -45,6 +62,19 @@ namespace WinWarCS.Data
             offsets = new int[nrOfEntries];
             for (int i = 0; i < nrOfEntries; i++)
                offsets [i] = reader.ReadInt32 ();
+
+            switch (nrOfEntries)
+            {
+            case 486:
+               Type = DataWarFileType.Retail;            
+               break;
+            case 583:
+               Type = DataWarFileType.RetailCD;
+               break;
+            default:
+               Type = DataWarFileType.Unknown;
+               break;
+            }
 
             resources = new List<WarResource> (nrOfEntries);
 
@@ -86,6 +116,20 @@ namespace WinWarCS.Data
 
       #endregion
 
+      #region DumpResources
+      internal static void DumpResources(string path)
+      {
+         for (int i = 0; i < resources.Count; i++)
+         {
+            ContentFileType fileType = ContentFileType.FileUnknown;
+            if (i < KnowledgeBase.KB_List.Length)
+               fileType = KnowledgeBase.KB_List [i].type;
+            string filename = Path.Combine (path, "res" + i + "." + fileType);
+            File.WriteAllBytes (filename, resources [i].data);
+         }
+      }
+      #endregion
+
       #region GetImageResource
 
       internal static ImageResource GetImageResource (int id)
@@ -93,7 +137,7 @@ namespace WinWarCS.Data
          if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != WarFileType.FileImage)
+         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileImage)
             return null;
 
          return new ImageResource (GetResource (id), GetResource (KnowledgeBase.KB_List [id].param));
@@ -108,11 +152,11 @@ namespace WinWarCS.Data
          if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != WarFileType.FileCursor)
+         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileCursor)
             return null;
 
          WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == WarFileType.FilePalette)
+         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
             pal = GetResource (KnowledgeBase.KB_List [id].param);
 
          return new CursorResource (GetResource (id), pal);
@@ -127,11 +171,11 @@ namespace WinWarCS.Data
          if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != WarFileType.FileSprite)
+         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileSprite)
             return null;
 
          WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == WarFileType.FilePalette)
+         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
             pal = GetResource (KnowledgeBase.KB_List [id].param);
 
          return new SpriteResource (GetResource (id), pal);
@@ -146,7 +190,7 @@ namespace WinWarCS.Data
          if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != WarFileType.FileText)
+         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileText)
             return null;
 
          return new TextResource (GetResource (id));

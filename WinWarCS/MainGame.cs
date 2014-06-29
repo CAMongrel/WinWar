@@ -143,6 +143,8 @@ namespace WinWarCS
 				loadingException = ex;
 			}
 
+         //WarFile.DumpResources ("/data/Temp/WinWar/Resources");
+
 			if (loadingException != null) {
 				/*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").", 
                "WinWarCS - WarCraft for Windows Modern UI");
