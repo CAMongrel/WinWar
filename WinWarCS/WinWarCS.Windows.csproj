@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57FE4DC6-7B4B-44A9-B5BE-1E9CB79E351F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WinWarCS.Windows</RootNamespace>
+    <AssemblyName>WinWarCS.Windows</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Data\Game\AIPlayer.cs" />
+    <Compile Include="Data\Game\AI\AStar.cs" />
+    <Compile Include="Data\Game\AI\BinaryHeap.cs" />
+    <Compile Include="Data\Game\AI\HateList.cs" />
+    <None Include="Assets\Data\CAVE1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\CAVE2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\CAVE3.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\DATA.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HFINALE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HINTRO1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HINTRO2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP01.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP02.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP03.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP04.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP05.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP06.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP07.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP08.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP09.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP10.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP11.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\HMAP12.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\LOSE1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\LOSE2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OFINALE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OINTRO3.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP01.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP02.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP03.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP04.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP05.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP06.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP07.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP08.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP09.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP10.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP11.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\OMAP12.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\TITLE.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\WIN1.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Data\WIN2.WAR">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\DefaultFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\SpriteFont1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Data\Game\BasePlayer.cs" />
+    <Compile Include="Data\Game\Campaign.cs" />
+    <Compile Include="Data\Game\Entities\BuildEntity.cs" />
+    <Compile Include="Data\Game\Entities\Building.cs" />
+    <Compile Include="Data\Game\Entities\Entity.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\Entities\Unit.cs" />
+    <Compile Include="Data\Game\HumanPlayer.cs" />
+    <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\Race.cs" />
+    <Compile Include="Data\Game\Sprite.cs" />
+    <Compile Include="Data\Game\SpriteAnimation.cs" />
+    <Compile Include="Data\Game\Tile.cs" />
+    <Compile Include="Data\Game\Tileset.cs" />
+    <Compile Include="Data\Game\UnitSprite.cs" />
+    <Compile Include="Data\IntroStoryboard.cs" />
+    <Compile Include="Data\KnowledgeBase.cs" />
+    <Compile Include="Data\Resources\BasicImgResource.cs" />
+    <Compile Include="Data\Resources\BasicResource.cs" />
+    <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Resources\ImageResource.cs" />
+    <Compile Include="Data\Resources\LevelInfoResource.cs" />
+    <Compile Include="Data\Resources\LevelPassableResource.cs" />
+    <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\SpriteResource.cs" />
+    <Compile Include="Data\Resources\TextResource.cs" />
+    <Compile Include="Data\WarFile.cs" />
+    <Compile Include="Data\WarResource.cs" />
+    <Compile Include="GameScreens\BaseGameScreen.cs" />
+    <Compile Include="GameScreens\BlizzardGameScreen.cs" />
+    <Compile Include="GameScreens\IntroGameScreen.cs" />
+    <Compile Include="GameScreens\LevelGameScreen.cs" />
+    <Compile Include="GameScreens\MenuGameScreen.cs" />
+    <Compile Include="GameScreens\MovieGameScreen.cs" />
+    <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
+    <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
+    <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
+    <Compile Include="Gui\MouseCursor.cs" />
+    <Compile Include="Gui\Rendering\FontRenderer.cs" />
+    <Compile Include="Gui\UIBaseComponent.cs" />
+    <Compile Include="Gui\UIBaseComponentList.cs" />
+    <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIImage.cs" />
+    <Compile Include="Gui\UILabel.cs" />
+    <Compile Include="Gui\UIMapControl.cs" />
+    <Compile Include="Gui\UIMinimapControl.cs" />
+    <Compile Include="Gui\UISpriteImage.cs" />
+    <Compile Include="Gui\UIWindow.cs" />
+    <Compile Include="Gui\UIWindowManager.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Platform\Windows\Input.cs" />
+    <Compile Include="Platform\Windows\IO.cs" />
+    <Compile Include="Platform\Windows\Program.cs" />
+    <Compile Include="Platform\Windows\Sys.cs" />
+    <Compile Include="Platform\Windows\UI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\UnsafeReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FLCLib.MonoGame">
+      <HintPath>..\Libs\Windows\FLCLib.MonoGame.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\warcraft-logo-square-mini.png" />
+    <Content Include="Assets\warcraft-logo-square.png" />
+    <Content Include="Assets\warcraft-logo-store.png" />
+    <Content Include="Assets\warcraft-logo-wide.png" />
+    <Content Include="Assets\warcraft-logo.png" />
+    <Content Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
