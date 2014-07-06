@@ -182,6 +182,7 @@ namespace WinWarCS.Data.Game
 			ResortUpFrom(idx);
 		}
 
+#if !NETFX_CORE
 		public void Print()
 		{
 			int[] line_pos = new int[20];
@@ -202,8 +203,9 @@ namespace WinWarCS.Data.Game
 			}
 			Console.WriteLine();
 		}
+#endif
 
-		public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
 		{
 			for (int i = cItems; --i >= 1; )
 			{

@@ -1,43 +1,51 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace WinWarCS.Platform
 {
-   public static class IO
-   {
-      public static Stream GetFileStream(string filename)
-      {
-         return new FileStream (filename, FileMode.OpenOrCreate);
-      }
+    public static class IO
+    {
+        public static char DirectorySeparatorChar
+        {
+            get
+            {
+                return '\\';
+            }
+        }
 
-      /*internal async static Task<Windows.Storage.StorageFile> GetDataWarFile()
-      {
-         Windows.Storage.StorageFile resultFile = null;
+        public static async Task<Stream> GetFileStream(Windows.Storage.StorageFile file)
+        {
+            return await file.OpenStreamForReadAsync();
+        }
 
-         try
-         {
-            var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
-            resultFile = await localStorage.GetFileAsync("DATAA.WAR");
-         }
-         catch (Exception)
-         {
-         }
+        /// <summary>
+        /// Opens a file inside the content directory
+        /// </summary>
+        /// <returns>The content file relative to the installed location/application directoy</returns>
+        /// <param name="relativeFilename">Relative filename.</param>
+        public static async Task<Stream> OpenContentFile(string relativeFilename)
+        {
+            Stream resultStream = null;
+            var installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
 
-         if (resultFile != null)
-            return resultFile;
+            try
+            {
+                resultStream = await GetFileStream(await installedLocation.GetFileAsync(relativeFilename));
+            }
+            catch (Exception ex)
+            {
 
-         try
-         {
-            var localStorage = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            localStorage = await localStorage.GetFolderAsync("Assets");
-            resultFile = await localStorage.GetFileAsync("DATA.WAR");
-         }
-         catch (Exception)
-         {
-         }
+            }
 
-         return resultFile;
-      }*/
-   }
+            if (resultStream == null)
+            {
+                var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
+                resultStream = await GetFileStream(await localStorage.GetFileAsync(relativeFilename));
+            }                
+
+            return resultStream;
+        }
+    }
 }
 

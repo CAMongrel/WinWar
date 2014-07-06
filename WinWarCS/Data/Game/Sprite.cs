@@ -106,6 +106,7 @@ namespace WinWarCS.Data.Game
          }
       }
 
+#if !NETFX_CORE
       internal void DumpToDirectory(string fullDirectory, string prefix)
       {
          if (System.IO.Directory.Exists (fullDirectory) == false)
@@ -116,6 +117,7 @@ namespace WinWarCS.Data.Game
             frames [i].texture.WriteToFile (System.IO.Path.Combine (fullDirectory, prefix + i + ".png"));
          }
       }
+#endif
 
       internal void AddAnimation(string name, double delay, SpriteAnimationParams setParams, params int[] frames)
       {

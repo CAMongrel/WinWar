@@ -31,3 +31,5 @@ _ReSharper*/
 AppPackages/
 Backup/
 *.7z
+UpgradeLog.htm
+

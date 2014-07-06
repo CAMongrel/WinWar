@@ -5,6 +5,14 @@ namespace WinWarCS.Platform
 {
    public static class IO
    {
+      public static char DirectorySeparatorChar
+      {
+         get
+         {
+            return Path.DirectorySeparatorChar;
+         }
+      }
+
       public static FileStream GetFileStream(string filename)
       {
          return new FileStream (filename, FileMode.OpenOrCreate);

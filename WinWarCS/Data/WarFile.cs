@@ -45,13 +45,14 @@ namespace WinWarCS.Data
 
       #region LoadResources
 
-      internal static void LoadResources ()
+      internal static async void LoadResources ()
       {
          Stream stream = null;
          BinaryReader reader = null;
          try
          {
-				stream = WinWarCS.Platform.IO.OpenContentFile ("Assets/Data/DATA.WAR");
+             stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + 
+                 Platform.IO.DirectorySeparatorChar + "DATA.WAR");
 
             reader = new BinaryReader (stream);
 
@@ -117,6 +118,7 @@ namespace WinWarCS.Data
       #endregion
 
       #region DumpResources
+#if !NETFX_CORE
       internal static void DumpResources(string path)
       {
          for (int i = 0; i < resources.Count; i++)
@@ -128,6 +130,7 @@ namespace WinWarCS.Data
             File.WriteAllBytes (filename, resources [i].data);
          }
       }
+#endif
       #endregion
 
       #region GetImageResource

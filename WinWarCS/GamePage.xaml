@@ -7,8 +7,5 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     PointerPressed="Grid_PointerPressed_1" PointerReleased="Grid_PointerReleased_1" PointerMoved="SwapChainBackgroundPanel_PointerMoved_1">
-
-    <Grid>
-    </Grid>
     
 </SwapChainBackgroundPanel>

@@ -1,5 +1,10 @@
 ﻿using System;
 using WinWarCS.Data.Resources;
+#if NETFX_CORE
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#else
+using RectangleF = System.Drawing.RectangleF;
+#endif
 
 namespace WinWarCS.Data.Game
 {
@@ -98,7 +103,7 @@ namespace WinWarCS.Data.Game
          bool shouldFlipX = sprite.ShouldFlipX;
          SpriteFrame curFrame = sprite.CurrentFrame;
 
-         System.Drawing.RectangleF rect = new System.Drawing.RectangleF ();
+         RectangleF rect = new RectangleF ();
          rect.X = offsetX + (X - startTileX) * TileWidth - (TileWidth / 2);
          if (shouldFlipX)
             rect.X += sprite.MaxWidth;

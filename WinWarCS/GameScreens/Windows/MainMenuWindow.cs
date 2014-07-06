@@ -85,7 +85,7 @@ namespace WinWarCS.GameScreens.Windows
 
       async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
-         Stream resultFile = WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Path.DirectorySeparatorChar + "Data", "TITLE.WAR"));
+         Stream resultFile = await WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", "TITLE.WAR"));
 
          MovieGameScreen.PlayMovie(resultFile,
              delegate

@@ -14,7 +14,11 @@ using WinWarCS.Data;
 using WinWarCS.Data.Resources;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+#if !NETFX_CORE
 using RectangleF = System.Drawing.RectangleF;
+#else
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#endif
 using Matrix = Microsoft.Xna.Framework.Matrix;
 
 #endregion
@@ -164,6 +168,7 @@ namespace WinWarCS.Graphics
       #endregion
 
       #region WriteToFile
+#if !NETFX_CORE
       internal void WriteToFile(string fullFilename)
       {
          byte[] outputData = new byte[Width * Height * 4];
@@ -188,6 +193,7 @@ namespace WinWarCS.Graphics
          }
          bm.Save (fullFilename, System.Drawing.Imaging.ImageFormat.Png);
       }
+#endif
       #endregion
 
       #region Unit testing

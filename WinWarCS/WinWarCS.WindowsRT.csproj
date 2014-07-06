@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E6CC5DE6-41DC-4CAF-8D9C-36721786B809}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WinWarCS.WindowsRT</RootNamespace>
+    <AssemblyName>WinWarCS.WindowsRT</AssemblyName>
+    <DefaultLanguage>de-DE</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>WinWarRT_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetFrameworkVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows8\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows8\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Windows8\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\Windows8\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Windows8\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\Windows8\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Windows8\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Windows8\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Game\AIPlayer.cs" />
+    <Compile Include="Data\Game\AI\AStar.cs" />
+    <Compile Include="Data\Game\AI\BinaryHeap.cs" />
+    <Compile Include="Data\Game\AI\HateList.cs" />
+    <None Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Data\Game\BasePlayer.cs" />
+    <Compile Include="Data\Game\Campaign.cs" />
+    <Compile Include="Data\Game\Entities\BuildEntity.cs" />
+    <Compile Include="Data\Game\Entities\Building.cs" />
+    <Compile Include="Data\Game\Entities\Entity.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\Entities\Unit.cs" />
+    <Compile Include="Data\Game\HumanPlayer.cs" />
+    <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\Race.cs" />
+    <Compile Include="Data\Game\Sprite.cs" />
+    <Compile Include="Data\Game\SpriteAnimation.cs" />
+    <Compile Include="Data\Game\Tile.cs" />
+    <Compile Include="Data\Game\Tileset.cs" />
+    <Compile Include="Data\Game\UnitSprite.cs" />
+    <Compile Include="Data\IntroStoryboard.cs" />
+    <Compile Include="Data\KnowledgeBase.cs" />
+    <Compile Include="Data\Resources\BasicImgResource.cs" />
+    <Compile Include="Data\Resources\BasicResource.cs" />
+    <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Resources\ImageResource.cs" />
+    <Compile Include="Data\Resources\LevelInfoResource.cs" />
+    <Compile Include="Data\Resources\LevelPassableResource.cs" />
+    <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\SpriteResource.cs" />
+    <Compile Include="Data\Resources\TextResource.cs" />
+    <Compile Include="Data\WarFile.cs" />
+    <Compile Include="Data\WarResource.cs" />
+    <Compile Include="GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameScreens\BaseGameScreen.cs" />
+    <Compile Include="GameScreens\BlizzardGameScreen.cs" />
+    <Compile Include="GameScreens\IntroGameScreen.cs" />
+    <Compile Include="GameScreens\LevelGameScreen.cs" />
+    <Compile Include="GameScreens\MenuGameScreen.cs" />
+    <Compile Include="GameScreens\MovieGameScreen.cs" />
+    <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
+    <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
+    <Compile Include="GameSettingsFlyout.xaml.cs">
+      <DependentUpon>GameSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
+    <Compile Include="Gui\MouseCursor.cs" />
+    <Compile Include="Gui\Rendering\FontRenderer.cs" />
+    <Compile Include="Gui\UIBaseComponent.cs" />
+    <Compile Include="Gui\UIBaseComponentList.cs" />
+    <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIImage.cs" />
+    <Compile Include="Gui\UILabel.cs" />
+    <Compile Include="Gui\UIMapControl.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
+    <Compile Include="Gui\UIMinimapControl.cs" />
+    <Compile Include="Gui\UISpriteImage.cs" />
+    <Compile Include="Gui\UIWindow.cs" />
+    <Compile Include="Gui\UIWindowManager.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Platform\WindowsRT\Input.cs" />
+    <Compile Include="Platform\WindowsRT\IO.cs" />
+    <Compile Include="Platform\WindowsRT\RectangleF.cs" />
+    <Compile Include="Platform\WindowsRT\Sys.cs" />
+    <Compile Include="Platform\WindowsRT\UI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\UnsafeReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <Content Include="Assets\SpriteFont1.xnb" />
+    <Content Include="Assets\DefaultFont.xnb" />
+    <Content Include="Assets\warcraft-logo-square-mini.png" />
+    <Content Include="Assets\warcraft-logo-square.png" />
+    <Content Include="Assets\warcraft-logo-store.png" />
+    <Content Include="Assets\warcraft-logo-wide.png" />
+    <Content Include="Assets\warcraft-logo.png" />
+    <Content Include="TODO.txt" />
+    <Page Include="GameSettingsFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Include="WinWarRT_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Common\StandardStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FLCLib.MonoGame">
+      <HintPath>..\Libs\Windows\FLCLib.MonoGame.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=2.4.2.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\WinRT\SharpDX.XInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Data\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
