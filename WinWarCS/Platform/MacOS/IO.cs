@@ -1,12 +1,21 @@
 ﻿using System;
 using System.IO;
 using MonoMac.Foundation;
+using System.Threading.Tasks;
 
 namespace WinWarCS.Platform
 {
    public static class IO
    {
-      public static FileStream GetFileStream(string filename)
+      public static char DirectorySeparatorChar
+      {
+         get
+         {
+            return Path.DirectorySeparatorChar;
+         }
+      }
+
+      public static async Task<FileStream> GetFileStream(string filename)
       {
          return new FileStream (filename, FileMode.Open);
       }
@@ -16,10 +25,10 @@ namespace WinWarCS.Platform
       /// </summary>
       /// <returns>The content file relative to the installed location/application directoy</returns>
       /// <param name="relativeFilename">Relative filename.</param>
-      public static FileStream OpenContentFile(string relativeFilename)
+      public static async Task<FileStream> OpenContentFile(string relativeFilename)
       {
 			string installedLocation = NSBundle.MainBundle.ResourcePath;
-         return GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
+         return await GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
       }
 
       /*var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
