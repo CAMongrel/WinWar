@@ -127,9 +127,11 @@ namespace WinWarCS
             nextGameScreen = null;
 
             _graphics = new GraphicsDeviceManager(this);
+#if !NETFX_CORE
             _graphics.PreferredBackBufferWidth = 320 * 3;
             _graphics.PreferredBackBufferHeight = 200 * 3;
             _graphics.ApplyChanges();
+#endif
 
             Content.RootDirectory = "Assets";
         }
@@ -140,7 +142,7 @@ namespace WinWarCS
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
+        protected override async void Initialize()
         {
             base.Initialize();
 
@@ -156,7 +158,7 @@ namespace WinWarCS
 
             try
             {
-                WinWarCS.Data.WarFile.LoadResources();
+                await WinWarCS.Data.WarFile.LoadResources();
                 WinWarCS.Data.Game.MapTileset.LoadAllTilesets();
             }
             catch (Exception ex)
@@ -168,9 +170,7 @@ namespace WinWarCS
 
             if (loadingException != null)
             {
-                /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").", 
-               "WinWarCS - WarCraft for Windows Modern UI");
-            await dlg.ShowAsync();*/
+                await Platform.UI.ShowMessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").");
                 return;
             }
 

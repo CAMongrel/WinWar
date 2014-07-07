@@ -45,7 +45,7 @@ namespace WinWarCS.Data
 
       #region LoadResources
 
-      internal static async void LoadResources ()
+      internal static async Task LoadResources ()
       {
          Stream stream = null;
          BinaryReader reader = null;
