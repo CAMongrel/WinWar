@@ -9,6 +9,21 @@ namespace WinWarCS.Data.Game
       {
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Base")));
       }
+
+      public override int TileSizeX 
+      {
+         get 
+         {
+            return 3;
+         }
+      }
+      public override int TileSizeY
+      {
+         get 
+         {
+            return 3;
+         }
+      }
    }
 }
 

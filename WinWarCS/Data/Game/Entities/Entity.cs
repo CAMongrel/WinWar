@@ -2,6 +2,7 @@
 using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
 using WinWarCS.Util;
+using WinWarCS.Graphics;
 
 
 #if NETFX_CORE
@@ -23,14 +24,28 @@ namespace WinWarCS.Data.Game
       { 
          get
          { 
-            return (int)(X / (float)CurrentMap.TileWidth); 
+            return (int)X;// / (float)CurrentMap.TileWidth); 
          }
       }
       public int TileY
       { 
          get
          { 
-            return (int)(Y / (float)CurrentMap.TileHeight); 
+            return (int)Y; // / (float)CurrentMap.TileHeight); 
+         }
+      }
+      public virtual int TileSizeX
+      {
+         get
+         {
+            return 1;
+         }
+      }
+      public virtual int TileSizeY
+      {
+         get
+         {
+            return 1;
          }
       }
 
@@ -135,6 +150,22 @@ namespace WinWarCS.Data.Game
       }
 
       /// <summary>
+      /// Returns a rectangle encompassing (in screen coordinates) the bounding box of the entity
+      /// </summary>
+      internal RectangleF GetTileRectangle(float offsetX, float offsetY, float tileOffsetX, float tileOffsetY)
+      {
+         int startTileX = ((int)tileOffsetX / CurrentMap.TileWidth);
+         int startTileY = ((int)tileOffsetY / CurrentMap.TileHeight);
+
+         RectangleF rect = new RectangleF ();
+         rect.X = offsetX + (X - startTileX) * CurrentMap.TileWidth;// - (TileWidth / 2);
+         rect.Y = offsetY + (Y - startTileY) * CurrentMap.TileHeight;// - (TileHeight / 2);
+         rect.Width = TileSizeX * CurrentMap.TileWidth;
+         rect.Height = TileSizeY * CurrentMap.TileHeight;
+         return rect;
+      }
+
+      /// <summary>
       /// Render the Entity.
       /// </summary>
       /// <param name="offsetX">Offset x.</param>
@@ -143,26 +174,25 @@ namespace WinWarCS.Data.Game
       /// <param name="tileOffsetY">Tile offset y.</param>
       /// <param name="TileWidth">Tile width.</param>
       /// <param name="TileHeight">Tile height.</param>
-      public void Render(float offsetX, float offsetY, float tileOffsetX, float tileOffsetY, int TileWidth, int TileHeight)
+      public void Render(float offsetX, float offsetY, float tileOffsetX, float tileOffsetY)
       {
-         if (sprite == null)
+         if (sprite == null || CurrentMap == null)
             return;
 
-         int startTileX = ((int)tileOffsetX / TileWidth);
-         int startTileY = ((int)tileOffsetY / TileHeight);
-
          bool shouldFlipX = sprite.ShouldFlipX;
-         SpriteFrame curFrame = sprite.CurrentFrame;
 
-         RectangleF rect = new RectangleF ();
-         rect.X = offsetX + (X - startTileX) * TileWidth - (TileWidth / 2);
-         if (shouldFlipX)
-            rect.X += sprite.MaxWidth;
-         rect.Y = offsetY + (Y - startTileY) * TileHeight - (TileHeight / 2);
-         rect.Width = shouldFlipX ? -sprite.MaxWidth : sprite.MaxWidth;
+         RectangleF rect = GetTileRectangle(offsetX, offsetY, tileOffsetX, tileOffsetY);
+         rect.Width = sprite.MaxWidth;
          rect.Height = sprite.MaxHeight;
 
-         curFrame.texture.RenderOnScreen (rect);
+         RectangleF tileRectangle = new RectangleF (0, 0, TileSizeX * CurrentMap.TileWidth, TileSizeY * CurrentMap.TileHeight);
+
+         rect.X -= (rect.Width * 0.5f - tileRectangle.Width * 0.5f);
+         rect.Y -= (rect.Height * 0.5f - tileRectangle.Height * 0.5f);
+
+         sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
+
+         //WWTexture.RenderRectangle (rect, Color.Blue);
       }
 
       /// <summary>
@@ -292,6 +322,24 @@ namespace WinWarCS.Data.Game
 
       internal virtual void DidSpawn()
       {
+      }
+
+      internal virtual void DidSelect()
+      {
+      }
+
+      internal virtual bool WillSelect()
+      {
+         return true;
+      }
+
+      internal virtual void DidDeselect()
+      {
+      }
+
+      internal virtual bool WillDeselect()
+      {
+         return true;
       }
 
       public virtual bool CanMove

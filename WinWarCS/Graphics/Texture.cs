@@ -129,7 +129,18 @@ namespace WinWarCS.Graphics
 
       internal void RenderOnScreen (RectangleF display_rect)
       {
-         RenderOnScreen (new RectangleF (0, 0, (float)this.Width, (float)this.Height),
+         RenderOnScreen (display_rect, false, false);
+      }
+
+      internal void RenderOnScreen (RectangleF display_rect, bool flipX, bool flipY)
+      {
+         RectangleF sourceRect = new RectangleF (
+                                    flipX ? (float)this.Width : 0, 
+                                    flipY ? (float)this.Height : 0, 
+                                    flipX ? -(float)this.Width : (float)this.Width, 
+                                    flipY ? -(float)this.Height : (float)this.Height);
+
+         RenderOnScreen (sourceRect,
             new RectangleF (display_rect.X, display_rect.Y, display_rect.Width, display_rect.Height),
             Color.White);
       }
@@ -162,6 +173,25 @@ namespace WinWarCS.Graphics
 
          MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
          MainGame.SpriteBatch.Draw (DXTexture, dstRect, srcRect, col);
+         MainGame.SpriteBatch.End ();
+      }
+
+      internal static void RenderRectangle (RectangleF destRect, Color col, int BorderWidth = 1)
+      {
+         destRect = new RectangleF (MainGame.ScaledOffsetX + (int)(destRect.X * MainGame.ScaleX), MainGame.ScaledOffsetY + (int)(destRect.Y * MainGame.ScaleY),
+            (int)(destRect.Width * MainGame.ScaleX), (int)(destRect.Height * MainGame.ScaleY));
+
+         Rectangle singleRect = new Rectangle (0, 0, 1, 1);
+         Rectangle leftRect = new Rectangle((int)destRect.X, (int)destRect.Y, BorderWidth, (int)destRect.Height);
+         Rectangle topRect = new Rectangle((int)destRect.X, (int)destRect.Y, (int)destRect.Width, BorderWidth);
+         Rectangle rightRect = new Rectangle((int)destRect.X + (int)destRect.Width - BorderWidth, (int)destRect.Y, BorderWidth, (int)destRect.Height);
+         Rectangle bottomRect = new Rectangle((int)destRect.X, (int)destRect.Y + (int)destRect.Height - BorderWidth, (int)destRect.Width, BorderWidth);
+
+         MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, leftRect, singleRect, col);
+         MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, topRect, singleRect, col);
+         MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, rightRect, singleRect, col);
+         MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, bottomRect, singleRect, col);
          MainGame.SpriteBatch.End ();
       }
 

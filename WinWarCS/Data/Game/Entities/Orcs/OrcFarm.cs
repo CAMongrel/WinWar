@@ -9,6 +9,21 @@ namespace WinWarCS.Data.Game
       {
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Farm")));
       }
+
+      public override int TileSizeX 
+      {
+         get 
+         {
+            return 2;
+         }
+      }
+      public override int TileSizeY
+      {
+         get 
+         {
+            return 2;
+         }
+      }
    }
 }
 

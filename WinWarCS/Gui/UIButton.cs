@@ -102,6 +102,7 @@ namespace WinWarCS.Gui
 
       #endregion
 
+      #region AutoSetButtonImage
       private void AutoSetButtonImage ()
       {
          switch (type)
@@ -123,6 +124,7 @@ namespace WinWarCS.Gui
          Width = (int)(backgroundNotClicked.Width);
          Height = (int)(backgroundNotClicked.Height);
       }
+      #endregion
 
       #region Render
 

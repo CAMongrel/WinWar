@@ -11,7 +11,7 @@ namespace WinWarCS.MacOS
 		public override void DidFinishLaunching (MonoMac.Foundation.NSNotification notification)
 		{
 			Program.game = new MainGame ();
-			Program.game.IsMouseVisible = true;
+			//Program.game.IsMouseVisible = true;
 			Program.game.Run ();
 		}
 

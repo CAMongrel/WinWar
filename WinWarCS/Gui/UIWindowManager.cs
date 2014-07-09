@@ -23,9 +23,13 @@ namespace WinWarCS.Gui
 
       internal static void RemoveWindow(UIWindow window)
       {
+         if (window == null)
+            return;
+
          if (windows.Contains(window))
          {
             windows.Remove(window);
+            window.DidRemove ();
          }
       }
 

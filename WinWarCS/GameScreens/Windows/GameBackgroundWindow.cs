@@ -28,6 +28,8 @@ namespace WinWarCS.GameScreens.Windows
 
       private LevelGameScreen levelGameScreenOwner;
 
+      internal bool GamePaused { get; set; }
+
       internal GameBackgroundWindow (LevelGameScreen setLevelGameScreenOwner)
       {
          levelGameScreenOwner = setLevelGameScreenOwner;
@@ -95,6 +97,9 @@ namespace WinWarCS.GameScreens.Windows
 
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
       {
+         if (GamePaused)
+            return;
+
          base.Update (gameTime);
 
          bool leftClickNeeded = false;
@@ -165,8 +170,6 @@ namespace WinWarCS.GameScreens.Windows
          {
             scrollDelta.X = 0;
             scrollDelta.Y = 0;
-
-            MouseCursor.State = MouseCursorState.Pointer;
          }
       }
 
@@ -178,6 +181,9 @@ namespace WinWarCS.GameScreens.Windows
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
       {
          currentPointerPos = position;
+
+         MouseCursor.State = MouseCursorState.Pointer;
+
          return base.PointerMoved (position);
       }
 

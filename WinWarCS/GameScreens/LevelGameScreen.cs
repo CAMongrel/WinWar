@@ -27,6 +27,12 @@ namespace WinWarCS.GameScreens
 
       private GameBackgroundWindow backgroundWindow;
 
+      internal bool GamePaused
+      {
+         get { return backgroundWindow.GamePaused; }
+         set { backgroundWindow.GamePaused = value; }
+      }
+
       internal LevelGameScreen (HumanPlayer setHumanPlayer)
       {
          Game = this;

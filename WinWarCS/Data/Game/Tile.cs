@@ -80,6 +80,7 @@ namespace WinWarCS.Data.Game
       internal void Render(float x, float y, float scale)
       {
          texture.RenderOnScreen(x * scale, y * scale, 16.0f * scale, 16.0f * scale);
+         //WWTexture.RenderRectangle(new System.Drawing.RectangleF(x * scale, y * scale, 16.0f * scale, 16.0f * scale), Color.Red);
       } // Render(x, y)
    } // class Tile
 } // namespace WinWarCS.Game

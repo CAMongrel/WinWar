@@ -4,6 +4,7 @@
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 23:04
 using WinWarCS.Util;
+using WinWarCS.Graphics;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -61,6 +62,8 @@ namespace WinWarCS.Data.Game
 
       internal Random Rnd { get; private set; }
 
+      internal Entity SelectedEntity { get; private set; }
+
       #region ctor
 
       /// <summary>
@@ -70,6 +73,8 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
+         SelectedEntity = null;
+
          TileWidth = 16;
          TileHeight = 16;
 
@@ -87,9 +92,6 @@ namespace WinWarCS.Data.Game
          Rnd = new Random ();
 
          Pathfinder = new AStar2D ();
-         levelPassable.FillAStar (Pathfinder);
-
-         BuildInitialRoads ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
 
@@ -98,9 +100,11 @@ namespace WinWarCS.Data.Game
       internal void Start(List<BasePlayer> allPlayers)
       {
          Players.AddRange (allPlayers);
+         levelPassable.FillAStar (Pathfinder);
 
          entities = new List<Entity> ();
 
+         BuildInitialRoads ();
          PopulateInitialEntities ();
       }
 
@@ -124,6 +128,7 @@ namespace WinWarCS.Data.Game
          return null;
       }
 
+      #region Entities
       private void PopulateInitialEntities ()
       {
          if (levelInfo == null)
@@ -148,7 +153,48 @@ namespace WinWarCS.Data.Game
             owner.ClaimeOwnership (newEnt);
 
          newEnt.DidSpawn ();
+      }      
+
+      internal Entity GetEntityAt(int tileX, int tileY)
+      {
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            Entity ent = entities [i];
+
+            if (tileX >= ent.TileX &&
+                tileY >= ent.TileY &&
+                tileX < ent.TileX + ent.TileSizeX &&
+                tileY < ent.TileY + ent.TileSizeY) 
+            {
+               return ent;
+            }
+         }
+
+         return null;
       }
+
+      internal void SelectEntity(Entity ent)
+      {
+         if (SelectedEntity != null) 
+         {
+            if (SelectedEntity.WillDeselect () == false)
+               return;
+
+            Entity preSelEnt = SelectedEntity;
+            SelectedEntity = null;
+            preSelEnt.DidDeselect ();
+         }
+
+         if (ent == null)
+            return;
+
+         if (ent.WillSelect () == false)
+            return;
+
+         SelectedEntity = ent;
+         SelectedEntity.DidSelect ();
+      }
+      #endregion
 
       #region Render
 
@@ -200,14 +246,26 @@ namespace WinWarCS.Data.Game
 
             int x = road.x - startTileX;
             int y = road.y - startTileY;
-            tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+            if (isVisible)
+               tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
 
          // Render entities
          for (int i = 0; i < entities.Count; i++) 
          {
+            bool isVisible = true;
+
             Entity ent = entities [i];
-            ent.Render (setX, setY, tileOffsetX, tileOffsetY, TileWidth, TileHeight);
+
+            if (isVisible)
+               ent.Render (setX, setY, tileOffsetX, tileOffsetY);
+         }
+
+         // Render selected entity
+         if (SelectedEntity != null) 
+         {
+            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), Color.Green, 2);
+            //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
          }
       }
       // Render()
