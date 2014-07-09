@@ -12,7 +12,7 @@ namespace WinWarCS.Util
       {
          ShowTiles = false;
          ShowUnitFrames = false;
-         ShowBlockedTiles = true;
+         ShowBlockedTiles = false;
       }
    }
 }
