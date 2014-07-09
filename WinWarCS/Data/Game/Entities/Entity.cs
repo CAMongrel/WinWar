@@ -1,5 +1,9 @@
 ﻿using System;
 using WinWarCS.Data.Resources;
+using Microsoft.Xna.Framework;
+using WinWarCS.Util;
+
+
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 #else
@@ -15,9 +19,26 @@ namespace WinWarCS.Data.Game
       public float X { get; private set; }
       public float Y { get; private set; }
 
+      public int TileX 
+      { 
+         get
+         { 
+            return (int)(X / (float)CurrentMap.TileWidth); 
+         }
+      }
+      public int TileY
+      { 
+         get
+         { 
+            return (int)(Y / (float)CurrentMap.TileHeight); 
+         }
+      }
+
       public BasePlayer Owner { get; private set; }
 
       public HateList HateList { get; private set; }
+
+      public StateMachine StateMachine { get; private set; }
 
       public Map CurrentMap { get; private set; }
 
@@ -25,10 +46,24 @@ namespace WinWarCS.Data.Game
 
       public Entity PreviousTarget { get; private set; }
 
+      public string Name
+      {
+         get
+         {
+            return ToString ();
+         }
+      }
+
+      public int UniqueID { get; set; }
+
       /// <summary>
       /// Attack range
       /// </summary>
       public byte AttackRange;
+      /// <summary>
+      /// The attack speed.
+      /// </summary>
+      public double AttackSpeed;
       /// <summary>
       /// Armor points
       /// </summary>
@@ -75,8 +110,15 @@ namespace WinWarCS.Data.Game
          sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Peasant")));
 
          HateList = new HateList ();
+         StateMachine = new StateMachine (this);
+         StateMachine.ChangeState (new StateIdle (this));
       }
 
+      /// <summary>
+      /// Sets the position.
+      /// </summary>
+      /// <param name="newX">New x.</param>
+      /// <param name="newY">New y.</param>
       public void SetPosition(float newX, float newY)
       {
          X = newX;
@@ -92,6 +134,15 @@ namespace WinWarCS.Data.Game
          Owner = setOwner;
       }
 
+      /// <summary>
+      /// Render the Entity.
+      /// </summary>
+      /// <param name="offsetX">Offset x.</param>
+      /// <param name="offsetY">Offset y.</param>
+      /// <param name="tileOffsetX">Tile offset x.</param>
+      /// <param name="tileOffsetY">Tile offset y.</param>
+      /// <param name="TileWidth">Tile width.</param>
+      /// <param name="TileHeight">Tile height.</param>
       public void Render(float offsetX, float offsetY, float tileOffsetX, float tileOffsetY, int TileWidth, int TileHeight)
       {
          if (sprite == null)
@@ -146,6 +197,18 @@ namespace WinWarCS.Data.Game
       } // UpdateHateList()
 
       /// <summary>
+      /// Update the specified gameTime.
+      /// </summary>
+      /// <param name="gameTime">Game time.</param>
+      internal void Update(GameTime gameTime)
+      {
+         if (StateMachine != null) 
+         {
+            StateMachine.Update (gameTime);
+         }
+      }
+
+      /// <summary>
       /// Gets or sets the current target entity of this entity.
       /// </summary>
       public Entity CurrentTarget
@@ -157,6 +220,108 @@ namespace WinWarCS.Data.Game
             currentTarget = value;
          }
       } // CurrentTarget
+
+      /// <summary>
+      /// Orders the unit to be idle. This stops movement and clears the hate list.
+      /// </summary>
+      public void Idle()
+      {
+         Log.AI(this, "Idling...");
+         StateMachine.ChangeState(new StateIdle(this));
+      } // Idle()
+
+      /// <summary>
+      /// Orders the entity to move to the coordinates and attack everything it passes on its way to the target
+      /// </summary>
+      /// <param name="x">Target X tile</param>
+      /// <param name="y">Target Y tile</param>
+      public void AttackMove(int x, int y)
+      {
+         if (CanMove)
+         {
+            Log.AI(this, "Moving to " + x + "," + y + " and attacking all enemies on the way!");
+
+            StateMachine.ChangeState(new StateAttackMove(this, x, y));
+         }
+      } // AttackMove(x, y)
+
+      /// <summary>
+      /// Orders the entity to attack the given target
+      /// </summary>
+      /// <param name="Target">The entity to attack</param>
+      public void Attack(Entity Target)
+      {
+         if (CanAttack)
+         {
+            Log.AI(this, "Attacking " + Target.Name + Target.UniqueID);
+
+            StateMachine.ChangeState(new StateAttack(this, Target));
+         }
+      } // Attack(Target)
+
+      /// <summary>
+      /// Orders the unit to move to the coordinates ignoring all enemy entities on the way.
+      /// </summary>
+      /// <param name="x">Target X tile</param>
+      /// <param name="y">Target Y tile</param>
+      public void MoveTo(int x, int y)
+      {
+         if (CanMove)
+         {
+            Log.AI(this, "Moving to " + x + "," + y);
+
+            StateMachine.ChangeState(new StateMove(this, x, y));
+         }
+      } // MoveTo(x, y)
+
+      /// <summary>
+      /// Perform attack
+      /// </summary>
+      internal void PerformAttack(BuildEntity Target)
+      {
+         int damage = this.MinDamage; //TODO!!! + ScriptEnvironment.Random.Next(this.RandomDamage);
+         damage -= Target.ArmorPoints;
+         if (damage < 0)
+            damage = 0;
+
+         Log.AI(this, "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " point(s) of damage.");
+
+         Target.HitPoints -= (short)damage;
+         Target.HateList.SetHateValue(this, damage, HateListParam.AddValue);
+      } // PerformAttack(Target)
+
+      internal virtual void DidSpawn()
+      {
+      }
+
+      public virtual bool CanMove
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanAttack
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanBuild
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool LookaroundWhileIdle
+      {
+         get
+         {
+            return false;
+         }
+      }
 
       public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
       {

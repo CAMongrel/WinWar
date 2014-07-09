@@ -40,6 +40,38 @@ namespace WinWarCS.Data.Game
          : base (currentMap)
       {
       }
+
+      public override bool CanAttack 
+      {
+         get 
+         {
+            return true;
+         }
+      }
+      public override bool CanMove
+      {
+         get 
+         {
+            return true;
+         }
+      }
+      public override bool LookaroundWhileIdle 
+      {
+         get 
+         {
+            return true;
+         }
+      }
+
+      public void SetRandomOrientation()
+      {
+         Orientation = (Orientation)((int)(CurrentMap.Rnd.NextDouble () * 8));
+      }
+
+      internal override void DidSpawn ()
+      {
+         SetRandomOrientation ();
+      }
    }
 }
 

@@ -101,6 +101,7 @@
     <Folder Include="Data\Game\Entities\Neutral\" />
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />
+    <Folder Include="Data\Game\AI\States\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IntroStoryboard.cs" />
@@ -182,11 +183,19 @@
     <Compile Include="Data\Game\Entities\BuildEntity.cs" />
     <Compile Include="Data\Resources\CursorResource.cs" />
     <Compile Include="Gui\MouseCursor.cs" />
+    <Compile Include="Data\Game\AI\States\StateBuilding.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttack.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttackMove.cs" />
+    <Compile Include="Data\Game\AI\States\StateIdle.cs" />
+    <Compile Include="Data\Game\AI\States\StateMove.cs" />
+    <Compile Include="Data\Game\AI\States\StateDeath.cs" />
+    <Compile Include="Data\Game\AI\States\BaseState.cs" />
+    <Compile Include="Util\Log.cs" />
+    <Compile Include="Data\Game\AI\StateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
     <None Include="Info.plist" />
-    <None Include="Data\Game\AI\StateMachine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

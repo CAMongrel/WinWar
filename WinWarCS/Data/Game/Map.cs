@@ -3,6 +3,7 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWarEngine\Data\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 23:04
+using WinWarCS.Util;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -58,6 +59,8 @@ namespace WinWarCS.Data.Game
 
       internal AStar2D Pathfinder;
 
+      internal Random Rnd { get; private set; }
+
       #region ctor
 
       /// <summary>
@@ -81,6 +84,8 @@ namespace WinWarCS.Data.Game
 
          Players = new List<BasePlayer> ();
 
+         Rnd = new Random ();
+
          Pathfinder = new AStar2D ();
          levelPassable.FillAStar (Pathfinder);
 
@@ -103,7 +108,10 @@ namespace WinWarCS.Data.Game
 
       internal void Update(GameTime gameTime)
       {
-
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            entities [i].Update (gameTime);
+         }
       }
 
       #endregion
@@ -138,6 +146,8 @@ namespace WinWarCS.Data.Game
          if (owner != null)
             // Neutral entities may not have an owner
             owner.ClaimeOwnership (newEnt);
+
+         newEnt.DidSpawn ();
       }
 
       #region Render
@@ -320,6 +330,32 @@ namespace WinWarCS.Data.Game
       }
 
       #endregion
+      #endregion
+
+      #region Pathfinding
+      internal List<Node> CalcPath(int startX, int startY, int endX, int endY)
+      {
+         Pathfinder.StartX = startX;
+         Pathfinder.StartY = startY;
+         Pathfinder.EndX = endX;
+         Pathfinder.EndY = endY;
+
+         Log.Status("Map: Calculating path from " + startX + "," + 
+            startY + " to " + endX + "," + endY + "...");
+
+         if (Pathfinder.FindPath())
+         {
+            List<Node> Path = new List<Node>(Pathfinder.PathNodeCount);
+            for (int i = 0; i < Pathfinder.PathNodeCount; i++)
+               Path.Add(Pathfinder.GetPathNode(i));
+            Log.Status("... success (" + Path.Count + " Nodes)!");
+            return Path;
+         }
+
+         Log.Status("... failed!");
+
+         return null;
+      }
       #endregion
 
       #region Unit-testing

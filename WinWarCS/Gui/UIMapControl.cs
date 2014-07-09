@@ -103,6 +103,16 @@ namespace WinWarCS.Gui
          CurrentMap = new Map (null, levelVisual, levelPassable);
       }
 
+      internal override void Update (GameTime gameTime)
+      {
+         base.Update (gameTime);
+
+         if (CurrentMap != null) 
+         {
+            CurrentMap.Update (gameTime);
+         }
+      }
+
       internal override void Render ()
       {
          base.Render ();
