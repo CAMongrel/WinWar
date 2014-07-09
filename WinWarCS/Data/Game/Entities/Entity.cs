@@ -192,7 +192,8 @@ namespace WinWarCS.Data.Game
 
          sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
 
-         //WWTexture.RenderRectangle (rect, Color.Blue);
+         if (DebugOptions.ShowUnitFrames)
+            WWTexture.RenderRectangle (rect, Color.Blue);
       }
 
       /// <summary>

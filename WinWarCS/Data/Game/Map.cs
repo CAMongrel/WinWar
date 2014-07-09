@@ -231,9 +231,18 @@ namespace WinWarCS.Data.Game
             for (int x = 0; x < tilesToDrawX; x++)
             {
                int index = levelVisual.visualData [(x + startTileX) + ((y + startTileY) * MapWidth)];
-               //index = count++;
 
                tileSet.DrawTile (index, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+
+               if (DebugOptions.ShowBlockedTiles) 
+               {
+                  bool isBlocked = levelPassable.passableData[x + startTileX, y + startTileY] > 0;
+                  if (isBlocked) 
+                  {
+                     WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                        TileWidth, TileHeight, new Color (0.0f, 1.0f, 0.0f, 0.5f));
+                  }
+               }
             }
          }
 

@@ -192,6 +192,7 @@
     <Compile Include="Data\Game\AI\States\BaseState.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Util\DebugOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
