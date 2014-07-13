@@ -128,6 +128,16 @@
     <Compile Include="Data\Game\AI\HateList.cs" />
     <Compile Include="Gui\MouseCursor.cs" />
     <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Game\AI\States\BaseState.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttack.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttackMove.cs" />
+    <Compile Include="Data\Game\AI\States\StateBuilding.cs" />
+    <Compile Include="Data\Game\AI\States\StateDeath.cs" />
+    <Compile Include="Data\Game\AI\States\StateIdle.cs" />
+    <Compile Include="Data\Game\AI\States\StateMove.cs" />
+    <Compile Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Util\DebugOptions.cs" />
+    <Compile Include="Util\Log.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -136,6 +146,7 @@
     <Folder Include="Data\Game\Entities\" />
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />
+    <Folder Include="Data\Game\AI\States\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -160,7 +171,7 @@
     <None Include="Assets\warcraft-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\Game\AI\StateMachine.cs" />
+    <None Include="TODO.txt" />
   </ItemGroup>
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
 </Project>
