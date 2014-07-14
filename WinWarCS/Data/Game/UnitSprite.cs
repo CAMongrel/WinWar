@@ -57,7 +57,7 @@ namespace WinWarCS.Data.Game
 
          AddAnimation ("Walk", 0.2, SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 15, 30, 15, 0, 55, 45, 55, 0);
 
-         AddAnimation ("Attack", 0.3, SpriteAnimationParams.FiveFrameDirection, 5, 20, 35, 50, 60, 50, 35, 20, 5);
+         AddAnimation ("Attack", 0.2, SpriteAnimationParams.FiveFrameDirection, 5, 20, 35, 50, 60, 50, 35, 20, 5, 0);
       }
    }
 }

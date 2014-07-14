@@ -1,4 +1,5 @@
 ﻿using System;
+using WinWarCS.Util;
 
 namespace WinWarCS.Data.Game
 {
@@ -53,21 +54,21 @@ namespace WinWarCS.Data.Game
       {
          get 
          {
-            return true;
+            return !IsDead;
          }
       }
       public override bool CanMove
       {
          get 
          {
-            return true;
+            return !IsDead;
          }
       }
       public override bool LookaroundWhileIdle 
       {
          get 
          {
-            return true;
+            return !IsDead;
          }
       }
 
@@ -79,6 +80,16 @@ namespace WinWarCS.Data.Game
       internal override void DidSpawn ()
       {
          SetRandomOrientation ();
+      }
+
+      internal override void DestroyAndSpawnRemains ()
+      {
+         base.DestroyAndSpawnRemains ();
+
+         if (CurrentMap != null) 
+         {
+            CurrentMap.CreateEntity (this.TileX, this.TileY, WinWarCS.Data.Resources.LevelObjectType.Orc_corpse, null);
+         }
       }
 
       internal static Orientation OrientationFromDiff(float x, float y)

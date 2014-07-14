@@ -41,7 +41,9 @@ namespace WinWarCS.Data.Game
          targetX = Owner.CurrentTarget.TileX;
          targetY = Owner.CurrentTarget.TileY;
 
-         attackTimer = Owner.AttackSpeed;
+         // TODO: This may lead to bugs, if the user manages to quickly switch states.
+         // This must be fixed by moving the attackTimer to the unit itself.
+         attackTimer = 0;
       }
 
       internal override void Update(GameTime gameTime)
@@ -57,7 +59,7 @@ namespace WinWarCS.Data.Game
          HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
          if (entry.Target == null)
          {
-            ((BuildEntity)this.Owner).Idle();
+            this.Owner.Idle();
             return;
          }
 
@@ -66,8 +68,8 @@ namespace WinWarCS.Data.Game
 
       private void MoveOrAttack(Entity ent)
       {
-         float offx = this.Owner.X - ent.X;
-         float offy = this.Owner.Y - ent.Y;
+         float offx = ent.X - this.Owner.X;
+         float offy = ent.Y - this.Owner.Y;
 
          float sqr_dist = (offx * offx + offy * offy);
 
@@ -76,7 +78,15 @@ namespace WinWarCS.Data.Game
          if (sqr_dist < sqr_meleerange)
          {
             // Target is in range -> Perform an attack
-            this.Owner.PerformAttack(ent);
+            if (this.Owner.PerformAttack (ent)) 
+            {
+               if (this.Owner is Unit) 
+               {
+                  Unit unit = (Unit)this.Owner;
+                  unit.Orientation = Unit.OrientationFromDiff (offx, offy);
+                  unit.Sprite.CurrentAnimation.Reset ();
+               }
+            }
          }
          else
          {

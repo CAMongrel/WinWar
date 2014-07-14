@@ -62,7 +62,6 @@ namespace WinWarCS.Data.Game
       internal override void Update(GameTime gameTime)
       {
          moveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-         Log.Status ("moveTimer: " + moveTimer);
          if (moveTimer > 0) 
          {
             float scale = (float)(1.0f - (moveTimer / walkDistance));
@@ -92,7 +91,6 @@ namespace WinWarCS.Data.Game
 
          if (curNodeIdx >= Path.Count - 1)
          {
-            Log.Status ("Reached destination");
             Owner.SetPosition (targetPosX, targetPosY);
             this.Owner.Idle();
             return;

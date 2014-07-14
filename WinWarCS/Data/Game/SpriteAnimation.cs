@@ -54,28 +54,17 @@ namespace WinWarCS.Data.Game
 
       internal bool ShouldFlipX { get; private set; }
 
+      private Orientation orientation;
       internal Orientation Orientation
       {
          get
          { 
-            if (ShouldFlipX == false)
-               return (Orientation)fiveFrameOffset;
-            else
-               return (Orientation)(((3 - (fiveFrameOffset - 5)) + 5) % (int)Orientation.NorthWest);
+            return orientation;
          }
          set
          {
-            int orientIndex = (int)value;
-            if (orientIndex >= 0 && orientIndex <= 4) 
-            {
-               ShouldFlipX = false;
-               fiveFrameOffset = orientIndex;
-            } 
-            else 
-            {
-               ShouldFlipX = true;
-               fiveFrameOffset = (3 - (orientIndex - 5));
-            }
+            orientation = value;
+            UpdateFiveFrameoffset ();
          }
       }
 
@@ -99,6 +88,27 @@ namespace WinWarCS.Data.Game
       internal void AddAnimationFrames(params int[] frameIndices)
       {
          animationFrames.AddRange(frameIndices);
+      }
+
+      private void UpdateFiveFrameoffset()
+      {
+         if (Params.HasFlag (SpriteAnimationParams.FiveFrameDirection) == false) 
+         {
+            fiveFrameOffset = 0;
+            return;
+         }
+
+         int orientIndex = (int)orientation;
+         if (orientIndex >= 0 && orientIndex <= 4) 
+         {
+            ShouldFlipX = false;
+            fiveFrameOffset = orientIndex;
+         } 
+         else 
+         {
+            ShouldFlipX = true;
+            fiveFrameOffset = ((3 - (orientIndex - 5)) % (int)Orientation.NorthWest);
+         }
       }
 
       internal void Update(GameTime gameTime)
@@ -133,7 +143,10 @@ namespace WinWarCS.Data.Game
                currentAnimationFrame %= animationFrames.Count;
             } else
             {
-               currentAnimationFrame = animationFrames.Count - 1;
+               int step = 1;
+               if (Params.HasFlag(SpriteAnimationParams.FiveFrameDirection))
+                  step *= 5;
+               currentAnimationFrame = animationFrames.Count - step;
                Phase = SpriteAnimationPhase.Finished;
                if (OnAnimationDidFinish != null)
                   OnAnimationDidFinish ();
@@ -146,6 +159,7 @@ namespace WinWarCS.Data.Game
          currentAnimationFrame = 0;
          currentFrameTime = 0;
          Phase = SpriteAnimationPhase.Initialized;
+         UpdateFiveFrameoffset ();
       }
    }
 }

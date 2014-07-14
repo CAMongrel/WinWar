@@ -115,7 +115,7 @@ namespace WinWarCS.Gui
          if (MapControl.CurrentMap != null) 
          {
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
-            if (ent != null) 
+            if (ent != null && ent.CanBeSelected) 
             {
                MouseCursor.State = MouseCursorState.Magnifier;
                return true;

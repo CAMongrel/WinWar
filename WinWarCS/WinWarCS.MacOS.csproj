@@ -194,6 +194,7 @@
     <Compile Include="Data\Game\AI\StateMachine.cs" />
     <Compile Include="Util\DebugOptions.cs" />
     <Compile Include="Gui\Input\PointerType.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

@@ -165,5 +165,11 @@ namespace WinWarCS.Data.Game
          if (CurrentAnimation != null)
             CurrentAnimation.Update(gameTime);
       }
+
+      public void ApplyCorpseAnimationSet()
+      {
+         AddAnimation ("Death1", 0.5, SpriteAnimationParams.None, 10, 25, 40);
+         AddAnimation ("Death2", 0.5, SpriteAnimationParams.None, 12, 27, 42);
+      }
    }
 }

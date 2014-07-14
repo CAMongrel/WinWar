@@ -142,7 +142,7 @@ namespace WinWarCS.Data.Game
          }
       }
 
-      private void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
+      internal void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
          Entity newEnt = Entity.CreateEntityFromType (entityType, this);
          newEnt.SetPosition (x, y);
@@ -153,7 +153,25 @@ namespace WinWarCS.Data.Game
             owner.ClaimeOwnership (newEnt);
 
          newEnt.DidSpawn ();
-      }      
+      }
+
+      internal void RemoveEntity(Entity ent)
+      {
+         if (ent == null)
+            return;
+
+         if (ent.Owner != null)
+            ent.Owner.RemoveOwnership (ent);
+
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            entities [i].HateList.RemoveEntity (ent);
+         }
+
+         entities.Remove (ent);
+
+         SelectEntity (null);
+      }
 
       internal Entity GetEntityAt(int tileX, int tileY)
       {

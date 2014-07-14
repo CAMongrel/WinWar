@@ -195,7 +195,8 @@ namespace WinWarCS.Data.Game
          rect.X -= (rect.Width * 0.5f - tileRectangle.Width * 0.5f);
          rect.Y -= (rect.Height * 0.5f - tileRectangle.Height * 0.5f);
 
-         sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
+         if (sprite.CurrentFrame != null)
+            sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
 
          if (DebugOptions.ShowUnitFrames)
             WWTexture.RenderRectangle (rect, Color.Blue);
@@ -342,16 +343,18 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Perform attack
       /// </summary>
-      internal void PerformAttack(Entity Target)
+      internal bool PerformAttack(Entity Target)
       {
          if (Target.ShouldBeAttacked == false)
-            return;
+            return false;
 
          int damage = this.MinDamage + CurrentMap.Rnd.Next(this.RandomDamage);
 
          Log.AI(this, "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " (unmitigated) point(s) of damage.");
 
          Target.TakeDamage ((short)damage, this);
+
+         return true;
       } // PerformAttack(Target)
 
       internal virtual void DidSpawn()
@@ -364,7 +367,7 @@ namespace WinWarCS.Data.Game
 
       internal virtual bool WillSelect()
       {
-         return true;
+         return CanBeSelected;
       }
 
       internal virtual void DidDeselect()
@@ -374,6 +377,12 @@ namespace WinWarCS.Data.Game
       internal virtual bool WillDeselect()
       {
          return true;
+      }
+
+      internal virtual void DestroyAndSpawnRemains()
+      {
+         if (CurrentMap != null)
+            CurrentMap.RemoveEntity (this);
       }
 
       internal bool CanGiveCommands()
@@ -415,11 +424,25 @@ namespace WinWarCS.Data.Game
             return false;
          }
       }
+      public virtual bool CanBeSelected
+      {
+         get
+         {
+            return true;
+         }
+      }
+      public virtual bool IsDead
+      {
+         get
+         {
+            return (StateMachine.CurrentState is StateDeath);
+         }
+      }
       public virtual bool ShouldBeAttacked
       {
          get
          {
-            if (StateMachine.CurrentState is StateDeath)
+            if (IsDead)
                return false;
 
             return true;
@@ -472,6 +495,9 @@ namespace WinWarCS.Data.Game
             // Neutral
          case LevelObjectType.Goldmine:
             return new Goldmine (inMap);
+
+         case LevelObjectType.Orc_corpse:
+            return new Corpse (inMap);
 
          default:
             return new Entity (inMap);
