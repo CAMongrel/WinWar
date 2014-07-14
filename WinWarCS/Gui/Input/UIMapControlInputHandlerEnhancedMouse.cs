@@ -33,10 +33,38 @@ namespace WinWarCS.Gui.Input
 
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         Entity ent = GetEntityAt (position);
+         if (pointerType == PointerType.LeftMouse) 
+         {
+            SelectUnitAt (position);
+         } 
+         else 
+         {
+            Entity selEnt = GetSelectedEntity ();
+            if (selEnt == null || selEnt.CanGiveCommands() == false)
+               return true;
 
+            Entity ent = GetEntityAt (position);
 
-         SelectUnitAt (position);
+            if (ent == null || ent.Owner == null) 
+            {
+               int tileX, tileY;
+               GetTileAt (position, out tileX, out tileY);
+               selEnt.MoveTo (tileX, tileY);
+            } 
+            else 
+            {
+               // If we right-clicked a neutral builind. Move towards it.
+               // TODO: Handle other orders (like harvesting)
+               if (ent.Owner.IsNeutralTowards (selEnt))
+                  selEnt.MoveTo (ent.TileX, ent.TileY);
+
+               if (ent.Owner.IsFriendlyTowards (selEnt))
+                  selEnt.MoveTo (ent.TileX, ent.TileY);
+
+               if (ent.Owner.IsHostileTowards (selEnt))
+                  selEnt.Attack(ent);
+            }
+         }
 
          return true;
       }

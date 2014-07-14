@@ -57,9 +57,25 @@ namespace WinWarCS.Gui
             OnMapDidScroll (setMapOffsetX, setMapOffsetY);
       }
 
+      #region Input logic for all handlers
+      protected Entity GetSelectedEntity()
+      {
+         if (MapControl.CurrentMap != null) 
+         {
+            return MapControl.CurrentMap.SelectedEntity;
+         }
+         return null;
+      }
+
       protected void Deselect()
       {
          MapControl.CurrentMap.SelectEntity (null);
+      }
+
+      protected void GetTileAt(Microsoft.Xna.Framework.Vector2 position, out int tileX, out int tileY)
+      {
+         Vector2 localPosition = new Vector2 (position.X - MapControl.X, position.Y - MapControl.Y);
+         MapControl.GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
       }
 
       protected Entity GetEntityAt(Microsoft.Xna.Framework.Vector2 position)
@@ -108,5 +124,6 @@ namespace WinWarCS.Gui
 
          return false;
       }
+      #endregion
    }
 }

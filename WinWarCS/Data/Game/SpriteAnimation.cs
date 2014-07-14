@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarCS.Util;
 
 namespace WinWarCS.Data.Game
 {
@@ -60,7 +61,7 @@ namespace WinWarCS.Data.Game
             if (ShouldFlipX == false)
                return (Orientation)fiveFrameOffset;
             else
-               return (Orientation)((3 - (fiveFrameOffset - 5)) + 5);
+               return (Orientation)(((3 - (fiveFrameOffset - 5)) + 5) % (int)Orientation.NorthWest);
          }
          set
          {

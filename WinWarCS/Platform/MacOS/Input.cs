@@ -40,7 +40,7 @@ namespace WinWarCS.Platform
          }
          if (mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
          {
-            MainGame.WinWarGame.PointerReleased (scaledPosition, PointerType.RightMouse);
+            MainGame.WinWarGame.PointerReleased (scaledPosition, PointerType.LeftMouse);
          }
 
          // Middle mouse button

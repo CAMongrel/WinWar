@@ -28,6 +28,12 @@ namespace WinWarCS.Data.Game
 
       internal override void Enter()
       {
+         if (Owner is Unit) 
+         {
+            Unit unit = (Unit)Owner;
+            unit.Sprite.SetCurrentAnimationByName ("Attack");
+         }
+
          Owner.HateList.SetHateValue(Owner.CurrentTarget, 25, HateListParam.PushToTop);
 
          Log.AI(this.Owner, "Attacking " + Owner.CurrentTarget.Name + Owner.CurrentTarget.UniqueID);
@@ -65,15 +71,12 @@ namespace WinWarCS.Data.Game
 
          float sqr_dist = (offx * offx + offy * offy);
 
-         float sqr_meleerange = 3.0f;
-         if (ent is BuildEntity)
-            sqr_meleerange = ((BuildEntity)ent).AttackRange * ((BuildEntity)ent).AttackRange;
+         float sqr_meleerange = ent.AttackRange * ent.AttackRange;
 
          if (sqr_dist < sqr_meleerange)
          {
             // Target is in range -> Perform an attack
-            if (this.Owner is BuildEntity && ent is BuildEntity)
-               ((BuildEntity)this.Owner).PerformAttack((BuildEntity)ent);
+            this.Owner.PerformAttack(ent);
          }
          else
          {

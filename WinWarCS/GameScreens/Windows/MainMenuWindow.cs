@@ -69,12 +69,15 @@ namespace WinWarCS.GameScreens.Windows
          sprImg.Y = 10;
          AddComponent(sprImg);*/
 
-         /*sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
-         sprImg.Sprite.SetCurrentAnimationByName ("Attack");
-         sprImg.X = 30;
-         sprImg.Y = 10;
-         AddComponent(sprImg);*/
-
+         /*for (int i = 0; i <= (int)Orientation.NorthWest; i++) 
+         {
+            UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Orc Grunt"))));
+            sprImg.Sprite.SetCurrentAnimationByName ("Walk");
+            sprImg.Orientation = (Orientation)i;
+            sprImg.X = 30 + 30 * i;
+            sprImg.Y = 10;
+            AddComponent(sprImg);
+         }*/
          //sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }
 

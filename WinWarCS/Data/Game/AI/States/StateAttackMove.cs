@@ -73,7 +73,7 @@ namespace WinWarCS.Data.Game
 
             if (curNodeIdx >= Path.Count)
             {
-               ((BuildEntity)this.Owner).Idle();
+               this.Owner.Idle();
                return;
             }
 
@@ -100,17 +100,14 @@ namespace WinWarCS.Data.Game
 
          float sqr_dist = (offx * offx + offy * offy);
 
-         float sqr_meleerange = 3.0f;
-         if (ent is BuildEntity)
-            sqr_meleerange = ((BuildEntity)ent).AttackRange * ((BuildEntity)ent).AttackRange;
+         float sqr_meleerange = ent.AttackRange * ent.AttackRange;
 
          if (sqr_dist < sqr_meleerange)
          {
-            if (this.Owner.CanAttack)
+            if (this.Owner.CanAttack && ent.ShouldBeAttacked)
             {
                // Target is in range -> Perform an attack
-               if (this.Owner is BuildEntity && ent is BuildEntity)
-                  this.Owner.PerformAttack((BuildEntity)ent);
+               this.Owner.PerformAttack(ent);
             }
          }
          else

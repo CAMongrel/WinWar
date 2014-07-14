@@ -13,9 +13,21 @@ namespace WinWarCS.Gui
 {
    class UISpriteImage : UIBaseComponent
    {
-      public Sprite Sprite { get; private set; }
+      public UnitSprite Sprite { get; private set; }
 
-      internal UISpriteImage(Sprite setSprite)
+      public Orientation Orientation
+      {
+         get
+         {
+            return Sprite.SpriteOrientation;
+         }
+         set
+         {
+            Sprite.SpriteOrientation = value;
+         }
+      }
+
+      internal UISpriteImage(UnitSprite setSprite)
       {
          Sprite = setSprite;
 
@@ -25,13 +37,13 @@ namespace WinWarCS.Gui
 
       internal static UISpriteImage FromSpriteResource(string name)
       {
-         UISpriteImage res = new UISpriteImage(new Sprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(name))));
+         UISpriteImage res = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(name))));
          return res;
       }
 
       internal static UISpriteImage FromSpriteResource(SpriteResource resource)
       {
-         UISpriteImage res = new UISpriteImage(new Sprite(resource));
+         UISpriteImage res = new UISpriteImage(new UnitSprite(resource));
          return res;
       }
 

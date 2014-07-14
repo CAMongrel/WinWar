@@ -11,7 +11,11 @@ namespace WinWarCS.Data.Game
 
       internal override void Enter()
       {
-         //
+         if (Owner is Unit) 
+         {
+            Unit unit = (Unit)Owner;
+            unit.Sprite.SetCurrentAnimationByName ("Death");
+         }
       }
    }
 }

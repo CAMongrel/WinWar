@@ -16,6 +16,13 @@ namespace WinWarCS.Data.Game
       {
          updateTimer = 1.0f;
          this.Owner.HateList.Wipe();
+
+         if (Owner is Unit) 
+         {
+            Unit unit = (Unit)Owner;
+            if (unit.Sprite != null)
+               unit.Sprite.SetCurrentAnimationByName ("Idle");
+         }
       }
 
       internal override void Update(GameTime gameTime)
@@ -47,6 +54,9 @@ namespace WinWarCS.Data.Game
 
             foreach (Entity ent in pl.Entities)
             {
+               if (ent.ShouldBeAttacked == false)
+                  continue;
+
                float offx = this.Owner.X - ent.X;
                float offy = this.Owner.Y - ent.Y;
 

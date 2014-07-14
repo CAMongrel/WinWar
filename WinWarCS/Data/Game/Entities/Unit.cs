@@ -39,6 +39,14 @@ namespace WinWarCS.Data.Game
       public Unit (Map currentMap)
          : base (currentMap)
       {
+         AttackRange = 2;
+         MaxHitPoints = 20;
+         HitPoints = MaxHitPoints;
+         MinDamage = 5;
+         RandomDamage = 2;
+         ArmorPoints = 1;
+         AttackSpeed = 1.0f;
+         WalkSpeed = 0.7f;
       }
 
       public override bool CanAttack 
@@ -71,6 +79,30 @@ namespace WinWarCS.Data.Game
       internal override void DidSpawn ()
       {
          SetRandomOrientation ();
+      }
+
+      internal static Orientation OrientationFromDiff(float x, float y)
+      {
+         if (x < 0 && y < 0)
+            return Orientation.NorthWest;
+         if (x == 0 && y < 0)
+            return Orientation.North;
+         if (x > 0 && y < 0)
+            return Orientation.NorthEast;
+
+         if (x < 0 && y == 0)
+            return Orientation.West;
+         if (x > 0 && y == 0)
+            return Orientation.East;
+
+         if (x < 0 && y > 0)
+            return Orientation.SouthWest;
+         if (x == 0 && y > 0)
+            return Orientation.South;
+         if (x > 0 && y > 0)
+            return Orientation.SouthEast;
+
+         return Orientation.North;
       }
    }
 }

@@ -121,13 +121,28 @@ namespace WinWarCS.Data.Game
 
       internal void AddAnimation(string name, double delay, SpriteAnimationParams setParams, params int[] frames)
       {
+         int[] newFrames = null;
+         if (setParams.HasFlag (SpriteAnimationParams.FiveFrameDirection)) 
+         {
+            newFrames = new int[frames.Length * 5];
+            for (int i = 0; i < frames.Length; i++) 
+            {
+               for (int j = 0; j < 5; j++) 
+               {
+                  newFrames [i * 5 + j] = frames [i] + j;
+               }
+            }
+         }
+         else
+            newFrames = frames;
+
          SpriteAnimation anim = new SpriteAnimation(name, setParams);
          anim.FrameDelay = delay;
-         anim.AddAnimationFrames(frames);
+         anim.AddAnimationFrames(newFrames);
          allAnimations.Add(anim);
       }
 
-      internal virtual void SetCurrentAnimationByName(string name)
+      internal virtual void SetCurrentAnimationByName(string name, double? overrideDelay = null)
       {
          if (CurrentAnimation != null)
          {
@@ -139,6 +154,8 @@ namespace WinWarCS.Data.Game
          if (animation != null)
          {
             CurrentAnimation = animation;
+            if (overrideDelay != null)
+               CurrentAnimation.FrameDelay = overrideDelay.Value;
             CurrentAnimation.Reset();
          }
       }

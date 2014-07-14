@@ -103,6 +103,8 @@ namespace WinWarCS
 
          this.IsMouseVisible = false;
 
+         this.IsFixedTimeStep = false;
+
          backgroundClearColor = new Color (0x7F, 0x00, 0x00);
 
          currentGameScreen = null;
