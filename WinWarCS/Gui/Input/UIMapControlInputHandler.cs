@@ -36,12 +36,12 @@ namespace WinWarCS.Gui
          //
       }
 
-      internal virtual bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal virtual bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return true;
       }
 
-      internal virtual bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal virtual bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return true;
       }

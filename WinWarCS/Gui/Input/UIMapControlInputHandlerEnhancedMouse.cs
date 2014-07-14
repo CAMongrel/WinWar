@@ -26,12 +26,12 @@ namespace WinWarCS.Gui.Input
          InvokeOnMapDidScroll (camOffsetX, camOffsetY);
       }
 
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return true;
       }
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          Entity ent = GetEntityAt (position);
 

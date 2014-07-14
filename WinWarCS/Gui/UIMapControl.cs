@@ -144,12 +144,12 @@ namespace WinWarCS.Gui
 
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         return InputHandler.PointerDown (position);
+         return InputHandler.PointerDown (position, pointerType);
       }
 
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         return InputHandler.PointerUp (position);
+         return InputHandler.PointerUp (position, pointerType);
       }
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
