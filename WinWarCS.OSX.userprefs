@@ -1,16 +1,8 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="09.07.2014 14:26:47">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="14.07.2014 06:25:19">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Entities/Entity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/GameScreens/Windows/IngameMenuWindow.cs">
     <Files>
-      <File FileName="WinWarCS/Data/Game/AI/States/StateIdle.cs" Line="32" Column="74" />
-      <File FileName="WinWarCS/Data/Game/Entities/Building.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/Game/Entities/BuildEntity.cs" Line="34" Column="36" />
-      <File FileName="WinWarCS/Gui/UIBaseComponent.cs" Line="297" Column="7" />
-      <File FileName="WinWarCS/Gui/UIMapControl.cs" Line="153" Column="39" />
-      <File FileName="WinWarCS/Data/Game/Map.cs" Line="163" Column="41" />
-      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="35" Column="8" />
-      <File FileName="WinWarCS/Gui/MouseCursor.cs" Line="75" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/GameBackgroundWindow.cs" Line="180" Column="55" />
+      <File FileName="WinWarCS/GameScreens/Windows/IngameMenuWindow.cs" Line="34" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -52,7 +52,26 @@ namespace WinWarCS.Gui
       {
          CurrentMap = null;
 
-         InputHandler = new UIMapControlInputHandlerEnhancedMouse (this);
+         SetInputMode (InputMode.EnhancedMouse);
+      }
+
+      internal void SetInputMode(InputMode setMode)
+      {
+         switch (setMode) 
+         {
+         case InputMode.Classic:
+            InputHandler = new UIMapControlInputHandlerClassic (this);
+            break;
+
+         case InputMode.EnhancedMouse:
+            InputHandler = new UIMapControlInputHandlerEnhancedMouse (this);
+            break;
+
+         case InputMode.EnhancedTouch:
+            InputHandler = new UIMapControlInputHandlerEnhancedTouch (this);
+            break;
+         }
+
          InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
       }
 
@@ -123,41 +142,18 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return InputHandler.PointerDown (position);
       }
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         Vector2 localPosition = new Vector2 (position.X - X, position.Y - Y);
-         int tileX = 0;
-         int tileY = 0;
-         GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
-
-         if (CurrentMap != null) 
-         {
-            Entity ent = CurrentMap.GetEntityAt (tileX, tileY);
-            CurrentMap.SelectEntity (ent);
-         }
-
          return InputHandler.PointerUp (position);
       }
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
       {
-         Vector2 localPosition = new Vector2 (position.X - X, position.Y - Y);
-         int tileX = 0;
-         int tileY = 0;
-         GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
-
-         if (CurrentMap != null) 
-         {
-            Entity ent = CurrentMap.GetEntityAt (tileX, tileY);
-            if (ent != null)
-               MouseCursor.State = MouseCursorState.Magnifier;
-         }
-
          return InputHandler.PointerMoved (position);
       }
    }

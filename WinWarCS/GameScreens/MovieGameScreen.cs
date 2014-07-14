@@ -103,12 +103,12 @@ namespace WinWarCS.GameScreens
          }
       }
 
-      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          //
       }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (player != null && player.IsPlaying)
             player.Stop();

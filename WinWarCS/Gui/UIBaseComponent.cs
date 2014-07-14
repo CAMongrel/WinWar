@@ -256,7 +256,7 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal virtual bool PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (UserInteractionEnabled == false)
             return false;
@@ -268,14 +268,14 @@ namespace WinWarCS.Gui
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
-            if (components[i].PointerDown(relPosition))
+            if (components[i].PointerDown(relPosition, pointerType))
                return true;
          }
 
          return true;
       }
 
-      internal virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal virtual bool PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (UserInteractionEnabled == false)
             return false;
@@ -287,7 +287,7 @@ namespace WinWarCS.Gui
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
-            if (components[i].PointerUp(relPosition))
+            if (components[i].PointerUp(relPosition, pointerType))
                return true;
          }
 

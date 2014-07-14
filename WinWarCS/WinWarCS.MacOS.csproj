@@ -193,6 +193,7 @@
     <Compile Include="Util\Log.cs" />
     <Compile Include="Data\Game\AI\StateMachine.cs" />
     <Compile Include="Util\DebugOptions.cs" />
+    <Compile Include="Gui\Input\PointerType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

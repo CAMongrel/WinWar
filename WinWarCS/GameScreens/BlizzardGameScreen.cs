@@ -63,9 +63,9 @@ namespace WinWarCS.GameScreens
             MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen(true));
       }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         base.PointerUp(position);
+         base.PointerUp(position, pointerType);
 
          MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen(false));
       }
