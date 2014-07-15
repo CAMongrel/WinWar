@@ -33,3 +33,4 @@ Backup/
 *.7z
 UpgradeLog.htm
 GameAssets/
+*.userprefs
