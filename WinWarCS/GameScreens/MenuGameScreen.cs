@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WinWarCS.GameScreens.Windows;
 using WinWarCS.Graphics;
 using WinWarCS.Gui;
+using WinWarCS.Gui.Rendering;
 
 namespace WinWarCS.GameScreens
 {
@@ -84,6 +85,8 @@ namespace WinWarCS.GameScreens
       internal override void Draw(GameTime gameTime)
       {
          UIWindowManager.Render();
+
+         FontRenderer.DrawStringDirect (MainGame.DefaultFont, "Version: " + MainGame.Version, 270, 194, Color.White, 0.5f);
       }
 
       internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)

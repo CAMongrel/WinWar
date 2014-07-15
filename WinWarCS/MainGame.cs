@@ -14,6 +14,12 @@ namespace WinWarCS
    /// </summary>
    public class MainGame : Game
    {
+      public static int MajorVersion = 0;
+      public static int MinorVersion = 1;
+      public static int RevisionVersion = 0;
+
+      public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
+
       #region Variables
 
       private GraphicsDeviceManager _graphics;
@@ -129,6 +135,8 @@ namespace WinWarCS
       protected override async void Initialize ()
       {
          base.Initialize ();
+
+         Console.WriteLine ("WinWarCS -- Version: " + Version);
 
          /*Windows.Storage.StorageFile warFile = await WinWarCS.Data.WarFile.GetDataWarFile();
          if (warFile == null)

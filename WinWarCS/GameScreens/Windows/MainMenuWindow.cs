@@ -41,9 +41,9 @@ namespace WinWarCS.GameScreens.Windows
          UIButton loadGameBtn = Components[2] as UIButton;
          loadGameBtn.OnMouseUpInside += loadGameBtn_OnMouseUpInside;
 
-         // Quic Game
+         // Quit Game
          UIButton quitGameBtn = Components[3] as UIButton;
-         quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
+         quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;        
 
          /*string unitName = "Goldmine";
 

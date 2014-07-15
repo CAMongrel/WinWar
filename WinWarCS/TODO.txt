@@ -13,3 +13,4 @@ OK - Unit selection
    - Implement commands
    - Show units & buildings on MiniMap
    - Implement Fog of War
+OK - Add version number
