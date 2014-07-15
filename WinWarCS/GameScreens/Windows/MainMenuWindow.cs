@@ -85,6 +85,12 @@ namespace WinWarCS.GameScreens.Windows
 
       async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
+         if (WarFile.IsDemo)
+         {
+            await WinWarCS.Platform.UI.ShowMessageDialog ("Not available in demo!");
+            return;
+         }
+
          Stream resultFile = await WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", "TITLE.WAR"));
 
          MovieGameScreen.PlayMovie(resultFile,

@@ -1,26 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Platform/Linux/IO.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Entities/Entity.cs">
     <Files>
-      <File FileName="WinWarCS/GameScreens/IntroGameScreen.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Gui/Input/UIMapControlInputHandler.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Gui/Input/UIMapControlInputHandlerClassic.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Gui/Input/UIMapControlInputHandlerEnhancedMouse.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Gui/UIMapControl.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/GameBackgroundWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/IngameMenuWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/WarFile.cs" Line="54" Column="55" />
+      <File FileName="WinWarCS/GameScreens/BlizzardGameScreen.cs" Line="1" Column="1" />
+      <File FileName="WinWarCS/MainGame.cs" Line="178" Column="57" />
       <File FileName="WinWarCS/GameScreens/MenuGameScreen.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/NewGameWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/GameScreens/Windows/ChooseCampaignWindow.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/Data/KnowledgeBase.cs" Line="1" Column="1" />
-      <File FileName="WinWarCS/MainGame.cs" Line="146" Column="1" />
-      <File FileName="WinWarCS/Platform/Linux/IO.cs" Line="29" Column="23" />
+      <File FileName="WinWarCS/GameScreens/Windows/MainMenuWindow.cs" Line="82" Column="8" />
+      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="193" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/data/Projekte/Henning/C#/WinWarCS/WinWarCS/MainGame.cs" line="165" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

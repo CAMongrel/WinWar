@@ -41,6 +41,21 @@ namespace WinWarCS.Data
 
       #region Properties
       public static DataWarFileType Type { get; private set; }
+
+      public static bool IsDemo
+      {
+         get
+         {
+            return Type == DataWarFileType.Demo;
+         }
+      }
+      public static bool HasIntroSpeech
+      {
+         get
+         {
+            return Type == DataWarFileType.RetailCD;
+         }
+      }
       #endregion
 
       #region LoadResources
@@ -64,8 +79,14 @@ namespace WinWarCS.Data
             for (int i = 0; i < nrOfEntries; i++)
                offsets [i] = reader.ReadInt32 ();
 
-            switch (nrOfEntries)
+            resources = new List<WarResource> (nrOfEntries);
+            int actualNumberOfResources = ReadResources (reader);
+
+            switch (actualNumberOfResources)
             {
+            case 299:
+               Type = DataWarFileType.Demo;
+               break;
             case 486:
                Type = DataWarFileType.Retail;            
                break;
@@ -77,9 +98,6 @@ namespace WinWarCS.Data
                break;
             }
 
-            resources = new List<WarResource> (nrOfEntries);
-
-            ReadResources (reader);
          } finally
          {
             if (reader != null)
@@ -92,8 +110,9 @@ namespace WinWarCS.Data
 
       #region ReadResources
 
-      private static void ReadResources (BinaryReader br)
+      private static int ReadResources (BinaryReader br)
       {
+         int result = 0;
          for (int i = 0; i < nrOfEntries; i++)
          {
             // Happens with demo data
@@ -112,7 +131,9 @@ namespace WinWarCS.Data
                length = (int)br.BaseStream.Length - offsets [i];
 
             resources.Add (new WarResource (br, offsets [i], length, i));
+            result++;
          }
+         return result;
       }
 
       #endregion
