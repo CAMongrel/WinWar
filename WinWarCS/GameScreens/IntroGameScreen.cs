@@ -1,4 +1,4 @@
-﻿using FLCLib;
+using FLCLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -62,60 +62,60 @@ namespace WinWarCS.GameScreens
          }
       }
 
-      void storyboard_OnStageSwitched(IntroStage newStage)
+      async void storyboard_OnStageSwitched(IntroStage newStage)
       {
          switch (newStage)
          {
             case IntroStage.Castle:
-               player.Open(GetMovieFile("HINTRO1.WAR"));
+               player.Open(await GetMovieFile("HINTRO1.WAR"));
                player.PauseAfterFirstFrame = true;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CastleLoop:
-               player.Open(GetMovieFile("HINTRO2.WAR"));
+               player.Open(await GetMovieFile("HINTRO2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.Swamp:
-               player.Open(GetMovieFile("OINTRO1.WAR"));
+               player.Open(await GetMovieFile("OINTRO1.WAR"));
                player.PauseAfterFirstFrame = true;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.SwampLoop:
-               player.Open(GetMovieFile("OINTRO2.WAR"));
+               player.Open(await GetMovieFile("OINTRO2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.SwampFortressEnter:
-               player.Open(GetMovieFile("OINTRO3.WAR"));
+               player.Open(await GetMovieFile("OINTRO3.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CaveEnter:
-               player.Open(GetMovieFile("CAVE1.WAR"));
+               player.Open(await GetMovieFile("CAVE1.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.CaveLoop:
-               player.Open(GetMovieFile("CAVE2.WAR"));
+               player.Open(await GetMovieFile("CAVE2.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = true;
                break;
 
             case IntroStage.CaveExit:
-               player.Open(GetMovieFile("CAVE3.WAR"));
+               player.Open(await GetMovieFile("CAVE3.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
 
             case IntroStage.BlizzardLogo:
-               player.Open(GetMovieFile("TITLE.WAR"));
+               player.Open(await GetMovieFile("TITLE.WAR"));
                player.PauseAfterFirstFrame = false;
                player.ShouldLoop = false;
                break;
@@ -124,9 +124,9 @@ namespace WinWarCS.GameScreens
          player.Play();
       }
 
-      internal FileStream GetMovieFile(string filename)
+      internal async Task<Stream> GetMovieFile(string filename)
       {
-         return Platform.IO.OpenContentFile(Path.Combine("Assets" + Path.DirectorySeparatorChar + "Data", filename));
+          return await Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", filename));
       }
 
       void player_OnPlaybackFinished(FLCFile file, bool didFinishNormally)
@@ -160,23 +160,30 @@ namespace WinWarCS.GameScreens
       {
          base.Draw(gameTime);
 
+         MainGame.DefaultFont.Spacing = 0.8f;
+
          if (curTexture != null)
          {
             float unscaledOffset = (MainGame.OriginalAppHeight - curTexture.Height) / 2;
 
-            Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY), 
+            int yPos = MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY); // Centered Position
+            yPos = 5;
+
+            Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, yPos, 
                (int)(curTexture.Width * MainGame.ScaleX), (int)(curTexture.Height * MainGame.ScaleY));
 
             MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
             MainGame.SpriteBatch.Draw(curTexture, rect, Color.FromNonPremultiplied(new Vector4(Vector3.One, storyboard.CurrentAlpha)));
             MainGame.SpriteBatch.End();
 
+            int yStart = 147;
+
             string introText = storyboard.GetCurrentIntroText();
-            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, 0, Color.White);
+            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, yStart, MainGame.OriginalAppWidth, MainGame.OriginalAppHeight - yStart,Color.White);
          }
       }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (player != null)
             player.Stop();

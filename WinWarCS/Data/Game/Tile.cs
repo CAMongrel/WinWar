@@ -3,6 +3,7 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWar\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 22:25
+using WinWarCS.Util;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -12,6 +13,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using WinWarCS.Graphics;
+
+#if NETFX_CORE
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#else
+using RectangleF = System.Drawing.RectangleF;
+#endif
 #endregion
 
 namespace WinWarCS.Data.Game
@@ -80,6 +87,8 @@ namespace WinWarCS.Data.Game
       internal void Render(float x, float y, float scale)
       {
          texture.RenderOnScreen(x * scale, y * scale, 16.0f * scale, 16.0f * scale);
+         if (DebugOptions.ShowTiles)
+            WWTexture.RenderRectangle(new RectangleF(x * scale, y * scale, 16.0f * scale, 16.0f * scale), Color.Red);
       } // Render(x, y)
    } // class Tile
 } // namespace WinWarCS.Game

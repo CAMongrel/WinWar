@@ -7,9 +7,9 @@ namespace WinWarCS.Data.Resources
 {
    internal class LevelPassableResource : BasicResource
    {
-      private short width;
-      private short height;
-      private short[,] passableData;
+      internal short width;
+      internal short height;
+      internal short[,] passableData;
 
       internal LevelPassableResource (string res_name)
       {

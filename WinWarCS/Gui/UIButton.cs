@@ -102,6 +102,7 @@ namespace WinWarCS.Gui
 
       #endregion
 
+      #region AutoSetButtonImage
       private void AutoSetButtonImage ()
       {
          switch (type)
@@ -123,6 +124,7 @@ namespace WinWarCS.Gui
          Width = (int)(backgroundNotClicked.Width);
          Height = (int)(backgroundNotClicked.Height);
       }
+      #endregion
 
       #region Render
 
@@ -177,9 +179,9 @@ namespace WinWarCS.Gui
 
       #region MouseDown
 
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         if (!base.PointerDown (position))
+         if (!base.PointerDown (position, pointerType))
             return false;
 
          isActive = true;
@@ -194,9 +196,9 @@ namespace WinWarCS.Gui
 
       #region MouseUp
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         if (!base.PointerUp (position))
+         if (!base.PointerUp (position, pointerType))
             return false;
 
          isActive = false;

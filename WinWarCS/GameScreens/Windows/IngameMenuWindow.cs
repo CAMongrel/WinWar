@@ -18,6 +18,8 @@ namespace WinWarCS.GameScreens.Windows
 
       internal IngameMenuWindow (Race setRace)
       {
+         LevelGameScreen.Game.GamePaused = true;
+
          BackgroundColor = new Microsoft.Xna.Framework.Color (0.3f, 0.0f, 0.0f, 0.5f);
 
          //Width = background.Width;
@@ -42,6 +44,15 @@ namespace WinWarCS.GameScreens.Windows
 
          quitButton = (UIButton)background.Components [5];
          quitButton.OnMouseUpInside += quitButton_OnMouseUpInside;
+
+         MouseCursor.State = MouseCursorState.Pointer;
+      }
+
+      internal override void DidRemove ()
+      {
+         base.DidRemove ();
+
+         LevelGameScreen.Game.GamePaused = false;
       }
 
       void quitButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
@@ -52,6 +63,13 @@ namespace WinWarCS.GameScreens.Windows
       void closeButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
          Close ();
+      }
+
+      internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
+      {
+         MouseCursor.State = MouseCursorState.Pointer;
+
+         return base.PointerMoved (position);
       }
    }
 }

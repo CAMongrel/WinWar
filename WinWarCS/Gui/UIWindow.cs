@@ -26,6 +26,10 @@ namespace WinWarCS.Gui
       {
          UIWindowManager.RemoveWindow(this);
       }
+
+      internal virtual void DidRemove()
+      {
+      }
       #endregion
 
       #region Render

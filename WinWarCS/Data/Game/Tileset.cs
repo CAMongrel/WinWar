@@ -179,10 +179,13 @@ namespace WinWarCS.Data.Game
          tilesPAL = WarFile.GetResourceByName ("Summer 3");
          MapTileset summer = new MapTileset (Tileset.Summer, tileset, tiles, tilesPAL);
 
-         tileset = WarFile.GetResourceByName ("Dungeon 1");
-         tiles = WarFile.GetResourceByName ("Dungeon 2");
-         tilesPAL = WarFile.GetResourceByName ("Dungeon 3");
-         MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
+         if (WarFile.IsDemo == false)
+         {
+            tileset = WarFile.GetResourceByName ("Dungeon 1");
+            tiles = WarFile.GetResourceByName ("Dungeon 2");
+            tilesPAL = WarFile.GetResourceByName ("Dungeon 3");
+            MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
+         }
       }
       // LoadAllTilesets()
 

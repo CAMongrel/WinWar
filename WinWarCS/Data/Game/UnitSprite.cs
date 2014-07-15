@@ -37,11 +37,11 @@ namespace WinWarCS.Data.Game
          SpriteOrientation = Orientation.NorthWest;
       }
 
-      internal override void SetCurrentAnimationByName(string name)
+      internal override void SetCurrentAnimationByName(string name, double? overrideDelay = null)
       {
          Orientation curOrientation = SpriteOrientation;
 
-         base.SetCurrentAnimationByName (name);
+         base.SetCurrentAnimationByName (name, overrideDelay);
 
          SpriteOrientation = curOrientation;
       }
@@ -50,14 +50,14 @@ namespace WinWarCS.Data.Game
       {
          // Applicable for: Orc Grunt, Human Warrior, Orc Peon, Human Peasant, Medivh, Lothar
 
-         AddAnimation ("Idle", 0.5, SpriteAnimationParams.RandomDuration | SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 0, 1, 2, 3, 4);
+         AddAnimation ("Idle", 0.5, SpriteAnimationParams.RandomDuration | SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 0);
 
          AddAnimation ("Death1", 0.5, SpriteAnimationParams.None, 10, 25, 40);
          AddAnimation ("Death2", 0.5, SpriteAnimationParams.None, 12, 27, 42);
 
-         AddAnimation ("Walk", 0.5, SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 15, 30, 15, 0, 55, 45, 55, 0);
+         AddAnimation ("Walk", 0.2, SpriteAnimationParams.FiveFrameDirection | SpriteAnimationParams.Loop, 15, 30, 15, 0, 55, 45, 55, 0);
 
-         AddAnimation ("Attack", 0.3, SpriteAnimationParams.FiveFrameDirection, 5, 20, 35, 50, 60, 50, 35, 20, 5);
+         AddAnimation ("Attack", 0.2, SpriteAnimationParams.FiveFrameDirection, 5, 20, 35, 50, 60, 50, 35, 20, 5, 0);
       }
    }
 }

@@ -41,9 +41,9 @@ namespace WinWarCS.GameScreens.Windows
          UIButton loadGameBtn = Components[2] as UIButton;
          loadGameBtn.OnMouseUpInside += loadGameBtn_OnMouseUpInside;
 
-         // Quic Game
+         // Quit Game
          UIButton quitGameBtn = Components[3] as UIButton;
-         quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
+         quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;        
 
          /*string unitName = "Goldmine";
 
@@ -69,12 +69,15 @@ namespace WinWarCS.GameScreens.Windows
          sprImg.Y = 10;
          AddComponent(sprImg);*/
 
-         /*sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
-         sprImg.Sprite.SetCurrentAnimationByName ("Attack");
-         sprImg.X = 30;
-         sprImg.Y = 10;
-         AddComponent(sprImg);*/
-
+         /*for (int i = 0; i <= (int)Orientation.NorthWest; i++) 
+         {
+            UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Orc Grunt"))));
+            sprImg.Sprite.SetCurrentAnimationByName ("Walk");
+            sprImg.Orientation = (Orientation)i;
+            sprImg.X = 30 + 30 * i;
+            sprImg.Y = 10;
+            AddComponent(sprImg);
+         }*/
          //sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }
 
@@ -85,7 +88,13 @@ namespace WinWarCS.GameScreens.Windows
 
       async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
       {
-         Stream resultFile = WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Path.DirectorySeparatorChar + "Data", "TITLE.WAR"));
+         if (WarFile.IsDemo)
+         {
+            await WinWarCS.Platform.UI.ShowMessageDialog ("Not available in demo!");
+            return;
+         }
+
+         Stream resultFile = await WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", "TITLE.WAR"));
 
          MovieGameScreen.PlayMovie(resultFile,
              delegate

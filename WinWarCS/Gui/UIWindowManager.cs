@@ -23,9 +23,13 @@ namespace WinWarCS.Gui
 
       internal static void RemoveWindow(UIWindow window)
       {
+         if (window == null)
+            return;
+
          if (windows.Contains(window))
          {
             windows.Remove(window);
+            window.DidRemove ();
          }
       }
 
@@ -52,7 +56,7 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal static bool PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal static bool PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          for (int i = windows.Count - 1; i >= 0; i--)
          {
@@ -62,14 +66,14 @@ namespace WinWarCS.Gui
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
-            if (windows[i].PointerDown(position))
+            if (windows[i].PointerDown(position, pointerType))
                return true;
          }
 
          return false;
       }
 
-      internal static bool PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal static bool PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          for (int i = windows.Count - 1; i >= 0; i--)
          {
@@ -79,7 +83,7 @@ namespace WinWarCS.Gui
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
-            if (windows[i].PointerUp(position))
+            if (windows[i].PointerUp(position, pointerType))
                return true;
          }
 

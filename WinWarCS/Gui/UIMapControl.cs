@@ -52,7 +52,26 @@ namespace WinWarCS.Gui
       {
          CurrentMap = null;
 
-         InputHandler = new UIMapControlInputHandlerEnhancedMouse (this);
+         SetInputMode (InputMode.EnhancedMouse);
+      }
+
+      internal void SetInputMode(InputMode setMode)
+      {
+         switch (setMode) 
+         {
+         case InputMode.Classic:
+            InputHandler = new UIMapControlInputHandlerClassic (this);
+            break;
+
+         case InputMode.EnhancedMouse:
+            InputHandler = new UIMapControlInputHandlerEnhancedMouse (this);
+            break;
+
+         case InputMode.EnhancedTouch:
+            InputHandler = new UIMapControlInputHandlerEnhancedTouch (this);
+            break;
+         }
+
          InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
       }
 
@@ -103,6 +122,16 @@ namespace WinWarCS.Gui
          CurrentMap = new Map (null, levelVisual, levelPassable);
       }
 
+      internal override void Update (GameTime gameTime)
+      {
+         base.Update (gameTime);
+
+         if (CurrentMap != null) 
+         {
+            CurrentMap.Update (gameTime);
+         }
+      }
+
       internal override void Render ()
       {
          base.Render ();
@@ -113,20 +142,14 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         return InputHandler.PointerDown (position);
+         return InputHandler.PointerDown (position, pointerType);
       }
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         int tileX = 0;
-         int tileY = 0;
-         GetTileXY (position.X, position.Y, out tileX, out tileY);
-         if (CurrentMap != null)
-            CurrentMap.PlaceRoad (tileX, tileY);
-
-         return InputHandler.PointerUp (position);
+         return InputHandler.PointerUp (position, pointerType);
       }
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)

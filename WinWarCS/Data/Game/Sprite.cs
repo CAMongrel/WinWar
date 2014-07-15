@@ -106,6 +106,7 @@ namespace WinWarCS.Data.Game
          }
       }
 
+#if !NETFX_CORE
       internal void DumpToDirectory(string fullDirectory, string prefix)
       {
          if (System.IO.Directory.Exists (fullDirectory) == false)
@@ -116,16 +117,32 @@ namespace WinWarCS.Data.Game
             frames [i].texture.WriteToFile (System.IO.Path.Combine (fullDirectory, prefix + i + ".png"));
          }
       }
+#endif
 
       internal void AddAnimation(string name, double delay, SpriteAnimationParams setParams, params int[] frames)
       {
+         int[] newFrames = null;
+         if (setParams.HasFlag (SpriteAnimationParams.FiveFrameDirection)) 
+         {
+            newFrames = new int[frames.Length * 5];
+            for (int i = 0; i < frames.Length; i++) 
+            {
+               for (int j = 0; j < 5; j++) 
+               {
+                  newFrames [i * 5 + j] = frames [i] + j;
+               }
+            }
+         }
+         else
+            newFrames = frames;
+
          SpriteAnimation anim = new SpriteAnimation(name, setParams);
          anim.FrameDelay = delay;
-         anim.AddAnimationFrames(frames);
+         anim.AddAnimationFrames(newFrames);
          allAnimations.Add(anim);
       }
 
-      internal virtual void SetCurrentAnimationByName(string name)
+      internal virtual void SetCurrentAnimationByName(string name, double? overrideDelay = null)
       {
          if (CurrentAnimation != null)
          {
@@ -137,6 +154,8 @@ namespace WinWarCS.Data.Game
          if (animation != null)
          {
             CurrentAnimation = animation;
+            if (overrideDelay != null)
+               CurrentAnimation.FrameDelay = overrideDelay.Value;
             CurrentAnimation.Reset();
          }
       }
@@ -145,6 +164,12 @@ namespace WinWarCS.Data.Game
       {
          if (CurrentAnimation != null)
             CurrentAnimation.Update(gameTime);
+      }
+
+      public void ApplyCorpseAnimationSet()
+      {
+         AddAnimation ("Death1", 0.5, SpriteAnimationParams.None, 10, 25, 40);
+         AddAnimation ("Death2", 0.5, SpriteAnimationParams.None, 12, 27, 42);
       }
    }
 }

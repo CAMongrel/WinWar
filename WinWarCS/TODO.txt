@@ -1,9 +1,16 @@
-﻿WinWarRT TODO
+WinWarCS TODO
 =============
    
-   - Finalize intro with text
+   - Show Blizzard logo on startup
+   - Only show intro once
+OK - Finalize intro with text
+   - Add voiceover for introduction
    - Figure out animation sequences for units (Movement, Attack, etc...)
    - Add support for demo version of Warcraft1 (DATA.WAR, no intro, shorter campaign )
 OK - Centralize text rendering
 OK - Allow each UIControl to have its own font
-   - 
+OK - Unit selection
+   - Implement commands
+   - Show units & buildings on MiniMap
+   - Implement Fog of War
+OK - Add version number

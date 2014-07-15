@@ -33,14 +33,34 @@ namespace WinWarCS.Platform
             prevMousePos = mousePos;
          }
 
+         // Left mouse button
          if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
          {
-            MainGame.WinWarGame.PointerPressed (scaledPosition);
+            MainGame.WinWarGame.PointerPressed (scaledPosition, PointerType.LeftMouse);
          }
-
          if (mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
          {
-            MainGame.WinWarGame.PointerReleased (scaledPosition);
+            MainGame.WinWarGame.PointerReleased (scaledPosition, PointerType.LeftMouse);
+         }
+
+         // Middle mouse button
+         if (mouseState.MiddleButton == ButtonState.Pressed && prevMouseState.MiddleButton == ButtonState.Released)
+         {
+            MainGame.WinWarGame.PointerPressed (scaledPosition, PointerType.MiddleMouse);
+         }
+         if (mouseState.MiddleButton == ButtonState.Released && prevMouseState.MiddleButton == ButtonState.Pressed)
+         {
+            MainGame.WinWarGame.PointerReleased (scaledPosition, PointerType.MiddleMouse);
+         }
+
+         // Right mouse button
+         if (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+         {
+            MainGame.WinWarGame.PointerPressed (scaledPosition, PointerType.RightMouse);
+         }
+         if (mouseState.RightButton == ButtonState.Released && prevMouseState.RightButton == ButtonState.Pressed)
+         {
+            MainGame.WinWarGame.PointerReleased (scaledPosition, PointerType.RightMouse);
          }
 
          prevMouseState = mouseState;

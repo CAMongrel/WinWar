@@ -31,3 +31,6 @@ _ReSharper*/
 AppPackages/
 Backup/
 *.7z
+UpgradeLog.htm
+GameAssets/
+*.userprefs

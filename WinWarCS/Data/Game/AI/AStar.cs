@@ -81,6 +81,7 @@ namespace WinWarCS.Data.Game
 			OpenHeap = new BinaryHeap<Node>(width * height);
 		}
 
+#if !NETFX_CORE
 		public void PrintFieldFile(string filename)
 		{
 			if (field == null)
@@ -156,6 +157,7 @@ namespace WinWarCS.Data.Game
 			
 			sw.Close();
 		}
+#endif
 
 		Node GetClosedNode(int nodeX, int nodeY)
 		{

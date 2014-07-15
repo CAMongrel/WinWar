@@ -3,6 +3,8 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWarEngine\Data\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 23:04
+using WinWarCS.Util;
+using WinWarCS.Graphics;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -58,6 +60,10 @@ namespace WinWarCS.Data.Game
 
       internal AStar2D Pathfinder;
 
+      internal Random Rnd { get; private set; }
+
+      internal Entity SelectedEntity { get; private set; }
+
       #region ctor
 
       /// <summary>
@@ -67,6 +73,8 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
+         SelectedEntity = null;
+
          TileWidth = 16;
          TileHeight = 16;
 
@@ -81,10 +89,9 @@ namespace WinWarCS.Data.Game
 
          Players = new List<BasePlayer> ();
 
-         Pathfinder = new AStar2D ();
-         levelPassable.FillAStar (Pathfinder);
+         Rnd = new Random ();
 
-         BuildInitialRoads ();
+         Pathfinder = new AStar2D ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
 
@@ -93,9 +100,11 @@ namespace WinWarCS.Data.Game
       internal void Start(List<BasePlayer> allPlayers)
       {
          Players.AddRange (allPlayers);
+         levelPassable.FillAStar (Pathfinder);
 
          entities = new List<Entity> ();
 
+         BuildInitialRoads ();
          PopulateInitialEntities ();
       }
 
@@ -103,7 +112,10 @@ namespace WinWarCS.Data.Game
 
       internal void Update(GameTime gameTime)
       {
-
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            entities [i].Update (gameTime);
+         }
       }
 
       #endregion
@@ -116,6 +128,7 @@ namespace WinWarCS.Data.Game
          return null;
       }
 
+      #region Entities
       private void PopulateInitialEntities ()
       {
          if (levelInfo == null)
@@ -129,7 +142,7 @@ namespace WinWarCS.Data.Game
          }
       }
 
-      private void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
+      internal void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
          Entity newEnt = Entity.CreateEntityFromType (entityType, this);
          newEnt.SetPosition (x, y);
@@ -138,7 +151,68 @@ namespace WinWarCS.Data.Game
          if (owner != null)
             // Neutral entities may not have an owner
             owner.ClaimeOwnership (newEnt);
+
+         newEnt.DidSpawn ();
       }
+
+      internal void RemoveEntity(Entity ent)
+      {
+         if (ent == null)
+            return;
+
+         if (ent.Owner != null)
+            ent.Owner.RemoveOwnership (ent);
+
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            entities [i].HateList.RemoveEntity (ent);
+         }
+
+         entities.Remove (ent);
+
+         SelectEntity (null);
+      }
+
+      internal Entity GetEntityAt(int tileX, int tileY)
+      {
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            Entity ent = entities [i];
+
+            if (tileX >= ent.TileX &&
+                tileY >= ent.TileY &&
+                tileX < ent.TileX + ent.TileSizeX &&
+                tileY < ent.TileY + ent.TileSizeY) 
+            {
+               return ent;
+            }
+         }
+
+         return null;
+      }
+
+      internal void SelectEntity(Entity ent)
+      {
+         if (SelectedEntity != null) 
+         {
+            if (SelectedEntity.WillDeselect () == false)
+               return;
+
+            Entity preSelEnt = SelectedEntity;
+            SelectedEntity = null;
+            preSelEnt.DidDeselect ();
+         }
+
+         if (ent == null)
+            return;
+
+         if (ent.WillSelect () == false)
+            return;
+
+         SelectedEntity = ent;
+         SelectedEntity.DidSelect ();
+      }
+      #endregion
 
       #region Render
 
@@ -175,9 +249,18 @@ namespace WinWarCS.Data.Game
             for (int x = 0; x < tilesToDrawX; x++)
             {
                int index = levelVisual.visualData [(x + startTileX) + ((y + startTileY) * MapWidth)];
-               //index = count++;
 
                tileSet.DrawTile (index, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+
+               if (DebugOptions.ShowBlockedTiles) 
+               {
+                  bool isBlocked = levelPassable.passableData[x + startTileX, y + startTileY] > 0;
+                  if (isBlocked) 
+                  {
+                     WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                        TileWidth, TileHeight, new Color (0.0f, 1.0f, 0.0f, 0.5f));
+                  }
+               }
             }
          }
 
@@ -190,14 +273,26 @@ namespace WinWarCS.Data.Game
 
             int x = road.x - startTileX;
             int y = road.y - startTileY;
-            tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+            if (isVisible)
+               tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
 
          // Render entities
          for (int i = 0; i < entities.Count; i++) 
          {
+            bool isVisible = true;
+
             Entity ent = entities [i];
-            ent.Render (setX, setY, tileOffsetX, tileOffsetY, TileWidth, TileHeight);
+
+            if (isVisible)
+               ent.Render (setX, setY, tileOffsetX, tileOffsetY);
+         }
+
+         // Render selected entity
+         if (SelectedEntity != null) 
+         {
+            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), Color.Green, 2);
+            //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
          }
       }
       // Render()
@@ -320,6 +415,32 @@ namespace WinWarCS.Data.Game
       }
 
       #endregion
+      #endregion
+
+      #region Pathfinding
+      internal List<Node> CalcPath(int startX, int startY, int endX, int endY)
+      {
+         Pathfinder.StartX = startX;
+         Pathfinder.StartY = startY;
+         Pathfinder.EndX = endX;
+         Pathfinder.EndY = endY;
+
+         Log.Status("Map: Calculating path from " + startX + "," + 
+            startY + " to " + endX + "," + endY + "...");
+
+         if (Pathfinder.FindPath())
+         {
+            List<Node> Path = new List<Node>(Pathfinder.PathNodeCount);
+            for (int i = 0; i < Pathfinder.PathNodeCount; i++)
+               Path.Add(Pathfinder.GetPathNode(i));
+            Log.Status("... success (" + Path.Count + " Nodes)!");
+            return Path;
+         }
+
+         Log.Status("... failed!");
+
+         return null;
+      }
       #endregion
 
       #region Unit-testing

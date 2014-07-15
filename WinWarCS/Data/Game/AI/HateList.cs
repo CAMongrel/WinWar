@@ -168,6 +168,23 @@ namespace WinWarCS.Data.Game
          SortHateList();
       } // SetHateValue(Target, Value, Flags)
 
+      internal void RemoveEntity(Entity ent)
+      {
+         bool didRemove = false;
+         for (int i = 0; i < entries.Length; i++)
+         {
+            if (entries[i].Target == ent)
+            {
+               entries[i].Value = 0;
+               entries[i].Target = null;
+               didRemove = true;
+            }
+         }
+
+         if (didRemove)
+            SortHateList ();
+      }
+
       /// <summary>
       /// Returns the highest entry in the hate list.
       /// </summary>

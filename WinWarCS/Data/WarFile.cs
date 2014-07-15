@@ -41,17 +41,33 @@ namespace WinWarCS.Data
 
       #region Properties
       public static DataWarFileType Type { get; private set; }
+
+      public static bool IsDemo
+      {
+         get
+         {
+            return Type == DataWarFileType.Demo;
+         }
+      }
+      public static bool HasIntroSpeech
+      {
+         get
+         {
+            return Type == DataWarFileType.RetailCD;
+         }
+      }
       #endregion
 
       #region LoadResources
 
-      internal static void LoadResources ()
+      internal static async Task LoadResources ()
       {
          Stream stream = null;
          BinaryReader reader = null;
          try
          {
-				stream = WinWarCS.Platform.IO.OpenContentFile ("Assets/Data/DATA.WAR");
+             stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + 
+                 Platform.IO.DirectorySeparatorChar + "DATA.WAR");
 
             reader = new BinaryReader (stream);
 
@@ -63,8 +79,14 @@ namespace WinWarCS.Data
             for (int i = 0; i < nrOfEntries; i++)
                offsets [i] = reader.ReadInt32 ();
 
-            switch (nrOfEntries)
+            resources = new List<WarResource> (nrOfEntries);
+            int actualNumberOfResources = ReadResources (reader);
+
+            switch (actualNumberOfResources)
             {
+            case 299:
+               Type = DataWarFileType.Demo;
+               break;
             case 486:
                Type = DataWarFileType.Retail;            
                break;
@@ -76,9 +98,6 @@ namespace WinWarCS.Data
                break;
             }
 
-            resources = new List<WarResource> (nrOfEntries);
-
-            ReadResources (reader);
          } finally
          {
             if (reader != null)
@@ -91,8 +110,9 @@ namespace WinWarCS.Data
 
       #region ReadResources
 
-      private static void ReadResources (BinaryReader br)
+      private static int ReadResources (BinaryReader br)
       {
+         int result = 0;
          for (int i = 0; i < nrOfEntries; i++)
          {
             // Happens with demo data
@@ -111,12 +131,15 @@ namespace WinWarCS.Data
                length = (int)br.BaseStream.Length - offsets [i];
 
             resources.Add (new WarResource (br, offsets [i], length, i));
+            result++;
          }
+         return result;
       }
 
       #endregion
 
       #region DumpResources
+#if !NETFX_CORE
       internal static void DumpResources(string path)
       {
          for (int i = 0; i < resources.Count; i++)
@@ -128,6 +151,7 @@ namespace WinWarCS.Data
             File.WriteAllBytes (filename, resources [i].data);
          }
       }
+#endif
       #endregion
 
       #region GetImageResource

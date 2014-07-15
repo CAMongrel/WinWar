@@ -1,14 +1,8 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="16.06.2014 11:03:19">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="14.07.2014 06:25:19">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/Data/Game/Map.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WinWarCS/GameScreens/Windows/IngameMenuWindow.cs">
     <Files>
-      <File FileName="WinWarCS/Data/Game/Entities/Entity.cs" Line="62" Column="30" />
-      <File FileName="WinWarCS/Data/Game/AI/HateList.cs" Line="177" Column="27" />
-      <File FileName="WinWarCS/Data/Game/Map.cs" Line="176" Column="34" />
-      <File FileName="WinWarCS/Data/Game/AI/StateMachine.cs" Line="94" Column="45" />
-      <File FileName="../WinWar/WinWarCS/WinWar.ScriptEnv/Game/BuildEntity.cs" Line="17" Column="3" />
-      <File FileName="WinWarCS/Data/Game/Entities/Unit.cs" Line="40" Column="29" />
-      <File FileName="WinWarCS/Data/Game/Entities/BuildEntity.cs" Line="13" Column="49" />
+      <File FileName="WinWarCS/GameScreens/Windows/IngameMenuWindow.cs" Line="34" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

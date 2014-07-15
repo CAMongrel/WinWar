@@ -22,7 +22,7 @@ namespace WinWarCS.GameScreens
 
       internal async static void PlayMovie(string moviename, MovieFinished OnMovieFinished)
       {
-         Stream resultFile = WinWarCS.Platform.IO.GetFileStream (Path.Combine ("Assets" + Path.DirectorySeparatorChar + "Data", moviename));
+         Stream resultFile = await WinWarCS.Platform.IO.OpenContentFile (Path.Combine ("Assets" + Platform.IO.DirectorySeparatorChar + "Data", moviename));
          if (resultFile == null)
             // TODO: Log error
             return;
@@ -103,12 +103,12 @@ namespace WinWarCS.GameScreens
          }
       }
 
-      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          //
       }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (player != null && player.IsPlaying)
             player.Stop();
