@@ -14,7 +14,6 @@ namespace WinWarCS
    /// </summary>
    public class MainGame : Game
    {
-
       #region Variables
 
       private GraphicsDeviceManager _graphics;
@@ -22,6 +21,7 @@ namespace WinWarCS
       private SpriteFont _spriteFont;
       private BaseGameScreen currentGameScreen;
       private BaseGameScreen nextGameScreen;
+
       private Color backgroundClearColor;
 
       internal static MainGame WinWarGame { get; private set; }
@@ -33,44 +33,34 @@ namespace WinWarCS
       internal const int OriginalAppWidth = 320;
       internal const int OriginalAppHeight = 200;
 
-      internal static int AppWidth
-      {
-         get
-         {
+      internal static int AppWidth {
+         get {
             return WinWarGame.Window.ClientBounds.Width;
          }
       }
 
-      internal static int AppHeight
-      {
-         get
-         {
+      internal static int AppHeight {
+         get {
             return WinWarGame.Window.ClientBounds.Height;
          }
       }
 
-      internal static int ScaledOffsetX
-      {
-         get
-         {
+      internal static int ScaledOffsetX {
+         get {
             float fullWidth = (float)OriginalAppWidth * ScaleX;
             return (int)((AppWidth - (float)fullWidth) * 0.5f);
          }
       }
 
-      internal static int ScaledOffsetY
-      {
-         get
-         {
+      internal static int ScaledOffsetY {
+         get {
             float fullHeight = (float)OriginalAppHeight * ScaleY;
             return (int)((AppHeight - (float)fullHeight) * 0.5f);
          }
       }
 
-      internal static float ScaleX
-      {
-         get
-         {
+      internal static float ScaleX {
+         get {
             float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
             if (aspect > 1.0f)
                return (float)(((float)AppWidth / (float)OriginalAppWidth) / aspect);
@@ -78,10 +68,8 @@ namespace WinWarCS
          }
       }
 
-      internal static float ScaleY
-      {
-         get
-         {
+      internal static float ScaleY {
+         get {
             float aspect = ((float)AppWidth / (float)AppHeight) / 1.6f;        // Original WarCraft has an aspect ratio of 1.6
             if (aspect < 1.0f)
                return (float)(((float)AppHeight / (float)OriginalAppHeight) * aspect);
@@ -89,26 +77,20 @@ namespace WinWarCS
          }
       }
 
-      internal static GraphicsDevice Device
-      {
-         get
-         {
+      internal static GraphicsDevice Device {
+         get {
             return WinWarGame.GraphicsDevice;
          }
       }
 
-      internal static SpriteBatch SpriteBatch
-      {
-         get
-         {
+      internal static SpriteBatch SpriteBatch {
+         get {
             return WinWarGame._spriteBatch;
          }
       }
 
-      internal static SpriteFont DefaultFont
-      {
-         get
-         {
+      internal static SpriteFont DefaultFont {
+         get {
             return WinWarGame._spriteFont;
          }
       }
@@ -120,6 +102,8 @@ namespace WinWarCS
          MainGame.WinWarGame = this;
 
          this.IsMouseVisible = false;
+
+         this.IsFixedTimeStep = false;
 
          backgroundClearColor = new Color (0x7F, 0x00, 0x00);
 
@@ -156,34 +140,24 @@ namespace WinWarCS
 
          Exception loadingException = null;
 
-         try
-         {
+         try {
             await WinWarCS.Data.WarFile.LoadResources ();
             WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
-         } catch (Exception ex)
-         {
+         } catch (Exception ex) {
             loadingException = ex;
          }
 
          //WarFile.DumpResources ("/data/Temp/WinWar/Resources");
 
-         if (loadingException != null)
-         {
+         if (loadingException != null) {
             await Platform.UI.ShowMessageDialog ("An error occured during loading of DATA.WAR (" + loadingException + ").");
             return;
          }
 
-         if (WarFile.IsDemo)
-         {
-            SetNextGameScreen (new MenuGameScreen (false));
-         } else
-         {
-            SetNextGameScreen (new IntroGameScreen (
-               delegate(bool wasCancelled)
-               {
-                  SetNextGameScreen (new MenuGameScreen (!wasCancelled));
-               }));
-         }
+         SetNextGameScreen (new IntroGameScreen (
+            delegate(bool wasCancelled) {
+               SetNextGameScreen (new MenuGameScreen (!wasCancelled));
+            }));
 
          //SetNextGameScreen(new MenuGameScreen());
          /*MovieGameScreen.PlayMovie("TITLE.WAR", 
@@ -192,6 +166,7 @@ namespace WinWarCS
                  SetNextGameScreen(new MenuGameScreen(true));
              });*/
       }
+
       /*private bool HasData(byte[] blob, byte[] dataToSearch)
       {
          int counter = 0;
@@ -224,6 +199,7 @@ namespace WinWarCS
             }
          }
       }*/
+
       /// <summary>
       /// LoadContent will be called once per game and is the place to load
       /// all of your content.
@@ -260,8 +236,7 @@ namespace WinWarCS
       {
          Platform.Input.UpdateInput (gameTime);
 
-         if (nextGameScreen != null)
-         {
+         if (nextGameScreen != null) {
             if (currentGameScreen != null)
                currentGameScreen.Close ();
 
@@ -272,8 +247,7 @@ namespace WinWarCS
             nextGameScreen = null;
          }
 
-         if (currentGameScreen != null)
-         {
+         if (currentGameScreen != null) {
             currentGameScreen.Update (gameTime);
          }
 
@@ -286,13 +260,11 @@ namespace WinWarCS
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Draw (GameTime gameTime)
       {
-         if (currentGameScreen != null)
-         {
+         if (currentGameScreen != null) {
             GraphicsDevice.Clear (currentGameScreen.BackgroundColor);
 
             currentGameScreen.Draw (gameTime);
-         } else
-         {
+         } else {
             GraphicsDevice.Clear (backgroundClearColor);
          }
 
@@ -301,26 +273,23 @@ namespace WinWarCS
          MouseCursor.Render (gameTime);
       }
 
-      internal void PointerPressed (Microsoft.Xna.Framework.Vector2 scaledPosition)
+      internal void PointerPressed (Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
       {
-         if (currentGameScreen != null)
-         {
-            currentGameScreen.PointerDown (scaledPosition);
+         if (currentGameScreen != null) {
+            currentGameScreen.PointerDown (scaledPosition, pointerType);
          }
       }
 
-      internal void PointerReleased (Microsoft.Xna.Framework.Vector2 scaledPosition)
+      internal void PointerReleased (Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
       {
-         if (currentGameScreen != null)
-         {
-            currentGameScreen.PointerUp (scaledPosition);
+         if (currentGameScreen != null) {
+            currentGameScreen.PointerUp (scaledPosition, pointerType);
          }
       }
 
       internal void PointerMoved (Microsoft.Xna.Framework.Vector2 scaledPosition)
       {
-         if (currentGameScreen != null)
-         {
+         if (currentGameScreen != null) {
             currentGameScreen.PointerMoved (scaledPosition);
          }
       }

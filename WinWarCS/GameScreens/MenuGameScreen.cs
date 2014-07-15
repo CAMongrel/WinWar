@@ -86,14 +86,14 @@ namespace WinWarCS.GameScreens
          UIWindowManager.Render();
       }
 
-      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         UIWindowManager.PointerDown(position);
+         UIWindowManager.PointerDown(position, pointerType);
       }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         UIWindowManager.PointerUp(position);
+         UIWindowManager.PointerUp(position, pointerType);
       }
 
       internal override void PointerMoved(Vector2 position)

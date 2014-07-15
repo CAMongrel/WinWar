@@ -173,9 +173,9 @@ namespace WinWarCS.GameScreens.Windows
          }
       }
 
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         return base.PointerDown (position);
+         return base.PointerDown (position, pointerType);
       }
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
@@ -187,9 +187,9 @@ namespace WinWarCS.GameScreens.Windows
          return base.PointerMoved (position);
       }
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position)
+      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         return base.PointerUp (position);
+         return base.PointerUp (position, pointerType);
       }
    }
 }

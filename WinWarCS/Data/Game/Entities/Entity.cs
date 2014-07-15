@@ -80,6 +80,10 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public double AttackSpeed;
       /// <summary>
+      /// The walking speed.
+      /// </summary>
+      public double WalkSpeed;
+      /// <summary>
       /// Armor points
       /// </summary>
       public short ArmorPoints;
@@ -136,6 +140,7 @@ namespace WinWarCS.Data.Game
       /// <param name="newY">New y.</param>
       public void SetPosition(float newX, float newY)
       {
+         Log.AI (this, "Setting position to " + newX + "," + newY);
          X = newX;
          Y = newY;
       }
@@ -190,7 +195,8 @@ namespace WinWarCS.Data.Game
          rect.X -= (rect.Width * 0.5f - tileRectangle.Width * 0.5f);
          rect.Y -= (rect.Height * 0.5f - tileRectangle.Height * 0.5f);
 
-         sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
+         if (sprite.CurrentFrame != null)
+            sprite.CurrentFrame.texture.RenderOnScreen (rect, shouldFlipX, false);
 
          if (DebugOptions.ShowUnitFrames)
             WWTexture.RenderRectangle (rect, Color.Blue);
@@ -237,6 +243,9 @@ namespace WinWarCS.Data.Game
          {
             StateMachine.Update (gameTime);
          }
+
+         if (sprite != null)
+            sprite.Update (gameTime);
       }
 
       /// <summary>
@@ -259,6 +268,15 @@ namespace WinWarCS.Data.Game
       {
          Log.AI(this, "Idling...");
          StateMachine.ChangeState(new StateIdle(this));
+      } // Idle()
+
+      /// <summary>
+      /// Orders the unit to die. This will spawn a corpse at the current tile and prevents any further action.
+      /// </summary>
+      public void Die()
+      {
+         Log.AI(this, "Dieing...");
+         StateMachine.ChangeState(new StateDeath(this));
       } // Idle()
 
       /// <summary>
@@ -305,20 +323,38 @@ namespace WinWarCS.Data.Game
          }
       } // MoveTo(x, y)
 
-      /// <summary>
-      /// Perform attack
-      /// </summary>
-      internal void PerformAttack(BuildEntity Target)
+      // 
+      internal void TakeDamage(short damage, Entity instigator)
       {
-         int damage = this.MinDamage; //TODO!!! + ScriptEnvironment.Random.Next(this.RandomDamage);
-         damage -= Target.ArmorPoints;
+         damage -= this.ArmorPoints;
          if (damage < 0)
             damage = 0;
 
-         Log.AI(this, "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " point(s) of damage.");
+         HitPoints -= (short)damage;
+         Log.AI(this, this.Name + this.UniqueID + " takes " + damage + " point(s) of damage. (reduced by armor and effects)");
+         Log.AI(this, this.Name + this.UniqueID + " has " + this.HitPoints + " hitpoints left.");
+         if (HitPoints <= 0)
+            Die ();
 
-         Target.HitPoints -= (short)damage;
-         Target.HateList.SetHateValue(this, damage, HateListParam.AddValue);
+         if (instigator != null)
+            HateList.SetHateValue(instigator, damage, HateListParam.AddValue);
+      }
+
+      /// <summary>
+      /// Perform attack
+      /// </summary>
+      internal bool PerformAttack(Entity Target)
+      {
+         if (Target.ShouldBeAttacked == false)
+            return false;
+
+         int damage = this.MinDamage + CurrentMap.Rnd.Next(this.RandomDamage);
+
+         Log.AI(this, "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " (unmitigated) point(s) of damage.");
+
+         Target.TakeDamage ((short)damage, this);
+
+         return true;
       } // PerformAttack(Target)
 
       internal virtual void DidSpawn()
@@ -331,7 +367,7 @@ namespace WinWarCS.Data.Game
 
       internal virtual bool WillSelect()
       {
-         return true;
+         return CanBeSelected;
       }
 
       internal virtual void DidDeselect()
@@ -341,6 +377,23 @@ namespace WinWarCS.Data.Game
       internal virtual bool WillDeselect()
       {
          return true;
+      }
+
+      internal virtual void DestroyAndSpawnRemains()
+      {
+         if (CurrentMap != null)
+            CurrentMap.RemoveEntity (this);
+      }
+
+      internal bool CanGiveCommands()
+      {
+         if (Owner == null)
+            return false;
+
+         if (Owner == CurrentMap.HumanPlayer)
+            return true;
+
+         return false;
       }
 
       public virtual bool CanMove
@@ -370,6 +423,35 @@ namespace WinWarCS.Data.Game
          {
             return false;
          }
+      }
+      public virtual bool CanBeSelected
+      {
+         get
+         {
+            return true;
+         }
+      }
+      public virtual bool IsDead
+      {
+         get
+         {
+            return (StateMachine.CurrentState is StateDeath);
+         }
+      }
+      public virtual bool ShouldBeAttacked
+      {
+         get
+         {
+            if (IsDead)
+               return false;
+
+            return true;
+         }
+      }
+
+      public override string ToString ()
+      {
+         return this.GetType ().Name;
       }
 
       public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
@@ -413,6 +495,9 @@ namespace WinWarCS.Data.Game
             // Neutral
          case LevelObjectType.Goldmine:
             return new Goldmine (inMap);
+
+         case LevelObjectType.Orc_corpse:
+            return new Corpse (inMap);
 
          default:
             return new Entity (inMap);

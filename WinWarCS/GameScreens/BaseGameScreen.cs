@@ -43,11 +43,11 @@ namespace WinWarCS.GameScreens
       {
       }
 
-      internal virtual void PointerDown(Microsoft.Xna.Framework.Vector2 position)
+      internal virtual void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
       }
 
-      internal virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position)
+      internal virtual void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
       }
 

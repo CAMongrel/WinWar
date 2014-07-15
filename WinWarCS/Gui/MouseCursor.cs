@@ -84,7 +84,7 @@ namespace WinWarCS.Gui
       {
          Position = Vector2.Zero;
          IsVisible = true;
-            state = MouseCursorState.None;
+         state = MouseCursorState.None;
          didLoadResources = false;
          currentCursor = null;
          cursorResources = null;

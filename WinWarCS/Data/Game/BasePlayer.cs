@@ -59,6 +59,31 @@ namespace WinWarCS.Data.Game
 
       public bool IsNeutralTowards (Entity entity)
       {
+         if (entity.Owner == null)
+            return true;
+
+         return false;
+      }
+
+      public bool IsHostileTowards (Entity entity)
+      {
+         if (entity.Owner == null)
+            return false;
+
+         if (entity.Owner != this)
+            return true;
+
+         return false;
+      }
+
+      public bool IsFriendlyTowards (Entity entity)
+      {
+         if (entity.Owner == null)
+            return false;
+
+         if (entity.Owner == this)
+            return true;
+
          return false;
       }
    }
