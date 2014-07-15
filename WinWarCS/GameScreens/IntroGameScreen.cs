@@ -1,4 +1,4 @@
-﻿using FLCLib;
+using FLCLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -160,19 +160,26 @@ namespace WinWarCS.GameScreens
       {
          base.Draw(gameTime);
 
+         MainGame.DefaultFont.Spacing = 0.8f;
+
          if (curTexture != null)
          {
             float unscaledOffset = (MainGame.OriginalAppHeight - curTexture.Height) / 2;
 
-            Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY), 
+            int yPos = MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY); // Centered Position
+            yPos = 5;
+
+            Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, yPos, 
                (int)(curTexture.Width * MainGame.ScaleX), (int)(curTexture.Height * MainGame.ScaleY));
 
             MainGame.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
             MainGame.SpriteBatch.Draw(curTexture, rect, Color.FromNonPremultiplied(new Vector4(Vector3.One, storyboard.CurrentAlpha)));
             MainGame.SpriteBatch.End();
 
+            int yStart = 147;
+
             string introText = storyboard.GetCurrentIntroText();
-            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, 0, Color.White);
+            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, yStart, MainGame.OriginalAppWidth, MainGame.OriginalAppHeight - yStart,Color.White);
          }
       }
 
