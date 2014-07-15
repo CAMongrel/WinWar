@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using WinWarCS.Util;
 using WinWarCS.Graphics;
 
-
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 #else

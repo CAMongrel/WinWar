@@ -113,7 +113,14 @@
     <Compile Include="Data\Game\AI\AStar.cs" />
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
     <Compile Include="Data\Game\AI\HateList.cs" />
-    <None Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Data\Game\AI\States\BaseState.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttack.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttackMove.cs" />
+    <Compile Include="Data\Game\AI\States\StateBuilding.cs" />
+    <Compile Include="Data\Game\AI\States\StateDeath.cs" />
+    <Compile Include="Data\Game\AI\States\StateIdle.cs" />
+    <Compile Include="Data\Game\AI\States\StateMove.cs" />
     <Compile Include="Data\Game\BasePlayer.cs" />
     <Compile Include="Data\Game\Campaign.cs" />
     <Compile Include="Data\Game\Entities\BuildEntity.cs" />
@@ -124,6 +131,7 @@
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
@@ -171,6 +179,7 @@
       <DependentUpon>GameSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Gui\Input\PointerType.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
     <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
@@ -194,6 +203,8 @@
     <Compile Include="Platform\WindowsRT\Sys.cs" />
     <Compile Include="Platform\WindowsRT\UI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DebugOptions.cs" />
+    <Compile Include="Util\Log.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
   </ItemGroup>

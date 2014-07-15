@@ -13,6 +13,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using WinWarCS.Graphics;
+
+#if NETFX_CORE
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#else
+using RectangleF = System.Drawing.RectangleF;
+#endif
 #endregion
 
 namespace WinWarCS.Data.Game
@@ -82,7 +88,7 @@ namespace WinWarCS.Data.Game
       {
          texture.RenderOnScreen(x * scale, y * scale, 16.0f * scale, 16.0f * scale);
          if (DebugOptions.ShowTiles)
-            WWTexture.RenderRectangle(new System.Drawing.RectangleF(x * scale, y * scale, 16.0f * scale, 16.0f * scale), Color.Red);
+            WWTexture.RenderRectangle(new RectangleF(x * scale, y * scale, 16.0f * scale, 16.0f * scale), Color.Red);
       } // Render(x, y)
    } // class Tile
 } // namespace WinWarCS.Game
