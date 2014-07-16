@@ -215,14 +215,14 @@ namespace WinWarCS.Data.Game
 					if (newX < 0 || newX >= width || newY < 0 || newY >= height)
 						continue;
 
-					if (field[newY, newX] == 1 || GetClosedNode(newX, newY) != null)
+					if (field[newX, newY] > 0 || GetClosedNode(newX, newY) != null)
 						continue;
 
 					int index = 0;
 					Node o_node = GetOpenHeapNode(newX, newY, out index);
 					if (o_node != null)
 					{
-						// Node ist bereits in der offenen Liste
+						// Node is already in the open list
 						int G = node.G + SQRT[x * x + y * y];
 
 						if (G < o_node.G)
@@ -235,7 +235,7 @@ namespace WinWarCS.Data.Game
 					}
 					else
 					{
-						// Node ist NICHT in der offenen Liste
+						// Node is NOT in the open list
 
 						Node n = new Node();
 						n.X = node.X + x;
