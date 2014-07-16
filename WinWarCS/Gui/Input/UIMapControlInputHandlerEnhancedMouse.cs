@@ -31,6 +31,35 @@ namespace WinWarCS.Gui.Input
          return true;
       }
 
+      internal bool PerformRightClick(int tileX, int tileY)
+      {
+         Entity selEnt = GetSelectedEntity ();
+         if (selEnt == null || selEnt.CanGiveCommands() == false)
+            return true;
+
+         Entity ent = GetEntityAtTileXY (tileX, tileY);
+
+         if (ent == null || ent.Owner == null) 
+         {
+            selEnt.MoveTo (tileX, tileY);
+         } 
+         else 
+         {
+            // If we right-clicked a neutral builind. Move towards it.
+            // TODO: Handle other orders (like harvesting)
+            if (ent.Owner.IsNeutralTowards (selEnt.Owner))
+               selEnt.MoveTo (ent.TileX, ent.TileY);
+
+            if (ent.Owner.IsFriendlyTowards (selEnt.Owner))
+               selEnt.MoveTo (ent.TileX, ent.TileY);
+
+            if (ent.Owner.IsHostileTowards (selEnt.Owner))
+               selEnt.Attack(ent);
+         }
+
+         return true;
+      }
+
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (pointerType == PointerType.LeftMouse) 
@@ -39,31 +68,10 @@ namespace WinWarCS.Gui.Input
          } 
          else 
          {
-            Entity selEnt = GetSelectedEntity ();
-            if (selEnt == null || selEnt.CanGiveCommands() == false)
-               return true;
+            int tileX, tileY;
+            GetTileAt (position, out tileX, out tileY);
 
-            Entity ent = GetEntityAt (position);
-
-            if (ent == null || ent.Owner == null) 
-            {
-               int tileX, tileY;
-               GetTileAt (position, out tileX, out tileY);
-               selEnt.MoveTo (tileX, tileY);
-            } 
-            else 
-            {
-               // If we right-clicked a neutral builind. Move towards it.
-               // TODO: Handle other orders (like harvesting)
-               if (ent.Owner.IsNeutralTowards (selEnt))
-                  selEnt.MoveTo (ent.TileX, ent.TileY);
-
-               if (ent.Owner.IsFriendlyTowards (selEnt))
-                  selEnt.MoveTo (ent.TileX, ent.TileY);
-
-               if (ent.Owner.IsHostileTowards (selEnt))
-                  selEnt.Attack(ent);
-            }
+            return PerformRightClick (tileX, tileY);
          }
 
          return true;

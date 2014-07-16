@@ -60,6 +60,8 @@ namespace WinWarCS.Data.Game
 
       public Entity PreviousTarget { get; private set; }
 
+      internal LevelObjectType Type { get; private set; }
+
       public string Name
       {
          get
@@ -214,7 +216,7 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < CurrentMap.Players.Count; i++)
          {
             BasePlayer pl = CurrentMap.Players[i];
-            if (pl == this.Owner || pl.IsNeutralTowards(this))
+            if (pl == this.Owner || pl.IsNeutralTowards(this.Owner))
                continue;
 
             foreach (Entity ent in pl.Entities)
@@ -455,52 +457,70 @@ namespace WinWarCS.Data.Game
 
       public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
       {
+         Entity result = null;
+
          switch (entityType) 
          {
          // Orc Units
          case LevelObjectType.Peon:
-            return new OrcPeon (inMap);
+            result = new OrcPeon (inMap);
+            break;
 
          case LevelObjectType.Grunt:
-            return new OrcGrunt (inMap);
+            result = new OrcGrunt (inMap);
+            break;
 
          case LevelObjectType.Spearman:
-            return new OrcAxethrower (inMap);
+            result = new OrcAxethrower (inMap);
+            break;
 
             // Human Units
          case LevelObjectType.Peasant:
-            return new HumanPeasant (inMap);
+            result = new HumanPeasant (inMap);
+            break;
 
          case LevelObjectType.Warrior:
-            return new HumanWarrior (inMap);
+            result = new HumanWarrior (inMap);
+            break;
 
          case LevelObjectType.Bowman:
-            return new HumanArcher (inMap);
+            result = new HumanArcher (inMap);
+            break;
 
             // Orc Buildings
          case LevelObjectType.Orc_Farm:
-            return new OrcFarm (inMap);
+            result = new OrcFarm (inMap);
+            break;
 
          case LevelObjectType.Orc_HQ:
-            return new OrcBase (inMap);
+            result = new OrcBase (inMap);
+            break;
 
             // Human Buildings
          case LevelObjectType.Human_Farm:
-            return new HumanFarm (inMap);
+            result = new HumanFarm (inMap);
+            break;
 
          case LevelObjectType.Human_HQ:
-            return new HumanBase (inMap);
+            result = new HumanBase (inMap);
+            break;
 
             // Neutral
          case LevelObjectType.Goldmine:
-            return new Goldmine (inMap);
+            result = new Goldmine (inMap);
+            break;
 
          case LevelObjectType.Orc_corpse:
-            return new Corpse (inMap);
+            result = new Corpse (inMap);
+            break;
 
          default:
-            return new Entity (inMap);
+            result = new Entity (inMap);
+            break;
          }
+
+         result.Type = entityType;
+         return result;
       }
    }
 }

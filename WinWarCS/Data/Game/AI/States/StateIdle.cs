@@ -49,7 +49,7 @@ namespace WinWarCS.Data.Game
 
          foreach (BasePlayer pl in Owner.CurrentMap.Players)
          {
-            if (pl == this.Owner.Owner || pl.IsNeutralTowards(Owner))
+            if (pl == this.Owner.Owner || pl.IsNeutralTowards(Owner.Owner))
                continue;
 
             foreach (Entity ent in pl.Entities)
