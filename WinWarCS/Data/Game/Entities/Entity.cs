@@ -216,7 +216,7 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < CurrentMap.Players.Count; i++)
          {
             BasePlayer pl = CurrentMap.Players[i];
-            if (pl == this.Owner || pl.IsNeutralTowards(this))
+            if (pl == this.Owner || pl.IsNeutralTowards(this.Owner))
                continue;
 
             foreach (Entity ent in pl.Entities)
