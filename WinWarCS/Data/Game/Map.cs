@@ -310,6 +310,45 @@ namespace WinWarCS.Data.Game
                result [x + y * MapWidth] = tileSet.GetTileAverageColor (levelVisual.visualData [x + (y * MapWidth)]);
             }
          }
+
+         // Overlay units and buildings
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            Color col = Color.LightGray;
+            Entity ent = entities [i];
+            if (ent.Owner != null) 
+            {
+               // Allied and self
+               if (ent.Owner.IsFriendlyTowards (HumanPlayer))
+                  col = Color.Green;
+               // Enemies
+               if (ent.Owner.IsHostileTowards (HumanPlayer))
+                  col = Color.Red;
+            }
+            if (ent.Type == LevelObjectType.Human_HQ ||
+               ent.Type == LevelObjectType.Orc_HQ) 
+            {
+               col = Color.Yellow;
+            }
+
+            if (ent.TileSizeX == 1 && ent.TileSizeY == 1) 
+            {
+               result [ent.TileX + ent.TileY * MapWidth] = col;
+            } 
+            else 
+            {
+               for (int y = 0; y < ent.TileSizeY; y++)
+               {
+                  for (int x = 0; x < ent.TileSizeX; x++)
+                  {
+                     int tileX = ent.TileX + x;
+                     int tileY = ent.TileY + y;
+                     result [tileX + tileY * MapWidth] = col;
+                  }
+               }
+            }
+         }
+
          return result;
       }
       #endregion

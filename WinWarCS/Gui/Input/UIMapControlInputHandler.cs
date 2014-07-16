@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using WinWarCS.Data.Game;
 
-namespace WinWarCS.Gui
+namespace WinWarCS.Gui.Input
 {
    enum InputMode
    {
@@ -85,6 +85,11 @@ namespace WinWarCS.Gui
          int tileY = 0;
          MapControl.GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
 
+         return GetEntityAtTileXY (tileX, tileY);
+      }
+
+      protected Entity GetEntityAtTileXY(int tileX, int tileY)
+      {
          return MapControl.CurrentMap.GetEntityAt (tileX, tileY);
       }
 
