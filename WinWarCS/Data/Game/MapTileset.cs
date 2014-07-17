@@ -48,7 +48,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// 
       /// </summary>
-      private Tile[] tilesList;
+      private MapTile[] tilesList;
 		
       /// <summary>
       /// 
@@ -56,6 +56,17 @@ namespace WinWarCS.Data.Game
       private byte[] palette;
 
       public int[] RoadIndices;
+
+      internal int Count
+      {
+         get
+         {
+            if (tilesList == null)
+               return 0;
+
+            return tilesList.Length;
+         }
+      }
 
       #region static ctor
 
@@ -112,6 +123,7 @@ namespace WinWarCS.Data.Game
 
       #endregion
 
+      #region CreateRoadTypes
       void CreateRoadTypes ()
       {
          int offset = 0;
@@ -161,6 +173,7 @@ namespace WinWarCS.Data.Game
             break;
          }
       }
+      #endregion
 
       #region LoadAddTilesets
 
@@ -212,7 +225,7 @@ namespace WinWarCS.Data.Game
 			
          // Create tiles
          int numTiles = tileset.data.Length / 8;
-         tilesList = new Tile[numTiles];
+         tilesList = new MapTile[numTiles];
 
          fixed (byte* org_ptr = &tileset.data[0]) {
             ushort* ptr = (ushort*)org_ptr;
@@ -258,7 +271,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create tile
       /// </summary>
-      unsafe Tile CreateTile (ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
+      unsafe MapTile CreateTile (ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
                          ushort tile2, bool tile2_flip_x, bool tile2_flip_y,
                          ushort tile3, bool tile3_flip_x, bool tile3_flip_y,
                          ushort tile4, bool tile4_flip_x, bool tile4_flip_y)
@@ -386,7 +399,7 @@ namespace WinWarCS.Data.Game
             } // for
          } // fixed
 
-         Tile res = new Tile (data);
+         MapTile res = new MapTile (data);
          return res;
       }
       // CreateTile()
@@ -437,11 +450,11 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Draw tiles
       /// </summary>
-      internal void DrawTiles ()
+      internal void DrawTiles (int index = 0)
       {
-         for (int i = 0; i < tilesList.Length; i++) 
+         for (int i = 0; i < (tilesList.Length - index); i++) 
          {
-            DrawTile (i, (i % 16) * 16, (i / 16) * 16, 2.0f);
+            DrawTile (i + index, (i % 16) * 16, (i / 16) * 16, 1.0f);
          }
       }
       // DrawTiles()
