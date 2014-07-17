@@ -81,6 +81,10 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public double AttackSpeed;
       /// <summary>
+      /// The visible range.
+      /// </summary>
+      public double VisibleRange;
+      /// <summary>
       /// The walking speed.
       /// </summary>
       public double WalkSpeed;
@@ -123,6 +127,8 @@ namespace WinWarCS.Data.Game
 
       public Entity (Map currentMap)
       {
+         VisibleRange = 5;
+
          currentTarget = null;
          PreviousTarget = null;
 

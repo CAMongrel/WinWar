@@ -18,6 +18,13 @@ using WinWarCS.Data.Resources;
 #endregion
 namespace WinWarCS.Data.Game
 {
+   enum MapDiscover
+   {
+      Unknown,
+      Fog,
+      Visible
+   }
+      
    /// <summary>
    /// The Map class is the center point of a playable level (or map) in WinWar
    /// The map handles all spawned entities, updates states, etc... and creates its own
@@ -37,6 +44,8 @@ namespace WinWarCS.Data.Game
       internal int MapWidth { get; private set; }
 
       internal int MapHeight { get; private set; }
+
+      private MapDiscover[] mapDiscoverState;
 
       /// <summary>
       /// All placed roads
@@ -85,6 +94,8 @@ namespace WinWarCS.Data.Game
          levelVisual = setLevelVisual;
          levelPassable = setLevelPassable;
 			
+         mapDiscoverState = new MapDiscover[MapWidth * MapHeight];
+
          tileSet = MapTileset.GetTileset (levelVisual.Tileset);
 
          Players = new List<BasePlayer> ();
@@ -104,8 +115,10 @@ namespace WinWarCS.Data.Game
 
          entities = new List<Entity> ();
 
+         HideMap ();
          BuildInitialRoads ();
          PopulateInitialEntities ();
+         DiscoverMap ();
       }
 
       #region Update
@@ -115,10 +128,64 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < entities.Count; i++) 
          {
             entities [i].Update (gameTime);
+
+            // TODO: Implement a shared view flag for allied forces?
+
+            if (entities[i].Owner == HumanPlayer)
+               DiscoverMapByEntity (entities [i]);
          }
       }
 
       #endregion
+
+      private void HideMap ()
+      {
+         for (int i = 0; i < mapDiscoverState.Length; i++)
+            mapDiscoverState [i] = MapDiscover.Unknown;
+      }
+
+      private void ShowMap ()
+      {
+         for (int i = 0; i < mapDiscoverState.Length; i++)
+            mapDiscoverState [i] = MapDiscover.Visible;
+      }
+
+      private void DiscoverMapByEntity (Entity ent)
+      {
+         double sqrDiscoverRange = ent.VisibleRange * ent.VisibleRange;
+
+         for (int y = -(int)ent.VisibleRange; y < (int)ent.VisibleRange; y++) 
+         {
+            int tileY = ent.TileY + y;
+
+            if (tileY < 0 || tileY >= MapHeight)
+               continue;
+
+            for (int x = -(int)ent.VisibleRange; x < (int)ent.VisibleRange; x++) 
+            {
+               int tileX = ent.TileX + x;
+
+               if (tileX < 0 || tileX >= MapWidth)
+                  continue;
+
+               double sqrDist = x * x + y * y;
+               if (sqrDiscoverRange >= sqrDist)
+                  mapDiscoverState [tileX + tileY * MapWidth] = MapDiscover.Visible;
+            }
+         }
+      }
+
+      private void DiscoverMap ()
+      {
+         // TODO: Implement shared view for allied forces?
+
+         Entity[] ownEntities = HumanPlayer.Entities.ToArray ();
+
+         for (int i = 0; i < ownEntities.Length; i++) 
+         {
+            DiscoverMapByEntity (ownEntities [i]);
+         }
+      }
 
       private BasePlayer getPlayer(byte playerIndex)
       {
@@ -271,6 +338,9 @@ namespace WinWarCS.Data.Game
 
             Road road = Roads [i];
 
+            if (mapDiscoverState [road.x + road.y * MapWidth] == MapDiscover.Unknown)
+               isVisible = false;
+
             int x = road.x - startTileX;
             int y = road.y - startTileY;
             if (isVisible)
@@ -283,6 +353,8 @@ namespace WinWarCS.Data.Game
             bool isVisible = true;
 
             Entity ent = entities [i];
+            if (mapDiscoverState [ent.TileX + ent.TileY * MapWidth] == MapDiscover.Unknown)
+               isVisible = false;
 
             if (isVisible)
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
@@ -293,6 +365,25 @@ namespace WinWarCS.Data.Game
          {
             WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), Color.Green, 2);
             //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
+         }
+
+         // Overlay undiscored places + fog of war
+         for (int y = 0; y < tilesToDrawY; y++)
+         {
+            for (int x = 0; x < tilesToDrawX; x++)
+            {
+               int pos = (x + startTileX) + ((y + startTileY) * MapWidth);
+
+               if (mapDiscoverState [pos] == MapDiscover.Fog) 
+               {
+                  WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                     TileWidth, TileHeight, new Color (0.0f, 0.0f, 0.0f, 0.5f));
+               } else if (mapDiscoverState [pos] == MapDiscover.Unknown) 
+               {
+                  WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                     TileWidth, TileHeight, new Color (0.0f, 0.0f, 0.0f, 1.0f));
+               } 
+            }
          }
       }
       // Render()
@@ -346,6 +437,19 @@ namespace WinWarCS.Data.Game
                      result [tileX + tileY * MapWidth] = col;
                   }
                }
+            }
+         }
+
+         // Overlay undiscovered areas.
+         // This is not effective (could also do this conditionally in each of the loops above),
+         // but the most secure way.
+         for (int y = 0; y < MapHeight; y++)
+         {
+            for (int x = 0; x < MapWidth; x++)
+            {
+               int pos = x + y * MapWidth;
+               if (mapDiscoverState[pos] == MapDiscover.Unknown)
+                  result [pos] = Color.Black;
             }
          }
 
