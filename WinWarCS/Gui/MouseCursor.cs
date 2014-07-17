@@ -41,7 +41,8 @@ namespace WinWarCS.Gui
          HotSpotY = res.HotSpotY;
 
          Texture2D DXTexture = new Texture2D(MainGame.Device, res.width, res.height, false, SurfaceFormat.Color);
-         DXTexture.SetData<byte>(res.image_data);
+         if (res.image_data != null)
+            DXTexture.SetData<byte>(res.image_data);
 
          Texture = WWTexture.FromDXTexture(DXTexture);
       }

@@ -256,7 +256,13 @@ namespace WinWarCS.Data
 
       internal static int Count
       {
-         get { return resources.Count; }
+         get 
+         {
+            if (resources == null)
+               return 0;
+
+            return resources.Count; 
+         }
       }
 
       #endregion
