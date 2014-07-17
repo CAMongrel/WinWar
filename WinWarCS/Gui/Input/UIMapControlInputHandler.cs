@@ -102,6 +102,9 @@ namespace WinWarCS.Gui.Input
 
          if (MapControl.CurrentMap != null) 
          {
+            if (MapControl.CurrentMap.GetDiscoverStateAtTile (tileX, tileY) != MapDiscover.Visible)
+               return false;
+
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
             MapControl.CurrentMap.SelectEntity (ent);
             return true;
@@ -119,6 +122,9 @@ namespace WinWarCS.Gui.Input
 
          if (MapControl.CurrentMap != null) 
          {
+            if (MapControl.CurrentMap.GetDiscoverStateAtTile (tileX, tileY) != MapDiscover.Visible)
+               return false;
+
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
             if (ent != null && ent.CanBeSelected) 
             {

@@ -127,7 +127,7 @@ namespace WinWarCS.Data.Game
 
       public Entity (Map currentMap)
       {
-         VisibleRange = 5;
+         VisibleRange = 0;
 
          currentTarget = null;
          PreviousTarget = null;

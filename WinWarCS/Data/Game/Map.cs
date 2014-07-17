@@ -138,6 +138,15 @@ namespace WinWarCS.Data.Game
 
       #endregion
 
+      #region Map discovery
+      internal MapDiscover GetDiscoverStateAtTile(int tileX, int tileY)
+      {
+         if (tileX < 0 || tileX >= MapWidth || tileY < 0 || tileY >= MapHeight)
+            return MapDiscover.Unknown;
+
+         return mapDiscoverState[tileX + tileY * MapWidth];
+      }
+
       private void HideMap ()
       {
          for (int i = 0; i < mapDiscoverState.Length; i++)
@@ -150,27 +159,40 @@ namespace WinWarCS.Data.Game
             mapDiscoverState [i] = MapDiscover.Visible;
       }
 
-      private void DiscoverMapByEntity (Entity ent)
+      private void DiscoverMapAt(int centerTileX, int centerTileY, double visibleRange)
       {
-         double sqrDiscoverRange = ent.VisibleRange * ent.VisibleRange;
+         double sqrDiscoverRange = visibleRange * visibleRange;
 
-         for (int y = -(int)ent.VisibleRange; y < (int)ent.VisibleRange; y++) 
+         for (int y = -(int)visibleRange; y <= (int)visibleRange; y++) 
          {
-            int tileY = ent.TileY + y;
+            double actualY = (double)y - 0.5;
+            int tileY = centerTileY + (int)actualY;
 
             if (tileY < 0 || tileY >= MapHeight)
                continue;
 
-            for (int x = -(int)ent.VisibleRange; x < (int)ent.VisibleRange; x++) 
+            for (int x = -(int)visibleRange; x <= (int)visibleRange; x++) 
             {
-               int tileX = ent.TileX + x;
+               double actualX = (double)x - 0.5;
+               int tileX = centerTileX + (int)actualX;
 
                if (tileX < 0 || tileX >= MapWidth)
                   continue;
 
-               double sqrDist = x * x + y * y;
+               double sqrDist = actualX * actualX + actualY * actualY;
                if (sqrDiscoverRange >= sqrDist)
                   mapDiscoverState [tileX + tileY * MapWidth] = MapDiscover.Visible;
+            }
+         }
+      }
+
+      private void DiscoverMapByEntity (Entity ent)
+      {
+         for (int y = 0; y < ent.TileSizeY; y++) 
+         {
+            for (int x = 0; x < ent.TileSizeX; x++) 
+            {
+               DiscoverMapAt (ent.TileX + x, ent.TileY + y, ent.VisibleRange);
             }
          }
       }
@@ -186,6 +208,7 @@ namespace WinWarCS.Data.Game
             DiscoverMapByEntity (ownEntities [i]);
          }
       }
+      #endregion
 
       private BasePlayer getPlayer(byte playerIndex)
       {
@@ -361,7 +384,7 @@ namespace WinWarCS.Data.Game
          // Render selected entity
          if (SelectedEntity != null) 
          {
-            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), Color.Green, 2);
+            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
             //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
          }
 
@@ -409,7 +432,7 @@ namespace WinWarCS.Data.Game
             {
                // Allied and self
                if (ent.Owner.IsFriendlyTowards (HumanPlayer))
-                  col = Color.Green;
+                  col = new Color(0, 255, 0);
                // Enemies
                if (ent.Owner.IsHostileTowards (HumanPlayer))
                   col = Color.Red;
