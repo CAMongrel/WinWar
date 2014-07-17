@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data.Game;
 using WinWarCS.Gui;
+using WinWarCS.Gui.Input;
 
 namespace WinWarCS.GameScreens.Windows
 {
