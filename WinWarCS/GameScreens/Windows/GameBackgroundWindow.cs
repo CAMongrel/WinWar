@@ -18,6 +18,10 @@ namespace WinWarCS.GameScreens.Windows
       private UIImage bottomBar;
       private UIImage rightBar;
       private UIButton menuButton;
+      private UILabel goldLabel;
+      private UILabel goldValueLabel;
+      private UILabel lumberLabel;
+      private UILabel lumberValueLabel;
 
       internal UIMapControl MapControl { get; private set; }
 
@@ -87,6 +91,38 @@ namespace WinWarCS.GameScreens.Windows
          menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
          menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
          AddComponent (menuButton);
+
+         lumberLabel = new UILabel ("Lumber:");
+         lumberLabel.X = 95;
+         lumberLabel.Y = 0;
+         lumberLabel.Width = 72;
+         lumberLabel.Height = 10;
+         lumberLabel.TextAlign = TextAlign.Left;
+         AddComponent (lumberLabel);  
+
+         lumberValueLabel = new UILabel ("1000");
+         lumberValueLabel.X = 95;
+         lumberValueLabel.Y = 0;
+         lumberValueLabel.Width = 72;
+         lumberValueLabel.Height = 10;
+         lumberValueLabel.TextAlign = TextAlign.Right;
+         AddComponent (lumberValueLabel);
+
+         goldLabel = new UILabel ("Gold:");
+         goldLabel.X = 206;
+         goldLabel.Y = 0;
+         goldLabel.Width = 60;
+         goldLabel.Height = 10;
+         goldLabel.TextAlign = TextAlign.Left;
+         AddComponent (goldLabel);  
+
+         goldValueLabel = new UILabel ("1000");
+         goldValueLabel.X = 206;
+         goldValueLabel.Y = 0;
+         goldValueLabel.Width = 60;
+         goldValueLabel.Height = 10;
+         goldValueLabel.TextAlign = TextAlign.Right;
+         AddComponent (goldValueLabel);  
 
          AddComponent (MinimapControl);
       }
