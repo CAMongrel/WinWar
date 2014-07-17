@@ -353,8 +353,6 @@ namespace WinWarCS.Data.Game
             bool isVisible = true;
 
             Entity ent = entities [i];
-            if (mapDiscoverState [ent.TileX + ent.TileY * MapWidth] == MapDiscover.Unknown)
-               isVisible = false;
 
             if (isVisible)
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
