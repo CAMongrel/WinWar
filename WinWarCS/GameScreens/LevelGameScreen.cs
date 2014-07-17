@@ -79,6 +79,14 @@ namespace WinWarCS.GameScreens
          UIWindowManager.Render ();
       }
 
+      internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
+      {
+         base.Update (gameTime);
+
+         backgroundWindow.SetGoldValue (HumanPlayer.Gold);
+         backgroundWindow.SetLumberValue (HumanPlayer.Lumber);
+      }
+
       internal override void PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          UIWindowManager.PointerDown (position, pointerType);

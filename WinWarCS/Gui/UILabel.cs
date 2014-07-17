@@ -21,7 +21,7 @@ namespace WinWarCS.Gui
 
       #region Variables
 
-      private string text;
+      internal string Text { get; set; }
       private SpriteFont font;
 
       #endregion
@@ -34,7 +34,7 @@ namespace WinWarCS.Gui
 
       internal UILabel (string setText)
       {
-         text = setText;
+         Text = setText;
          font = MainGame.DefaultFont;
          TextAlign = TextAlign.Center;
       }
@@ -48,7 +48,7 @@ namespace WinWarCS.Gui
          Vector2 screenPos = ScreenPosition;
 
          Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));
-         Vector2 size = font.MeasureString (text);
+         Vector2 size = font.MeasureString (Text);
 
          Vector2 position = new Microsoft.Xna.Framework.Vector2 (
             0, screenPos.Y + ((float)Height / 2.0f - size.Y / 2.0f));
@@ -68,7 +68,7 @@ namespace WinWarCS.Gui
             break;
          }
 
-         FontRenderer.DrawStringDirect (font, text, position.X, position.Y, col);
+         FontRenderer.DrawStringDirect (font, Text, position.X, position.Y, col);
 
          base.Render ();
       }
@@ -79,7 +79,7 @@ namespace WinWarCS.Gui
 
       public override string ToString ()
       {
-         return text;
+         return Text;
       }
 
       #endregion

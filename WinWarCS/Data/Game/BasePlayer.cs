@@ -22,12 +22,18 @@ namespace WinWarCS.Data.Game
 
       internal List<Entity> Entities { get; private set; }
 
+      internal int Gold { get; set; }
+
+      internal int Lumber { get; set; }
+
       internal BasePlayer (PlayerType setPlayerType)
       {
          Name = "Player";
          Race = Game.Race.Humans;
          PlayerType = setPlayerType;
          Entities = new List<Entity> ();
+         Gold = 0;
+         Lumber = 0;
       }
 
       internal void ClaimeOwnership(Entity setEntity)

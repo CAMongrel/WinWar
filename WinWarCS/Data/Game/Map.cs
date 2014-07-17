@@ -119,6 +119,10 @@ namespace WinWarCS.Data.Game
          BuildInitialRoads ();
          PopulateInitialEntities ();
          DiscoverMap ();
+
+         // Set initial resources
+         HumanPlayer.Gold = levelInfo.StartGold;
+         HumanPlayer.Lumber = levelInfo.StartLumber;
       }
 
       #region Update

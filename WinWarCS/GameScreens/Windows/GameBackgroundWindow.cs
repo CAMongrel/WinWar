@@ -132,6 +132,16 @@ namespace WinWarCS.GameScreens.Windows
          IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.HumanPlayer.Race);
       }
 
+      internal void SetGoldValue(int newValue)
+      {
+         goldValueLabel.Text = newValue.ToString ();
+      }
+
+      internal void SetLumberValue(int newValue)
+      {
+         lumberValueLabel.Text = newValue.ToString ();
+      }
+
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
       {
          if (GamePaused)
