@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using WinWarCS.Data.Game;
+#if !NETFX_CORE
+using RectangleF = System.Drawing.RectangleF;
+#else
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#endif
 
 namespace WinWarCS.Gui.Input
 {
@@ -25,8 +30,18 @@ namespace WinWarCS.Gui.Input
 
       internal event MapDidScroll OnMapDidScroll;
 
+      protected RectangleF selectionRectangle;
+      public RectangleF SelectionRectangle 
+      { 
+         get { return selectionRectangle; }
+      }
+      public bool IsSpanningRectangle { get; protected set; }
+
       protected UIMapControlInputHandler (InputMode setInputMode, UIMapControl setUIMapControl)
       {
+         IsSpanningRectangle = false;
+         selectionRectangle = RectangleF.Empty;
+
          MapControl = setUIMapControl;
          InputMode = setInputMode;
       }
@@ -58,18 +73,18 @@ namespace WinWarCS.Gui.Input
       }
 
       #region Input logic for all handlers
-      protected Entity GetSelectedEntity()
+      protected Entity[] GetSelectedEntities()
       {
          if (MapControl.CurrentMap != null) 
          {
-            return MapControl.CurrentMap.SelectedEntity;
+            return MapControl.CurrentMap.SelectedEntities.ToArray();
          }
          return null;
       }
 
       protected void Deselect()
       {
-         MapControl.CurrentMap.SelectEntity (null);
+         MapControl.CurrentMap.SelectEntities (null);
       }
 
       protected void GetTileAt(Microsoft.Xna.Framework.Vector2 position, out int tileX, out int tileY)
@@ -106,11 +121,16 @@ namespace WinWarCS.Gui.Input
                return false;
 
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
-            MapControl.CurrentMap.SelectEntity (ent);
+            MapControl.CurrentMap.SelectEntities (ent);
             return true;
          }
 
          return false;
+      }
+
+      protected void SelectUnitsInRectangle (RectangleF selectionRectangle)
+      {
+         //
       }
 
       protected bool ShowMagnifierAt(Microsoft.Xna.Framework.Vector2 position)

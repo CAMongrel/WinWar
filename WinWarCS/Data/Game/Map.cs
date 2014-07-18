@@ -71,7 +71,7 @@ namespace WinWarCS.Data.Game
 
       internal Random Rnd { get; private set; }
 
-      internal Entity SelectedEntity { get; private set; }
+      internal List<Entity> SelectedEntities { get; private set; }
 
       #region ctor
 
@@ -82,7 +82,7 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
-         SelectedEntity = null;
+         SelectedEntities = new List<Entity>();
 
          TileWidth = 16;
          TileHeight = 16;
@@ -264,7 +264,7 @@ namespace WinWarCS.Data.Game
 
          entities.Remove (ent);
 
-         SelectEntity (null);
+         SelectEntities (null);
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
@@ -285,26 +285,46 @@ namespace WinWarCS.Data.Game
          return null;
       }
 
-      internal void SelectEntity(Entity ent)
+      private void InternalDeselectAllEntities()
       {
-         if (SelectedEntity != null) 
+         for (int i = SelectedEntities.Count - 1; i >= 0; i--)
          {
-            if (SelectedEntity.WillDeselect () == false)
-               return;
+            Entity selEnt = SelectedEntities [i];
+            if (selEnt.WillDeselect () == false)
+               continue;
 
-            Entity preSelEnt = SelectedEntity;
-            SelectedEntity = null;
-            preSelEnt.DidDeselect ();
+            SelectedEntities.Remove (selEnt);
+            selEnt.DidDeselect ();
          }
+      }
+      private void InternalSelectAllEntities(Entity[] entities)
+      {
+         for (int i = 0; i < entities.Length; i++)
+         {
+            Entity selEnt = entities [i];
+            if (selEnt == null || selEnt.WillSelect () == false)
+               continue;
 
-         if (ent == null)
+            SelectedEntities.Add (selEnt);
+            selEnt.DidSelect ();
+         }
+      }
+
+      internal void SelectEntities(params Entity[] entities)
+      {
+         // Try to deselect all entities
+         InternalDeselectAllEntities ();
+
+         // If there is still at least one entity selected, the deselection
+         // process was rejected, so we can't select a new one
+         if (SelectedEntities.Count > 0)
             return;
 
-         if (ent.WillSelect () == false)
+         // If we passed null, then we want to deselect
+         if (entities == null || entities.Length == 0)
             return;
 
-         SelectedEntity = ent;
-         SelectedEntity.DidSelect ();
+         InternalSelectAllEntities (entities);
       }
       #endregion
 
@@ -385,11 +405,11 @@ namespace WinWarCS.Data.Game
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
          }
 
-         // Render selected entity
-         if (SelectedEntity != null) 
+         // Render selected entities
+         for (int i = 0; i < SelectedEntities.Count; i++)
          {
-            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
-            //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
+            Entity selEnt = SelectedEntities [i];
+            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
          }
 
          // Overlay undiscored places + fog of war

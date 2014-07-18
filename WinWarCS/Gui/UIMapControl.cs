@@ -8,6 +8,7 @@ using WinWarCS.Data;
 using WinWarCS.Data.Game;
 using WinWarCS.Data.Resources;
 using WinWarCS.Gui.Input;
+using WinWarCS.Graphics;
 
 namespace WinWarCS.Gui
 {
@@ -139,6 +140,12 @@ namespace WinWarCS.Gui
          if (CurrentMap != null) 
          {
             CurrentMap.Render (this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
+         }
+
+         // Render selection rectangle
+         if (InputHandler.IsSpanningRectangle)
+         {
+            WWTexture.RenderRectangle (InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
          }
       }
 
