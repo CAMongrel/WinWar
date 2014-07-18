@@ -438,6 +438,13 @@ namespace WinWarCS.Data.Game
             return true;
          }
       }
+      public virtual bool AllowsMultiSelection
+      {
+         get
+         {
+            return false;
+         }
+      }
       public virtual bool IsDead
       {
          get

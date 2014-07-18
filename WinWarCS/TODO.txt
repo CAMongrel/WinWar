@@ -18,4 +18,5 @@ OK - Add version number
    - Add units & buildings to A* blocked fields
    - Fix movement commands to blocked areas (e.g right-click on woods)
    - Show selected unit(s) & orders on map border (health, mana, etc..)
-   - Allow multi-selection of units
+OK - Allow multi-selection of units
+   - Implement input capture on pointerDown for current UI element (fixes bugs with multi-selection)

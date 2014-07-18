@@ -72,6 +72,13 @@ namespace WinWarCS.Data.Game
             return !IsDead;
          }
       }
+      public override bool AllowsMultiSelection
+      {
+         get
+         {
+            return true;
+         }
+      }
 
       public void SetRandomOrientation()
       {
