@@ -59,8 +59,6 @@
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
-    <Compile Include="Data\Game\Tile.cs" />
-    <Compile Include="Data\Game\Tileset.cs" />
     <Compile Include="Data\Game\UnitSprite.cs" />
     <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
@@ -140,6 +138,8 @@
     <Compile Include="Util\Log.cs" />
     <Compile Include="Gui\Input\PointerType.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
+    <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\MapTileset.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
