@@ -12,6 +12,10 @@ OK - Allow each UIControl to have its own font
 OK - Unit selection
    - Implement commands
 OK - Show units & buildings on MiniMap
+OK - Implement map discovery
    - Implement Fog of War
 OK - Add version number
    - Add units & buildings to A* blocked fields
+   - Fix movement commands to blocked areas (e.g right-click on woods)
+   - Show selected unit(s) & orders on map border (health, mana, etc..)
+   - Allow multi-selection of units
