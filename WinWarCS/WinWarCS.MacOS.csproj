@@ -195,6 +195,7 @@
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\AI\MapPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

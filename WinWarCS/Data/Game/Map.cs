@@ -606,23 +606,16 @@ namespace WinWarCS.Data.Game
       #endregion
 
       #region Pathfinding
-      internal List<Node> CalcPath(int startX, int startY, int endX, int endY)
+      internal MapPath CalcPath(int startX, int startY, int endX, int endY)
       {
-         Pathfinder.StartX = startX;
-         Pathfinder.StartY = startY;
-         Pathfinder.EndX = endX;
-         Pathfinder.EndY = endY;
-
          Log.Status("Map: Calculating path from " + startX + "," + 
             startY + " to " + endX + "," + endY + "...");
 
-         if (Pathfinder.FindPath())
+         MapPath path = Pathfinder.FindPath (startX, startY, endX, endY);
+         if (path != null)
          {
-            List<Node> Path = new List<Node>(Pathfinder.PathNodeCount);
-            for (int i = 0; i < Pathfinder.PathNodeCount; i++)
-               Path.Add(Pathfinder.GetPathNode(i));
-            Log.Status("... success (" + Path.Count + " Nodes)!");
-            return Path;
+            Log.Status("... success (" + path.Count + " Nodes)!");
+            return path;
          }
 
          Log.Status("... failed!");

@@ -14,7 +14,7 @@ namespace WinWarCS.Data.Game
 
       internal int curNodeIdx;
 
-      internal List<Node> Path;
+      internal MapPath Path;
 
       internal StateAttack(Entity Owner, Entity Target)
          : base(Owner)

@@ -18,8 +18,8 @@ namespace WinWarCS.Data.Game
 
       internal double moveTimer;
 
-      internal List<Node> Path;
-      internal List<Node> TargetPath;
+      internal MapPath Path;
+      internal MapPath TargetPath;
 
       internal StateAttackMove(Entity Owner, int X, int Y)
          : base(Owner)
