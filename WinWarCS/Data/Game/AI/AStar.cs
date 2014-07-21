@@ -35,6 +35,7 @@ namespace WinWarCS.Data.Game
 			field = null;
 		}
 
+      #region Field setup
 		public void SetField(short[,] field, int width, int height)
 		{
 			this.field = field;
@@ -48,6 +49,7 @@ namespace WinWarCS.Data.Game
 			this.width = width;
 			this.height = height;
 		}
+      #endregion
 
 #if BLA //!NETFX_CORE
 		public void PrintFieldFile(string filename)
@@ -127,6 +129,7 @@ namespace WinWarCS.Data.Game
 		}
 #endif
 
+      #region Pathfinding
       private Node GetClosedNode(int nodeX, int nodeY, List<Node> Closed)
 		{
          for (int i = 0; i < Closed.Count; i++) 
@@ -239,12 +242,6 @@ namespace WinWarCS.Data.Game
          BinaryHeap<Node> OpenHeap = new BinaryHeap<Node>(width * height);
          Node Root;
 
-			//Open.Clear();
-			Closed.Clear();
-			OpenHeap.Clear();
-
-			int steps = 0;
-
 			Root = new Node();
 			Root.parent = null;
 			Root.X = startX;
@@ -256,18 +253,12 @@ namespace WinWarCS.Data.Game
 				Root.H = 14 * offY + 10 * (offX - offY);
 			else
 				Root.H = 14 * offX + 10 * (offY - offX);
-			//Root.H = Math.Abs(Root.X - endX) + Math.Abs(Root.Y - endY);
 			OpenHeap.Add(Root.F, Root);
-			//Open.Add(Root);
-			//ProcessNode(Root);
 
-         int res = ProcessLowestNode(endX, endY, Closed, OpenHeap);
-			//int res = ProcessLowestF();
+         int res = ProcessLowestNode (endX, endY, Closed, OpenHeap);
 			while (res == 0)
 			{
-				steps++;
-				//res = ProcessLowestF();
-            res = ProcessLowestNode(endX, endY, Closed, OpenHeap);
+				res = ProcessLowestNode(endX, endY, Closed, OpenHeap);
 			}
 
 			if (res == -1)
@@ -279,7 +270,9 @@ namespace WinWarCS.Data.Game
 
          return result;
 		}
+      #endregion
 
+      #region Properties
       public short this[int x, int y]
 		{
 			get { return field[y, x]; }
@@ -293,141 +286,6 @@ namespace WinWarCS.Data.Game
 		{
 			get { return height; }
 		}
+      #endregion
 	}
 }
-
-#region Old code
-/*		static Node GetOpenNode(int nodeX, int nodeY)
-		{
-			foreach (Node n in Open)
-				if (n.X == nodeX && n.Y == nodeY)
-					return n;
-
-			return null;
-		}*/
-
-/*		static sbyte ProcessNode(Node node)
-		{
-			Open.Remove(node);
-			Closed.Add(node);
-
-			if (node.X == endX && node.Y == endY)
-				return 1;
-
-			int x, y;
-
-			for (y = -1; y <= 1; y++)
-			{
-				for (x = -1; x <= 1; x++)
-				{
-					if (x == 0 && y == 0)
-						continue;
-
-					int newX = node.X + x;
-					int newY = node.Y + y;
-
-					if (newX < 0 || newX >= Width || newY < 0 || newY >= Height)
-						continue;
-
-					if (field[newY, newX] == 1 || GetClosedNode(newX, newY) != null)
-						continue;
-
-					Node o_node = GetOpenNode(newX, newY);
-					if (o_node != null)
-					{
-						// Node ist bereits in der offenen Liste
-//						int G = node.G + SQRT[(Math.Abs(x) + Math.Abs(y))];
-						int G = node.G + SQRT[x * x + y * y];						
-
-						if (G < o_node.G)
-						{
-							o_node.parent = node;
-							o_node.G = G;
-						}
-					}
-					else
-					{
-						// Node ist NICHT in der offenen Liste
-
-						Node n = new Node();
-						n.X = node.X + x;
-						n.Y = node.Y + y;
-						n.parent = node;
-
-//						n.G = node.G + SQRT[(Math.Abs(x) + Math.Abs(y))];
-						n.G = node.G + SQRT[x * x + y * y];
-						n.H = (Math.Abs(n.X - endX) + Math.Abs(n.Y - endY)) * 10;
-
-						Open.Add(n);
-					}
-				}
-			}
-
-			return 0;
-		}
-
-		static sbyte ProcessLowestF()
-		{
-			int i, lowest;
-			Node CurNode = null;
-			lowest = int.MaxValue;
-			for (i = 0; i < Open.Count; i++)
-			{
-				if (Open[i].F < lowest)
-				{
-					CurNode = Open[i];
-					lowest = Open[i].F;
-				}
-			}
-			if (CurNode == null)
-				return -1;
-
-			Steps++;
-			return ProcessNode(CurNode);
-		}*/
-
-/*public void PrintField()
-{
-	if (field == null)
-		return;
-
-	int x, y;
-
-	Console.Clear();
-	Console.SetCursorPosition(0, 0);
-
-	for (y = 0; y < height; y++)
-	{
-		for (x = 0; x < width; x++)
-		{
-			Console.Write(field[y, x] == 1 ? "X" : ".");
-		}
-		Console.WriteLine();
-	}
-
-	Console.SetCursorPosition(startX, startY);
-	Console.Write("S");
-	Console.SetCursorPosition(endX, endY);
-	Console.Write("E");
-	Console.SetCursorPosition(0, height + 1);
-
-	foreach (Node n in OpenHeap)
-	{
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("O");
-	}
-	foreach (Node n in Closed)
-	{
-		if (n == null)
-			continue;
-
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("C");
-	}
-	foreach (Node n in Path)
-	{
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("P");
-	}
-}*/
-#endregion
