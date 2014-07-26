@@ -79,11 +79,11 @@
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
-    <Compile Include="Data\Game\Tile.cs" />
-    <Compile Include="Data\Game\Tileset.cs" />
     <Compile Include="Data\Game\UnitSprite.cs" />
     <Compile Include="Data\IntroStoryboard.cs" />
     <Compile Include="Data\KnowledgeBase.cs" />
