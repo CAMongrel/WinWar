@@ -123,6 +123,7 @@ namespace WinWarCS.Data.Game
          // Set initial resources
          HumanPlayer.Gold = levelInfo.StartGold;
          HumanPlayer.Lumber = levelInfo.StartLumber;
+         // TODO: Set resource for other players
       }
 
       #region Update
@@ -247,6 +248,8 @@ namespace WinWarCS.Data.Game
             owner.ClaimeOwnership (newEnt);
 
          newEnt.DidSpawn ();
+
+         // TODO: Add to Pathfinder
       }
 
       internal void RemoveEntity(Entity ent)
@@ -264,7 +267,10 @@ namespace WinWarCS.Data.Game
 
          entities.Remove (ent);
 
-         SelectEntities (null);
+         if (SelectedEntities.Contains(ent))
+            SelectedEntities.Remove(ent);
+
+         // TODO: Remove from Pathfinder
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
