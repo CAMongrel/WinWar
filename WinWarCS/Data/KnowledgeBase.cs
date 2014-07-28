@@ -55,236 +55,6 @@ namespace WinWarCS.Data
 
    internal class KnowledgeBase
    {
-
-      #region Hardcoded palette
-
-      // Number of entries = 128 * 3 = 384
-      // 0, 0, 0 => means unknown
-      internal static byte[] hardcoded_pal = {
-         0, 0, 0,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         0, 0, 0,	// 4
-         0, 0, 0,	// 5
-         64, 72, 40,	// 6
-         0, 0, 0,	// 7
-         8, 32, 8,	// 8
-         0, 0, 0,	// 9
-         0, 0, 0,	// 10
-         24, 36, 16,	// 11
-         4, 20, 8,	// 12
-         0, 0, 0,	// 13
-         0, 0, 0,	// 14
-         0, 0, 0,	// 15
-         0, 0, 0,	// 16
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         255, 255, 255,	// not part of the hardcoded palette
-         252, 252, 252,	// 32
-         224, 232, 224,	// 33
-         200, 212, 200,	// 34
-         180, 192, 180,	// 35
-         156, 172, 156,	// 36
-         136, 152, 136,	// 37
-         116, 132, 116,	// 38
-         96, 112, 96,		// 39
-         84, 100, 84,	// 40
-         76, 92, 84,		// 41
-         64, 76, 68,	// 42
-         52, 64, 64,	// 43
-         39, 51, 51,	// 44
-         32, 40, 44,		// 45
-         24, 32, 36,	// 46
-         16, 24, 24,	// 47
-         164, 136, 68,	// 48
-         148, 120, 52,	// 49
-         132, 104, 40,	// 50
-         116, 88, 28,	// 51
-         96, 72, 16,	// 52
-         84, 56, 8,	// 53
-         68, 44, 4,	// 54
-         56, 36, 4,	// 55
-         42, 27, 3,	// 56
-         30, 19, 0,	// 57
-         0, 0, 0,	// 58
-         0, 0, 0,	// 59
-         0, 0, 0,	// 60
-         140, 144, 8,	// 61
-         12, 148, 0,	// 62
-         8, 108, 0,	// 63
-         0, 0, 0,	// 64
-         0, 0, 0,	// 65
-         68, 68, 0,	// 66
-         101, 93, 77,	// 67
-         0, 0, 0,	// 68
-         0, 0, 0,	// 69
-         0, 0, 0,	// 70
-         0, 0, 0,	// 71
-         0, 0, 0,	// 72
-         0, 0, 0,	// 73    known! ==> black (actually: transparent shadow!)
-         48, 32, 28,	// 74
-         56, 36, 28,	// 75
-         64, 44, 32,	// 76
-         76, 51, 36,	// 77
-         88, 60, 40,	// 78
-         104, 72, 48,	// 79
-         92, 68, 48,	// 80
-         100, 76, 48,	// 81
-         108, 84, 52,	// 82
-         116, 92, 56,	// 83
-         120, 100, 60,	// 84
-         0, 0, 0,	// 85
-         0, 0, 0,	// 86
-         0, 0, 0,	// 87
-         0, 0, 0,	// 88
-         156, 40, 0,	// 89
-         252, 48, 0,	// 90
-         252, 84, 8,	// 91
-         252, 120, 24,	// 92
-         252, 152, 40,	// 93
-         252, 180, 56,	// 94
-         252, 208, 72,	// 95
-         0, 0, 0,	// 96		known! ==> black (actually: transparent shadow!)
-         0, 0, 0,	// 97
-         64, 20, 20,	// 98
-         88, 24, 24,	// 99
-         112, 112, 76,	// 100
-         0, 0, 0,	// 101
-         0, 0, 0,	// 102
-         0, 0, 0,	// 103
-         0, 0, 0,	// 104
-         0, 0, 0,	// 105
-         0, 0, 0,	// 106
-         0, 0, 0,	// 107
-         0, 0, 0,	// 108
-         0, 0, 0,	// 109
-         0, 0, 0,	// 110
-         0, 0, 0,	// 111
-         0, 0, 0,	// 112
-         0, 0, 0,	// 113
-         0, 0, 0,	// 114
-         0, 0, 0,	// 115
-         0, 0, 0,	// 116
-         0, 0, 0,	// 117
-         0, 0, 0,	// 118
-         0, 0, 0,	// 119
-         0, 0, 0,	// 120
-         0, 0, 0,	// 121
-         0, 0, 0,	// 122
-         0, 0, 0,	// 123
-         0, 0, 0,	// 124
-         0, 0, 0,	// 125
-         0, 0, 0,	// 126
-         0, 0, 0,	 // 127
-         0, 0, 0,  // 128
-         0, 0, 0,  // 129
-         0, 0, 0,  // 130
-         0, 0, 0,  // 131
-         0, 0, 0,  // 132
-         0, 0, 0,  // 133
-         31, 14, 5,  // 134
-         51, 27, 18,  // 135
-         81, 39, 23,  // 136
-         104, 51, 31,  // 137
-         130, 68, 43,  // 138
-         76, 51, 36,  // 139
-         175, 101, 75,  // 140
-         203, 120, 90,  // 141
-         227, 141, 104,  // 142
-         0, 0, 0,  // 143
-         0, 0, 0,  // 144
-         0, 0, 0,  // 145
-         0, 0, 0,  // 146
-         0, 0, 0,  // 147
-         0, 0, 0,  // 148
-         0, 0, 0,  // 149
-         0, 0, 0,  // 150
-         0, 0, 0,  // 151
-         0, 0, 0,  // 152
-         0, 0, 0,  // 153
-         0, 0, 0,  // 154
-         0, 0, 0,  // 155
-         0, 0, 0,  // 156
-         0, 0, 0,  // 157
-         0, 0, 0,  // 158
-         0, 0, 0,  // 159
-         0, 0, 0,  // 160
-         0, 0, 0,  // 161
-         0, 0, 0,  // 162
-         0, 0, 0,  // 163
-         0, 0, 0,  // 164
-         0, 0, 0,  // 165
-         0, 0, 0,  // 166
-         0, 0, 0,  // 167
-         1, 23, 11,  // 168
-         2, 34, 14,  // 169
-         5, 51, 15,  // 170
-         11, 69, 10,  // 171
-         22, 85, 14,  // 172
-         48, 108, 48,  // 173
-         72, 139, 17,  // 174
-         109, 166, 21,  // 175
-         56, 0, 0,  // 176
-         72, 0, 0,  // 177
-         92, 1, 0,  // 178
-         106, 0, 7,  // 179
-         134, 9, 9,  // 180
-         154, 22, 29,  // 181
-         181, 31, 24,  // 182
-         207, 43, 27,  // 183
-         11, 18, 11,  // 184
-         27, 31, 31,  // 185
-         54, 64, 69,  // 186
-         89, 97, 105,  // 187
-         117, 130, 141,  // 188
-         146, 159, 177,  // 189
-         178, 186, 211,  // 190
-         211, 211, 239,  // 191
-         0, 0, 0,  // 192
-         182, 93, 52,  // 193
-         215, 143, 80,  // 194
-         249, 192, 112,  // 195
-         214, 0, 22,  // 196
-         78, 0, 13,  // 197
-         0, 0, 0,  // 198
-         0, 0, 0,  // 199
-         0, 3, 35,  // 200
-         3, 9, 64,  // 201
-         10, 20, 96,  // 202
-         18, 29, 129,  // 203
-         27, 25, 153,  // 204
-         40, 14, 181,  // 205
-         0, 0, 0,  // 206
-         0, 0, 0,  // 207
-         0, 0, 0,  // 208
-         0, 0, 0,  // 209
-         0, 0, 0,  // 210
-         0, 0, 0,  // 211
-         0, 0, 0,  // 212
-         0, 0, 0,  // 213
-         0, 0, 0,  // 214
-         0, 0, 0,  // 215
-         0, 0, 0,  // 216
-         0, 0, 0,  // 217
-         0, 0, 0,  // 218
-         0, 0, 0,  // 219
-      };
-
-      #endregion
-
       //internal const int KB_Size = 370;
       internal static KnowledgeEntry[] KB_List = {
          new KnowledgeEntry (0, ContentFileType.FileXMID, 0, "Music0"),
@@ -554,11 +324,11 @@ Wenn Typ==32 (Goldmine)
          new KnowledgeEntry (235, ContentFileType.FileImage, 255, "Small Box (Humans)"),
          new KnowledgeEntry (236, ContentFileType.FileImage, 217, "Small Box (Orcs)"),
          new KnowledgeEntry (237, ContentFileType.FileImage, 260, "Large Button"),
-         new KnowledgeEntry (238, ContentFileType.FileImage, 217, "Large Button (Clicked)"),
+         new KnowledgeEntry (238, ContentFileType.FileImage, 260, "Large Button (Clicked)"),
          new KnowledgeEntry (239, ContentFileType.FileImage, 260, "Medium Button"),
-         new KnowledgeEntry (240, ContentFileType.FileImage, 217, "Medium Button (Clicked)"),
+         new KnowledgeEntry (240, ContentFileType.FileImage, 260, "Medium Button (Clicked)"),
          new KnowledgeEntry (241, ContentFileType.FileImage, 260, "Small Button"),
-         new KnowledgeEntry (242, ContentFileType.FileImage, 217, "Small Button (Clicked)"),
+         new KnowledgeEntry (242, ContentFileType.FileImage, 260, "Small Button (Clicked)"),
          new KnowledgeEntry (243, ContentFileType.FileImage, 260, "Mainmenu Background Lower Part"),
          new KnowledgeEntry (244, ContentFileType.FileImage, 217, "Button Arrow Left"),
          new KnowledgeEntry (245, ContentFileType.FileImage, 217, "Button Arrow Left, Grey"),
@@ -595,10 +365,10 @@ Wenn Typ==32 (Goldmine)
          new KnowledgeEntry (276, ContentFileType.FileCursor, 262, "Scroll Bottomleft"),
          new KnowledgeEntry (277, ContentFileType.FileCursor, 262, "Scroll Left"),
          new KnowledgeEntry (278, ContentFileType.FileCursor, 262, "Scroll Topleft"),
-         new KnowledgeEntry (279, ContentFileType.FileSprite, 0, "Human Warrior"),
-         new KnowledgeEntry (280, ContentFileType.FileSprite, 0, "Orc Grunt"),
-         new KnowledgeEntry (281, ContentFileType.FileSprite, 0, "Human Peasant"),
-         new KnowledgeEntry (282, ContentFileType.FileSprite, 0, "Orc Peon"),
+         new KnowledgeEntry (279, ContentFileType.FileSprite, 217, "Human Warrior"),
+         new KnowledgeEntry (280, ContentFileType.FileSprite, 217, "Orc Grunt"),
+         new KnowledgeEntry (281, ContentFileType.FileSprite, 217, "Human Peasant"),
+         new KnowledgeEntry (282, ContentFileType.FileSprite, 217, "Orc Peon"),
          new KnowledgeEntry (283, ContentFileType.FileSprite, 0, "Human Catapult"),
          new KnowledgeEntry (284, ContentFileType.FileSprite, 0, "Orc Catapult"),
          new KnowledgeEntry (285, ContentFileType.FileSprite, 0, "Human Knight"),
@@ -624,7 +394,7 @@ Wenn Typ==32 (Goldmine)
          new KnowledgeEntry (305, ContentFileType.FileSprite, 0, "Demon"),
          new KnowledgeEntry (306, ContentFileType.FileSprite, 0, "Water Elemental"),
          new KnowledgeEntry (307, ContentFileType.FileSprite, 0, "Human Farm"),
-         new KnowledgeEntry (308, ContentFileType.FileSprite, 0, "Orc Farm"),
+         new KnowledgeEntry (308, ContentFileType.FileSprite, 217, "Orc Farm"),
          new KnowledgeEntry (309, ContentFileType.FileSprite, 0, "Human Barracks"),
          new KnowledgeEntry (310, ContentFileType.FileSprite, 0, "Orc Barracks"),
          new KnowledgeEntry (311, ContentFileType.FileSprite, 0, "Human Church"),
@@ -632,7 +402,7 @@ Wenn Typ==32 (Goldmine)
          new KnowledgeEntry (313, ContentFileType.FileSprite, 0, "Human Tower"),
          new KnowledgeEntry (314, ContentFileType.FileSprite, 0, "Orc Skull"),
          new KnowledgeEntry (315, ContentFileType.FileSprite, 0, "Human Base"),
-         new KnowledgeEntry (316, ContentFileType.FileSprite, 0, "Orc Base"),
+         new KnowledgeEntry (316, ContentFileType.FileSprite, 217, "Orc Base"),
          new KnowledgeEntry (317, ContentFileType.FileSprite, 0, "Human Smith"),
          new KnowledgeEntry (318, ContentFileType.FileSprite, 0, "Orc Smith"),
          new KnowledgeEntry (319, ContentFileType.FileSprite, 0, "Human Stables"),
@@ -863,3 +633,270 @@ Wenn Typ==32 (Goldmine)
 
    }
 }
+
+
+/*
+      #region Hardcoded palette
+      // Number of entries = 128 * 3 = 384
+      // 0, 0, 0 => means unknown
+      internal static byte[] hardcoded_pal = {
+         0, 0, 0, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         0, 0, 0, // 4
+         0, 0, 0, // 5
+         64, 72, 40, // 6
+         0, 0, 0, // 7
+         8, 32, 8,   // 8
+         0, 0, 0, // 9
+         0, 0, 0, // 10
+         24, 36, 16, // 11
+         4, 20, 8,   // 12
+         0, 0, 0, // 13
+         0, 0, 0, // 14
+         0, 0, 0, // 15
+         0, 0, 0, // 16
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         255, 255, 255, // not part of the hardcoded palette
+         252, 252, 252, // 32
+         224, 232, 224, // 33
+         200, 212, 200, // 34
+         180, 192, 180, // 35
+         156, 172, 156, // 36
+         136, 152, 136, // 37
+         116, 132, 116, // 38
+         96, 112, 96,      // 39
+         84, 100, 84,   // 40
+         76, 92, 84,    // 41
+         64, 76, 68, // 42
+         52, 64, 64, // 43
+         39, 51, 51, // 44
+         32, 40, 44,    // 45
+         24, 32, 36, // 46
+         16, 24, 24, // 47
+         164, 136, 68,  // 48
+         148, 120, 52,  // 49
+         132, 104, 40,  // 50
+         116, 88, 28,   // 51
+         96, 72, 16, // 52
+         84, 56, 8,  // 53
+         68, 44, 4,  // 54
+         56, 36, 4,  // 55
+         42, 27, 3,  // 56
+         30, 19, 0,  // 57
+         0, 0, 0, // 58
+         0, 0, 0, // 59
+         0, 0, 0, // 60
+         140, 144, 8,   // 61
+         12, 148, 0, // 62
+         8, 108, 0,  // 63
+         0, 0, 0, // 64
+         0, 0, 0, // 65
+         68, 68, 0,  // 66
+         101, 93, 77,   // 67
+         0, 0, 0, // 68
+         0, 0, 0, // 69
+         0, 0, 0, // 70
+         0, 0, 0, // 71
+         0, 0, 0, // 72
+         0, 0, 0, // 73    known! ==> black (actually: transparent shadow!)
+         48, 32, 28, // 74
+         56, 36, 28, // 75
+         64, 44, 32, // 76
+         76, 51, 36, // 77
+         88, 60, 40, // 78
+         104, 72, 48,   // 79
+         92, 68, 48, // 80
+         100, 76, 48,   // 81
+         108, 84, 52,   // 82
+         116, 92, 56,   // 83
+         120, 100, 60,  // 84
+         0, 0, 0, // 85
+         0, 0, 0, // 86
+         0, 0, 0, // 87
+         0, 0, 0, // 88
+         156, 40, 0, // 89
+         252, 48, 0, // 90
+         252, 84, 8, // 91
+         252, 120, 24,  // 92
+         252, 152, 40,  // 93
+         252, 180, 56,  // 94
+         252, 208, 72,  // 95
+         0, 0, 0, // 96    known! ==> black (actually: transparent shadow!)
+         0, 0, 0, // 97
+         64, 20, 20, // 98
+         88, 24, 24, // 99
+         112, 112, 76,  // 100
+         0, 0, 0, // 101
+         0, 0, 0, // 102
+         0, 0, 0, // 103
+         0, 0, 0, // 104
+         0, 0, 0, // 105
+         0, 0, 0, // 106
+         0, 0, 0, // 107
+         0, 0, 0, // 108
+         0, 0, 0, // 109
+         0, 0, 0, // 110
+         0, 0, 0, // 111
+         0, 0, 0, // 112
+         0, 0, 0, // 113
+         0, 0, 0, // 114
+         0, 0, 0, // 115
+         0, 0, 0, // 116
+         0, 0, 0, // 117
+         0, 0, 0, // 118
+         0, 0, 0, // 119
+         0, 0, 0, // 120
+         0, 0, 0, // 121
+         0, 0, 0, // 122
+         0, 0, 0, // 123
+         0, 0, 0, // 124
+         0, 0, 0, // 125
+         0, 0, 0, // 126
+         0, 0, 0,  // 127
+         0, 0, 0,  // 128
+         0, 0, 0,  // 129
+         0, 0, 0,  // 130
+         0, 0, 0,  // 131
+         0, 0, 0,  // 132
+         0, 0, 0,  // 133
+         31, 14, 5,  // 134
+         51, 27, 18,  // 135
+         81, 39, 23,  // 136
+         104, 51, 31,  // 137
+         130, 68, 43,  // 138
+         76, 51, 36,  // 139
+         175, 101, 75,  // 140
+         203, 120, 90,  // 141
+         227, 141, 104,  // 142
+         0, 0, 0,  // 143
+         0, 0, 0,  // 144
+         0, 0, 0,  // 145
+         0, 0, 0,  // 146
+         0, 0, 0,  // 147
+         0, 0, 0,  // 148
+         0, 0, 0,  // 149
+         0, 0, 0,  // 150
+         0, 0, 0,  // 151
+         0, 0, 0,  // 152
+         0, 0, 0,  // 153
+         0, 0, 0,  // 154
+         0, 0, 0,  // 155
+         0, 0, 0,  // 156
+         0, 0, 0,  // 157
+         0, 0, 0,  // 158
+         0, 0, 0,  // 159
+         0, 0, 0,  // 160
+         0, 0, 0,  // 161
+         0, 0, 0,  // 162
+         0, 0, 0,  // 163
+         0, 0, 0,  // 164
+         0, 0, 0,  // 165
+         0, 0, 0,  // 166
+         0, 0, 0,  // 167
+         1, 23, 11,  // 168
+         2, 34, 14,  // 169
+         5, 51, 15,  // 170
+         11, 69, 10,  // 171
+         22, 85, 14,  // 172
+         48, 108, 48,  // 173
+         72, 139, 17,  // 174
+         109, 166, 21,  // 175
+         56, 0, 0,  // 176
+         72, 0, 0,  // 177
+         92, 1, 0,  // 178
+         106, 0, 7,  // 179
+         134, 9, 9,  // 180
+         154, 22, 29,  // 181
+         181, 31, 24,  // 182
+         207, 43, 27,  // 183
+         11, 18, 11,  // 184
+         27, 31, 31,  // 185
+         54, 64, 69,  // 186
+         89, 97, 105,  // 187
+         117, 130, 141,  // 188
+         146, 159, 177,  // 189
+         178, 186, 211,  // 190
+         211, 211, 239,  // 191
+         0, 0, 0,  // 192
+         182, 93, 52,  // 193
+         215, 143, 80,  // 194
+         249, 192, 112,  // 195
+         214, 0, 22,  // 196
+         78, 0, 13,  // 197
+         0, 0, 0,  // 198
+         0, 0, 0,  // 199
+         0, 3, 35,  // 200
+         3, 9, 64,  // 201
+         10, 20, 96,  // 202
+         18, 29, 129,  // 203
+         27, 25, 153,  // 204
+         40, 14, 181,  // 205
+         0, 0, 0,  // 206
+         0, 0, 0,  // 207
+         0, 0, 0,  // 208
+         0, 0, 0,  // 209
+         0, 0, 0,  // 210
+         0, 0, 0,  // 211
+         0, 0, 0,  // 212
+         0, 0, 0,  // 213
+         0, 0, 0,  // 214
+         0, 0, 0,  // 215
+         0, 0, 0,  // 216
+         0, 0, 0,  // 217
+         0, 0, 0,  // 218
+         0, 0, 0,  // 219
+         0, 0, 0,  // 220
+         0, 0, 0,  // 221
+         0, 0, 0,  // 222
+         0, 0, 0,  // 223
+         0, 0, 0,  // 224
+         0, 0, 0,  // 225
+         0, 0, 0,  // 226
+         0, 0, 0,  // 227
+         0, 0, 0,  // 228
+         0, 0, 0,  // 229
+         0, 0, 0,  // 230
+         0, 0, 0,  // 231
+         0, 0, 0,  // 232
+         0, 0, 0,  // 233
+         0, 0, 0,  // 234
+         0, 0, 0,  // 235
+         0, 0, 0,  // 236
+         0, 0, 0,  // 237
+         0, 0, 0,  // 238
+         0, 0, 0,  // 239
+         0, 0, 0,  // 240
+         0, 0, 0,  // 241
+         0, 0, 0,  // 242
+         0, 0, 0,  // 243
+         0, 0, 0,  // 244
+         0, 0, 0,  // 245
+         0, 0, 0,  // 246
+         0, 0, 0,  // 247
+         0, 0, 0,  // 248
+         0, 0, 0,  // 249
+         0, 0, 0,  // 250
+         0, 0, 0,  // 251
+         0, 0, 0,  // 252
+         0, 0, 0,  // 253
+         0, 0, 0,  // 254
+         0, 0, 0,  // 255
+      };
+
+      #endregion
+      */

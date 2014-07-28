@@ -39,6 +39,8 @@ namespace WinWarCS.Data.Resources
          int i, offset, x, y, c;
          int alt_x, alt_y;
 
+         WarResource addPal = WarFile.GetResource (191);
+
          unsafe
          {
             fixed (byte* org_ptr = &data.data[0])
@@ -68,9 +70,7 @@ namespace WinWarCS.Data.Resources
 
                   int temp_index;
 
-                  //byte* b_ptr = &org_ptr[offset];
-
-                  if (bForceGrayscale) 
+                  if (bForceGrayscale || palette == null) 
                   {	// No palette for this image or grayscale forced ... use grayscale palette
                      for (y = Frames [i].disp_y; y < (Frames [i].height + Frames [i].disp_y); y++) 
                      {
@@ -85,65 +85,6 @@ namespace WinWarCS.Data.Resources
                               Frames [i].image_data [temp_index + c] = org_ptr [offset];
 
                            Frames [i].image_data [temp_index + 3] = 255;
-
-                           offset++;
-                        }
-                     }
-                  } 
-                  else if (palette == null) 
-                  {
-                     int pal_index;
-
-                     for (y = Frames[i].disp_y; y < (Frames[i].height + Frames[i].disp_y); y++)
-                     {
-                        for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
-                        {
-                           alt_x = (flip_x ? ((Frames[i].width + Frames[i].disp_x) - 1 - (x - Frames[i].disp_x)) : x);
-                           alt_y = (flip_y ? ((Frames[i].height + Frames[i].disp_y) - 1 - (y - Frames[i].disp_y)) : y);
-
-                           temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
-                           pal_index = org_ptr[offset] * 3;
-
-                           if ((pal_index / 3) == 96 ||
-                              (pal_index / 3) == 73) 
-                           {
-                              Frames [i].image_data [temp_index] = 0;
-                              Frames [i].image_data [temp_index + 1] = 0;
-                              Frames [i].image_data [temp_index + 2] = 0;
-                              Frames[i].image_data[temp_index + 3] = 127;
-                              offset++;
-                              continue;
-                           }
-
-                           Frames [i].image_data [temp_index] = KnowledgeBase.hardcoded_pal[pal_index];
-                           Frames [i].image_data [temp_index + 1] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-                           Frames [i].image_data [temp_index + 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
-                           Frames[i].image_data[temp_index + 3] = 255;
-
-                           // Detect unavailable colors on hardcoded pal
-                           if (pal_index > 0 &&
-                              Frames [i].image_data [temp_index + 0] == 0 &&
-                              Frames [i].image_data [temp_index + 1] == 0 &&
-                              Frames [i].image_data [temp_index + 2] == 0) 
-                           {
-                              Frames [i].image_data [temp_index] = 255;
-                              Frames [i].image_data [temp_index + 1] = (byte)(pal_index / 3);
-                              Frames [i].image_data [temp_index + 2] = 255;
-                           }
-
-                           Frames[i].image_data[temp_index + 3] = (((Frames[i].image_data[temp_index] == 0) && (Frames[i].image_data[temp_index + 1] == 0) &&
-                              (Frames[i].image_data[temp_index + 2] == 0)) ? (byte)0 : (byte)255);
-                              
-                           // Shadow
-                           if ((Frames[i].image_data[temp_index] >= 252) &&
-                              (Frames[i].image_data[temp_index + 1] >= 252) &&
-                              (Frames[i].image_data[temp_index + 2] >= 252))
-                           {
-                              Frames[i].image_data[temp_index] = 0;
-                              Frames[i].image_data[temp_index + 1] = 0;
-                              Frames[i].image_data[temp_index + 2] = 0;
-                              Frames[i].image_data[temp_index + 3] = 127;
-                           }
 
                            offset++;
                         }
@@ -165,10 +106,23 @@ namespace WinWarCS.Data.Resources
                               alt_y = (flip_y ? ((Frames[i].height + Frames[i].disp_y) - 1 - (y - Frames[i].disp_y)) : y);
 
                               temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
-                              pal_index = org_ptr[offset] * 3;
+                              pal_index = org_ptr[offset++] * 3;
+
+                              if (this.data.resource_index == 280)
+                                 Console.Write ((pal_index / 3).ToString(" 000"));
+
+                              if (pal_index / 3 == 96) 
+                              {
+                                 // Shadow
+                                 Frames[i].image_data[temp_index] = 0;
+                                 Frames[i].image_data[temp_index + 1] = 0;
+                                 Frames[i].image_data[temp_index + 2] = 0;
+                                 Frames[i].image_data[temp_index + 3] = 127;
+                                 continue;
+                              }
 
                               for (c = 0; c < 3; c++)
-                                 Frames[i].image_data[temp_index + c] = (byte)(pal_dataptr[pal_index * 3 + c] * 4);
+                                 Frames [i].image_data [temp_index + c] = (byte)(pal_dataptr[pal_index + c] * 4);
 
                               Frames[i].image_data[temp_index + 3] = (((Frames[i].image_data[temp_index] == 0) && (Frames[i].image_data[temp_index + 1] == 0) &&
                                                              (Frames[i].image_data[temp_index + 2] == 0)) ? (byte)0 : (byte)255);
@@ -177,25 +131,14 @@ namespace WinWarCS.Data.Resources
                                  (Frames[i].image_data[temp_index + 1] == 108) &&
                                  (Frames[i].image_data[temp_index + 2] == 228))
                               {
-                                 Frames [i].image_data [temp_index] = KnowledgeBase.hardcoded_pal[pal_index];
-                                 Frames [i].image_data [temp_index + 1] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-                                 Frames [i].image_data [temp_index + 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
+                                 Frames[i].image_data[temp_index] = (byte)(addPal.data[pal_index + 0] * 4);
+                                 Frames[i].image_data[temp_index + 1] = (byte)(addPal.data[pal_index + 1] * 4);
+                                 Frames[i].image_data[temp_index + 2] = (byte)(addPal.data[pal_index + 2] * 4);
                                  Frames[i].image_data[temp_index + 3] = 255;
                               }
-
-                              // Shadow
-                              if ((Frames[i].image_data[temp_index] >= 252) &&
-                                 (Frames[i].image_data[temp_index + 1] >= 252) &&
-                                 (Frames[i].image_data[temp_index + 2] >= 252))
-                              {
-                                 Frames[i].image_data[temp_index] = 0;
-                                 Frames[i].image_data[temp_index + 1] = 0;
-                                 Frames[i].image_data[temp_index + 2] = 0;
-                                 Frames[i].image_data[temp_index + 3] = 127;
-                              }
-
-                              offset++;
                            }
+                           if (this.data.resource_index == 280)
+                              Console.WriteLine ();
                         }
                      }
                   }

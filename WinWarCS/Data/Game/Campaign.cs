@@ -15,7 +15,8 @@ namespace WinWarCS.Data.Game
       internal Campaign (BasePlayer refPlayer)
       {
          curPlayer = refPlayer;
-         Level = 1;
+
+         StartNew ();
       }
 
       internal void StartNew()
