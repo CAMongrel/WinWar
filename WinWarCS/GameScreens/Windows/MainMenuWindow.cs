@@ -90,7 +90,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          if (WarFile.IsDemo)
          {
-            await WinWarCS.Platform.UI.ShowMessageDialog ("Not available in demo!");
+            await WinWarCS.Platform.UI.ShowMessageDialog ("No idea ... ask Blizzard");
             return;
          }
 
