@@ -12,7 +12,7 @@ namespace WinWarCS.Data
       int compr_length;
       int length;
       internal byte[] data;
-      int resource_index;
+      internal int resource_index;
 
       internal WarResource(BinaryReader br, long offset, int compr_length, int resource_index)
       {
