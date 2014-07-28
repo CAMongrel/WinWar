@@ -6,18 +6,18 @@ namespace WinWarCS.Data.Game
 {
 	internal class Node
 	{
-		public int X;
-		public int Y;
+      internal int X;
+      internal int Y;
 
-		public int G;
-		public int H;
+      internal int G;
+      internal int H;
 
-		public int F
+      internal int F
 		{
 			get { return G + H; }
 		}
 
-		public Node parent;
+      internal Node parent;
 	}
 
 	internal class AStar2D

@@ -60,9 +60,6 @@ namespace WinWarCS.Gui
       {
          for (int i = windows.Count - 1; i >= 0; i--)
          {
-            if (windows[i].UserInteractionEnabled == false)
-               continue;
-
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
@@ -77,9 +74,6 @@ namespace WinWarCS.Gui
       {
          for (int i = windows.Count - 1; i >= 0; i--)
          {
-            if (windows[i].UserInteractionEnabled == false)
-               continue;
-
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
@@ -94,9 +88,6 @@ namespace WinWarCS.Gui
       {
          for (int i = windows.Count - 1; i >= 0; i--)
          {
-            if (windows[i].UserInteractionEnabled == false)
-               continue;
-
             if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                continue;
 
