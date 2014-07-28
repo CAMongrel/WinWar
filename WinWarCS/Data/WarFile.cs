@@ -110,6 +110,30 @@ namespace WinWarCS.Data
 
       #region ReadResources
 
+      private static int GetLength(BinaryReader br, int index)
+      {
+         if (offsets [index] == -1)
+            return 0;
+
+         if (index == nrOfEntries - 1)
+            return (int)br.BaseStream.Length - offsets [index];
+
+         int counter = 1;
+         int nextOffset = offsets [index + counter++];
+         while (nextOffset == -1) 
+         {
+            if (index + counter >= offsets.Length) 
+            {
+               nextOffset = (int)br.BaseStream.Length;
+               break;
+            }
+
+            nextOffset = offsets [index + counter++];
+         }
+
+         return nextOffset - offsets[index];
+      }
+
       private static int ReadResources (BinaryReader br)
       {
          int result = 0;
@@ -124,11 +148,7 @@ namespace WinWarCS.Data
 
             br.BaseStream.Seek ((long)offsets [i], SeekOrigin.Begin);
 
-            int length = 0;
-            if (i < nrOfEntries - 1)
-               length = offsets [i + 1] - offsets [i];
-            else
-               length = (int)br.BaseStream.Length - offsets [i];
+            int length = GetLength (br, i);
 
             resources.Add (new WarResource (br, offsets [i], length, i));
             result++;
