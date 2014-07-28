@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Game
 {
-	internal class Node
+	internal class AStarNode
 	{
       internal int X;
       internal int Y;
@@ -17,7 +17,7 @@ namespace WinWarCS.Data.Game
 			get { return G + H; }
 		}
 
-      internal Node parent;
+      internal AStarNode parent;
 	}
 
 	internal class AStar2D
@@ -130,11 +130,11 @@ namespace WinWarCS.Data.Game
 #endif
 
       #region Pathfinding
-      private Node GetClosedNode(int nodeX, int nodeY, List<Node> Closed)
+      private AStarNode GetClosedNode(int nodeX, int nodeY, List<AStarNode> Closed)
 		{
          for (int i = 0; i < Closed.Count; i++) 
          {
-            Node n = Closed[i];
+            AStarNode n = Closed[i];
             if (n.X == nodeX && n.Y == nodeY)
                return n;
          }
@@ -142,13 +142,13 @@ namespace WinWarCS.Data.Game
 			return null;
 		}
 
-      private Node GetOpenHeapNode(int nodeX, int nodeY, BinaryHeap<Node> OpenHeap, out int index)
+      private AStarNode GetOpenHeapNode(int nodeX, int nodeY, BinaryHeap<AStarNode> OpenHeap, out int index)
 		{
 			index = -1;
 			int i;
 			for (i = 0; i < OpenHeap.Count; i++)
 			{
-				Node n = OpenHeap[i];
+				AStarNode n = OpenHeap[i];
 
 				if (n == null)
 					continue;
@@ -163,9 +163,9 @@ namespace WinWarCS.Data.Game
 			return null;
 		}
 
-      private sbyte ProcessLowestNode(int endX, int endY, List<Node> Closed, BinaryHeap<Node> OpenHeap)
+      private sbyte ProcessLowestNode(int endX, int endY, List<AStarNode> Closed, BinaryHeap<AStarNode> OpenHeap)
 		{
-			Node node = OpenHeap.Remove();
+			AStarNode node = OpenHeap.Remove();
 			Closed.Add(node);
 
 			if (node == null)
@@ -193,7 +193,7 @@ namespace WinWarCS.Data.Game
 						continue;
 
 					int index = 0;
-               Node o_node = GetOpenHeapNode(newX, newY, OpenHeap, out index);
+               AStarNode o_node = GetOpenHeapNode(newX, newY, OpenHeap, out index);
 					if (o_node != null)
 					{
 						// Node is already in the open list
@@ -211,7 +211,7 @@ namespace WinWarCS.Data.Game
 					{
 						// Node is NOT in the open list
 
-						Node n = new Node();
+						AStarNode n = new AStarNode();
 						n.X = node.X + x;
 						n.Y = node.Y + y;
 						n.parent = node;
@@ -238,11 +238,11 @@ namespace WinWarCS.Data.Game
 			if (field == null)
 				return null;
 
-         List<Node> Closed = new List<Node>();
-         BinaryHeap<Node> OpenHeap = new BinaryHeap<Node>(width * height);
-         Node Root;
+         List<AStarNode> Closed = new List<AStarNode>();
+         BinaryHeap<AStarNode> OpenHeap = new BinaryHeap<AStarNode>(width * height);
+         AStarNode Root;
 
-			Root = new Node();
+			Root = new AStarNode();
 			Root.parent = null;
 			Root.X = startX;
 			Root.Y = startY;
@@ -264,7 +264,7 @@ namespace WinWarCS.Data.Game
 			if (res == -1)
 				return null;
 
-         Node node = GetClosedNode(endX, endY, Closed);
+         AStarNode node = GetClosedNode(endX, endY, Closed);
          MapPath result = new MapPath ();
          result.BuildFromFinalNode (node);
 
