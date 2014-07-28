@@ -3,9 +3,15 @@ using System.Collections.Generic;
 
 namespace WinWarCS.Data.Game
 {
+   public interface IMapPathNode
+   {
+      int X { get; set; }
+      int Y { get; set; }
+   }
+
    public class MapPath
    {
-      private List<Node> path;
+      private List<IMapPathNode> path;
 
       public int StartX { get; set; }
       public int StartY { get; set; }
@@ -13,7 +19,7 @@ namespace WinWarCS.Data.Game
       public int EndX { get; set; }
       public int EndY { get; set; }
 
-      internal Node this[int index]
+      internal IMapPathNode this[int index]
       {
          get 
          { 
@@ -31,14 +37,14 @@ namespace WinWarCS.Data.Game
 
       public MapPath ()
       {
-         path = new List<Node> ();
+         path = new List<IMapPathNode> ();
       }
 
-      internal void BuildFromFinalNode(Node finalNode)
+      internal void BuildFromFinalAStarNode(AStarNode finalNode)
       {
          path.Clear ();
 
-         Node node = finalNode;
+         AStarNode node = finalNode;
 
          path.Add(node);
          while (node.parent != null)

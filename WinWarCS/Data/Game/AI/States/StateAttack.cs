@@ -105,7 +105,7 @@ namespace WinWarCS.Data.Game
 
             if (curNodeIdx < Path.Count)
             {
-               AStarNode node = Path[curNodeIdx++];
+               IMapPathNode node = Path[curNodeIdx++];
                // TODO!!! Move, not Set
                Owner.SetPosition (node.X, node.Y);
             }

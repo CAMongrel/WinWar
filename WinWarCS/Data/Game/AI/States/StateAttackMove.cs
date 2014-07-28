@@ -77,7 +77,7 @@ namespace WinWarCS.Data.Game
                return;
             }
 
-            AStarNode node = Path[curNodeIdx++];
+            IMapPathNode node = Path[curNodeIdx++];
             // TODO!!! Move, not Set
             Owner.SetPosition (node.X, node.Y);
             return;
@@ -127,7 +127,7 @@ namespace WinWarCS.Data.Game
                curNodeIdx = 0;
             }
 
-            AStarNode node = TargetPath[curNodeIdx++];
+            IMapPathNode node = TargetPath[curNodeIdx++];
             // TODO!!! Move, not Set
             Owner.SetPosition (node.X, node.Y);
          }

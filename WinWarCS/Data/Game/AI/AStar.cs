@@ -4,10 +4,10 @@ using System.Text;
 
 namespace WinWarCS.Data.Game
 {
-	internal class AStarNode
+   internal class AStarNode : IMapPathNode
 	{
-      internal int X;
-      internal int Y;
+      public int X { get; set; }
+      public int Y { get; set; }
 
       internal int G;
       internal int H;
@@ -266,7 +266,7 @@ namespace WinWarCS.Data.Game
 
          AStarNode node = GetClosedNode(endX, endY, Closed);
          MapPath result = new MapPath ();
-         result.BuildFromFinalNode (node);
+         result.BuildFromFinalAStarNode (node);
 
          return result;
 		}

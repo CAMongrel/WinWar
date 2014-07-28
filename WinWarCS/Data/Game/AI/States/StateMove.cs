@@ -45,7 +45,7 @@ namespace WinWarCS.Data.Game
          {
             curNodeIdx = 0;
 
-            AStarNode initialNode = Path[curNodeIdx++];
+            IMapPathNode initialNode = Path[curNodeIdx++];
 
             targetPosX = initialNode.X;
             targetPosY = initialNode.Y;
@@ -96,7 +96,7 @@ namespace WinWarCS.Data.Game
             return;
          }
 
-         AStarNode node = Path[curNodeIdx++];
+         IMapPathNode node = Path[curNodeIdx++];
 
          targetPosX = node.X;
          targetPosY = node.Y;
