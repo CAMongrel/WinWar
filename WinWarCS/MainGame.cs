@@ -155,17 +155,24 @@ namespace WinWarCS
             loadingException = ex;
          }
 
-         //WarFile.DumpResources ("/data/Temp/WinWar/Resources");
-
-         if (loadingException != null) {
+         if (loadingException != null) 
+         {
             await Platform.UI.ShowMessageDialog ("An error occured during loading of DATA.WAR (" + loadingException + ").");
             return;
          }
 
-         SetNextGameScreen (new IntroGameScreen (
-            delegate(bool wasCancelled) {
-               SetNextGameScreen (new MenuGameScreen (!wasCancelled));
-            }));
+         if (WarFile.IsDemo) 
+         {
+            SetNextGameScreen (new MenuGameScreen (false));
+         } 
+         else 
+         {
+            // Play demo
+            SetNextGameScreen (new IntroGameScreen (
+               delegate(bool wasCancelled) {
+                  SetNextGameScreen (new MenuGameScreen (!wasCancelled));
+               }));
+         }
 
          //SetNextGameScreen(new MenuGameScreen());
          /*MovieGameScreen.PlayMovie("TITLE.WAR", 
