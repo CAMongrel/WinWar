@@ -22,7 +22,7 @@ namespace WinWarCS.Data.Game
 
       internal int curNodeIdx;
 
-      internal List<Node> Path;
+      internal MapPath Path;
 
       internal StateMove(Entity Owner, int targetTileX, int targetTileY)
          : base(Owner)
@@ -45,7 +45,7 @@ namespace WinWarCS.Data.Game
          {
             curNodeIdx = 0;
 
-            Node initialNode = Path[curNodeIdx++];
+            IMapPathNode initialNode = Path[curNodeIdx++];
 
             targetPosX = initialNode.X;
             targetPosY = initialNode.Y;
@@ -96,7 +96,7 @@ namespace WinWarCS.Data.Game
             return;
          }
 
-         Node node = Path[curNodeIdx++];
+         IMapPathNode node = Path[curNodeIdx++];
 
          targetPosX = node.X;
          targetPosY = node.Y;

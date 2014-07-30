@@ -4,69 +4,43 @@ using System.Text;
 
 namespace WinWarCS.Data.Game
 {
-	internal class Node
+   internal class AStarNode : IMapPathNode
 	{
-		public int X;
-		public int Y;
+      public int X { get; set; }
+      public int Y { get; set; }
 
-		public int G;
-		public int H;
+      internal int G;
+      internal int H;
 
-		public int F
+      internal int F
 		{
 			get { return G + H; }
 		}
 
-		public Node parent;
+      internal AStarNode parent;
 	}
 
 	internal class AStar2D
 	{
-		static byte[] SQRT = new byte[] { 0, 10, 14 };
+		private static byte[] SQRT = new byte[] { 0, 10, 14 };
 
-		short[,] field = null;
-		int startX;
-		int startY;
-		int endX;
-		int endY;
-		int width;
-		int height;
-		int steps;
-
-		//List<Node> Open;
-		List<Node> Closed;
-		List<Node> Path;
-		BinaryHeap<Node> OpenHeap;
-
-		Node Root;
+      private short[,] field = null;
+      private int width;
+      private int height;
 
 		internal AStar2D()
 		{
-			//Open = null;
-			Closed = null;
-			Path = null;
-			OpenHeap = null;
-
-			steps = 0;
 			width = 0;
 			height = 0;
 			field = null;
-			startX = 0;
-			startY = 0;
-			endX = 0;
-			endY = 0;
 		}
 
+      #region Field setup
 		public void SetField(short[,] field, int width, int height)
 		{
 			this.field = field;
 			this.width = width;
 			this.height = height;
-
-			//Open = new List<Node>();
-			Closed = new List<Node>();
-			Path = new List<Node>();
-			OpenHeap = new BinaryHeap<Node>(width * height);
 		}
 
 		public void SetEmptyField(int width, int height)
@@ -74,14 +48,10 @@ namespace WinWarCS.Data.Game
          this.field = new short[height, width];
 			this.width = width;
 			this.height = height;
-
-			//Open = new List<Node>();
-			Closed = new List<Node>();
-			Path = new List<Node>();
-			OpenHeap = new BinaryHeap<Node>(width * height);
 		}
+      #endregion
 
-#if !NETFX_CORE
+#if BLA //!NETFX_CORE
 		public void PrintFieldFile(string filename)
 		{
 			if (field == null)
@@ -159,22 +129,26 @@ namespace WinWarCS.Data.Game
 		}
 #endif
 
-		Node GetClosedNode(int nodeX, int nodeY)
+      #region Pathfinding
+      private AStarNode GetClosedNode(int nodeX, int nodeY, List<AStarNode> Closed)
 		{
-			foreach (Node n in Closed)
-				if (n.X == nodeX && n.Y == nodeY)
-					return n;
+         for (int i = 0; i < Closed.Count; i++) 
+         {
+            AStarNode n = Closed[i];
+            if (n.X == nodeX && n.Y == nodeY)
+               return n;
+         }
 
 			return null;
 		}
 
-		Node GetOpenHeapNode(int nodeX, int nodeY, out int index)
+      private AStarNode GetOpenHeapNode(int nodeX, int nodeY, BinaryHeap<AStarNode> OpenHeap, out int index)
 		{
 			index = -1;
 			int i;
 			for (i = 0; i < OpenHeap.Count; i++)
 			{
-				Node n = OpenHeap[i];
+				AStarNode n = OpenHeap[i];
 
 				if (n == null)
 					continue;
@@ -189,9 +163,9 @@ namespace WinWarCS.Data.Game
 			return null;
 		}
 
-		sbyte ProcessLowestNode()
+      private sbyte ProcessLowestNode(int endX, int endY, List<AStarNode> Closed, BinaryHeap<AStarNode> OpenHeap)
 		{
-			Node node = OpenHeap.Remove();
+			AStarNode node = OpenHeap.Remove();
 			Closed.Add(node);
 
 			if (node == null)
@@ -215,11 +189,11 @@ namespace WinWarCS.Data.Game
 					if (newX < 0 || newX >= width || newY < 0 || newY >= height)
 						continue;
 
-					if (field[newX, newY] > 0 || GetClosedNode(newX, newY) != null)
+               if (field[newX, newY] > 0 || GetClosedNode(newX, newY, Closed) != null)
 						continue;
 
 					int index = 0;
-					Node o_node = GetOpenHeapNode(newX, newY, out index);
+               AStarNode o_node = GetOpenHeapNode(newX, newY, OpenHeap, out index);
 					if (o_node != null)
 					{
 						// Node is already in the open list
@@ -237,7 +211,7 @@ namespace WinWarCS.Data.Game
 					{
 						// Node is NOT in the open list
 
-						Node n = new Node();
+						AStarNode n = new AStarNode();
 						n.X = node.X + x;
 						n.Y = node.Y + y;
 						n.parent = node;
@@ -259,19 +233,16 @@ namespace WinWarCS.Data.Game
 			return 0;
 		}
 
-		public bool FindPath()
+      public MapPath FindPath(int startX, int startY, int endX, int endY)
 		{
 			if (field == null)
-				return false;
+				return null;
 
-			//Open.Clear();
-			Closed.Clear();
-			Path.Clear();
-			OpenHeap.Clear();
+         List<AStarNode> Closed = new List<AStarNode>();
+         BinaryHeap<AStarNode> OpenHeap = new BinaryHeap<AStarNode>(width * height);
+         AStarNode Root;
 
-			steps = 0;
-
-			Root = new Node();
+			Root = new AStarNode();
 			Root.parent = null;
 			Root.X = startX;
 			Root.Y = startY;
@@ -282,54 +253,30 @@ namespace WinWarCS.Data.Game
 				Root.H = 14 * offY + 10 * (offX - offY);
 			else
 				Root.H = 14 * offX + 10 * (offY - offX);
-			//Root.H = Math.Abs(Root.X - endX) + Math.Abs(Root.Y - endY);
 			OpenHeap.Add(Root.F, Root);
-			//Open.Add(Root);
-			//ProcessNode(Root);
 
-			int res = ProcessLowestNode();
-			//int res = ProcessLowestF();
+         int res = ProcessLowestNode (endX, endY, Closed, OpenHeap);
 			while (res == 0)
 			{
-				steps++;
-				//res = ProcessLowestF();
-				res = ProcessLowestNode();
+				res = ProcessLowestNode(endX, endY, Closed, OpenHeap);
 			}
 
 			if (res == -1)
-				return false;
-
-			Node node = GetClosedNode(endX, endY);
-			Path.Add(node);
-			while (node.parent != null)
-			{
-				Path.Add(node);
-				node = node.parent;
-			}
-			Path.Reverse();
-
-			//OpenHeap.Clear();
-			//Closed.Clear();
-
-			return true;
-		}
-
-		public Node GetPathNode(int index)
-		{
-			if (index < 0 || index >= PathNodeCount)
 				return null;
 
-			return Path[index];
-		}
+         AStarNode node = GetClosedNode(endX, endY, Closed);
+         MapPath result = new MapPath ();
+         result.BuildFromFinalAStarNode (node);
 
+         return result;
+		}
+      #endregion
+
+      #region Properties
       public short this[int x, int y]
 		{
 			get { return field[y, x]; }
 			set { field[y, x] = value; }
-		}
-		public int Steps
-		{
-			get { return steps; }
 		}
 		public int Width
 		{
@@ -339,165 +286,6 @@ namespace WinWarCS.Data.Game
 		{
 			get { return height; }
 		}
-		public int StartX
-		{
-			get { return startX; }
-			set { startX = value; }
-		}
-		public int StartY
-		{
-			get { return startY; }
-			set { startY = value; }
-		}
-		public int EndX
-		{
-			get { return endX; }
-			set { endX = value; }
-		}
-		public int EndY
-		{
-			get { return endY; }
-			set { endY = value; }
-		}
-		public int PathNodeCount
-		{
-			get { return Path.Count; }
-		}
+      #endregion
 	}
 }
-
-#region Old code
-/*		static Node GetOpenNode(int nodeX, int nodeY)
-		{
-			foreach (Node n in Open)
-				if (n.X == nodeX && n.Y == nodeY)
-					return n;
-
-			return null;
-		}*/
-
-/*		static sbyte ProcessNode(Node node)
-		{
-			Open.Remove(node);
-			Closed.Add(node);
-
-			if (node.X == endX && node.Y == endY)
-				return 1;
-
-			int x, y;
-
-			for (y = -1; y <= 1; y++)
-			{
-				for (x = -1; x <= 1; x++)
-				{
-					if (x == 0 && y == 0)
-						continue;
-
-					int newX = node.X + x;
-					int newY = node.Y + y;
-
-					if (newX < 0 || newX >= Width || newY < 0 || newY >= Height)
-						continue;
-
-					if (field[newY, newX] == 1 || GetClosedNode(newX, newY) != null)
-						continue;
-
-					Node o_node = GetOpenNode(newX, newY);
-					if (o_node != null)
-					{
-						// Node ist bereits in der offenen Liste
-//						int G = node.G + SQRT[(Math.Abs(x) + Math.Abs(y))];
-						int G = node.G + SQRT[x * x + y * y];						
-
-						if (G < o_node.G)
-						{
-							o_node.parent = node;
-							o_node.G = G;
-						}
-					}
-					else
-					{
-						// Node ist NICHT in der offenen Liste
-
-						Node n = new Node();
-						n.X = node.X + x;
-						n.Y = node.Y + y;
-						n.parent = node;
-
-//						n.G = node.G + SQRT[(Math.Abs(x) + Math.Abs(y))];
-						n.G = node.G + SQRT[x * x + y * y];
-						n.H = (Math.Abs(n.X - endX) + Math.Abs(n.Y - endY)) * 10;
-
-						Open.Add(n);
-					}
-				}
-			}
-
-			return 0;
-		}
-
-		static sbyte ProcessLowestF()
-		{
-			int i, lowest;
-			Node CurNode = null;
-			lowest = int.MaxValue;
-			for (i = 0; i < Open.Count; i++)
-			{
-				if (Open[i].F < lowest)
-				{
-					CurNode = Open[i];
-					lowest = Open[i].F;
-				}
-			}
-			if (CurNode == null)
-				return -1;
-
-			Steps++;
-			return ProcessNode(CurNode);
-		}*/
-
-/*public void PrintField()
-{
-	if (field == null)
-		return;
-
-	int x, y;
-
-	Console.Clear();
-	Console.SetCursorPosition(0, 0);
-
-	for (y = 0; y < height; y++)
-	{
-		for (x = 0; x < width; x++)
-		{
-			Console.Write(field[y, x] == 1 ? "X" : ".");
-		}
-		Console.WriteLine();
-	}
-
-	Console.SetCursorPosition(startX, startY);
-	Console.Write("S");
-	Console.SetCursorPosition(endX, endY);
-	Console.Write("E");
-	Console.SetCursorPosition(0, height + 1);
-
-	foreach (Node n in OpenHeap)
-	{
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("O");
-	}
-	foreach (Node n in Closed)
-	{
-		if (n == null)
-			continue;
-
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("C");
-	}
-	foreach (Node n in Path)
-	{
-		Console.SetCursorPosition(n.X, n.Y + height + 1);
-		Console.Write("P");
-	}
-}*/
-#endregion

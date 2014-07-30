@@ -29,6 +29,8 @@ namespace WinWarCS.Data.Resources
 
 		internal override void CreateImageData(bool bForceGrayscale)
 		{
+         WarResource addPal = WarFile.GetResource (191);
+
 			unsafe
 			{
 				fixed (byte* org_ptr = &data.data[0])
@@ -70,6 +72,9 @@ namespace WinWarCS.Data.Resources
 								{
 									pal_index = b_ptr[x + y * width] * 3;
 
+                           if (this.data.resource_index == 280)
+                              Console.Write ((pal_index / 3).ToString(" 000"));
+
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 0] * 4);
 									cnt++;
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 1] * 4);
@@ -79,26 +84,17 @@ namespace WinWarCS.Data.Resources
                            image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
 									cnt++;
 
-									if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                                        (image_data[cnt - 4] == 228) &&
-										(image_data[cnt - 3] == 108) &&
-										(image_data[cnt - 2] == 228))
+									if ((image_data[cnt - 4] == 228) &&
+										 (image_data[cnt - 3] == 108) &&
+										 (image_data[cnt - 2] == 228))
 									{
-										image_data[cnt - 4] = KnowledgeBase.hardcoded_pal[pal_index];
-										image_data[cnt - 3] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
-									}
-
-                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                              (image_data[cnt - 4] == 204) &&
-										(image_data[cnt - 3] == 0) &&
-										(image_data[cnt - 2] == 212))
-									{
-										image_data[cnt - 4] = KnowledgeBase.hardcoded_pal[pal_index];
-										image_data[cnt - 3] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
+                              image_data[cnt - 4] = (byte)(addPal.data[pal_index] * 4);
+                              image_data[cnt - 3] = (byte)(addPal.data[pal_index + 1] * 4);
+                              image_data[cnt - 2] = (byte)(addPal.data[pal_index + 2] * 4);
 									}
 								}
+                        if (this.data.resource_index == 280)
+                           Console.WriteLine ();
 							}
 						}
 					}

@@ -95,8 +95,6 @@ namespace WinWarCS.Data.Game
          tilesetPal = setTilesetPal;
          tilesetType = setTilesetType;
 			
-         knownTilesets.Add (this);
-			
          CreateTiles ();
          CreateRoadTypes ();
       }
@@ -126,6 +124,8 @@ namespace WinWarCS.Data.Game
       #region CreateRoadTypes
       void CreateRoadTypes ()
       {
+         // TODO: Refactor me
+
          int offset = 0;
          switch (tilesetType) 
          {
@@ -186,11 +186,13 @@ namespace WinWarCS.Data.Game
          WarResource tiles = WarFile.GetResourceByName ("Barrens 2");
          WarResource tilesPAL = WarFile.GetResourceByName ("Barrens 3");
          MapTileset swamp = new MapTileset (Tileset.Swamp, tileset, tiles, tilesPAL);
+         knownTilesets.Add (swamp);
 
          tileset = WarFile.GetResourceByName ("Summer 1");
          tiles = WarFile.GetResourceByName ("Summer 2");
          tilesPAL = WarFile.GetResourceByName ("Summer 3");
          MapTileset summer = new MapTileset (Tileset.Summer, tileset, tiles, tilesPAL);
+         knownTilesets.Add (summer);
 
          if (WarFile.IsDemo == false)
          {
@@ -198,6 +200,7 @@ namespace WinWarCS.Data.Game
             tiles = WarFile.GetResourceByName ("Dungeon 2");
             tilesPAL = WarFile.GetResourceByName ("Dungeon 3");
             MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
+            knownTilesets.Add (dungeon);
          }
       }
       // LoadAllTilesets()
@@ -221,7 +224,9 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < 384; i++) {
             palette [i] = (byte)(palette [i] * 3);
          }
-         Array.Copy (KnowledgeBase.hardcoded_pal, 0, palette, 384, 384);
+         //Array.Copy (KnowledgeBase.hardcoded_pal, 0, palette, 384, 384);
+
+         //Array.Copy (KnowledgeBase.hardcoded_pal, 0, palette, 0, KnowledgeBase.hardcoded_pal.Length);
 			
          // Create tiles
          int numTiles = tileset.data.Length / 8;
@@ -268,139 +273,64 @@ namespace WinWarCS.Data.Game
 
       #region CreateTile
 
+      private unsafe void FillTileData(ushort offset, bool flipX, bool flipY, byte[] data, int baseX, int baseY)
+      {
+         int x, y, pos;
+
+         fixed (byte* org_ptr = &tiles.data[offset]) 
+         {
+            byte* b_ptr = org_ptr;
+
+            for (y = baseY; y < (8 + baseY); y++) 
+            {
+               for (x = baseX; x < (8 + baseX); x++) 
+               {
+                  int pal_index = *b_ptr;
+
+                  int xPos = (flipX ? baseX + ((7 + baseX) - x) : x);
+                  int yPos = (flipY ? baseY + ((7 + baseY) - y) : y);
+
+                  pos = (xPos + yPos * 16) * 4;
+                  data [pos + 0] = palette [pal_index * 3 + 0];
+                  data [pos + 1] = palette [pal_index * 3 + 1];
+                  data [pos + 2] = palette [pal_index * 3 + 2];
+                  data [pos + 3] = 255;
+
+                  if (data [pos + 0] < 255 - lightup)
+                     data [pos + 0] += lightup;
+                  else
+                     data [pos + 0] = 255;
+                  if (data [pos + 1] < 255 - lightup)
+                     data [pos + 1] += lightup;
+                  else
+                     data [pos + 1] = 255;
+                  if (data [pos + 2] < 255 - lightup)
+                     data [pos + 2] += lightup;
+                  else
+                     data [pos + 2] = 255;
+
+                  b_ptr++;
+               } // for
+            } // for
+         } // fixed
+      }
+
       /// <summary>
       /// Create tile
       /// </summary>
-      unsafe MapTile CreateTile (ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
+      private MapTile CreateTile (ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
                          ushort tile2, bool tile2_flip_x, bool tile2_flip_y,
                          ushort tile3, bool tile3_flip_x, bool tile3_flip_y,
                          ushort tile4, bool tile4_flip_x, bool tile4_flip_y)
       {
-         int x, y, pos;
          byte[] data = new byte[16 * 16 * 4];
 
-         // Tile 1
-         fixed (byte* org_ptr = &tiles.data[0]) {
-            byte* b_ptr = org_ptr;
-            b_ptr += tile1;
-            for (y = 0; y < 8; y++) {
-               for (x = 0; x < 8; x++) {
-                  pos = ((tile1_flip_x ? 7 - x : x) + (tile1_flip_y ? 7 - y : y) * 16) * 4;
-                  data [pos + 0] = palette [*b_ptr * 3 + 0];
-                  data [pos + 1] = palette [*b_ptr * 3 + 1];
-                  data [pos + 2] = palette [*b_ptr * 3 + 2];
-                  data [pos + 3] = 255;
+         FillTileData (tile1, tile1_flip_x, tile1_flip_y, data, 0, 0);
+         FillTileData (tile2, tile2_flip_x, tile2_flip_y, data, 8, 0);
+         FillTileData (tile3, tile3_flip_x, tile3_flip_y, data, 0, 8);
+         FillTileData (tile4, tile4_flip_x, tile4_flip_y, data, 8, 8);
 
-                  if (data [pos + 0] < 255 - lightup)
-                     data [pos + 0] += lightup;
-                  else
-                     data [pos + 0] = 255;
-                  if (data [pos + 1] < 255 - lightup)
-                     data [pos + 1] += lightup;
-                  else
-                     data [pos + 1] = 255;
-                  if (data [pos + 2] < 255 - lightup)
-                     data [pos + 2] += lightup;
-                  else
-                     data [pos + 2] = 255;
-
-                  b_ptr++;
-               } // for
-            } // for
-         } // fixed
-
-         // Tile 2
-         fixed (byte* org_ptr = &tiles.data[0]) {
-            byte* b_ptr = org_ptr;
-            b_ptr += tile2;
-            for (y = 0; y < 8; y++) {
-               for (x = 8; x < 16; x++) {
-                  pos = ((tile2_flip_x ? 8 + (15 - x) : x) + (tile2_flip_y ? 7 - y : y) * 16) * 4;
-                  data [pos + 0] = palette [*b_ptr * 3 + 0];
-                  data [pos + 1] = palette [*b_ptr * 3 + 1];
-                  data [pos + 2] = palette [*b_ptr * 3 + 2];
-                  data [pos + 3] = 255;
-
-                  if (data [pos + 0] < 255 - lightup)
-                     data [pos + 0] += lightup;
-                  else
-                     data [pos + 0] = 255;
-                  if (data [pos + 1] < 255 - lightup)
-                     data [pos + 1] += lightup;
-                  else
-                     data [pos + 1] = 255;
-                  if (data [pos + 2] < 255 - lightup)
-                     data [pos + 2] += lightup;
-                  else
-                     data [pos + 2] = 255;
-
-                  b_ptr++;
-               } // for
-            } // for
-         } // fixed
-
-         // Tile 3
-         fixed (byte* org_ptr = &tiles.data[0]) {
-            byte* b_ptr = org_ptr;
-            b_ptr += tile3;
-            for (y = 8; y < 16; y++) {
-               for (x = 0; x < 8; x++) {
-                  pos = ((tile3_flip_x ? 7 - x : x) + (tile3_flip_y ? 8 + (15 - y) : y) * 16) * 4;
-                  data [pos + 0] = palette [*b_ptr * 3 + 0];
-                  data [pos + 1] = palette [*b_ptr * 3 + 1];
-                  data [pos + 2] = palette [*b_ptr * 3 + 2];
-                  data [pos + 3] = 255;
-
-                  if (data [pos + 0] < 255 - lightup)
-                     data [pos + 0] += lightup;
-                  else
-                     data [pos + 0] = 255;
-                  if (data [pos + 1] < 255 - lightup)
-                     data [pos + 1] += lightup;
-                  else
-                     data [pos + 1] = 255;
-                  if (data [pos + 2] < 255 - lightup)
-                     data [pos + 2] += lightup;
-                  else
-                     data [pos + 2] = 255;
-
-                  b_ptr++;
-               } // for
-            } // for
-         } // fixed
-
-         // Tile 4
-         fixed (byte* org_ptr = &tiles.data[0]) {
-            byte* b_ptr = org_ptr;
-            b_ptr += tile4;
-            for (y = 8; y < 16; y++) {
-               for (x = 8; x < 16; x++) {
-                  pos = ((tile4_flip_x ? 8 + (15 - x) : x) + (tile4_flip_y ? 8 + (15 - y) : y) * 16) * 4;
-                  data [pos + 0] = palette [*b_ptr * 3 + 0];
-                  data [pos + 1] = palette [*b_ptr * 3 + 1];
-                  data [pos + 2] = palette [*b_ptr * 3 + 2];
-                  data [pos + 3] = 255;
-
-                  if (data [pos + 0] < 255 - lightup)
-                     data [pos + 0] += lightup;
-                  else
-                     data [pos + 0] = 255;
-                  if (data [pos + 1] < 255 - lightup)
-                     data [pos + 1] += lightup;
-                  else
-                     data [pos + 1] = 255;
-                  if (data [pos + 2] < 255 - lightup)
-                     data [pos + 2] += lightup;
-                  else
-                     data [pos + 2] = 255;
-
-                  b_ptr++;
-               } // for
-            } // for
-         } // fixed
-
-         MapTile res = new MapTile (data);
-         return res;
+         return new MapTile (data);
       }
       // CreateTile()
 

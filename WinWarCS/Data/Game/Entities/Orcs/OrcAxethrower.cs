@@ -2,12 +2,12 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class OrcAxethrower : Unit
+   internal class OrcCatapult : Unit
    {
-      public OrcAxethrower (Map currentMap)
+      public OrcCatapult (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Axethrower")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Catapult")));
       }
    }
 }

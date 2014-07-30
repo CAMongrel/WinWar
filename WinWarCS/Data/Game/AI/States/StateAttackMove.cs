@@ -18,8 +18,8 @@ namespace WinWarCS.Data.Game
 
       internal double moveTimer;
 
-      internal List<Node> Path;
-      internal List<Node> TargetPath;
+      internal MapPath Path;
+      internal MapPath TargetPath;
 
       internal StateAttackMove(Entity Owner, int X, int Y)
          : base(Owner)
@@ -77,7 +77,7 @@ namespace WinWarCS.Data.Game
                return;
             }
 
-            Node node = Path[curNodeIdx++];
+            IMapPathNode node = Path[curNodeIdx++];
             // TODO!!! Move, not Set
             Owner.SetPosition (node.X, node.Y);
             return;
@@ -127,7 +127,7 @@ namespace WinWarCS.Data.Game
                curNodeIdx = 0;
             }
 
-            Node node = TargetPath[curNodeIdx++];
+            IMapPathNode node = TargetPath[curNodeIdx++];
             // TODO!!! Move, not Set
             Owner.SetPosition (node.X, node.Y);
          }

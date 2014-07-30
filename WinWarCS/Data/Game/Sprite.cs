@@ -102,7 +102,7 @@ namespace WinWarCS.Data.Game
             frames [i].OffsetY = resource.Frames [i].disp_y;
             frames [i].Width = resource.Frames [i].width;
             frames [i].Height = resource.Frames [i].height;
-            frames[i].texture = WWTexture.FromDXTexture(DXTexture);
+            frames [i].texture = WWTexture.FromDXTexture(DXTexture);
          }
       }
 

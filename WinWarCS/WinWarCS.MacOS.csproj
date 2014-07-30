@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -174,6 +174,8 @@
     <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs">
+    </Compile>
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\AI\AStar.cs" />
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
@@ -195,6 +197,20 @@
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\AI\MapPath.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

@@ -14,7 +14,7 @@ namespace WinWarCS.Data.Game
 
       internal int curNodeIdx;
 
-      internal List<Node> Path;
+      internal MapPath Path;
 
       internal StateAttack(Entity Owner, Entity Target)
          : base(Owner)
@@ -105,7 +105,7 @@ namespace WinWarCS.Data.Game
 
             if (curNodeIdx < Path.Count)
             {
-               Node node = Path[curNodeIdx++];
+               IMapPathNode node = Path[curNodeIdx++];
                // TODO!!! Move, not Set
                Owner.SetPosition (node.X, node.Y);
             }

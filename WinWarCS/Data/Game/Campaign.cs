@@ -9,23 +9,34 @@ namespace WinWarCS.Data.Game
    class Campaign
    {
       public int Level { get; private set; }
+      public int MaxLevels { get; private set; }
 
       private BasePlayer curPlayer;
 
       internal Campaign (BasePlayer refPlayer)
       {
+         MaxLevels = 12;
+         if (WarFile.IsDemo)
+            MaxLevels = 3;
+
          curPlayer = refPlayer;
-         Level = 1;
+
+         StartNew ();
       }
 
       internal void StartNew()
       {
-         Level = 1;
+         Level = MaxLevels;
       }
 
       internal void AdvanceNextLevel()
       {
          Level++;
+
+         if (Level > MaxLevels) 
+         {
+            // TODO: End campaign
+         }
       }
 
       public string GetCurrentLevelName ()

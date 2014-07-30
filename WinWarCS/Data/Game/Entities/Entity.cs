@@ -487,6 +487,22 @@ namespace WinWarCS.Data.Game
             result = new OrcAxethrower (inMap);
             break;
 
+         case LevelObjectType.Catapult:
+            result = new OrcCatapult (inMap);
+            break;
+
+         case LevelObjectType.Rider:
+            result = new OrcRider (inMap);
+            break;
+
+         case LevelObjectType.Necrolyte:
+            result = new OrcNecro (inMap);
+            break;
+
+         case LevelObjectType.Warlock:
+            result = new OrcWizard (inMap);
+            break;
+
             // Human Units
          case LevelObjectType.Peasant:
             result = new HumanPeasant (inMap);
@@ -498,6 +514,22 @@ namespace WinWarCS.Data.Game
 
          case LevelObjectType.Bowman:
             result = new HumanArcher (inMap);
+            break;
+
+         case LevelObjectType.Ballista:
+            result = new HumanBalista (inMap);
+            break;
+
+         case LevelObjectType.Conjurer:
+            result = new HumanConjurer (inMap);
+            break;
+
+         case LevelObjectType.Knight:
+            result = new HumanKnight (inMap);
+            break;
+
+         case LevelObjectType.Cleric:
+            result = new HumanPriest (inMap);
             break;
 
             // Orc Buildings
@@ -516,6 +548,34 @@ namespace WinWarCS.Data.Game
 
          case LevelObjectType.Human_HQ:
             result = new HumanBase (inMap);
+            break;
+
+         case LevelObjectType.Human_Barracks:
+            result = new HumanBarracks (inMap);
+            break;
+
+         case LevelObjectType.Human_Blacksmith:
+            result = new HumanSmith (inMap);
+            break;
+
+         case LevelObjectType.Human_Church:
+            result = new HumanChurch (inMap);
+            break;
+
+         case LevelObjectType.Human_Mill:
+            result = new HumanBarracks (inMap);
+            break;
+
+         case LevelObjectType.Human_Stables:
+            result = new HumanStables (inMap);
+            break;
+
+         case LevelObjectType.Human_Tower:
+            result = new HumanTower (inMap);
+            break;
+
+         case LevelObjectType.Stormwind:
+            result = new HumanStormwind (inMap);
             break;
 
             // Neutral
