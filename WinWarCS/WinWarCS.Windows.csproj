@@ -51,6 +51,7 @@
     <None Include="Assets\SpriteFont1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Data\Game\AI\MapPath.cs" />
     <Compile Include="Data\Game\AI\StateMachine.cs" />
     <Compile Include="Data\Game\AI\States\BaseState.cs" />
     <Compile Include="Data\Game\AI\States\StateAttack.cs" />
@@ -65,17 +66,31 @@
     <Compile Include="Data\Game\Entities\Building.cs" />
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\Map.cs" />
