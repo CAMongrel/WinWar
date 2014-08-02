@@ -113,7 +113,7 @@ namespace WinWarCS.Gui
       #region InitWithTextResource
       internal void InitWithTextResource(string name)
       {
-         int idx = KnowledgeBase.IndexByName(name);
+         int idx = WarFile.KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return;
 
@@ -152,7 +152,7 @@ namespace WinWarCS.Gui
       #region FromTextResource
       internal static UIWindow FromTextResource(string name)
       {
-         int idx = KnowledgeBase.IndexByName(name);
+         int idx = WarFile.KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return null;
 

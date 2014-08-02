@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcAxethrower (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Axethrower")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Axethrower")));
       }
    }
 }

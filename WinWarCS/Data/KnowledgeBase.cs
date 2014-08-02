@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using WinWarCS.Data.Game;
 
 namespace WinWarCS.Data
 {
@@ -25,21 +26,12 @@ namespace WinWarCS.Data
       FileTiles,
    }
 
-   internal enum Tileset : int
-   {
-      Summer,
-      Swamp,
-      Dungeon
-   }
-
-   internal struct KnowledgeEntry
+   internal class KnowledgeEntry
    {
       internal int id;
       internal ContentFileType type;
       internal int param;
       internal string text;
-
-      #region KnowledgeEntry
 
       internal KnowledgeEntry (int id, ContentFileType type, int param, string text)
       {
@@ -48,15 +40,13 @@ namespace WinWarCS.Data
          this.param = param;
          this.text = text;
       }
-
-      #endregion
-
    }
 
    internal class KnowledgeBase
    {
-      //internal const int KB_Size = 370;
-      internal static KnowledgeEntry[] KB_List = {
+      #region KnowledgeBase definitions
+      #region Retail
+      private static KnowledgeEntry[] KnowledgeBaseRetail = {
          new KnowledgeEntry (0, ContentFileType.FileXMID, 0, "Music0"),
          new KnowledgeEntry (1, ContentFileType.FileXMID, 0, "Music1"),
          new KnowledgeEntry (2, ContentFileType.FileXMID, 0, "Music2"),
@@ -176,35 +166,6 @@ namespace WinWarCS.Data
          new KnowledgeEntry (116, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 8 (Passable)"),
          new KnowledgeEntry (117, ContentFileType.FileLevelInfo, 0x00E7, "Humans 1"),
          new KnowledgeEntry (118, ContentFileType.FileLevelInfo, 0x0111, "Orcs 1"),
-/*
-FileLevelInfo:
-Offset				Data
-------------------------------------------------
-0x0000				Unbekannte Daten (Header)		(Length 0x36)
-0x003A				Unbekannte Daten				(Length 0x20)
-0x005C				Initial amount: Lumber
-0x0070				Initial amount: Gold
-0x0094				Offset of mission text
-0x					   Offset of mission data (Buildings, Units, etc...)
-	(z.B. bei 0x0111 in 118)
-
-0x00CC				X-Position der "Kamera" (multipliziert mit 2)
-0x00CE				Y-Position der "Kamera" (multipliziert mit 2)
-
-Wege (5 bytes pro Weg)
-2 bytes: X,Y vom Anfang (mul 2)
-2 bytes: X,Y vom Ende (mul 2)
-1 byte: ???? (Owner vielleicht?)
-
-Einheiten/Gebäude (4 (bzw.6) bytes lang):
-1 byte: X-Position (mul 2)
-1 byte: Y-Position (mul 2)
-1 byte: Typ
-1 byte: Seite (0 = Player; 1 = Computer, 4 = Neutral)
-Wenn Typ==32 (Goldmine)
-1 byte: 0xFE
-1 byte: Menge an Gold (multiply by 250)
-*/
          new KnowledgeEntry (119, ContentFileType.FileLevelInfo, 0x00E7, "Humans 2"),
          new KnowledgeEntry (120, ContentFileType.FileLevelInfo, 0x0111, "Orcs 2"),
          new KnowledgeEntry (121, ContentFileType.FileLevelInfo, 0x0183, "Humans 3"),
@@ -573,66 +534,622 @@ Wenn Typ==32 (Goldmine)
          new KnowledgeEntry (484, ContentFileType.FileVOC, 0, "Unknown"),
          new KnowledgeEntry (485, ContentFileType.FileWave, 0, "Clicking noise")
       };
-      static Dictionary<string, int> hashes;
+      #endregion
 
-      #region KnowledgeBase
+      #region CD Retail extensions
+      private static KnowledgeEntry[] KnowledgeBaseRetailCD = {
+      };
+      #endregion
 
-      static KnowledgeBase ()
+      #region Demo
+      private static KnowledgeEntry[] KnowledgeBaseDemo = {
+         new KnowledgeEntry (0, ContentFileType.FileXMID, 0, "Music0"),
+         new KnowledgeEntry (1, ContentFileType.FileXMID, 0, "Music1"),
+         new KnowledgeEntry (2, ContentFileType.FileXMID, 0, "Music2"),
+         new KnowledgeEntry (3, ContentFileType.FileXMID, 0, "Music3"),
+         new KnowledgeEntry (4, ContentFileType.FileXMID, 0, "Music4"),
+         new KnowledgeEntry (5, ContentFileType.FileXMID, 0, "Music5"),
+         new KnowledgeEntry (6, ContentFileType.FileXMID, 0, "Music6"),
+         new KnowledgeEntry (7, ContentFileType.FileXMID, 0, "Music7"),
+         new KnowledgeEntry (8, ContentFileType.FileXMID, 0, "Music8"),
+         new KnowledgeEntry (9, ContentFileType.FileXMID, 0, "Music9"),
+         new KnowledgeEntry (10, ContentFileType.FileXMID, 0, "Music10"),
+         new KnowledgeEntry (11, ContentFileType.FileXMID, 0, "Music11"),
+         new KnowledgeEntry (12, ContentFileType.FileXMID, 0, "Music12"),
+         new KnowledgeEntry (13, ContentFileType.FileXMID, 0, "Music13"),
+         new KnowledgeEntry (14, ContentFileType.FileXMID, 0, "Music14"),
+         new KnowledgeEntry (15, ContentFileType.FileXMID, 0, "Music15"),
+         new KnowledgeEntry (16, ContentFileType.FileXMID, 0, "Music16"),
+         new KnowledgeEntry (17, ContentFileType.FileXMID, 0, "Music17"),
+         new KnowledgeEntry (18, ContentFileType.FileXMID, 0, "Music18"),
+         new KnowledgeEntry (19, ContentFileType.FileXMID, 0, "Music19"),
+         new KnowledgeEntry (20, ContentFileType.FileXMID, 0, "Music20"),
+         new KnowledgeEntry (21, ContentFileType.FileXMID, 0, "Music21"),
+         new KnowledgeEntry (22, ContentFileType.FileXMID, 0, "Music22"),
+         new KnowledgeEntry (23, ContentFileType.FileXMID, 0, "Music23"),
+         new KnowledgeEntry (24, ContentFileType.FileXMID, 0, "Music24"),
+         new KnowledgeEntry (25, ContentFileType.FileXMID, 0, "Music25"),
+         new KnowledgeEntry (26, ContentFileType.FileXMID, 0, "Music26"),
+         new KnowledgeEntry (27, ContentFileType.FileXMID, 0, "Music27"),
+         new KnowledgeEntry (28, ContentFileType.FileXMID, 0, "Music28"),
+         new KnowledgeEntry (29, ContentFileType.FileXMID, 0, "Music29"),
+         new KnowledgeEntry (30, ContentFileType.FileXMID, 0, "Music30"),
+         new KnowledgeEntry (31, ContentFileType.FileXMID, 0, "Music31"),
+         new KnowledgeEntry (32, ContentFileType.FileXMID, 0, "Music32"),
+         new KnowledgeEntry (33, ContentFileType.FileXMID, 0, "Music33"),
+         new KnowledgeEntry (34, ContentFileType.FileXMID, 0, "Music34"),
+         new KnowledgeEntry (35, ContentFileType.FileXMID, 0, "Music35"),
+         new KnowledgeEntry (36, ContentFileType.FileXMID, 0, "Music36"),
+         new KnowledgeEntry (37, ContentFileType.FileXMID, 0, "Music37"),
+         new KnowledgeEntry (38, ContentFileType.FileXMID, 0, "Music38"),
+         new KnowledgeEntry (39, ContentFileType.FileXMID, 0, "Music39"),
+         new KnowledgeEntry (40, ContentFileType.FileXMID, 0, "Music40"),
+         new KnowledgeEntry (41, ContentFileType.FileXMID, 0, "Music41"),
+         new KnowledgeEntry (42, ContentFileType.FileXMID, 0, "Music42"),
+         new KnowledgeEntry (43, ContentFileType.FileXMID, 0, "Music43"),
+         new KnowledgeEntry (44, ContentFileType.FileXMID, 0, "Music44"),
+         new KnowledgeEntry (45, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Orcs 11 (Visual)"),
+         new KnowledgeEntry (46, ContentFileType.FileLevelPassable, 0, "Orcs 11 (Passable)"),
+         new KnowledgeEntry (47, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Humans 6 (Visual)"),
+         new KnowledgeEntry (48, ContentFileType.FileLevelPassable, 0, "Humans 6 (Passable)"),
+         new KnowledgeEntry (49, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Orcs 3 (Visual)"),
+         new KnowledgeEntry (50, ContentFileType.FileLevelPassable, 0, "Orcs 3 (Passable)"),
+         new KnowledgeEntry (51, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Custom Forest 1 (Visual)"),
+         new KnowledgeEntry (52, ContentFileType.FileLevelPassable, 0, "Custom Forest 1 (Passable)"),
+         new KnowledgeEntry (53, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Orcs 10 (Visual)"),
+         new KnowledgeEntry (54, ContentFileType.FileLevelPassable, 0, "Orcs 10 (Passable)"),
+         new KnowledgeEntry (55, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Humans 2 (Visual)"),
+         new KnowledgeEntry (56, ContentFileType.FileLevelPassable, 0, "Humans 2 (Passable)"),
+         new KnowledgeEntry (57, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Humans 5 (Visual)"),
+         new KnowledgeEntry (58, ContentFileType.FileLevelPassable, 0, "Humans 5 (Passable)"),
+         new KnowledgeEntry (59, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Orcs 12 (Visual)"),
+         new KnowledgeEntry (60, ContentFileType.FileLevelPassable, 0, "Orcs 12 (Passable)"),
+         new KnowledgeEntry (61, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Custom Forest 2 (Visual)"),
+         new KnowledgeEntry (62, ContentFileType.FileLevelPassable, 0, "Custom Forest 2 (Passable)"),
+         new KnowledgeEntry (63, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Humans 1 (Visual)"),
+         new KnowledgeEntry (64, ContentFileType.FileLevelPassable, 0, "Humans 1 (Passable)"),
+         new KnowledgeEntry (65, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Orcs 6 (Visual)"),
+         new KnowledgeEntry (66, ContentFileType.FileLevelPassable, 0, "Orcs 6 (Passable)"),
+         new KnowledgeEntry (67, ContentFileType.FileLevelVisual, (int)Tileset.Summer, "Humans 7 (Visual)"),
+         new KnowledgeEntry (68, ContentFileType.FileLevelPassable, 0, "Humans 7 (Passable)"),
+         new KnowledgeEntry (69, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Humans 3 (Visual)"),
+         new KnowledgeEntry (70, ContentFileType.FileLevelPassable, 0, "Humans 3 (Passable)"),
+         new KnowledgeEntry (71, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Humans 9 (Visual)"),
+         new KnowledgeEntry (72, ContentFileType.FileLevelPassable, 0, "Humans 9 (Passable)"),
+         new KnowledgeEntry (73, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Humans 10 (Visual)"),
+         new KnowledgeEntry (74, ContentFileType.FileLevelPassable, 0, "Humans 10 (Passable)"),
+         new KnowledgeEntry (75, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Humans 11 (Visual)"),
+         new KnowledgeEntry (76, ContentFileType.FileLevelPassable, 0, "Humans 11 (Passable)"),
+         new KnowledgeEntry (77, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Humans 12 (Visual)"),
+         new KnowledgeEntry (78, ContentFileType.FileLevelPassable, 0, "Humans 12 (Passable)"),
+         new KnowledgeEntry (79, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Orcs 1 (Visual)"),
+         new KnowledgeEntry (80, ContentFileType.FileLevelPassable, 0, "Orcs 1 (Passable)"),
+         new KnowledgeEntry (81, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Orcs 2 (Visual)"),
+         new KnowledgeEntry (82, ContentFileType.FileLevelPassable, 0, "Orcs 2 (Passable)"),
+         new KnowledgeEntry (83, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Orcs 5 (Visual)"),
+         new KnowledgeEntry (84, ContentFileType.FileLevelPassable, 0, "Orcs 5 (Passable)"),
+         new KnowledgeEntry (85, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Orcs 7 (Visual)"),
+         new KnowledgeEntry (86, ContentFileType.FileLevelPassable, 0, "Orcs 7 (Passable)"),
+         new KnowledgeEntry (87, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Orcs 9 (Visual)"),
+         new KnowledgeEntry (88, ContentFileType.FileLevelPassable, 0, "Orcs 9 (Passable)"),
+         new KnowledgeEntry (89, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Custom Swamp 1 (Visual)"),
+         new KnowledgeEntry (90, ContentFileType.FileLevelPassable, 0, "Custom Swamp 1 (Passable)"),
+         new KnowledgeEntry (91, ContentFileType.FileLevelVisual, (int)Tileset.Swamp, "Custom Swamp 2 (Visual)"),
+         new KnowledgeEntry (92, ContentFileType.FileLevelPassable, 0, "Custom Swamp 2 (Passable)"),
+         new KnowledgeEntry (93, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Orcs 4 (Visual)"),
+         new KnowledgeEntry (94, ContentFileType.FileLevelPassable, 0, "Orcs 4 (Passable)"),
+         new KnowledgeEntry (95, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Humans 8 (Visual)"),
+         new KnowledgeEntry (96, ContentFileType.FileLevelPassable, 0, "Humans 8 (Passable)"),
+         new KnowledgeEntry (97, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Humans 4 (Visual)"),
+         new KnowledgeEntry (98, ContentFileType.FileLevelPassable, 0, "Humans 4 (Passable)"),
+         new KnowledgeEntry (99, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Orcs 8 (Visual)"),
+         new KnowledgeEntry (100, ContentFileType.FileLevelPassable, 0, "Orcs 8 (Passable)"),
+         new KnowledgeEntry (101, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 1 (Visual)"),
+         new KnowledgeEntry (102, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 1 (Passable)"),
+         new KnowledgeEntry (103, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 2 (Visual)"),
+         new KnowledgeEntry (104, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 2 (Passable)"),
+         new KnowledgeEntry (105, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 3 (Visual)"),
+         new KnowledgeEntry (106, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 3 (Passable)"),
+         new KnowledgeEntry (107, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 4 (Visual)"),
+         new KnowledgeEntry (108, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 4 (Passable)"),
+         new KnowledgeEntry (109, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 5 (Visual)"),
+         new KnowledgeEntry (110, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 5 (Passable)"),
+         new KnowledgeEntry (111, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 6 (Visual)"),
+         new KnowledgeEntry (112, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 6 (Passable)"),
+         new KnowledgeEntry (113, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 7 (Visual)"),
+         new KnowledgeEntry (114, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 7 (Passable)"),
+         new KnowledgeEntry (115, ContentFileType.FileLevelVisual, (int)Tileset.Dungeon, "Custom Dungeon 8 (Visual)"),
+         new KnowledgeEntry (116, ContentFileType.FileLevelPassable, 0, "Custom Dungeon 8 (Passable)"),
+         new KnowledgeEntry (117, ContentFileType.FileLevelInfo, 0x00E7, "Humans 1"),
+         new KnowledgeEntry (118, ContentFileType.FileLevelInfo, 0x0111, "Orcs 1"),
+         new KnowledgeEntry (119, ContentFileType.FileLevelInfo, 0x00E7, "Humans 2"),
+         new KnowledgeEntry (120, ContentFileType.FileLevelInfo, 0x0111, "Orcs 2"),
+         new KnowledgeEntry (121, ContentFileType.FileLevelInfo, 0x0183, "Humans 3"),
+         new KnowledgeEntry (122, ContentFileType.FileLevelInfo, 0x0111, "Orcs 3"),
+         new KnowledgeEntry (123, ContentFileType.FileLevelInfo, 0x00EA, "Humans 4"),
+         new KnowledgeEntry (124, ContentFileType.FileLevelInfo, 0x0111, "Orcs 4"),
+         new KnowledgeEntry (125, ContentFileType.FileLevelInfo, 0x0141, "Humans 5"),
+         new KnowledgeEntry (126, ContentFileType.FileLevelInfo, 0x0135, "Orcs 5"),
+         new KnowledgeEntry (127, ContentFileType.FileLevelInfo, 0x015F, "Humans 6"),
+         new KnowledgeEntry (128, ContentFileType.FileLevelInfo, 0x0141, "Orcs 6"),
+         new KnowledgeEntry (129, ContentFileType.FileLevelInfo, 0x0147, "Humans 7"),
+         new KnowledgeEntry (130, ContentFileType.FileLevelInfo, 0x0135, "Orcs 7"),
+         new KnowledgeEntry (131, ContentFileType.FileLevelInfo, 0x00E7, "Humans 8"),
+         new KnowledgeEntry (132, ContentFileType.FileLevelInfo, 0x0114, "Orcs 8"),
+         new KnowledgeEntry (133, ContentFileType.FileLevelInfo, 0x010B, "Humans 9"),
+         new KnowledgeEntry (134, ContentFileType.FileLevelInfo, 0x0177, "Orcs 9"),
+         new KnowledgeEntry (135, ContentFileType.FileLevelInfo, 0x011D, "Humans 10"),
+         new KnowledgeEntry (136, ContentFileType.FileLevelInfo, 0x00FF, "Orcs 10"),
+         new KnowledgeEntry (137, ContentFileType.FileLevelInfo, 0x014D, "Humans 11"),
+         new KnowledgeEntry (138, ContentFileType.FileLevelInfo, 0x0153, "Orcs 11"),
+         new KnowledgeEntry (139, ContentFileType.FileLevelInfo, 0x00FF, "Humans 12"),
+         new KnowledgeEntry (140, ContentFileType.FileLevelInfo, 0x0129, "Orcs 12"),
+         new KnowledgeEntry (141, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (142, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (143, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (144, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (145, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (146, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (147, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (148, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (149, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (150, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (151, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (152, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (153, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (154, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (155, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (156, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (157, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (158, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (159, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (160, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (161, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (162, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (163, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (164, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (165, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (166, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (167, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (168, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (169, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (170, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (171, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (172, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (173, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (174, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (175, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (176, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (177, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (178, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (179, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (180, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (181, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (182, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (183, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (184, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (185, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (186, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (187, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (188, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (189, ContentFileType.FileTileSet, 0, "Summer 1"),
+         new KnowledgeEntry (190, ContentFileType.FileTiles, 0, "Summer 2"),
+         new KnowledgeEntry (191, ContentFileType.FilePaletteShort, 0, "Summer 3"),
+         new KnowledgeEntry (192, ContentFileType.FileTileSet, 0, "Barrens 1"),
+         new KnowledgeEntry (193, ContentFileType.FileTiles, 0, "Barrens 2"),
+         new KnowledgeEntry (194, ContentFileType.FilePaletteShort, 0, "Barrens 3"),
+         new KnowledgeEntry (195, ContentFileType.FileTileSet, 0, "Dungeon 1"),
+         new KnowledgeEntry (196, ContentFileType.FileTiles, 0, "Dungeon 2"),
+         new KnowledgeEntry (197, ContentFileType.FilePaletteShort, 0, "Dungeon 3"),
+         new KnowledgeEntry (198, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (199, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (200, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (201, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (202, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (203, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (204, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (205, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (206, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (207, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (208, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (209, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (210, ContentFileType.FilePaletteShort, 0, "Unknown"),
+         new KnowledgeEntry (211, ContentFileType.FilePaletteShort, 0, "Unknown"),
+         new KnowledgeEntry (212, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (213, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (214, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (215, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (216, ContentFileType.FileImage, 217, "Background 'Blizzard'"),
+         new KnowledgeEntry (217, ContentFileType.FilePalette, 0, "For Background"),
+         new KnowledgeEntry (218, ContentFileType.FileImage, 255, "Topbar (Humans)"),
+         new KnowledgeEntry (219, ContentFileType.FileImage, 217, "Topbar (Orcs)"),
+         new KnowledgeEntry (220, ContentFileType.FileImage, 255, "Sidebar Right (Humans)"),
+         new KnowledgeEntry (221, ContentFileType.FileImage, 217, "Sidebar Right (Orcs)"),
+         new KnowledgeEntry (222, ContentFileType.FileImage, 255, "Lower Bar (Humans)"),
+         new KnowledgeEntry (223, ContentFileType.FileImage, 217, "Lower Bar (Orcs)"),
+         new KnowledgeEntry (224, ContentFileType.FileImage, 255, "Sidebar Left Minimap Empty (Humans)"),
+         new KnowledgeEntry (225, ContentFileType.FileImage, 217, "Sidebar Left Minimap Empty (Orcs)"),
+         new KnowledgeEntry (226, ContentFileType.FileImage, 255, "Sidebar Left (Humans)"),
+         new KnowledgeEntry (227, ContentFileType.FileImage, 217, "Sidebar Left (Orcs)"),
+         new KnowledgeEntry (228, ContentFileType.FileImage, 255, "Sidebar Left Minimap Black (Humans)"),
+         new KnowledgeEntry (229, ContentFileType.FileImage, 217, "Sidebar Left Minimap Black (Orcs)"),
+         new KnowledgeEntry (230, ContentFileType.FileText, 0, "Warcraft CD"),
+         new KnowledgeEntry (231, ContentFileType.FileText, 0, "Purchase the Retail Version of Warcraft"),
+         new KnowledgeEntry (232, ContentFileType.FileText, 0, "Purchase the Retail Version of Warcraft"),
+         new KnowledgeEntry (233, ContentFileType.FileImage, 255, "Large Box (Humans)"),
+         new KnowledgeEntry (234, ContentFileType.FileImage, 217, "Large Box (Orcs)"),
+         new KnowledgeEntry (235, ContentFileType.FileImage, 255, "Small Box (Humans)"),
+         new KnowledgeEntry (236, ContentFileType.FileImage, 217, "Small Box (Orcs)"),
+         new KnowledgeEntry (237, ContentFileType.FileImage, 260, "Large Button"),
+         new KnowledgeEntry (238, ContentFileType.FileImage, 260, "Large Button (Clicked)"),
+         new KnowledgeEntry (239, ContentFileType.FileImage, 260, "Medium Button"),
+         new KnowledgeEntry (240, ContentFileType.FileImage, 260, "Medium Button (Clicked)"),
+         new KnowledgeEntry (241, ContentFileType.FileImage, 260, "Small Button"),
+         new KnowledgeEntry (242, ContentFileType.FileImage, 260, "Small Button (Clicked)"),
+         new KnowledgeEntry (243, ContentFileType.FileImage, 260, "Mainmenu Background Lower Part"),
+         new KnowledgeEntry (244, ContentFileType.FileImage, 217, "Button Arrow Left"),
+         new KnowledgeEntry (245, ContentFileType.FileImage, 217, "Button Arrow Left, Grey"),
+         new KnowledgeEntry (246, ContentFileType.FileImage, 217, "Button Arrow Right"),
+         new KnowledgeEntry (247, ContentFileType.FileImage, 217, "Button Arrow Right, Grey"),
+         new KnowledgeEntry (248, ContentFileType.FileImage, 217, "Window Border"),
+         new KnowledgeEntry (249, ContentFileType.FileImage, 217, "Saving/Loading Screen (Humans)"),
+         new KnowledgeEntry (250, ContentFileType.FileImage, 217, "Saving/Loading Screen (Orcs)"),
+         new KnowledgeEntry (251, ContentFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry (252, ContentFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry (253, ContentFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry (254, ContentFileType.FileImage, 255, "Hot keys"),
+         new KnowledgeEntry (255, ContentFileType.FilePalette, 0, "Humans"),
+         new KnowledgeEntry (256, ContentFileType.FileImage, 255, "Button 'ok'"),
+         new KnowledgeEntry (257, ContentFileType.FileImage, 255, "Button 'ok' 2"),
+         new KnowledgeEntry (258, ContentFileType.FileImage, 260, "Text 'WarCraft'"),
+         new KnowledgeEntry (259, ContentFileType.FileText, 0, "Main Menu Text"),
+         new KnowledgeEntry (260, ContentFileType.FilePalette, 0, "Unknown"),
+         new KnowledgeEntry (261, ContentFileType.FileImage, 260, "Mainmenu Background"),
+         new KnowledgeEntry (262, ContentFileType.FilePalette, 0, "Pointer Palette"),
+         new KnowledgeEntry (263, ContentFileType.FileCursor, 262, "Normal Pointer"),
+         new KnowledgeEntry (264, ContentFileType.FileCursor, 262, "Not allowed"),
+         new KnowledgeEntry (265, ContentFileType.FileCursor, 262, "Crosshair Orange"),
+         new KnowledgeEntry (266, ContentFileType.FileCursor, 262, "Crosshair Red"),
+         new KnowledgeEntry (267, ContentFileType.FileCursor, 262, "Crosshair Orange 2"),
+         new KnowledgeEntry (268, ContentFileType.FileCursor, 262, "Magnifier"),
+         new KnowledgeEntry (269, ContentFileType.FileCursor, 262, "Crosshair Green"),
+         new KnowledgeEntry (270, ContentFileType.FileCursor, 262, "Loading..."),
+         new KnowledgeEntry (271, ContentFileType.FileCursor, 262, "Scroll Top"),
+         new KnowledgeEntry (272, ContentFileType.FileCursor, 262, "Scroll Topright"),
+         new KnowledgeEntry (273, ContentFileType.FileCursor, 262, "Scroll Right"),
+         new KnowledgeEntry (274, ContentFileType.FileCursor, 262, "Scroll Bottomright"),
+         new KnowledgeEntry (275, ContentFileType.FileCursor, 262, "Scroll Bottom"),
+         new KnowledgeEntry (276, ContentFileType.FileCursor, 262, "Scroll Bottomleft"),
+         new KnowledgeEntry (277, ContentFileType.FileCursor, 262, "Scroll Left"),
+         new KnowledgeEntry (278, ContentFileType.FileCursor, 262, "Scroll Topleft"),
+         new KnowledgeEntry (279, ContentFileType.FileSprite, 217, "Human Warrior"),
+         new KnowledgeEntry (280, ContentFileType.FileSprite, 217, "Orc Grunt"),
+         new KnowledgeEntry (281, ContentFileType.FileSprite, 217, "Human Peasant"),
+         new KnowledgeEntry (282, ContentFileType.FileSprite, 217, "Orc Peon"),
+         new KnowledgeEntry (283, ContentFileType.FileSprite, 217, "Human Catapult"),
+         new KnowledgeEntry (284, ContentFileType.FileSprite, 217, "Orc Catapult"),
+         new KnowledgeEntry (285, ContentFileType.FileSprite, 217, "Human Knight"),
+         new KnowledgeEntry (286, ContentFileType.FileSprite, 217, "Orc Rider"),
+         new KnowledgeEntry (287, ContentFileType.FileSprite, 217, "Human Bowman"),
+         new KnowledgeEntry (288, ContentFileType.FileSprite, 217, "Orc Axethrower"),
+         new KnowledgeEntry (289, ContentFileType.FileSprite, 217, "Human Wizard"),
+         new KnowledgeEntry (290, ContentFileType.FileSprite, 217, "Orc Wizard"),
+         new KnowledgeEntry (291, ContentFileType.FileSprite, 217, "Human Priest"),
+         new KnowledgeEntry (292, ContentFileType.FileSprite, 217, "Orc Necro"),
+         new KnowledgeEntry (293, ContentFileType.FileSprite, 217, "Medivh"),
+         new KnowledgeEntry (294, ContentFileType.FileSprite, 217, "Lothar"),
+         new KnowledgeEntry (295, ContentFileType.FileSprite, 217, "Wounded"),
+         new KnowledgeEntry (296, ContentFileType.FileSprite, 217, "Garana"),
+         new KnowledgeEntry (297, ContentFileType.FileSprite, 217, "Giant"),
+         new KnowledgeEntry (298, ContentFileType.FileSprite, 217, "Spider"),
+         new KnowledgeEntry (299, ContentFileType.FileSprite, 217, "Slime"),
+         new KnowledgeEntry (300, ContentFileType.FileSprite, 217, "Unit_300"),
+         new KnowledgeEntry (301, ContentFileType.FileSprite, 217, "Scorpion"),
+         new KnowledgeEntry (302, ContentFileType.FileSprite, 217, "Brigand"),
+         new KnowledgeEntry (303, ContentFileType.FileSprite, 217, "Skeleton"),
+         new KnowledgeEntry (304, ContentFileType.FileSprite, 217, "Skeleton 2"),
+         new KnowledgeEntry (305, ContentFileType.FileSprite, 217, "Demon"),
+         new KnowledgeEntry (306, ContentFileType.FileSprite, 217, "Water Elemental"),
+         new KnowledgeEntry (307, ContentFileType.FileSprite, 217, "Human Farm"),
+         new KnowledgeEntry (308, ContentFileType.FileSprite, 217, "Orc Farm"),
+         new KnowledgeEntry (309, ContentFileType.FileSprite, 217, "Human Barracks"),
+         new KnowledgeEntry (310, ContentFileType.FileSprite, 217, "Orc Barracks"),
+         new KnowledgeEntry (311, ContentFileType.FileSprite, 217, "Human Church"),
+         new KnowledgeEntry (312, ContentFileType.FileSprite, 217, "Orc Stone Circle"),
+         new KnowledgeEntry (313, ContentFileType.FileSprite, 217, "Human Tower"),
+         new KnowledgeEntry (314, ContentFileType.FileSprite, 217, "Orc Skull"),
+         new KnowledgeEntry (315, ContentFileType.FileSprite, 217, "Human Base"),
+         new KnowledgeEntry (316, ContentFileType.FileSprite, 217, "Orc Base"),
+         new KnowledgeEntry (317, ContentFileType.FileSprite, 217, "Human Smith"),
+         new KnowledgeEntry (318, ContentFileType.FileSprite, 217, "Orc Smith"),
+         new KnowledgeEntry (319, ContentFileType.FileSprite, 217, "Human Stables"),
+         new KnowledgeEntry (320, ContentFileType.FileSprite, 217, "Orc Stables"),
+         new KnowledgeEntry (321, ContentFileType.FileSprite, 217, "Human Smith"),
+         new KnowledgeEntry (322, ContentFileType.FileSprite, 217, "Orc Smith"),
+         new KnowledgeEntry (323, ContentFileType.FileSprite, 217, "Stormwind"),
+         new KnowledgeEntry (324, ContentFileType.FileSprite, 217, "Black Spire"),
+         new KnowledgeEntry (325, ContentFileType.FileSprite, 217, "Goldmine"),
+         new KnowledgeEntry (326, ContentFileType.FileSprite, 217, "Corpse"),
+         new KnowledgeEntry (327, ContentFileType.FileSprite, 217, "Human Peasant with Lumber"),
+         new KnowledgeEntry (328, ContentFileType.FileSprite, 217, "Orc Peon with Lumber"),
+         new KnowledgeEntry (329, ContentFileType.FileSprite, 217, "Human Peasant with Gold"),
+         new KnowledgeEntry (330, ContentFileType.FileSprite, 217, "Orc Peon with Gold"),
+         new KnowledgeEntry (331, ContentFileType.FileSprite, 217, "Humans Under construction"),
+         new KnowledgeEntry (332, ContentFileType.FileSprite, 217, "Orcs Under construction"),
+         new KnowledgeEntry (333, ContentFileType.FileSprite, 217, "Humans Under construction 2"),
+         new KnowledgeEntry (334, ContentFileType.FileSprite, 217, "Orcs Under construction 2"),
+         new KnowledgeEntry (335, ContentFileType.FileSprite, 217, "Humans Under construction 3"),
+         new KnowledgeEntry (336, ContentFileType.FileSprite, 217, "Orcs Under construction 3"),
+         new KnowledgeEntry (337, ContentFileType.FileSprite, 217, "Humans Under construction 4"),
+         new KnowledgeEntry (338, ContentFileType.FileSprite, 217, "Orcs Under construction 4"),
+         new KnowledgeEntry (339, ContentFileType.FileSprite, 217, "Humans Under construction 5"),
+         new KnowledgeEntry (340, ContentFileType.FileSprite, 217, "Orcs Under construction 5"),
+         new KnowledgeEntry (341, ContentFileType.FileSprite, 217, "Humans Under construction 6"),
+         new KnowledgeEntry (342, ContentFileType.FileSprite, 217, "Orcs Under construction 6"),
+         new KnowledgeEntry (343, ContentFileType.FileSprite, 217, "Humans Under construction 7"),
+         new KnowledgeEntry (344, ContentFileType.FileSprite, 217, "Orcs Under construction 7"),
+         new KnowledgeEntry (345, ContentFileType.FileSprite, 217, "Humans Under construction 8"),
+         new KnowledgeEntry (346, ContentFileType.FileSprite, 217, "Orcs Under construction 8"),
+         new KnowledgeEntry (347, ContentFileType.FileSprite, 217, "Building explosion"),
+         new KnowledgeEntry (348, ContentFileType.FileSprite, 217, "Fireball"),
+         new KnowledgeEntry (349, ContentFileType.FileSprite, 217, "Arrow"),
+         new KnowledgeEntry (350, ContentFileType.FileSprite, 217, "Unit_350"),
+         new KnowledgeEntry (351, ContentFileType.FileSprite, 217, "Unit_351"),
+         new KnowledgeEntry (352, ContentFileType.FileSprite, 217, "Tornado"),
+         new KnowledgeEntry (353, ContentFileType.FileSprite, 217, "Unit_353"),
+         new KnowledgeEntry (354, ContentFileType.FileSprite, 217, "Unit_354"),
+         new KnowledgeEntry (355, ContentFileType.FileSprite, 217, "Unit_355"),
+         new KnowledgeEntry (356, ContentFileType.FileSprite, 217, "Unit_356"),
+         new KnowledgeEntry (357, ContentFileType.FileSprite, 217, "Unit_357"),
+         new KnowledgeEntry (358, ContentFileType.FileSprite, 217, "Unit_358"),
+         new KnowledgeEntry (359, ContentFileType.FileSprite, 217, "UI Pictures Orcs"),
+         new KnowledgeEntry (360, ContentFileType.FileSprite, 217, "UI Pictures Humans"),
+         new KnowledgeEntry (361, ContentFileType.FileSprite, 217, "UI Pictures Icons"),
+         new KnowledgeEntry (362, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (363, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (364, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (365, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (366, ContentFileType.FileText, 0, "Remote system is not responding"),
+         new KnowledgeEntry (367, ContentFileType.FileText, 0, "Remote system is not responding (+Save)"),
+         new KnowledgeEntry (368, ContentFileType.FileText, 0, "Save Game; Load Game; Options; ..."),
+         new KnowledgeEntry (369, ContentFileType.FileText, 0, "Save Game; Load Game; Options; ..."),
+         new KnowledgeEntry (370, ContentFileType.FileText, 0, "Empty slots ... loading"),
+         new KnowledgeEntry (371, ContentFileType.FileText, 0, "Empty slots ... loading"),
+         new KnowledgeEntry (372, ContentFileType.FileText, 0, "Ok; Cancel"),
+         new KnowledgeEntry (373, ContentFileType.FileText, 0, "Ok; Cancel"),
+         new KnowledgeEntry (374, ContentFileType.FileText, 0, "Ok; Cancel"),
+         new KnowledgeEntry (375, ContentFileType.FileText, 0, "Ok; Cancel"),
+         new KnowledgeEntry (376, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (377, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (378, ContentFileType.FileText, 0, "Select Game Type"),
+         new KnowledgeEntry (379, ContentFileType.FileText, 0, "Choose Campaign"),
+         new KnowledgeEntry (380, ContentFileType.FileText, 0, "CD needed for Multiplayer"),
+         new KnowledgeEntry (381, ContentFileType.FileText, 0, "Customize your Game"),
+         new KnowledgeEntry (382, ContentFileType.FileText, 0, "Set Map"),
+         new KnowledgeEntry (383, ContentFileType.FileText, 0, "Set Opponent"),
+         new KnowledgeEntry (384, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (385, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (386, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (387, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (388, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (389, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (390, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (391, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (392, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (393, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (394, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (395, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (396, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (397, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (398, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (399, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (400, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (401, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (402, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (403, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (404, ContentFileType.FileText, 0, "Set Player Races"),
+         new KnowledgeEntry (405, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (406, ContentFileType.FileImage, 255, "Gold (Humans)"),
+         new KnowledgeEntry (407, ContentFileType.FileImage, 255, "Lumber (Humans)"),
+         new KnowledgeEntry (408, ContentFileType.FileImage, 217, "Gold (Orcs)"),
+         new KnowledgeEntry (409, ContentFileType.FileImage, 217, "Lumber (Orcs)"),
+         new KnowledgeEntry (410, ContentFileType.FileImage, 413, "%complete"),
+         new KnowledgeEntry (411, ContentFileType.FileImage, 413, "Human point summary"),
+         new KnowledgeEntry (412, ContentFileType.FileImage, 413, "Orc point summary"),
+         new KnowledgeEntry (413, ContentFileType.FilePalette, 0, "Summary palette"),
+         new KnowledgeEntry (414, ContentFileType.FilePalette, 0, "Unknown pal"),
+         new KnowledgeEntry (415, ContentFileType.FileImage, 416, "Background Victory"),
+         new KnowledgeEntry (416, ContentFileType.FilePalette, 0, "for 415"),
+         new KnowledgeEntry (417, ContentFileType.FileImage, 418, "Background Defeat"),
+         new KnowledgeEntry (418, ContentFileType.FilePalette, 0, "for 417"),
+         new KnowledgeEntry (419, ContentFileType.FileImage, 423, "Victory Text"),
+         new KnowledgeEntry (420, ContentFileType.FileImage, 423, "Defeat Text"),
+         new KnowledgeEntry (421, ContentFileType.FileImage, 423, "Human Briefing"),
+         new KnowledgeEntry (422, ContentFileType.FileImage, 424, "Orc Briefing"),
+         new KnowledgeEntry (423, ContentFileType.FilePalette, 0, "Briefing Palette 1"),
+         new KnowledgeEntry (424, ContentFileType.FilePalette, 0, "Briefing Palette 2"),
+         new KnowledgeEntry (425, ContentFileType.FileSprite, 424, "Burning Fire Anim"),
+         new KnowledgeEntry (426, ContentFileType.FileSprite, 424, "Talking Orc Anim"),
+         new KnowledgeEntry (427, ContentFileType.FileSprite, 424, "Talking Orc 2 Anim"),
+         new KnowledgeEntry (428, ContentFileType.FileSprite, 423, "Eating Human Anim"),
+         new KnowledgeEntry (429, ContentFileType.FileSprite, 423, "Human Wizard Anim"),
+         new KnowledgeEntry (430, ContentFileType.FileSprite, 423, "Anim 1"),
+         new KnowledgeEntry (431, ContentFileType.FileSprite, 423, "Anim 2"),
+         new KnowledgeEntry (432, ContentFileType.FileBriefing, 1, "Orcs 1"),
+         new KnowledgeEntry (433, ContentFileType.FileBriefing, 2, "Orcs 2"),
+         new KnowledgeEntry (434, ContentFileType.FileBriefing, 3, "Orcs 3"),
+         new KnowledgeEntry (435, ContentFileType.FileBriefing, 4, "Orcs 4"),
+         new KnowledgeEntry (436, ContentFileType.FileBriefing, 5, "Orcs 5"),
+         new KnowledgeEntry (437, ContentFileType.FileBriefing, 6, "Orcs 6"),
+         new KnowledgeEntry (438, ContentFileType.FileBriefing, 7, "Orcs 7"),
+         new KnowledgeEntry (439, ContentFileType.FileBriefing, 8, "Orcs 8"),
+         new KnowledgeEntry (440, ContentFileType.FileBriefing, 9, "Orcs 9"),
+         new KnowledgeEntry (441, ContentFileType.FileBriefing, 10, "Orcs 10"),
+         new KnowledgeEntry (442, ContentFileType.FileBriefing, 11, "Orcs 11"),
+         new KnowledgeEntry (443, ContentFileType.FileBriefing, 12, "Orcs 12"),
+         new KnowledgeEntry (444, ContentFileType.FileBriefing, 1, "Humans 1"),
+         new KnowledgeEntry (445, ContentFileType.FileBriefing, 2, "Humans 2"),
+         new KnowledgeEntry (446, ContentFileType.FileBriefing, 3, "Humans 3"),
+         new KnowledgeEntry (447, ContentFileType.FileBriefing, 4, "Humans 4"),
+         new KnowledgeEntry (448, ContentFileType.FileBriefing, 5, "Humans 5"),
+         new KnowledgeEntry (449, ContentFileType.FileBriefing, 6, "Humans 6"),
+         new KnowledgeEntry (450, ContentFileType.FileBriefing, 7, "Humans 7"),
+         new KnowledgeEntry (451, ContentFileType.FileBriefing, 8, "Humans 8"),
+         new KnowledgeEntry (452, ContentFileType.FileBriefing, 9, "Humans 9"),
+         new KnowledgeEntry (453, ContentFileType.FileBriefing, 10, "Humans 10"),
+         new KnowledgeEntry (454, ContentFileType.FileBriefing, 11, "Humans 11"),
+         new KnowledgeEntry (455, ContentFileType.FileBriefing, 12, "Humans 12"),
+         new KnowledgeEntry (456, ContentFileType.FileImage, 457, "Human Win"),
+         new KnowledgeEntry (457, ContentFileType.FilePalette, 0, "for 456"),
+         new KnowledgeEntry (458, ContentFileType.FileImage, 459, "Orc Win"),
+         new KnowledgeEntry (459, ContentFileType.FilePalette, 0, "for 458"),
+         new KnowledgeEntry (460, ContentFileType.FileUnknown, 0, "Unknown"),
+         new KnowledgeEntry (461, ContentFileType.FileText, 0, "Endgametext: Humans 1"),
+         new KnowledgeEntry (462, ContentFileType.FileText, 0, "Endgametext: Orcs 1"),
+         new KnowledgeEntry (463, ContentFileType.FileText, 0, "Endgametext: Humans 2"),
+         new KnowledgeEntry (464, ContentFileType.FileText, 0, "Endgametext: Orcs 2"),
+         new KnowledgeEntry (465, ContentFileType.FileText, 0, "Credits"),
+         new KnowledgeEntry (466, ContentFileType.FileText, 0, "Level won (Humans?)"),
+         new KnowledgeEntry (467, ContentFileType.FileText, 0, "Level won (Orcs?)"),
+         new KnowledgeEntry (468, ContentFileType.FileText, 0, "Level lost (Humans?)"),
+         new KnowledgeEntry (469, ContentFileType.FileText, 0, "Level lost (Orcs?)"),
+         new KnowledgeEntry (470, ContentFileType.FileImage, 457, "Human Win/Animation 2"),
+         new KnowledgeEntry (471, ContentFileType.FileImage, 459, "Orc Win/Animation 2"),
+         new KnowledgeEntry (472, ContentFileType.FileWave, 0, "Unknown"),
+         new KnowledgeEntry (473, ContentFileType.FileWave, 0, "Unknown"),
+         new KnowledgeEntry (474, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (475, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (476, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (477, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (478, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (479, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (480, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (481, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (482, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (483, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (484, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (485, ContentFileType.FileWave, 0, "Clicking noise")
+      };
+      #endregion
+      #endregion
+
+      private KnowledgeEntry[] database;
+      private Dictionary<string, int> hashes;
+
+      internal DataWarFileType Type { get; private set; }
+
+      internal KnowledgeBase(DataWarFileType setType)
       {
-         hashes = new Dictionary<string, int> (KB_List.Length);
+         Type = setType;
 
-         for (int i = 0; i < KB_List.Length; i++)
+         SetupDatabase ();
+      }
+
+      private void SetupDatabase()
+      {
+         switch (Type)
          {
-            if (hashes.ContainsKey (KB_List [i].text.ToLowerInvariant ()))
+         case DataWarFileType.Demo:
+            database = new KnowledgeEntry[KnowledgeBaseDemo.Length];
+            Array.Copy(KnowledgeBaseDemo, database, database.Length);
+            break;
+
+         case DataWarFileType.Retail:
+            database = new KnowledgeEntry[KnowledgeBaseRetail.Length];
+            Array.Copy(KnowledgeBaseRetail, database, database.Length);
+            break;
+
+         case DataWarFileType.RetailCD:
+            database = new KnowledgeEntry[KnowledgeBaseRetail.Length + KnowledgeBaseRetailCD.Length];
+            Array.Copy(KnowledgeBaseRetail, database, database.Length);
+            Array.Copy(KnowledgeBaseRetailCD, 0, database, KnowledgeBaseRetail.Length, KnowledgeBaseRetailCD.Length);
+            break;
+         }
+
+         hashes = new Dictionary<string, int> (database.Length);
+         for (int i = 0; i < database.Length; i++)
+         {
+            if (hashes.ContainsKey (database [i].text.ToLowerInvariant ()))
                continue;
 
-            hashes.Add (KB_List [i].text.ToLowerInvariant (), KB_List [i].id);
+            hashes.Add (database[i].text.ToLowerInvariant (), database[i].id);
          }
       }
 
-      #endregion
-
-      #region Dump
-
-      internal static void Dump ()
+      internal KnowledgeEntry this[string name]
       {
+         get
+         {
+            name = name.ToLowerInvariant ();
+            if (hashes.ContainsKey(name) == false)
+               return null;
+
+            return database[hashes[name]];
+         }
       }
 
-      #endregion
-
-      #region KEByName
-
-      internal static KnowledgeEntry KEByName (string name)
+      internal KnowledgeEntry this[int index]
       {
-         name = name.ToLowerInvariant ();
+         get
+         {
+            if (index < 0 || index >= database.Length)
+               return null;
 
-         object value = hashes [name];
-         if (value == null)
-            return new KnowledgeEntry (-1, ContentFileType.FileUnknown, 0, "");
-         return KB_List [(int)value];
+            return database[index];
+         }
       }
 
-      #endregion
-
-      #region IndexByName
-
-      internal static int IndexByName (string name)
+      internal int IndexByName (string name)
       {
          name = name.ToLowerInvariant ();
 
          if (hashes.ContainsKey (name))
          {
-            int value = hashes [name];
-            return value;
+            return hashes[name];
          }
 
          return -1;
       }
 
-      #endregion
-
+      internal int Count
+      {
+         get
+         {
+            return database.Length;
+         }
+      }
    }
 }
+
+/*
+FileLevelInfo:
+Offset            Data
+------------------------------------------------
+0x0000            Unbekannte Daten (Header)     (Length 0x36)
+0x003A            Unbekannte Daten           (Length 0x20)
+0x005C            Initial amount: Lumber
+0x0070            Initial amount: Gold
+0x0094            Offset of mission text
+0x                Offset of mission data (Buildings, Units, etc...)
+   (z.B. bei 0x0111 in 118)
+
+0x00CC            X-Position der "Kamera" (multipliziert mit 2)
+0x00CE            Y-Position der "Kamera" (multipliziert mit 2)
+
+Wege (5 bytes pro Weg)
+2 bytes: X,Y vom Anfang (mul 2)
+2 bytes: X,Y vom Ende (mul 2)
+1 byte: ???? (Owner vielleicht?)
+
+Einheiten/Gebäude (4 (bzw.6) bytes lang):
+1 byte: X-Position (mul 2)
+1 byte: Y-Position (mul 2)
+1 byte: Typ
+1 byte: Seite (0 = Player; 1 = Computer, 4 = Neutral)
+Wenn Typ==32 (Goldmine)
+1 byte: 0xFE
+1 byte: Menge an Gold (multiply by 250)
+*/
 
 
 /*

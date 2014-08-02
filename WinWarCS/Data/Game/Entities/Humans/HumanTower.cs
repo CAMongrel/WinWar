@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanTower (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Tower")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Tower")));
       }
 
       public override int TileSizeX 

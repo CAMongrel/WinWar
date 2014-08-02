@@ -16,6 +16,13 @@ using WinWarCS.Data;
 
 namespace WinWarCS.Data.Game
 {
+   internal enum Tileset : int
+   {
+      Summer,
+      Swamp,
+      Dungeon
+   }
+
    /// <summary>
    /// Map tileset
    /// </summary>

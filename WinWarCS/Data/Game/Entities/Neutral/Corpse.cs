@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public Corpse (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Corpse")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Corpse")));
       }
 
       public override bool CanBeSelected 

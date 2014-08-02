@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanBalista (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Catapult")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Catapult")));
       }
    }
 }

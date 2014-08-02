@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcCatapult (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Catapult")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Catapult")));
       }
    }
 }

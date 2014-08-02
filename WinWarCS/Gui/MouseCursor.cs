@@ -98,22 +98,22 @@ namespace WinWarCS.Gui
 
          cursorResources = new Cursor[Enum.GetValues (typeof(MouseCursorState)).Length];
 
-         cursorResources[(int)MouseCursorState.Pointer] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Normal Pointer")));
-         cursorResources[(int)MouseCursorState.NotAllowed] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Not allowed")));
-         cursorResources[(int)MouseCursorState.CrosshairOrange] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Crosshair Orange")));
-         cursorResources[(int)MouseCursorState.CrosshairRed] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Crosshair Red")));
-         cursorResources[(int)MouseCursorState.CrosshairOrange2] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Crosshair Orange 2")));
-         cursorResources[(int)MouseCursorState.Magnifier] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Magnifier")));
-         cursorResources[(int)MouseCursorState.CrosshairGreen] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Crosshair Green")));
-         cursorResources[(int)MouseCursorState.Loading] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Loading...")));
-         cursorResources[(int)MouseCursorState.ScrollTop] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Top")));
-         cursorResources[(int)MouseCursorState.ScrollTopright] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Topright")));
-         cursorResources[(int)MouseCursorState.ScrollRight] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Right")));
-         cursorResources[(int)MouseCursorState.ScrollBottomright] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Bottomright")));
-         cursorResources[(int)MouseCursorState.ScrollBottom] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Bottom")));
-         cursorResources[(int)MouseCursorState.ScrollBottomleft] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Bottomleft")));
-         cursorResources[(int)MouseCursorState.ScrollLeft] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Left")));
-         cursorResources[(int)MouseCursorState.ScrollTopleft] = new Cursor(WarFile.GetCursorResource (KnowledgeBase.IndexByName ("Scroll Topleft")));
+         cursorResources[(int)MouseCursorState.Pointer] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Normal Pointer")));
+         cursorResources[(int)MouseCursorState.NotAllowed] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Not allowed")));
+         cursorResources[(int)MouseCursorState.CrosshairOrange] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Crosshair Orange")));
+         cursorResources[(int)MouseCursorState.CrosshairRed] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Crosshair Red")));
+         cursorResources[(int)MouseCursorState.CrosshairOrange2] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Crosshair Orange 2")));
+         cursorResources[(int)MouseCursorState.Magnifier] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Magnifier")));
+         cursorResources[(int)MouseCursorState.CrosshairGreen] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Crosshair Green")));
+         cursorResources[(int)MouseCursorState.Loading] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Loading...")));
+         cursorResources[(int)MouseCursorState.ScrollTop] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Top")));
+         cursorResources[(int)MouseCursorState.ScrollTopright] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Topright")));
+         cursorResources[(int)MouseCursorState.ScrollRight] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Right")));
+         cursorResources[(int)MouseCursorState.ScrollBottomright] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Bottomright")));
+         cursorResources[(int)MouseCursorState.ScrollBottom] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Bottom")));
+         cursorResources[(int)MouseCursorState.ScrollBottomleft] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Bottomleft")));
+         cursorResources[(int)MouseCursorState.ScrollLeft] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Left")));
+         cursorResources[(int)MouseCursorState.ScrollTopleft] = new Cursor(WarFile.GetCursorResource (WarFile.KnowledgeBase.IndexByName ("Scroll Topleft")));
 
          didLoadResources = true;
       }

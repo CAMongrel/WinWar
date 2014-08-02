@@ -133,7 +133,7 @@ namespace WinWarCS.Data.Game
          PreviousTarget = null;
 
          CurrentMap = currentMap;
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Peasant")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
 
          HateList = new HateList ();
          StateMachine = new StateMachine (this);

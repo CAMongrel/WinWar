@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanConjurer (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Wizard")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Wizard")));
       }
    }
 }

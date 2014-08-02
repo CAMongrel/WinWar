@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcFarm (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Farm")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Farm")));
       }
 
       public override int TileSizeX 

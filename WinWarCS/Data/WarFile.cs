@@ -37,6 +37,8 @@ namespace WinWarCS.Data
       /// </summary>
       private static int maxNrOfEntries;
 
+      internal static KnowledgeBase KnowledgeBase;
+
       #endregion
 
       #region Properties
@@ -98,6 +100,7 @@ namespace WinWarCS.Data
                break;
             }
 
+            KnowledgeBase = new KnowledgeBase(Type);
          } finally
          {
             if (reader != null)
@@ -165,8 +168,8 @@ namespace WinWarCS.Data
          for (int i = 0; i < resources.Count; i++)
          {
             ContentFileType fileType = ContentFileType.FileUnknown;
-            if (i < KnowledgeBase.KB_List.Length)
-               fileType = KnowledgeBase.KB_List [i].type;
+            if (i < KnowledgeBase.Count)
+               fileType = KnowledgeBase[i].type;
             string filename = Path.Combine (path, "res" + i + "." + fileType);
             File.WriteAllBytes (filename, resources [i].data);
          }
@@ -178,13 +181,13 @@ namespace WinWarCS.Data
 
       internal static ImageResource GetImageResource (int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileImage)
+         if (KnowledgeBase[id].type != ContentFileType.FileImage)
             return null;
 
-         return new ImageResource (GetResource (id), GetResource (KnowledgeBase.KB_List [id].param));
+         return new ImageResource (GetResource (id), GetResource (KnowledgeBase[id].param));
       }
 
       #endregion
@@ -193,15 +196,15 @@ namespace WinWarCS.Data
 
       internal static CursorResource GetCursorResource (int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileCursor)
+         if (KnowledgeBase[id].type != ContentFileType.FileCursor)
             return null;
 
          WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase.KB_List [id].param);
+         if (KnowledgeBase[KnowledgeBase[id].param].type == ContentFileType.FilePalette)
+            pal = GetResource (KnowledgeBase[id].param);
 
          return new CursorResource (GetResource (id), pal);
       }
@@ -212,15 +215,15 @@ namespace WinWarCS.Data
 
       internal static SpriteResource GetSpriteResource (int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileSprite)
+         if (KnowledgeBase[id].type != ContentFileType.FileSprite)
             return null;
 
          WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase.KB_List [id].param);
+         if (KnowledgeBase[KnowledgeBase[id].param].type == ContentFileType.FilePalette)
+            pal = GetResource (KnowledgeBase[id].param);
 
          return new SpriteResource (GetResource (id), pal);
       }
@@ -231,10 +234,10 @@ namespace WinWarCS.Data
 
       internal static TextResource GetTextResource (int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileText)
+         if (KnowledgeBase[id].type != ContentFileType.FileText)
             return null;
 
          return new TextResource (GetResource (id));

@@ -3,6 +3,7 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWarEngine\Data\Resources
 // Creation date: 27.11.2009 20:22
 // Last modified: 29.11.2009 13:31
+using WinWarCS.Data.Game;
 
 #region Using directives
 using System;
@@ -38,7 +39,7 @@ namespace WinWarCS.Data.Resources
 		/// </summary>
 		internal LevelVisualResource(string name)
 		{
-			KnowledgeEntry ke = KnowledgeBase.KEByName(name);
+         KnowledgeEntry ke = WarFile.KnowledgeBase[name];
 
 			WarResource res = WarFile.GetResource(ke.id);
 			if (res == null)

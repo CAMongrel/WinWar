@@ -8,7 +8,7 @@ namespace WinWarCS.Data.Game
       public Goldmine (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Goldmine")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Goldmine")));
       }
 
       public override int TileSizeX 

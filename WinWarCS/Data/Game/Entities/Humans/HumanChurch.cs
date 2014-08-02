@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanChurch (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Church")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Church")));
       }
 
       public override int TileSizeX 

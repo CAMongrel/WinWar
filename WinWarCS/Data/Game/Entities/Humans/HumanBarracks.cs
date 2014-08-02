@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanBarracks (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Barracks")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Barracks")));
       }
 
       public override int TileSizeX 

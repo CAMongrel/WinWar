@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcWizard (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Wizard")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Wizard")));
       }
    }
 }

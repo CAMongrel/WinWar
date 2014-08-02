@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcPeon (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Peon")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Peon")));
       }
    }
 }

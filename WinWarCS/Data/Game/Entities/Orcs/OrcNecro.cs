@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcNecro (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Necro")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Necro")));
       }
    }
 }

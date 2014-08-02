@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public OrcBase (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Orc Base")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Base")));
       }
 
       public override int TileSizeX 

@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanStormwind (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Stormwind")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Stormwind")));
       }
 
       public override int TileSizeX 

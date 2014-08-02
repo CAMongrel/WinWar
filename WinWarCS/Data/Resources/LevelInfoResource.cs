@@ -150,7 +150,7 @@ namespace WinWarCS.Data.Resources
 
       internal LevelInfoResource (string name)
       {
-         KnowledgeEntry ke = KnowledgeBase.KEByName (name);
+         KnowledgeEntry ke = WarFile.KnowledgeBase[name];
 
          WarResource res = WarFile.GetResource (ke.id);
          if (res == null)
