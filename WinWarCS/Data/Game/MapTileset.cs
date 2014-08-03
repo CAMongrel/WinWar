@@ -376,6 +376,9 @@ namespace WinWarCS.Data.Game
       /// </summary>
       internal Color GetTileAverageColor (int index)
       {
+         if (index < 0 || index >= tilesList.Length)
+            return Color.Purple;
+
          return tilesList [index].AverageColor;
       }
       // GetTileAverageColor(index)

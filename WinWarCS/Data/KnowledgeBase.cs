@@ -1141,7 +1141,7 @@ Wege (5 bytes pro Weg)
 2 bytes: X,Y vom Ende (mul 2)
 1 byte: ???? (Owner vielleicht?)
 
-Einheiten/Gebäude (4 (bzw.6) bytes lang):
+Einheiten/Gebï¿½ude (4 (bzw.6) bytes lang):
 1 byte: X-Position (mul 2)
 1 byte: Y-Position (mul 2)
 1 byte: Typ

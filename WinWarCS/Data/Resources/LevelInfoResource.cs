@@ -129,107 +129,116 @@ namespace WinWarCS.Data.Resources
       int _offset;
 
       public int StartGold { get; private set; }
+
       public int StartLumber { get; private set; }
 
       public string MissionText { get; private set; }
 
       public int StartCameraX { get; private set; }
+
       public int StartCameraY { get; private set; }
 
       public Road[] StartRoads { get; private set; }
+
       public LevelObject[] StartObjects { get; private set; }
 
       #endregion
 
       #region Constructor
 
-      internal LevelInfoResource (WarResource data, int offset)
+      internal LevelInfoResource(WarResource data, int offset)
       {
-         Init (data, offset);
+         Init(data, offset);
       }
 
-      internal LevelInfoResource (string name)
+      internal LevelInfoResource(string name)
       {
          KnowledgeEntry ke = WarFile.KnowledgeBase[name];
 
-         WarResource res = WarFile.GetResource (ke.id);
+         WarResource res = WarFile.GetResource(ke.id);
          if (res == null)
-            throw new ArgumentNullException ("res");
+            throw new ArgumentNullException("res");
 
-         Init (res, ke.param);
+         Init(res, ke.param);
       }
 
       #endregion
 
       #region Init
 
-      private void Init (WarResource data, int offset)
+      private void Init(WarResource data, int offset)
       {
-         LoadData (data, offset);
+         LoadData(data, offset);
       }
 
-      private void LoadData (WarResource data, int offset)
+      private void LoadData(WarResource data, int offset)
       {
          this.data = data;
          this._offset = offset;
 
-         unsafe {
-            fixed (byte* org_ptr = &data.data[0]) {
+         unsafe
+         {
+            fixed (byte* org_ptr = &data.data[0])
+            {
                byte* ptr = org_ptr;
 
-               StartLumber = *(int*)(&ptr [0x5C]);
+               StartLumber = *(int*)(&ptr[0x5C]);
 
-               StartGold = *(int*)(&ptr [0x70]);
+               StartGold = *(int*)(&ptr[0x70]);
 
-               StartCameraX = (*(ushort*)(&ptr [0xCC])) / 2;
+               StartCameraX = (*(ushort*)(&ptr[0xCC])) / 2;
 
-               StartCameraY = (*(ushort*)(&ptr [0xCE])) / 2;
+               StartCameraY = (*(ushort*)(&ptr[0xCE])) / 2;
 
-               _offset = (*(ushort*)(&ptr [_offset]));
+               _offset = (*(ushort*)(&ptr[_offset]));
                int len = data.data.Length;
                int off = 0;
                byte x, y;
 
-               List<LevelObject> _objects = new List<LevelObject> ();
+               List<LevelObject> _objects = new List<LevelObject>();
                // Add objects
-               do {
-                  x = ptr [_offset + off];
-                  y = ptr [_offset + off + 1];
+               do
+               {
+                  x = ptr[_offset + off];
+                  y = ptr[_offset + off + 1];
 
-                  if ((x == 0xFF) && (y == 0xFF)) {
+                  if ((x == 0xFF) && (y == 0xFF))
+                  {
                      off += 2;
                      break;
                   }
 
-                  LevelObject lo = new LevelObject ();
+                  LevelObject lo = new LevelObject();
                   lo.x = (byte)(x / 2);
                   lo.y = (byte)(y / 2);
 
-                  lo.type = (LevelObjectType)ptr [_offset + off + 2];
-                  lo.player = ptr [_offset + off + 3];
+                  lo.type = (LevelObjectType)ptr[_offset + off + 2];
+                  lo.player = ptr[_offset + off + 3];
 
                   off += 4;
                   // If it's a gold mine, check gold amount
-                  if (lo.type == LevelObjectType.Goldmine) {
-                     lo.value1 = ptr [_offset + off];
-                     lo.value2 = ptr [_offset + off + 1];
+                  if (lo.type == LevelObjectType.Goldmine)
+                  {
+                     lo.value1 = ptr[_offset + off];
+                     lo.value2 = ptr[_offset + off + 1];
 
                      off += 2;
                   }
-                  _objects.Add (lo);
+                  _objects.Add(lo);
                } while (_offset + off < len);
 
-               StartObjects = _objects.ToArray ();
+               StartObjects = _objects.ToArray();
 
                _offset = _offset + off;
 
                // Get the text position
-               off = *(int*)(&ptr [0x94]);
+               off = *(int*)(&ptr[0x94]);
 
                // Are we at the position of the text?
-               if (off != _offset) {
+               if (off != _offset)
+               {
                   // Should be roads
-                  List<Road> _roads = new List<Road> ();
+                  List<Road> _roads = new List<Road>();
 
                   Road road;
                   int x2, y2;
@@ -237,60 +246,72 @@ namespace WinWarCS.Data.Resources
                   int dx, dy;
                   off = 0;
 
-                  do {
-                     x = ptr [_offset + off];
-                     y = ptr [_offset + off + 1];
+                  do
+                  {
+                     x = ptr[_offset + off];
+                     y = ptr[_offset + off + 1];
 
                      if ((x == 0xFF) && (y == 0xFF))
                         break;
 
                      off += 2;
 
-                     x2 = ptr [_offset + off];
-                     y2 = ptr [_offset + off + 1];
+                     x2 = ptr[_offset + off];
+                     y2 = ptr[_offset + off + 1];
 
                      off += 2;
 
-                     if (ptr [_offset + off] != 0x00)
+                     if (ptr[_offset + off] != 0x00)
                         break;
 
                      dx = x2 - x;
                      dy = y2 - y;
 
                      // Shitty code to create roads
-                     if (dx < 0) {		// Road that goes to the left
-                        while (dx <= 0) {
-                           road = new Road ();
+                     if (dx < 0)
+                     {		// Road that goes to the left
+                        while (dx <= 0)
+                        {
+                           road = new Road();
                            road.x = (byte)((x - dx) / 2);
                            road.y = (byte)(y / 2);
-                           _roads.Add (road);
+                           _roads.Add(road);
 
                            dx++;
                         }
-                     } else if (dx > 0) {		// Road that goes to the right
-                        while (dx >= 0) {
-                           road = new Road ();
+                     }
+                     else if (dx > 0)
+                     {		// Road that goes to the right
+                        while (dx >= 0)
+                        {
+                           road = new Road();
                            road.x = (byte)((x + dx) / 2);
                            road.y = (byte)(y / 2);
-                           _roads.Add (road);
+                           _roads.Add(road);
 
                            dx--;
                         }
-                     } else if (dy < 0) {		// Road that goes to the top
-                        while (dy <= 0) {
-                           road = new Road ();
+                     }
+                     else if (dy < 0)
+                     {		// Road that goes to the top
+                        while (dy <= 0)
+                        {
+                           road = new Road();
                            road.x = (byte)(x / 2);
                            road.y = (byte)((y - dy) / 2);
-                           _roads.Add (road);
+                           _roads.Add(road);
 
                            dy++;
                         }
-                     } else if (dy > 0) {		// Road that goes to the bottom
-                        while (dy >= 0) {
-                           road = new Road ();
+                     }
+                     else if (dy > 0)
+                     {		// Road that goes to the bottom
+                        while (dy >= 0)
+                        {
+                           road = new Road();
                            road.x = (byte)(x / 2);
                            road.y = (byte)((y + dy) / 2);
-                           _roads.Add (road);
+                           _roads.Add(road);
 
                            dy--;
                         }
@@ -299,22 +320,23 @@ namespace WinWarCS.Data.Resources
                      off++;
                   } while(_offset + off < len);
 
-                  StartRoads = _roads.ToArray ();
+                  StartRoads = _roads.ToArray();
                }
 
                // Get the text position again
 
-               StringBuilder sb = new StringBuilder ();
+               StringBuilder sb = new StringBuilder();
 
-               off = *(int*)(&ptr [0x94]);
+               off = *(int*)(&ptr[0x94]);
 
-               byte* b_ptr = &ptr [off];
-               while (*b_ptr != 0x00) {
-                  sb.Append ((char)*b_ptr);
+               byte* b_ptr = &ptr[off];
+               while (*b_ptr != 0x00)
+               {
+                  sb.Append((char)*b_ptr);
                   b_ptr++;
                }
 
-               MissionText = sb.ToString ();
+               MissionText = sb.ToString();
             }
          }
       }
@@ -323,9 +345,9 @@ namespace WinWarCS.Data.Resources
 
       #region Unit testing
 
-      internal static void TestLoadLevelInfo ()
+      internal static void TestLoadLevelInfo()
       {
-         throw new NotImplementedException ();
+         throw new NotImplementedException();
          /*TestGame.Start("TestLoadLevelInfo",
 				delegate
 				{
