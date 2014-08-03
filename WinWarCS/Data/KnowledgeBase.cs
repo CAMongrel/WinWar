@@ -181,7 +181,7 @@ FileLevelInfo:
 Offset				Data
 ------------------------------------------------
 0x0000				Unbekannte Daten (Header)		(Length 0x36)
-0x003A				Unbekannte Daten				(Length 0x20)
+0x0036				Unbekannte Daten				(Length 0x20)
 0x005C				Initial amount: Lumber
 0x0070				Initial amount: Gold
 0x0094				Offset of mission text
