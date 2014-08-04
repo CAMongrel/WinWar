@@ -93,7 +93,7 @@ namespace WinWarCS.Gui
 
       private static void LoadResources()
       {
-         if (didLoadResources)
+         if (didLoadResources || WarFile.KnowledgeBase == null)
             return;
 
          cursorResources = new Cursor[Enum.GetValues (typeof(MouseCursorState)).Length];
@@ -125,6 +125,10 @@ namespace WinWarCS.Gui
 
          if (didLoadResources == false)
             LoadResources ();
+
+         // If loading failed, then try again later
+         if (didLoadResources == false)
+            return;
 
          currentCursor = cursorResources [(int)state];
 
