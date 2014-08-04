@@ -1114,8 +1114,8 @@ namespace WinWarCS.Data
          null,
          new KnowledgeEntry (472, ContentFileType.FileWave, 0, "Blizzard"),
          null,
-         new KnowledgeEntry (474, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (475, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (474, ContentFileType.FileVOC, 0, "Building Construction"),
+         new KnowledgeEntry (475, ContentFileType.FileVOC, 0, "Building Destruction"),
          null,
          new KnowledgeEntry (477, ContentFileType.FileVOC, 0, "Unknown"),
          new KnowledgeEntry (478, ContentFileType.FileVOC, 0, "Unknown"),
@@ -1135,38 +1135,38 @@ namespace WinWarCS.Data
          new KnowledgeEntry (492, ContentFileType.FileVOC, 0, "Unknown"),
          new KnowledgeEntry (493, ContentFileType.FileVOC, 0, "Unknown"),
          new KnowledgeEntry (494, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (495, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (495, ContentFileType.FileVOC, (int)Race.Orcs, "The humans draw near"),
          null,
          new KnowledgeEntry (497, ContentFileType.FileWave, (int)Race.Humans, "The Orcs are approaching"),
          null,
-         new KnowledgeEntry (499, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (500, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (501, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (499, ContentFileType.FileVOC, (int)Race.Orcs, "Unit death"),
+         new KnowledgeEntry (500, ContentFileType.FileVOC, (int)Race.Humans, "Unit death"),
+         new KnowledgeEntry (501, ContentFileType.FileVOC, (int)Race.Orcs, "Work complete"),
          new KnowledgeEntry (502, ContentFileType.FileWave, (int)Race.Humans, "Work completed"),
-         new KnowledgeEntry (503, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (503, ContentFileType.FileVOC, (int)Race.Orcs, "We are being attacked"),
          null,
          new KnowledgeEntry (505, ContentFileType.FileWave, (int)Race.Humans, "We are under attack"),
          null,
-         new KnowledgeEntry (507, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (507, ContentFileType.FileVOC, (int)Race.Orcs, "Your command, master"),
          new KnowledgeEntry (508, ContentFileType.FileWave, (int)Race.Humans, "Your command"),
-         new KnowledgeEntry (509, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (510, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (511, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (512, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (509, ContentFileType.FileVOC, (int)Race.Orcs, "Confirmation 1"),
+         new KnowledgeEntry (510, ContentFileType.FileVOC, (int)Race.Orcs, "Confirmation 2"),
+         new KnowledgeEntry (511, ContentFileType.FileVOC, (int)Race.Orcs, "Lok'thar"),
+         new KnowledgeEntry (512, ContentFileType.FileVOC, (int)Race.Orcs, "Dabu"),
          new KnowledgeEntry (513, ContentFileType.FileWave, (int)Race.Humans, "Yes"),
          new KnowledgeEntry (514, ContentFileType.FileWave, (int)Race.Humans, "Yes, mylord"),
          new KnowledgeEntry (515, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (516, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (517, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (518, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (519, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (516, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 1"),
+         new KnowledgeEntry (517, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 2"),
+         new KnowledgeEntry (518, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 3"),
+         new KnowledgeEntry (519, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 4"),
          new KnowledgeEntry (520, ContentFileType.FileWave, (int)Race.Humans, "Yes?"),
          new KnowledgeEntry (521, ContentFileType.FileWave, (int)Race.Humans, "Your will, sire?"),
          new KnowledgeEntry (522, ContentFileType.FileWave, (int)Race.Humans, "Mylord?"),
          new KnowledgeEntry (523, ContentFileType.FileWave, (int)Race.Humans, "My liege?"),
          new KnowledgeEntry (524, ContentFileType.FileWave, (int)Race.Humans, "Your bidding?"),
-         new KnowledgeEntry (525, ContentFileType.FileVOC, 0, "Unknown"),
-         new KnowledgeEntry (526, ContentFileType.FileVOC, 0, "Unknown"),
+         new KnowledgeEntry (525, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 5"),
+         new KnowledgeEntry (526, ContentFileType.FileVOC, (int)Race.Orcs, "Annoyed 6"),
          null,
          new KnowledgeEntry (528, ContentFileType.FileWave, (int)Race.Humans, "What?!"),
          new KnowledgeEntry (529, ContentFileType.FileWave, (int)Race.Humans, "What do you want?!"),
@@ -1316,7 +1316,7 @@ namespace WinWarCS.Data
          }
       }
 
-      internal void DumpResource(int index, WarResource res, string filename = null)
+      internal void DumpResource(int index, WarResource res, bool writeToConsole = true, string filename = null)
       {
 #if !NETFX_CORE
          if (index < 0 || index >= Count ||
@@ -1325,33 +1325,36 @@ namespace WinWarCS.Data
             return;
          }
 
-         Console.WriteLine(index.ToString("000") + ": " + this[index].text + " (" + res.data.Length + " bytes)");
-         Console.Write(((0 / 64) * 64).ToString("x4") + ": ");
-         for (int b = 0; b < res.data.Length; b++)
+         if (writeToConsole)
          {
-            Console.Write(res.data[b].ToString("x2"));
-            Console.Write(" ");
-            if (b % 64 == 63)
+            Console.WriteLine(index.ToString("000") + ": " + this[index].text + " (" + res.data.Length + " bytes)");
+            Console.Write(((0 / 64) * 64).ToString("x4") + ": ");
+            for (int b = 0; b < res.data.Length; b++)
             {
-               Console.WriteLine();
-               Console.Write((((b + 1) / 64) * 64).ToString("x4") + ": ");
+               Console.Write(res.data[b].ToString("x2"));
+               Console.Write(" ");
+               if (b % 64 == 63)
+               {
+                  Console.WriteLine();
+                  Console.Write((((b + 1) / 64) * 64).ToString("x4") + ": ");
+               }
             }
-         }
-         Console.WriteLine();
-         Console.WriteLine();
-         for (int b = 0; b < res.data.Length / 2; b++)
-         {
-            if (res.data[b] >= 32)
-               Console.Write((char)res.data[b] + " ");
-            else
-               Console.Write("   ");
-            if (b % 64 == 63)
+            Console.WriteLine();
+            Console.WriteLine();
+            for (int b = 0; b < res.data.Length / 2; b++)
             {
-               Console.WriteLine();
-               Console.Write((((b + 1) / 64) * 64).ToString("x4") + ": ");
+               if (res.data[b] >= 32)
+                  Console.Write((char)res.data[b] + " ");
+               else
+                  Console.Write("   ");
+               if (b % 64 == 63)
+               {
+                  Console.WriteLine();
+                  Console.Write((((b + 1) / 64) * 64).ToString("x4") + ": ");
+               }
             }
+            Console.WriteLine();
          }
-         Console.WriteLine();
 
          if (filename != null)
          {

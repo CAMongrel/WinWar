@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinWarCS.Data.Game;
 
 #endregion
 
@@ -128,19 +129,56 @@ namespace WinWarCS.Data.Resources
 
       int _offset;
 
-      public int StartGold { get; private set; }
+      internal int StartCameraX { get; private set; }
+      internal int StartCameraY { get; private set; }
 
-      public int StartLumber { get; private set; }
+      internal int StartGold { get; private set; }
+      internal int StartLumber { get; private set; }
 
-      public string MissionText { get; private set; }
+      /// <summary>
+      /// Resource index of LevelInfoResource for next level
+      /// </summary>
+      /// <value>The index of the next level resource.</value>
+      internal ushort NextLevelResourceIndex { get; private set; }
 
-      public int StartCameraX { get; private set; }
+      /// <summary>
+      /// Resource index of LevelPassableResource for this level in DATA.WAR
+      /// </summary>
+      /// <value>The index of the passable resource.</value>
+      internal ushort PassableResourceIndex { get; private set; }
+      /// <summary>
+      /// Resource index of LevelVisualResource for this level in DATA.WAR
+      /// </summary>
+      /// <value>The index of the visual resource.</value>
+      internal ushort VisualResourceIndex { get; private set; }
 
-      public int StartCameraY { get; private set; }
+      /// <summary>
+      /// Resource index of the Tileset resource for this level in DATA.WAR
+      /// </summary>
+      /// <value>The index of the tileset resource.</value>
+      internal ushort TilesetResourceIndex { get; private set; }
+      /// <summary>
+      /// Resource index of the Tiles resource for this level in DATA.WAR
+      /// </summary>
+      /// <value>The index of the tileset resource.</value>
+      internal ushort TilesResourceIndex { get; private set; }
+      /// <summary>
+      /// Resource index of the Tiles palette resource for this level in DATA.WAR
+      /// </summary>
+      /// <value>The index of the tileset resource.</value>
+      internal ushort TilesPaletteResourceIndex { get; private set; }
 
-      public Road[] StartRoads { get; private set; }
+      /// <summary>
+      /// Race of the human player (Orcs/Humans)
+      /// </summary>
+      /// <value>The human player race.</value>
+      internal Race HumanPlayerRace { get; private set; }
 
-      public LevelObject[] StartObjects { get; private set; }
+      internal string MissionText { get; private set; }
+
+      internal Road[] StartRoads { get; private set; }
+
+      internal LevelObject[] StartObjects { get; private set; }
 
       #endregion
 
@@ -168,10 +206,73 @@ namespace WinWarCS.Data.Resources
 
       private void Init(WarResource data, int offset)
       {
-         LoadData(data, offset);
+         OldLoadData(data, offset);
       }
 
       private void LoadData(WarResource data, int offset)
+      {
+         this.data = data;
+
+         unsafe
+         {
+            fixed (byte* org_ptr = &data.data[0])
+            {
+               byte* ptr = org_ptr;
+
+               // 54 (0x36) bytes header
+               // 4 bytes FF FF FF FF
+               // 32 (0x20) bytes follow
+               // 2 bytes FF FF
+
+               // 0x5C => Starting amount of lumber (uint) Player 1
+               StartLumber = *(int*)(&ptr[0x5C]);
+               // 0x60 => Starting amount of lumber (uint) Player 2
+               // 0x64 => Starting amount of lumber (uint) Player 3
+               // 0x68 => Starting amount of lumber (uint) Player 4
+               // 0x6C => Starting amount of lumber (uint) Player 5?
+
+               // 0x70=> Starting amount of gold (uint) Player 1
+               StartGold = *(int*)(&ptr[0x70]);
+               // 0x74=> Starting amount of gold (uint) Player 2
+               // 0x78=> Starting amount of gold (uint) Player 3
+               // 0x7C=> Starting amount of gold (uint) Player 4
+               // 0x80=> Starting amount of gold (uint) Player 5?
+
+               // 0xCC, 0xCE => Starting position of camera (divide by 2) (ushort)
+               StartCameraX = (*(ushort*)(&ptr[0xCC])) / 2;
+               StartCameraY = (*(ushort*)(&ptr[0xCE])) / 2;
+
+               // 0x86 => if 1, human player is "Humans"
+               // 0x84 => if 1, human player is "Orcs"
+               if ((*(ushort*)(&ptr[0x86])) > 0)
+                  HumanPlayerRace = Race.Humans;
+               else if ((*(ushort*)(&ptr[0x84])) > 0)
+                  HumanPlayerRace = Race.Orcs;
+
+               // 0x94 => Offset to mission text
+
+               // 0xCA => -2 to get next map (ushort)
+               NextLevelResourceIndex = (ushort)((*(ushort*)(&ptr[0xCA])) - 2);
+               // 0xD0, 0xD2 => -2 to get level visual and level passable (ushort)
+               VisualResourceIndex = (ushort)((*(ushort*)(&ptr[0xD0])) - 2);
+               PassableResourceIndex = (ushort)((*(ushort*)(&ptr[0xD2])) - 2);
+               // 0xD4, 0xD6, 0xD8 => -2 to get map tileset, etc.. (ushort)
+               TilesetResourceIndex = (ushort)((*(ushort*)(&ptr[0xD4])) - 2);
+               TilesResourceIndex = (ushort)((*(ushort*)(&ptr[0xD6])) - 2);
+               TilesPaletteResourceIndex = (ushort)((*(ushort*)(&ptr[0xD8])) - 2);
+
+               // 0xE3 start of dynamic data
+
+               // FF FF
+               // Roads => x/y - x2/y2 - owner
+               // FF FF
+               // Walls => x/y - x2/y2 - owner
+               // FF FF
+            }
+         }
+      }
+
+      private void OldLoadData(WarResource data, int offset)
       {
          this.data = data;
          this._offset = offset;

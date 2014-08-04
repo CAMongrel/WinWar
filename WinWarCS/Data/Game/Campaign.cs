@@ -26,7 +26,7 @@ namespace WinWarCS.Data.Game
 
       internal void StartNew()
       {
-         Level = MaxLevels;
+         Level = 1;
       }
 
       internal void AdvanceNextLevel()
