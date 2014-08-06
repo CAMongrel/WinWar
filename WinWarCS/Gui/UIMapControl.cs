@@ -105,11 +105,13 @@ namespace WinWarCS.Gui
             mapOffsetY = maxY;
       }
 
-      internal void LoadCampaignLevel (string basename)
+      internal void LoadCampaignLevel (Race race, int level)
       {
-         LevelInfoResource levelInfo = new LevelInfoResource (basename);
-         LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
-         LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
+         string basenameInfo = race + " " + level;
+
+         LevelInfoResource levelInfo = new LevelInfoResource (basenameInfo);
+         LevelPassableResource levelPassable = new LevelPassableResource (WarFile.GetResource(levelInfo.PassableResourceIndex));
+         LevelVisualResource levelVisual = new LevelVisualResource (WarFile.GetResource(levelInfo.VisualResourceIndex));
 
          CurrentMap = new Map (levelInfo, levelVisual, levelPassable);
          SetCameraOffset (levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);

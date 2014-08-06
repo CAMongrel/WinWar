@@ -60,8 +60,8 @@ namespace WinWarCS.GameScreens
             Players.Add (ai);
 
             // Load map
-            backgroundWindow.MapControl.LoadCampaignLevel (HumanPlayer.Campaign.GetCurrentLevelName ());
-            backgroundWindow.MapControl.CurrentMap.Start (Players);
+            backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race, HumanPlayer.Campaign.Level);
+            backgroundWindow.MapControl.CurrentMap.Start(Players);
          } 
          else 
          {

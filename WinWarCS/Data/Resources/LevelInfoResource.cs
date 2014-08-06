@@ -206,10 +206,10 @@ namespace WinWarCS.Data.Resources
 
       private void Init(WarResource data, int offset)
       {
-         OldLoadData(data, offset);
+         LoadData(data);
       }
 
-      private void LoadData(WarResource data, int offset)
+      private void LoadData(WarResource data)
       {
          this.data = data;
 
