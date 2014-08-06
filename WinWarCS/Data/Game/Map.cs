@@ -96,7 +96,7 @@ namespace WinWarCS.Data.Game
 			
          mapDiscoverState = new MapDiscover[MapWidth * MapHeight];
 
-         tileSet = MapTileset.GetTileset (levelVisual.Tileset);
+         tileSet = MapTileset.GetTileset((int)levelInfo.TilesetResourceIndex);
 
          Players = new List<BasePlayer> ();
 

@@ -18,22 +18,12 @@ namespace WinWarCS.Data.Resources
    {
       internal ushort[] visualData;
 
-      Tileset tileset;
-
-      internal Tileset Tileset
-      {
-         get
-         {
-            return tileset;
-         }
-      }
-
       /// <summary>
       /// Create level visual resource
       /// </summary>
-      internal LevelVisualResource(WarResource setData, Tileset setTileset)
+      internal LevelVisualResource(WarResource setData)
       {
-         Init(setData, setTileset);
+         Init(setData);
       }
       // LevelVisualResource(setData, setOffset)
 
@@ -48,16 +38,15 @@ namespace WinWarCS.Data.Resources
          if (res == null)
             throw new ArgumentNullException("res");
 
-         Init(res, (Tileset)ke.param);
+         Init(res);
       }
       // LevelVisualResource(setData, setOffset)
 		
       /// <summary>
       /// Init
       /// </summary>
-      private void Init(WarResource setData, Tileset setTileset)
+      private void Init(WarResource setData)
       {
-         this.tileset = setTileset;
          this.data = setData;
 
          CreateVisualData();

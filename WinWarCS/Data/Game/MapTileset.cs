@@ -126,6 +126,17 @@ namespace WinWarCS.Data.Game
       }
       // GetTileset(tileSetType)
 
+      internal static MapTileset GetTileset (int resourceIndexOfTileset)
+      {
+         for (int i = 0; i < knownTilesets.Count; i++) 
+         {
+            if (knownTilesets[i].tileset.resource_index == resourceIndexOfTileset)
+               return knownTilesets [i];
+         } // for
+
+         return null;
+      }
+
       #endregion
 
       #region CreateRoadTypes

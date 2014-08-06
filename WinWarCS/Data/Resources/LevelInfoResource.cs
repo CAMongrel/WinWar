@@ -249,7 +249,23 @@ namespace WinWarCS.Data.Resources
                else if ((*(ushort*)(&ptr[0x84])) > 0)
                   HumanPlayerRace = Race.Orcs;
 
-               // 0x94 => Offset to mission text
+               // 0x94 => Offset to mission text (ushort)
+               ushort missionTextOffset = *(ushort*)(&ptr[0x94]);
+               MissionText = string.Empty;
+               if (missionTextOffset > 0)
+               {
+                  StringBuilder sb = new StringBuilder();
+
+                  byte* b_ptr = &ptr[missionTextOffset];
+                  // Nullterminated string
+                  while (*b_ptr != 0x00)
+                  {
+                     sb.Append((char)*b_ptr);
+                     b_ptr++;
+                  }
+
+                  MissionText = sb.ToString();
+               }
 
                // 0xCA => -2 to get next map (ushort)
                NextLevelResourceIndex = (ushort)((*(ushort*)(&ptr[0xCA])) - 2);
