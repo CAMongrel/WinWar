@@ -32,13 +32,6 @@ namespace WinWarCS.GameScreens.Windows
          background.X = 120;
          background.Y = 20;
 
-         ((UIButton)background.Components [1]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [2]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [3]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [4]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [5]).Type = UIButton.ButtonType.SmallButton;
-         ((UIButton)background.Components [6]).Type = UIButton.ButtonType.SmallButton;
-
          continueButton = (UIButton)background.Components [6];
          continueButton.OnMouseUpInside += closeButton_OnMouseUpInside;
 
