@@ -211,6 +211,7 @@
     <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
+    <Compile Include="Data\Resources\TableResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

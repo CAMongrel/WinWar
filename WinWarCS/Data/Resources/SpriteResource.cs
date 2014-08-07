@@ -45,7 +45,7 @@ namespace WinWarCS.Data.Resources
          {
             fixed (byte* org_ptr = &data.data[0])
             {
-               FrameCount = org_ptr[0] + (org_ptr[1] >> 8);
+               FrameCount = org_ptr[0] + (org_ptr[1] << 8);
                MaxWidth = org_ptr[2];
                MaxHeight = org_ptr[3];
 

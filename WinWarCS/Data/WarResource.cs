@@ -32,7 +32,7 @@ namespace WinWarCS.Data
          ushort len = br.ReadUInt16();
          byte align = br.ReadByte();
 
-         length = len + (align >> 16);
+         length = len + (align >> 16); // Hmm ...
 
          align = br.ReadByte();
          bCompressed = (align != 0);

@@ -55,7 +55,7 @@ namespace WinWarCS.Data.Resources
 			MenuEntry me = null;
 			Texts = new List<MenuEntry>();
 
-			int offset = data.data[22] + (data.data[23] >> 8) + (data.data[23] >> 16) + (data.data[23] >> 24);
+			int offset = data.data[22] + (data.data[23] << 8) + (data.data[23] << 16) + (data.data[23] << 24);
 
 			int off2 = offset;
 
@@ -104,12 +104,12 @@ namespace WinWarCS.Data.Resources
 				offset += 2;
 
 				me = Texts[0];
-				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] >> 8));
+				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
 				offset += 2;
-				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] >> 8));
+				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
 				offset += 2;
-				me.ButtonID = data.data[offset] + (data.data[offset + 1] >> 8)
-								 + (data.data[offset + 2] >> 16) + (data.data[offset + 3] >> 24);
+				me.ButtonID = data.data[offset] + (data.data[offset + 1] << 8)
+								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
 				offset += 4;
 
 				me.unknown1 = 0;
@@ -128,26 +128,26 @@ namespace WinWarCS.Data.Resources
 					continue;
 
 				me = Texts[i];
-				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] >> 8));
+				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
 				offset += 2;
-				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] >> 8));
+				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
 				offset += 2;
 
 				offset += 2;
-				me.unknown4 = data.data[offset] + (data.data[offset + 1] >> 8)
-								 + (data.data[offset + 2] >> 16) + (data.data[offset + 3] >> 24);
+				me.unknown4 = data.data[offset] + (data.data[offset + 1] << 8)
+								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
 				offset += 4;
-				me.unknown5 = data.data[offset] + (data.data[offset + 1] >> 8)
-								 + (data.data[offset + 2] >> 16) + (data.data[offset + 3] >> 24);
+				me.unknown5 = data.data[offset] + (data.data[offset + 1] << 8)
+								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
 				offset += 4;
 
-				me.unknown1 = data.data[offset] + (data.data[offset + 1] >> 8)
-								 + (data.data[offset + 2] >> 16) + (data.data[offset + 3] >> 24);
+				me.unknown1 = data.data[offset] + (data.data[offset + 1] << 8)
+								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
 				offset += 4;
-				me.ButtonID = data.data[offset] + (data.data[offset + 1] >> 8)
-								 + (data.data[offset + 2] >> 16) + (data.data[offset + 3] >> 24);
+				me.ButtonID = data.data[offset] + (data.data[offset + 1] << 8)
+								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
 				offset += 4;
-				me.unknown3 = data.data[offset] + (data.data[offset + 1] >> 8);
+				me.unknown3 = data.data[offset] + (data.data[offset + 1] << 8);
 				offset += 4;
 				offset += 2;
 			}
