@@ -115,45 +115,45 @@ namespace WinWarCS.Data
 
       private static int GetLength(BinaryReader br, int index)
       {
-         if (offsets [index] == -1)
+         if (offsets[index] == -1)
             return 0;
 
          if (index == nrOfEntries - 1)
-            return (int)br.BaseStream.Length - offsets [index];
+            return (int)br.BaseStream.Length - offsets[index];
 
          int counter = 1;
-         int nextOffset = offsets [index + counter++];
-         while (nextOffset == -1) 
+         int nextOffset = offsets[index + counter++];
+         while (nextOffset == -1)
          {
-            if (index + counter >= offsets.Length) 
+            if (index + counter >= offsets.Length)
             {
                nextOffset = (int)br.BaseStream.Length;
                break;
             }
 
-            nextOffset = offsets [index + counter++];
+            nextOffset = offsets[index + counter++];
          }
 
          return nextOffset - offsets[index];
       }
 
-      private static int ReadResources (BinaryReader br)
+      private static int ReadResources(BinaryReader br)
       {
          int result = 0;
          for (int i = 0; i < nrOfEntries; i++)
          {
             // Happens with demo data
-            if (offsets [i] == -1)
+            if (offsets[i] == -1)
             {
-               resources.Add (null);
+               resources.Add(null);
                continue;
             }
 
-            br.BaseStream.Seek ((long)offsets [i], SeekOrigin.Begin);
+            br.BaseStream.Seek((long)offsets[i], SeekOrigin.Begin);
 
-            int length = GetLength (br, i);
+            int length = GetLength(br, i);
 
-            resources.Add (new WarResource (br, offsets [i], length, i));
+            resources.Add(new WarResource(br, offsets[i], length, i));
             result++;
          }
          return result;
@@ -162,7 +162,8 @@ namespace WinWarCS.Data
       #endregion
 
       #region DumpResources
-#if !NETFX_CORE
+
+      #if !NETFX_CORE
       internal static void DumpResources(string path)
       {
          for (int i = 0; i < resources.Count; i++)
@@ -170,16 +171,16 @@ namespace WinWarCS.Data
             ContentFileType fileType = ContentFileType.FileUnknown;
             if (i < KnowledgeBase.Count)
                fileType = KnowledgeBase[i].type;
-            string filename = Path.Combine (path, "res" + i + "." + fileType);
-            File.WriteAllBytes (filename, resources [i].data);
+            string filename = Path.Combine(path, "res" + i + "." + fileType);
+            File.WriteAllBytes(filename, resources[i].data);
          }
       }
-#endif
+      #endif
       #endregion
 
       #region GetImageResource
 
-      internal static ImageResource GetImageResource (int id)
+      internal static ImageResource GetImageResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -187,14 +188,14 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileImage)
             return null;
 
-         return new ImageResource (GetResource (id), GetResource (KnowledgeBase[id].param));
+         return new ImageResource(GetResource(id), GetResource(KnowledgeBase[id].param));
       }
 
       #endregion
 
       #region GetCursorResource
 
-      internal static CursorResource GetCursorResource (int id)
+      internal static CursorResource GetCursorResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -204,16 +205,16 @@ namespace WinWarCS.Data
 
          WarResource pal = null;
          if (KnowledgeBase[KnowledgeBase[id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase[id].param);
+            pal = GetResource(KnowledgeBase[id].param);
 
-         return new CursorResource (GetResource (id), pal);
+         return new CursorResource(GetResource(id), pal);
       }
 
       #endregion
 
       #region GetSpriteResource
 
-      internal static SpriteResource GetSpriteResource (int id)
+      internal static SpriteResource GetSpriteResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -223,9 +224,9 @@ namespace WinWarCS.Data
 
          WarResource pal = null;
          if (KnowledgeBase[KnowledgeBase[id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase[id].param);
+            pal = GetResource(KnowledgeBase[id].param);
 
-         return new SpriteResource (GetResource (id), pal);
+         return new SpriteResource(GetResource(id), pal);
       }
 
       #endregion
@@ -247,12 +248,12 @@ namespace WinWarCS.Data
 
       #region GetResource
 
-      internal static WarResource GetResource (int index)
+      internal static WarResource GetResource(int index)
       {
          if ((index < 0) || (index >= Count))
             return null;
 
-         return resources [index];
+         return resources[index];
       }
 
       #endregion
@@ -264,13 +265,13 @@ namespace WinWarCS.Data
       /// </summary>
       /// <param name="name">Name of the resource</param>
       /// <returns>The resource or null if no resource of the given name exists</returns>
-      internal static WarResource GetResourceByName (string name)
+      internal static WarResource GetResourceByName(string name)
       {
-         int idx = KnowledgeBase.IndexByName (name);
+         int idx = KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return null;
 
-         return resources [idx];
+         return resources[idx];
       }
 
       #endregion
@@ -279,7 +280,7 @@ namespace WinWarCS.Data
 
       internal static int Count
       {
-         get 
+         get
          {
             if (resources == null)
                return 0;
@@ -289,5 +290,6 @@ namespace WinWarCS.Data
       }
 
       #endregion
+
    }
 }
