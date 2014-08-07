@@ -14,16 +14,24 @@ namespace WinWarCS.Data.Resources
 			internal string Text;
 			internal ushort X;
 			internal ushort Y;
-			internal int ButtonID;
 
-			internal int unknown1;
-			internal int unknown3;
-			internal int unknown4;
-			internal int unknown5;
+			internal int ButtonReleasedResourceIndex;
+         internal int ButtonPressedResourceIndex;
+         internal int ButtonIndex;
+			internal ushort Unknown;
+
+         public MenuEntry()
+         {
+            Text = string.Empty;
+            X = 0;
+            Y = 0;
+         }
 		}
 		#endregion
 
 		#region Variables
+      internal int BackgroundImageResourceIndex;
+      internal MenuEntry Title;
 		internal List<MenuEntry> Texts;
 		#endregion
 
@@ -47,111 +55,106 @@ namespace WinWarCS.Data.Resources
 		}
 		#endregion
 
+      #region ReadData
+      /*
+      // Offset of resource tables starts at 0x12 (uint)
+      // Offset of string table starts at 0x16 (uint)
+      // Offset of unknown* starts at 0x1A (uint)
+      // Offset of unknown* starts at 0x1E (uint)
+      // Offset of title info starts at 0x22 (uint)
+      // Offset of button list starts at 0x26 (uint)
+
+      // Resource table
+      // -2 resource index of background image
+      // -2 resource index of button
+      // -2 resource index of pressed button
+      */
+
+      private int ReadResourceIndex(int index)
+      {
+         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+
+         int resIndex = data.data[offset + 0] + (data.data[offset + 1] << 8) + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
+         return resIndex - 2;
+      }
+
+      private string ReadString(int index)
+      {
+         StringBuilder result = new StringBuilder();
+
+         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+
+         byte b = data.data[offset++];
+         // Nullterminated string
+         while (b != 0x00)
+         {
+            result.Append((char)b);
+            b = data.data[offset++];
+         }
+
+         return result.ToString();
+      }
+
+      private void ReadBackgroundImage()
+      {
+         BackgroundImageResourceIndex = ReadResourceIndex(0x2A);
+      }
+
+      private void ReadTitle()
+      {
+         int index = 0x22;
+         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+
+         ushort firstVal = (ushort)(data.data[offset + 0] + (data.data[offset + 1] << 8));
+         if (firstVal == 0xFFFF)
+            // Means => No title
+            return;
+
+         Title = new MenuEntry();
+         Title.X = (ushort)(data.data[offset + 2] + (data.data[offset + 3] << 8));
+         Title.Y = (ushort)(data.data[offset + 4] + (data.data[offset + 5] << 8));
+         Title.Text = ReadString(offset + 6);
+      }
+
+      private void ReadButtons()
+      {
+         int index = 0x26;
+         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+
+         // Length of one button => 0x1C
+         while (offset < data.data.Length)
+         {
+            ushort firstVal = (ushort)(data.data[offset + 0] + (data.data[offset + 1] << 8));
+            if (firstVal == 0xFFFF)
+               break;
+
+            MenuEntry me = new MenuEntry();
+            me.X = (ushort)(data.data[offset + 4] + (data.data[offset + 5] << 8));
+            me.Y = (ushort)(data.data[offset + 6] + (data.data[offset + 7] << 8));
+            me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10);
+            me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14);
+            me.Text = ReadString(offset + 18);
+            me.ButtonIndex = data.data[offset + 22] + (data.data[offset + 23] << 8) + (data.data[offset + 24] << 16) + (data.data[offset + 25] << 24);
+            me.Unknown = (ushort)(data.data[offset + 26] + (data.data[offset + 27] << 8));
+            Texts.Add(me);
+
+            offset += 0x1C;
+         }
+      }
+      #endregion
+
 		#region Init
 		private void Init(WarResource data)
-		{
-			this.data = data;
+      {
+         this.data = data;
 
-			MenuEntry me = null;
-			Texts = new List<MenuEntry>();
+         Title = null;
+         Texts = new List<MenuEntry>();
 
-			int offset = data.data[22] + (data.data[23] << 8) + (data.data[23] << 16) + (data.data[23] << 24);
-
-			int off2 = offset;
-
-			while (true)
-			{
-				while (data.data[off2] != 0x00)
-					off2++;
-
-				if (off2 == offset)
-					break;
-
-				StringBuilder sb = new StringBuilder(off2 - offset);
-				for (int i = offset; i < off2; i++)
-					sb.Append((char)data.data[i]);
-
-				me = new MenuEntry();
-				me.Text = sb.ToString();
-				Texts.Add(me);
-
-				off2++;
-				offset = off2;
-			}
-
-			// Bytes überspringen bis wir zu den Koordinaten kommen
-			while (data.data[offset] != 0xff)
-				offset++;
-
-			while (data.data[offset] == 0xff)
-				offset++;
-
-			while (data.data[offset] != 0xff)
-				offset++;
-
-			offset += 16;
-
-			bool hasTitle = false;
-
-			if (data.data[offset] == 0xff)
-			{
-				offset += 2;
-			}
-			else
-			{
-				hasTitle = true;
-
-				offset += 2;
-
-				me = Texts[0];
-				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
-				offset += 2;
-				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
-				offset += 2;
-				me.ButtonID = data.data[offset] + (data.data[offset + 1] << 8)
-								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
-				offset += 4;
-
-				me.unknown1 = 0;
-				me.unknown3 = 0;
-				me.unknown4 = 0;
-				me.unknown5 = 0;
-
-				offset += 2;
-			}
-
-			offset += 4;
-
-			for (int i = 0; i < Texts.Count; i++)
-			{
-				if ((hasTitle) && (i == 0))
-					continue;
-
-				me = Texts[i];
-				me.X = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
-				offset += 2;
-				me.Y = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
-				offset += 2;
-
-				offset += 2;
-				me.unknown4 = data.data[offset] + (data.data[offset + 1] << 8)
-								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
-				offset += 4;
-				me.unknown5 = data.data[offset] + (data.data[offset + 1] << 8)
-								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
-				offset += 4;
-
-				me.unknown1 = data.data[offset] + (data.data[offset + 1] << 8)
-								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
-				offset += 4;
-				me.ButtonID = data.data[offset] + (data.data[offset + 1] << 8)
-								 + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
-				offset += 4;
-				me.unknown3 = data.data[offset] + (data.data[offset + 1] << 8);
-				offset += 4;
-				offset += 2;
-			}
-		}
+         ReadBackgroundImage();
+         ReadTitle();
+         ReadButtons();
+      }
 		#endregion
 	}
 }
