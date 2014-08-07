@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WinWarCS.Data.Game;
 using WinWarCS.Gui;
 using WinWarCS.Gui.Input;
+using WinWarCS.Data;
 
 namespace WinWarCS.GameScreens.Windows
 {
@@ -84,9 +85,7 @@ namespace WinWarCS.GameScreens.Windows
          MinimapControl.Height = 64;
          MinimapControl.Init ();
 
-         menuButton = new UIButton ("Menu", UIButton.ButtonType.SmallButton);
-         menuButton.Width = (int)((float)menuButton.Width * 1.22f);
-         menuButton.Height = (int)((float)menuButton.Height / 1.3f);
+         menuButton = new UIButton ("", WarFile.KnowledgeBase.IndexByName("Menu Button"), WarFile.KnowledgeBase.IndexByName("Menu Button (Pressed)"));
          menuButton.X = leftSidebar.Width / 2 - menuButton.Width / 2 - 1;
          menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
          menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
