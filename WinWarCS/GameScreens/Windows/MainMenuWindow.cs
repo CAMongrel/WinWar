@@ -19,27 +19,17 @@ namespace WinWarCS.GameScreens.Windows
 
          InitWithUIResource("Main Menu Text");
 
-         // The order in the text resource is wrong, so switch first and second button
-         UIBaseComponent comp1 = Components[0];
-         Components[0] = Components[1];
-         Components[1] = comp1;
-
-         // Also switch actual screen position
-         int y = Components[0].Y;
-         Components[0].Y = Components[1].Y;
-         Components[1].Y = y;
-
          // Start new game
          UIButton newGameBtn = Components[0] as UIButton;
          newGameBtn.OnMouseUpInside += newGameBtn_OnMouseUpInside;
 
-         // Replay introduction
-         UIButton replayIntroBtn = Components[1] as UIButton;
-         replayIntroBtn.OnMouseUpInside += replayIntroBtn_OnMouseUpInside;
-
          // Load existing game
-         UIButton loadGameBtn = Components[2] as UIButton;
+         UIButton loadGameBtn = Components[1] as UIButton;
          loadGameBtn.OnMouseUpInside += loadGameBtn_OnMouseUpInside;
+
+         // Replay introduction
+         UIButton replayIntroBtn = Components[2] as UIButton;
+         replayIntroBtn.OnMouseUpInside += replayIntroBtn_OnMouseUpInside;
 
          // Quit Game
          UIButton quitGameBtn = Components[3] as UIButton;

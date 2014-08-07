@@ -11,7 +11,7 @@ namespace WinWarCS.GameScreens.Windows
 {
    class MenuBackgroundWindow : UIWindow
    {
-      WWTexture backgroundImage;
+      private WWTexture backgroundImage;
 
       internal MenuBackgroundWindow()
       {

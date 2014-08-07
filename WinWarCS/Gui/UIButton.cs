@@ -6,59 +6,29 @@ using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Graphics;
 using WinWarCS.Gui.Rendering;
+using WinWarCS.Data;
 
 #endregion
 namespace WinWarCS.Gui
 {
    internal class UIButton : UIBaseComponent
    {
-
-      #region enum ButtonType
-
-      internal enum ButtonType
-      {
-         SmallButton,
-         MediumButton,
-         LargeButton,
-      }
-
-      #endregion
-
       #region Variables
-
       private string text;
       private string text2;
       private char hotkey;
-      private ButtonType type;
       private WWTexture backgroundNotClicked;
       private WWTexture backgroundClicked;
       private bool isActive;
       private SpriteFont font;
-
       #endregion
 
       #region Events
-
       internal event OnPointerDownInside OnMouseDownInside;
       internal event OnPointerUpInside OnMouseUpInside;
-
       #endregion
 
       #region Properties
-
-      public ButtonType Type
-      {
-         get
-         {
-            return type;
-         }
-         set
-         {
-            type = value;
-
-            AutoSetButtonImage ();
-         }
-      }
 
       internal string Text
       {
@@ -72,14 +42,13 @@ namespace WinWarCS.Gui
 
       #region Constructor
 
-      internal UIButton (string setText, ButtonType setType)
+      internal UIButton (string setText, int releaseButtonResourceIndex, int pressedButtonResourceIndex)
       {
-         type = setType;
          font = MainGame.DefaultFont;
 
          isActive = false;
 
-         AutoSetButtonImage ();
+         AutoSetButtonImage (releaseButtonResourceIndex, pressedButtonResourceIndex);
 
          hotkey = (char)0x00;
 
@@ -103,23 +72,10 @@ namespace WinWarCS.Gui
       #endregion
 
       #region AutoSetButtonImage
-      private void AutoSetButtonImage ()
+      private void AutoSetButtonImage (int releaseButtonResourceIndex, int pressedButtonResourceIndex)
       {
-         switch (type)
-         {
-         case ButtonType.SmallButton:
-            backgroundNotClicked = WWTexture.FromImageResource ("Small Button");
-            backgroundClicked = WWTexture.FromImageResource ("Small Button (Clicked)");
-            break;
-         case ButtonType.MediumButton:
-            backgroundNotClicked = WWTexture.FromImageResource ("Medium Button");
-            backgroundClicked = WWTexture.FromImageResource ("Medium Button (Clicked)");
-            break;
-         case ButtonType.LargeButton:
-            backgroundNotClicked = WWTexture.FromImageResource ("Large Button");
-            backgroundClicked = WWTexture.FromImageResource ("Large Button (Clicked)");
-            break;
-         }
+         backgroundNotClicked = WWTexture.FromImageResource(WarFile.GetImageResource(releaseButtonResourceIndex));
+         backgroundClicked = WWTexture.FromImageResource(WarFile.GetImageResource(pressedButtonResourceIndex));
 
          Width = (int)(backgroundNotClicked.Width);
          Height = (int)(backgroundNotClicked.Height);

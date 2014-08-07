@@ -125,14 +125,21 @@ namespace WinWarCS.Gui
       {
          ClearComponents();
 
+         if (resource.Title != null)
+         {
+            UILabel label = new UILabel(resource.Title.Text);
+            label.X = (int)resource.Title.X;
+            label.Y = (int)resource.Title.Y;
+            AddComponent(label);
+         }
+
          for (int i = 0; i < resource.Texts.Count; i++)
          {
-            // TODO. Make use of new information in UIResource
-            UIButton.ButtonType type = UIButton.ButtonType.MediumButton;
+            WinWarCS.Data.Resources.UIResource.MenuEntry me = resource.Texts[i];
 
-            UIButton btn = new UIButton(resource.Texts[i].Text, type);
-            btn.X = (int)(resource.Texts[i].X);
-            btn.Y = (int)(resource.Texts[i].Y);
+            UIButton btn = new UIButton(me.Text, me.ButtonReleasedResourceIndex, me.ButtonPressedResourceIndex);
+            btn.X = (int)(me.X);
+            btn.Y = (int)(me.Y);
             AddComponent(btn);
          }
       }

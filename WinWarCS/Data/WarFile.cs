@@ -238,7 +238,7 @@ namespace WinWarCS.Data
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase[id].type != ContentFileType.FileText)
+         if (KnowledgeBase[id].type != ContentFileType.FileUI)
             return null;
 
          return new UIResource(GetResource(id));
