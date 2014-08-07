@@ -6,9 +6,9 @@ namespace WinWarCS.Data.Game
 {
    class StateBuilding : State
    {
-      double currentBuildingTime;
-      Entity currentEntity;
-      BuildEntity currentBuildingEntity;
+      private double currentBuildingTime;
+      private Entity currentEntity;
+      private BuildEntity currentBuildingEntity;
 
       internal StateBuilding(Entity Owner)
          : base(Owner)
@@ -36,9 +36,9 @@ namespace WinWarCS.Data.Game
 
       internal override void Update(GameTime gameTime)
       {
-         if (currentEntity == null)
+         if (currentEntity == null && this.Owner != null)
          {
-            //TODO!!! ((BuildEntity)this.Owner).Idle();
+            this.Owner.Idle();
             return;
          }
 
