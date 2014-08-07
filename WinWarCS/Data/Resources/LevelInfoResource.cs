@@ -127,7 +127,9 @@ namespace WinWarCS.Data.Resources
    {
       #region Variables
 
-      int _offset;
+      internal byte[] Magic;
+      internal byte[] Header;
+      internal ushort[] SubHeader;
 
       internal int StartCameraX { get; private set; }
       internal int StartCameraY { get; private set; }
@@ -184,9 +186,9 @@ namespace WinWarCS.Data.Resources
 
       #region Constructor
 
-      internal LevelInfoResource(WarResource data, int offset)
+      internal LevelInfoResource(WarResource data)
       {
-         Init(data, offset);
+         Init(data);
       }
 
       internal LevelInfoResource(string name)
@@ -197,14 +199,14 @@ namespace WinWarCS.Data.Resources
          if (res == null)
             throw new ArgumentNullException("res");
 
-         Init(res, ke.param);
+         Init(res);
       }
 
       #endregion
 
       #region Init
 
-      private void Init(WarResource data, int offset)
+      private void Init(WarResource data)
       {
          LoadData(data);
       }
@@ -220,8 +222,19 @@ namespace WinWarCS.Data.Resources
                byte* ptr = org_ptr;
 
                // 54 (0x36) bytes header
+               Magic = new byte[4];
+               Magic[0] = data.data[0]; Magic[1] = data.data[1]; Magic[2] = data.data[2]; Magic[3] = data.data[3];
+               Header = new byte[50];
+               Array.Copy(data.data, 4, Header, 0, 50);
                // 4 bytes FF FF FF FF
                // 32 (0x20) bytes follow
+               SubHeader = new ushort[16];
+               int offset = 0x3A;
+               for (int i = 0; i < SubHeader.Length; i++)
+               {
+                  SubHeader[i] = (ushort)(data.data[offset] + (data.data[offset + 1] << 8));
+                  offset += 2;
+               }
                // 2 bytes FF FF
 
                // 0x5C => Starting amount of lumber (uint) Player 1
@@ -250,9 +263,9 @@ namespace WinWarCS.Data.Resources
                   HumanPlayerRace = Race.Orcs;
 
                // 0x94 => Offset to mission text (ushort)
-               ushort missionTextOffset = *(ushort*)(&ptr[0x94]);
+               uint missionTextOffset = *(uint*)(&ptr[0x94]);
                MissionText = string.Empty;
-               if (missionTextOffset > 0)
+               if (missionTextOffset > 0)    // 0 => No MissionText
                {
                   StringBuilder sb = new StringBuilder();
 
@@ -278,6 +291,12 @@ namespace WinWarCS.Data.Resources
                TilesPaletteResourceIndex = (ushort)((*(ushort*)(&ptr[0xD8])) - 2);
 
                // 0xE3 start of dynamic data
+               // TODO: Needs figuring out how this is actually stored and what the data means
+               // For now, just search for the next chunk
+               ushort* uptr = (ushort*)&ptr[0xE3];
+               while (*uptr != 0xFFFF)
+                  uptr++;
+
 
                // FF FF
                // Roads => x/y - x2/y2 - owner
@@ -291,7 +310,7 @@ namespace WinWarCS.Data.Resources
       private void OldLoadData(WarResource data, int offset)
       {
          this.data = data;
-         this._offset = offset;
+         int _offset = offset;
 
          unsafe
          {
