@@ -297,9 +297,11 @@ namespace WinWarCS.Data.Resources
                while (*uptr != 0xFFFF)
                   uptr++;
 
+               StartObjects = new LevelObject[0];
 
                // FF FF
                // Roads => x/y - x2/y2 - owner
+               StartRoads = new Road[0];
                // FF FF
                // Walls => x/y - x2/y2 - owner
                // FF FF
