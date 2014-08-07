@@ -230,9 +230,9 @@ namespace WinWarCS.Data
 
       #endregion
 
-      #region GetTextResource
+      #region GetUIResource
 
-      internal static TextResource GetTextResource (int id)
+      internal static UIResource GetUIResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -240,7 +240,7 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileText)
             return null;
 
-         return new TextResource (GetResource (id));
+         return new UIResource(GetResource(id));
       }
 
       #endregion

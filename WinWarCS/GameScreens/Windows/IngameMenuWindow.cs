@@ -26,7 +26,7 @@ namespace WinWarCS.GameScreens.Windows
          //Height = background.Height;
 
          background = new UIImage (WWTexture.FromImageResource ("Large Box (" + setRace + ")"));
-         background.InitWithTextResource (WarFile.GetTextResource (369));
+         background.InitWithUIResource (WarFile.GetUIResource (369));
          AddComponent (background);
 
          background.X = 120;

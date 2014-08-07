@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class TextResource : BasicResource
+	internal class UIResource : BasicResource
 	{
 		#region Subclass MenuEntry
 		internal class MenuEntry
@@ -36,7 +36,7 @@ namespace WinWarCS.Data.Resources
 		#endregion
 
 		#region Constructor
-		internal TextResource(string name)
+		internal UIResource(string name)
 		{
 			WarResource res = WarFile.GetResourceByName(name);
 
@@ -46,7 +46,7 @@ namespace WinWarCS.Data.Resources
 			Init(res);
 		}
 
-		internal TextResource(WarResource data)
+		internal UIResource(WarResource data)
 		{
 			if (data == null)
 				throw new ArgumentNullException("data");

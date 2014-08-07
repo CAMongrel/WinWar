@@ -17,7 +17,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          this.Y = 70;
 
-         InitWithTextResource("Main Menu Text");
+         InitWithUIResource("Main Menu Text");
 
          // The order in the text resource is wrong, so switch first and second button
          UIBaseComponent comp1 = Components[0];

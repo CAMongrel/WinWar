@@ -48,8 +48,8 @@ namespace WinWarCS.Gui
          TestGame.Start("TestWindow",
              delegate
              {
-                 TextResource tr = new TextResource("Main Menu Text");
-                 wnd = Window.FromTextResource(tr);
+                 UIResource tr = new UIResource("Main Menu Text");
+                 wnd = Window.FromUIResource(tr);
              },
              delegate
              {

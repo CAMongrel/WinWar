@@ -121,7 +121,6 @@
     <Compile Include="Data\Resources\LevelPassableResource.cs" />
     <Compile Include="Data\Resources\LevelVisualResource.cs" />
     <Compile Include="Data\Resources\SpriteResource.cs" />
-    <Compile Include="Data\Resources\TextResource.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
@@ -212,6 +211,7 @@
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Resources\TableResource.cs" />
+    <Compile Include="Data\Resources\UIResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
