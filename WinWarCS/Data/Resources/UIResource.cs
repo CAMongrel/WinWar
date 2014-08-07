@@ -75,6 +75,9 @@ namespace WinWarCS.Data.Resources
          int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
 
          int resIndex = data.data[offset + 0] + (data.data[offset + 1] << 8) + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
+         if (resIndex == 0)
+            return 0;
+
          return resIndex - 2;
       }
 
@@ -97,7 +100,7 @@ namespace WinWarCS.Data.Resources
 
       private void ReadBackgroundImage()
       {
-         BackgroundImageResourceIndex = ReadResourceIndex(0x2A);
+         BackgroundImageResourceIndex = ReadResourceIndex(0x12);
       }
 
       private void ReadTitle()

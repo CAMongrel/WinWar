@@ -7,6 +7,7 @@ using WinWarCS.Graphics;
 using WinWarCS.Gui;
 using WinWarCS.Data.Game;
 using WinWarCS.Data;
+using WinWarCS.Data.Resources;
 
 namespace WinWarCS.GameScreens.Windows
 {
@@ -25,8 +26,10 @@ namespace WinWarCS.GameScreens.Windows
          //Width = background.Width;
          //Height = background.Height;
 
-         background = new UIImage (WWTexture.FromImageResource ("Large Box (" + setRace + ")"));
-         background.InitWithUIResource (WarFile.GetUIResource (369));
+         UIResource res = WarFile.GetUIResource(setRace == Race.Humans ? 368 : 369);
+
+         background = new UIImage(WWTexture.FromImageResource(WarFile.GetImageResource(res.BackgroundImageResourceIndex)));
+         background.InitWithUIResource (res);
          AddComponent (background);
 
          background.X = 120;
