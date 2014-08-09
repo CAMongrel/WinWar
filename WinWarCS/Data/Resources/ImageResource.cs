@@ -6,30 +6,20 @@ namespace WinWarCS.Data.Resources
 {
 	internal class ImageResource : BasicImgResource
 	{
-		internal ImageResource(WarResource data, WarResource palette)
-			: this(data, palette, false)
-		{
-		}
-
-		internal ImageResource(WarResource data, WarResource palette, bool bForceGrayscale)
+      internal ImageResource(WarResource data, WarResource palette, WarResource addPalette)
 			: base(palette, data)
 		{
-			unsafe
-			{
-				fixed (byte* org_ptr = &data.data[0])
-				{
-					ushort* usptr = (ushort*)org_ptr;
-					width = *usptr++;
-					height = *usptr++;
-				}
-			}
+         Type = ContentFileType.FileImage;
 
-			CreateImageData(bForceGrayscale);
+         width = ReadUShort(0);
+         height = ReadUShort(2);
+
+         CreateImageData(palette == null, addPalette);
 		}
 
-		internal override void CreateImageData(bool bForceGrayscale)
+      internal void CreateImageData(bool bForceGrayscale, WarResource addPalette)
 		{
-         WarResource addPal = WarFile.GetResource (191);
+         WarResource addPal = addPalette;
 
 			unsafe
 			{

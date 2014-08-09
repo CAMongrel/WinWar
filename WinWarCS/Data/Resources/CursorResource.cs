@@ -8,17 +8,14 @@ namespace WinWarCS.Data.Resources
       public ushort HotSpotY { get; private set; }
 
       internal CursorResource(WarResource data, WarResource palette)
-         : this(data, palette, false)
-      {
-      }
-
-      internal CursorResource(WarResource data, WarResource palette, bool bForceGrayscale)
          : base(palette, data)
       {
-         CreateImageData(bForceGrayscale);
+         Type = ContentFileType.FileCursor;
+
+         CreateImageData(palette == null);
       }
 
-      internal override void CreateImageData (bool bForceGrayscale)
+      internal void CreateImageData (bool bForceGrayscale)
       {
          if (Resource == null)
             return;
@@ -79,26 +76,6 @@ namespace WinWarCS.Data.Resources
                            cnt++;
                            image_data [cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
                            cnt++;
-
-                           /*if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                               (image_data [cnt - 4] == 228) &&
-                               (image_data [cnt - 3] == 108) &&
-                               (image_data [cnt - 2] == 228))
-                           {
-                              image_data [cnt - 4] = KnowledgeBase.hardcoded_pal [pal_index];
-                              image_data [cnt - 3] = KnowledgeBase.hardcoded_pal [pal_index + 1];
-                              image_data [cnt - 2] = KnowledgeBase.hardcoded_pal [pal_index + 2];
-                           }
-
-                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                               (image_data [cnt - 4] == 204) &&
-                               (image_data [cnt - 3] == 0) &&
-                               (image_data [cnt - 2] == 212))
-                           {
-                              image_data [cnt - 4] = KnowledgeBase.hardcoded_pal [pal_index];
-                              image_data [cnt - 3] = KnowledgeBase.hardcoded_pal [pal_index + 1];
-                              image_data [cnt - 2] = KnowledgeBase.hardcoded_pal [pal_index + 2];
-                           }*/
                         }
                      }
                   }

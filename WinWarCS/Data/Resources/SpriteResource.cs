@@ -26,20 +26,23 @@ namespace WinWarCS.Data.Resources
 
       private WarResource palette;
 
-      internal SpriteResource(WarResource data, WarResource palette)
+      internal SpriteResource(WarResource data, WarResource palette, WarResource addPalette)
       {
+         Type = ContentFileType.FileSprite;
+
          this.Resource = data;
          this.palette = palette;
 
          Frames = null;
+
+         CreateImageData(palette == null, addPalette);
       }
 
-      internal void CreateImageData(bool bForceGrayscale, bool flip_x, bool flip_y)
+      internal void CreateImageData(bool bForceGrayscale, WarResource addPalette)
       {
          int i, offset, x, y, c;
-         int alt_x, alt_y;
 
-         WarResource addPal = WarFile.GetResource (191);
+         WarResource addPal = addPalette;
 
          unsafe
          {
@@ -76,10 +79,7 @@ namespace WinWarCS.Data.Resources
                      {
                         for (x = Frames [i].disp_x; x < (Frames [i].width + Frames [i].disp_x); x++) 
                         {
-                           alt_x = (flip_x ? (MaxWidth - 1 - x) : x);
-                           alt_y = (flip_y ? (MaxHeight - 1 - y) : y);
-
-                           temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
+                           temp_index = (x + (y * MaxWidth)) * 4;
 
                            for (c = 0; c < 3; c++)
                               Frames [i].image_data [temp_index + c] = org_ptr [offset];
@@ -102,14 +102,8 @@ namespace WinWarCS.Data.Resources
                         {
 				               for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
                            {
-                              alt_x = (flip_x ? ((Frames[i].width + Frames[i].disp_x) - 1 - (x - Frames[i].disp_x)) : x);
-                              alt_y = (flip_y ? ((Frames[i].height + Frames[i].disp_y) - 1 - (y - Frames[i].disp_y)) : y);
-
-                              temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
+                              temp_index = (x + (y * MaxWidth)) * 4;
                               pal_index = org_ptr[offset++] * 3;
-
-                              if (this.Resource.resource_index == 280)
-                                 Console.Write ((pal_index / 3).ToString(" 000"));
 
                               if (pal_index / 3 == 96) 
                               {
@@ -137,8 +131,6 @@ namespace WinWarCS.Data.Resources
                                  Frames[i].image_data[temp_index + 3] = 255;
                               }
                            }
-                           if (this.Resource.resource_index == 280)
-                              Console.WriteLine ();
                         }
                      }
                   }

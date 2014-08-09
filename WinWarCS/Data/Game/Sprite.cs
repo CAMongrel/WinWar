@@ -84,9 +84,6 @@ namespace WinWarCS.Data.Game
          allAnimations = new List<SpriteAnimation>();
          CurrentAnimation = null;
 
-         if (resource.Frames == null)
-            resource.CreateImageData(false, false, false);
-
          MaxWidth = resource.MaxWidth;
          MaxHeight = resource.MaxHeight;
 

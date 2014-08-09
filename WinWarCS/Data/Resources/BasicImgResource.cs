@@ -19,7 +19,5 @@ namespace WinWarCS.Data.Resources
 
 			image_data = null;
 		}
-
-		internal abstract void CreateImageData(bool bForceGrayscale);
 	}
 }
