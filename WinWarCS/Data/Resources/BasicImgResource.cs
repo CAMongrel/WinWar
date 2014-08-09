@@ -14,7 +14,7 @@ namespace WinWarCS.Data.Resources
 
 		protected BasicImgResource(WarResource palette, WarResource data)
 		{
-			this.data = data;
+			this.Resource = data;
 			this.palette = palette;
 
 			image_data = null;

@@ -23,22 +23,9 @@ namespace WinWarCS.Data.Resources
       /// </summary>
       internal LevelVisualResource(WarResource setData)
       {
+         Type = ContentFileType.FileLevelVisual;
+
          Init(setData);
-      }
-      // LevelVisualResource(setData, setOffset)
-
-      /// <summary>
-      /// Create level visual resource
-      /// </summary>
-      internal LevelVisualResource(string name)
-      {
-         KnowledgeEntry ke = WarFile.KnowledgeBase[name];
-
-         WarResource res = WarFile.GetResource(ke.id);
-         if (res == null)
-            throw new ArgumentNullException("res");
-
-         Init(res);
       }
       // LevelVisualResource(setData, setOffset)
 		
@@ -47,7 +34,7 @@ namespace WinWarCS.Data.Resources
       /// </summary>
       private void Init(WarResource setData)
       {
-         this.data = setData;
+         this.Resource = setData;
 
          CreateVisualData();
       }
@@ -61,11 +48,11 @@ namespace WinWarCS.Data.Resources
          // Levels are always 64 x 64 in size
          visualData = new ushort[64 * 64];
 
-         if (data.data != null)
+         if (Resource.data != null)
          {
             unsafe
             {
-               fixed (byte* org_ptr = &data.data[0])
+               fixed (byte* org_ptr = &Resource.data[0])
                {
                   ushort* ptr = (ushort*)org_ptr;
 						

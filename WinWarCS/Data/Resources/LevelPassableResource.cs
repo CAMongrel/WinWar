@@ -11,23 +11,17 @@ namespace WinWarCS.Data.Resources
       internal short height;
       internal short[,] passableData;
 
-      internal LevelPassableResource (string res_name)
-      {
-         // Levels are always 64 x 64 in size
-         width = 64;
-         height = 64;
-
-         this.data = WarFile.GetResourceByName (res_name);
-
-         CreatePassableData ();
-      }
-
       /// <summary>
       /// Create level visual resource
       /// </summary>
       internal LevelPassableResource (WarResource setData)
       {
-         this.data = setData;
+         Type = ContentFileType.FileLevelPassable;
+
+         this.Resource = setData;
+
+         width = 64;
+         height = 64;
 			
          CreatePassableData ();
       }
@@ -45,11 +39,11 @@ namespace WinWarCS.Data.Resources
       {
          passableData = new short[width, height];
 			
-         if (data.data != null) 
+         if (Resource.data != null) 
          {
             unsafe 
             {
-               fixed (byte* org_ptr = &data.data[0]) 
+               fixed (byte* org_ptr = &Resource.data[0]) 
                {
                   short* ptr = (short*)org_ptr;
 						

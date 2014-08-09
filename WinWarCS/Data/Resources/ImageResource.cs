@@ -33,7 +33,7 @@ namespace WinWarCS.Data.Resources
 
 			unsafe
 			{
-				fixed (byte* org_ptr = &data.data[0])
+				fixed (byte* org_ptr = &Resource.data[0])
 				{
 					byte* b_ptr = org_ptr + 4;
 
@@ -72,7 +72,7 @@ namespace WinWarCS.Data.Resources
 								{
 									pal_index = b_ptr[x + y * width] * 3;
 
-                           if (this.data.resource_index == 280)
+                           if (this.Resource.resource_index == 280)
                               Console.Write ((pal_index / 3).ToString(" 000"));
 
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 0] * 4);
@@ -93,7 +93,7 @@ namespace WinWarCS.Data.Resources
                               image_data[cnt - 2] = (byte)(addPal.data[pal_index + 2] * 4);
 									}
 								}
-                        if (this.data.resource_index == 280)
+                        if (this.Resource.resource_index == 280)
                            Console.WriteLine ();
 							}
 						}

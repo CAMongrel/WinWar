@@ -109,7 +109,7 @@ namespace WinWarCS.Gui
       {
          string basenameInfo = race + " " + level;
 
-         LevelInfoResource levelInfo = new LevelInfoResource (basenameInfo);
+         LevelInfoResource levelInfo = new LevelInfoResource(WarFile.GetResource(WarFile.KnowledgeBase.IndexByName(basenameInfo)));
          LevelPassableResource levelPassable = new LevelPassableResource (WarFile.GetResource(levelInfo.PassableResourceIndex));
          LevelVisualResource levelVisual = new LevelVisualResource (WarFile.GetResource(levelInfo.VisualResourceIndex));
 
@@ -119,10 +119,11 @@ namespace WinWarCS.Gui
 
       internal void LoadCustomLevel (string basename)
       {
-         LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
-         LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
+         throw new NotImplementedException();
+         //LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
+         //LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
 
-         CurrentMap = new Map (null, levelVisual, levelPassable);
+         //CurrentMap = new Map (null, levelVisual, levelPassable);
       }
 
       internal override void Update (GameTime gameTime)

@@ -23,18 +23,10 @@ namespace WinWarCS.Data.Resources
       }
 
       #region Constructor
-      internal TableResource(string name)
-      {
-         WarResource res = WarFile.GetResourceByName(name);
-
-         if (res == null)
-            throw new ArgumentNullException("name");
-
-         Init(res);
-      }
-
       internal TableResource(WarResource data)
       {
+         Type = ContentFileType.FileTable;
+
          if (data == null)
             throw new ArgumentNullException("data");
 
@@ -45,7 +37,7 @@ namespace WinWarCS.Data.Resources
       #region Init
       private void Init(WarResource data)
       {
-         this.data = data;
+         this.Resource = data;
 
          Columns = (ushort)(data.data[0] + (data.data[1] << 8));
          Rows = (ushort)(data.data[2] + (data.data[3] << 8));

@@ -32,10 +32,10 @@ namespace WinWarCS.Data
          ushort len = br.ReadUInt16();
          byte align = br.ReadByte();
 
-         length = len + (align >> 16); // Hmm ...
+         length = len + (align << 16);
 
-         align = br.ReadByte();
-         bCompressed = (align != 0);
+         byte comprFlag = br.ReadByte();
+         bCompressed = (comprFlag != 0);
       }
 
       private unsafe void ReadData(BinaryReader read)
@@ -43,7 +43,7 @@ namespace WinWarCS.Data
          if (!bCompressed)
          {
             read.BaseStream.Seek(offset + 4, SeekOrigin.Begin);
-            data = read.ReadBytes(compr_length);
+            data = read.ReadBytes(length);
          }
          else
          {

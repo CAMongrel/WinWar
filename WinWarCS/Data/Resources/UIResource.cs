@@ -18,7 +18,7 @@ namespace WinWarCS.Data.Resources
 			internal int ButtonReleasedResourceIndex;
          internal int ButtonPressedResourceIndex;
          internal int ButtonIndex;
-			internal ushort Unknown;
+			internal ushort HotKey;
 
          public MenuEntry()
          {
@@ -33,21 +33,16 @@ namespace WinWarCS.Data.Resources
       internal int BackgroundImageResourceIndex;
       internal MenuEntry Title;
 		internal List<MenuEntry> Texts;
+
+      internal ushort EnterButtonIndex;
+      internal ushort EscapeButtonIndex;
 		#endregion
 
 		#region Constructor
-		internal UIResource(string name)
-		{
-			WarResource res = WarFile.GetResourceByName(name);
-
-			if (res == null)
-				throw new ArgumentNullException("name");
-
-			Init(res);
-		}
-
 		internal UIResource(WarResource data)
 		{
+         Type = ContentFileType.FileUI;
+
 			if (data == null)
 				throw new ArgumentNullException("data");
 
@@ -59,8 +54,8 @@ namespace WinWarCS.Data.Resources
       /*
       // Offset of resource tables starts at 0x12 (uint)
       // Offset of string table starts at 0x16 (uint)
-      // Offset of unknown* starts at 0x1A (uint)
-      // Offset of unknown* starts at 0x1E (uint)
+      // Offset of multiselect values starts at 0x1A (uint)
+      // Offset of sub header starts at 0x1E (uint)
       // Offset of title info starts at 0x22 (uint)
       // Offset of button list starts at 0x26 (uint)
 
@@ -72,9 +67,9 @@ namespace WinWarCS.Data.Resources
 
       private int ReadResourceIndex(int index)
       {
-         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+         int offset = ReadInt(index);
 
-         int resIndex = data.data[offset + 0] + (data.data[offset + 1] << 8) + (data.data[offset + 2] << 16) + (data.data[offset + 3] << 24);
+         int resIndex = ReadInt(offset);
          if (resIndex == 0)
             return 0;
 
@@ -85,14 +80,14 @@ namespace WinWarCS.Data.Resources
       {
          StringBuilder result = new StringBuilder();
 
-         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+         int offset = ReadInt(index);
 
-         byte b = data.data[offset++];
+         byte b = Resource.data[offset++];
          // Nullterminated string
          while (b != 0x00)
          {
             result.Append((char)b);
-            b = data.data[offset++];
+            b = Resource.data[offset++];
          }
 
          return result.ToString();
@@ -103,42 +98,57 @@ namespace WinWarCS.Data.Resources
          BackgroundImageResourceIndex = ReadResourceIndex(0x12);
       }
 
+      private void ReadSubHeader()
+      {
+         // Unknown int ==> Always 0x2A
+         // "Enter" button index
+         // "Escape" button index
+
+         int index = 0x1E;
+         int offset = ReadInt(index);
+
+         EnterButtonIndex = ReadUShort(offset + 4);
+         EscapeButtonIndex = ReadUShort(offset + 6);
+         ushort unk1 = ReadUShort(offset + 8);
+         ushort unk2 = ReadUShort(offset + 10);
+      }
+
       private void ReadTitle()
       {
          int index = 0x22;
-         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+         int offset = ReadInt(index);
 
-         ushort firstVal = (ushort)(data.data[offset + 0] + (data.data[offset + 1] << 8));
+         ushort firstVal = ReadUShort(offset);
          if (firstVal == 0xFFFF)
             // Means => No title
             return;
 
          Title = new MenuEntry();
-         Title.X = (ushort)(data.data[offset + 2] + (data.data[offset + 3] << 8));
-         Title.Y = (ushort)(data.data[offset + 4] + (data.data[offset + 5] << 8));
+         Title.X = ReadUShort(offset + 2);
+         Title.Y = ReadUShort(offset + 4);
          Title.Text = ReadString(offset + 6);
       }
 
       private void ReadButtons()
       {
          int index = 0x26;
-         int offset = data.data[index + 0] + (data.data[index + 1] << 8) + (data.data[index + 2] << 16) + (data.data[index + 3] << 24);
+         int offset = ReadInt(index);
 
          // Length of one button => 0x1C
-         while (offset < data.data.Length)
+         while (offset < Resource.data.Length)
          {
-            ushort firstVal = (ushort)(data.data[offset + 0] + (data.data[offset + 1] << 8));
+            ushort firstVal = ReadUShort(offset);
             if (firstVal == 0xFFFF)
                break;
 
             MenuEntry me = new MenuEntry();
-            me.X = (ushort)(data.data[offset + 4] + (data.data[offset + 5] << 8));
-            me.Y = (ushort)(data.data[offset + 6] + (data.data[offset + 7] << 8));
+            me.X = ReadUShort(offset + 4);
+            me.Y = ReadUShort(offset + 6);
             me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10);
             me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14);
             me.Text = ReadString(offset + 18);
-            me.ButtonIndex = data.data[offset + 22] + (data.data[offset + 23] << 8) + (data.data[offset + 24] << 16) + (data.data[offset + 25] << 24);
-            me.Unknown = (ushort)(data.data[offset + 26] + (data.data[offset + 27] << 8));
+            me.ButtonIndex = ReadInt(offset + 22);
+            me.HotKey = ReadUShort(offset + 26);
             Texts.Add(me);
 
             offset += 0x1C;
@@ -149,12 +159,13 @@ namespace WinWarCS.Data.Resources
 		#region Init
 		private void Init(WarResource data)
       {
-         this.data = data;
+         this.Resource = data;
 
          Title = null;
          Texts = new List<MenuEntry>();
 
          ReadBackgroundImage();
+         ReadSubHeader();
          ReadTitle();
          ReadButtons();
       }

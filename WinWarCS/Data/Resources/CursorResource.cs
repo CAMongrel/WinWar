@@ -20,12 +20,12 @@ namespace WinWarCS.Data.Resources
 
       internal override void CreateImageData (bool bForceGrayscale)
       {
-         if (data == null)
+         if (Resource == null)
             return;
 
          unsafe
          {
-            fixed (byte* org_ptr = &data.data[0])
+            fixed (byte* org_ptr = &Resource.data[0])
             {
                ushort* usptr = (ushort*)org_ptr;
 

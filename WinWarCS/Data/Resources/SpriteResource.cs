@@ -28,7 +28,7 @@ namespace WinWarCS.Data.Resources
 
       internal SpriteResource(WarResource data, WarResource palette)
       {
-         this.data = data;
+         this.Resource = data;
          this.palette = palette;
 
          Frames = null;
@@ -43,7 +43,7 @@ namespace WinWarCS.Data.Resources
 
          unsafe
          {
-            fixed (byte* org_ptr = &data.data[0])
+            fixed (byte* org_ptr = &Resource.data[0])
             {
                FrameCount = org_ptr[0] + (org_ptr[1] << 8);
                MaxWidth = org_ptr[2];
@@ -108,7 +108,7 @@ namespace WinWarCS.Data.Resources
                               temp_index = (alt_x + (alt_y * MaxWidth)) * 4;
                               pal_index = org_ptr[offset++] * 3;
 
-                              if (this.data.resource_index == 280)
+                              if (this.Resource.resource_index == 280)
                                  Console.Write ((pal_index / 3).ToString(" 000"));
 
                               if (pal_index / 3 == 96) 
@@ -137,7 +137,7 @@ namespace WinWarCS.Data.Resources
                                  Frames[i].image_data[temp_index + 3] = 255;
                               }
                            }
-                           if (this.data.resource_index == 280)
+                           if (this.Resource.resource_index == 280)
                               Console.WriteLine ();
                         }
                      }

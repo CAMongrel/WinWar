@@ -188,18 +188,9 @@ namespace WinWarCS.Data.Resources
 
       internal LevelInfoResource(WarResource data)
       {
+         Type = ContentFileType.FileLevelInfo;
+
          Init(data);
-      }
-
-      internal LevelInfoResource(string name)
-      {
-         KnowledgeEntry ke = WarFile.KnowledgeBase[name];
-
-         WarResource res = WarFile.GetResource(ke.id);
-         if (res == null)
-            throw new ArgumentNullException("res");
-
-         Init(res);
       }
 
       #endregion
@@ -213,7 +204,7 @@ namespace WinWarCS.Data.Resources
 
       private void LoadData(WarResource data)
       {
-         this.data = data;
+         this.Resource = data;
 
          unsafe
          {
@@ -311,7 +302,7 @@ namespace WinWarCS.Data.Resources
 
       private void OldLoadData(WarResource data, int offset)
       {
-         this.data = data;
+         this.Resource = data;
          int _offset = offset;
 
          unsafe
