@@ -135,7 +135,7 @@ namespace WinWarCS.Gui
 
          for (int i = 0; i < resource.Texts.Count; i++)
          {
-            WinWarCS.Data.Resources.UIResource.MenuEntry me = resource.Texts[i];
+            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Texts[i];
 
             UIButton btn = new UIButton(me.Text, me.ButtonReleasedResourceIndex, me.ButtonPressedResourceIndex);
             btn.X = (int)(me.X);

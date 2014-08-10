@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace WinWarCS.Data.Resources
 {
@@ -25,5 +26,12 @@ namespace WinWarCS.Data.Resources
 
          return data[index + 0] + (data[index + 1] << 8) + (data[index + 2] << 16) + (data[index + 3] << 24);
       }
+
+#if !NETFX_CORE
+      internal virtual void WriteToStream(BinaryWriter writer)
+      {
+         // Implemented in derived classes
+      }
+#endif
 	}
 }

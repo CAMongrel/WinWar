@@ -114,6 +114,8 @@ namespace WinWarCS.Data
             // Load resources
             rawResources = new List<WarResource>(nrOfEntries);
             ReadResources(reader);
+
+            UIResource res = (UIResource)GetResource(376);
          }
          catch (Exception ex)
          {
@@ -281,7 +283,7 @@ namespace WinWarCS.Data
       #endregion
 
       #region WriteWarFile
-      private static void WriteWarFile(string outputFile)
+      private static void WriteWarFile(string outputFile, bool forceStrongTyped)
       {
 #if !NETFX_CORE
          using (BinaryWriter writer = new BinaryWriter(File.Create(outputFile)))
@@ -307,7 +309,16 @@ namespace WinWarCS.Data
 
                offsets[i] = curOffset;
 
-               WriteResource(writer, rawResources[i]);
+               if (forceStrongTyped)
+               {
+                  // Force loading of resource
+                  BasicResource res = GetResource(i);
+                  res.WriteToStream(writer);
+               }
+               else
+               {
+                  WriteResource(writer, rawResources[i]);
+               }
 
                curOffset = (uint)writer.BaseStream.Position;
             }

@@ -9,8 +9,17 @@ namespace WinWarCS.Data.Resources
 	internal class UIResource : BasicResource
 	{
 		#region Subclass MenuEntry
-		internal class MenuEntry
+      internal enum UIEntryType
+      {
+         Button,
+         LeftArrow,
+         RightArrow,
+         ValueList,
+      }
+
+		internal class UIEntry
 		{
+         internal UIEntryType Type;
 			internal string Text;
 			internal ushort X;
 			internal ushort Y;
@@ -19,20 +28,23 @@ namespace WinWarCS.Data.Resources
          internal int ButtonPressedResourceIndex;
          internal int ButtonIndex;
 			internal ushort HotKey;
+         internal int ValueCount;
+         internal List<string> Values;
 
-         public MenuEntry()
+         public UIEntry()
          {
             Text = string.Empty;
             X = 0;
             Y = 0;
+            Values = new List<string>();
          }
 		}
 		#endregion
 
 		#region Variables
       internal int BackgroundImageResourceIndex;
-      internal MenuEntry Title;
-		internal List<MenuEntry> Texts;
+      internal UIEntry Title;
+		internal List<UIEntry> Texts;
 
       internal ushort EnterButtonIndex;
       internal ushort EscapeButtonIndex;
@@ -123,13 +135,13 @@ namespace WinWarCS.Data.Resources
             // Means => No title
             return;
 
-         Title = new MenuEntry();
+         Title = new UIEntry();
          Title.X = ReadUShort(offset + 2, res.data);
          Title.Y = ReadUShort(offset + 4, res.data);
          Title.Text = ReadString(offset + 6, res);
       }
 
-      private void ReadButtons(WarResource res)
+      private void ReadUIElements(WarResource res)
       {
          int index = 0x26;
          int offset = ReadInt(index, res.data);
@@ -141,12 +153,28 @@ namespace WinWarCS.Data.Resources
             if (firstVal == 0xFFFF)
                break;
 
-            MenuEntry me = new MenuEntry();
+            // Types:
+            // 0 => button
+            // 1 => Left arrow
+            // 2 => Right arrow
+
+            UIEntry me = new UIEntry();
+            me.Type = (UIEntryType)ReadUShort(offset, res.data);
+            ushort unk = ReadUShort(offset + 2, res.data);
             me.X = ReadUShort(offset + 4, res.data);
             me.Y = ReadUShort(offset + 6, res.data);
             me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10, res);
             me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14, res);
-            me.Text = ReadString(offset + 18, res);
+            me.Text = string.Empty;
+            if (me.Type == UIEntryType.Button)
+               me.Text = ReadString(offset + 18, res);
+            else if (me.Type == UIEntryType.ValueList)
+            {
+               // Read values
+            }
+            else
+               me.ValueCount = ReadInt(offset + 18, res.data);
+
             me.ButtonIndex = ReadInt(offset + 22, res.data);
             me.HotKey = ReadUShort(offset + 26, res.data);
             Texts.Add(me);
@@ -160,12 +188,12 @@ namespace WinWarCS.Data.Resources
 		private void Init(WarResource data)
       {
          Title = null;
-         Texts = new List<MenuEntry>();
+         Texts = new List<UIEntry>();
 
          ReadBackgroundImage(data);
          ReadSubHeader(data);
          ReadTitle(data);
-         ReadButtons(data);
+         ReadUIElements(data);
       }
 		#endregion
 	}
