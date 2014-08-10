@@ -167,7 +167,7 @@ namespace WinWarCS.Data
          switch (fileType)
          {
             case ContentFileType.FileBriefing:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileCursor:
                {
@@ -215,29 +215,29 @@ namespace WinWarCS.Data
                return new TableResource(resource);
 
             case ContentFileType.FileText:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileTiles:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileTileSet:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileUI:
                return new UIResource(resource);
 
             case ContentFileType.FileVOC:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileWave:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             case ContentFileType.FileXMID:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
 
             default:
             case ContentFileType.FileUnknown:
-               return new UnknownResource(resource);
+               return new RawResource(resource);
           }
       }
 

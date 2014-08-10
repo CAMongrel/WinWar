@@ -45,7 +45,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Tileset pal
       /// </summary>
-      private WarResource tilesetPal;
+      private PaletteResource tilesetPal;
 		
       /// <summary>
       /// Known tilesets
@@ -94,8 +94,8 @@ namespace WinWarCS.Data.Game
       /// Create map tileset
       /// </summary>
       internal MapTileset (Tileset setTilesetType,
-                      WarResource setTileset, WarResource setTiles,
-                      WarResource setTilesetPal)
+                           WarResource setTileset, WarResource setTiles,
+                           PaletteResource setTilesetPal)
       {
          tiles = setTiles;
          tileset = setTileset;
@@ -202,23 +202,23 @@ namespace WinWarCS.Data.Game
       {
          // TODO: FIXME with new WarFile resource loading strategy
 
-         WarResource tileset = ((UnknownResource)WarFile.GetResourceByName ("Barrens 1")).Resource;
-         WarResource tiles = ((UnknownResource)WarFile.GetResourceByName ("Barrens 2")).Resource;
-         WarResource tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Barrens 3")).Resource;
+         WarResource tileset = ((RawResource)WarFile.GetResourceByName ("Barrens 1")).Resource;
+         WarResource tiles = ((RawResource)WarFile.GetResourceByName ("Barrens 2")).Resource;
+         PaletteResource tilesPAL = WarFile.GetResourceByName ("Barrens 3") as PaletteResource;
          MapTileset swamp = new MapTileset (Tileset.Swamp, tileset, tiles, tilesPAL);
          knownTilesets.Add (swamp);
 
-         tileset = ((UnknownResource)WarFile.GetResourceByName ("Summer 1")).Resource;
-         tiles = ((UnknownResource)WarFile.GetResourceByName ("Summer 2")).Resource;
-         tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Summer 3")).Resource;
+         tileset = ((RawResource)WarFile.GetResourceByName ("Summer 1")).Resource;
+         tiles = ((RawResource)WarFile.GetResourceByName ("Summer 2")).Resource;
+         tilesPAL = WarFile.GetResourceByName ("Summer 3") as PaletteResource;
          MapTileset summer = new MapTileset (Tileset.Summer, tileset, tiles, tilesPAL);
          knownTilesets.Add (summer);
 
          if (WarFile.IsDemo == false)
          {
-            tileset = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 1")).Resource;
-            tiles = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 2")).Resource;
-            tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 3")).Resource;
+            tileset = ((RawResource)WarFile.GetResourceByName ("Dungeon 1")).Resource;
+            tiles = ((RawResource)WarFile.GetResourceByName ("Dungeon 2")).Resource;
+            tilesPAL = WarFile.GetResourceByName ("Dungeon 3") as PaletteResource;
             MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
             knownTilesets.Add (dungeon);
          }
@@ -240,7 +240,7 @@ namespace WinWarCS.Data.Game
 		
          // Create palette
          palette = new byte[768];
-         Array.Copy (tilesetPal.data, 0, palette, 0, 384);
+         Array.Copy (tilesetPal.Colors, 0, palette, 0, 384);
          for (int i = 0; i < 384; i++) {
             palette [i] = (byte)(palette [i] * 3);
          }

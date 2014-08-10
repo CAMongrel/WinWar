@@ -2,11 +2,11 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class UnknownResource : BasicResource
+   internal class RawResource : BasicResource
    {
       internal WarResource Resource;
 
-      internal UnknownResource(WarResource setResource)
+      internal RawResource(WarResource setResource)
       {
          Type = ContentFileType.FileUnknown;
 
