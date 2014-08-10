@@ -25,13 +25,20 @@ namespace WinWarCS.Data
 
    internal static class WarFile
    {
-
       #region Members
 
       private static int fileID;    // 0x18 = Full; 0x19 = Demo
       private static int nrOfEntries;
       private static uint[] offsets;
-      private static List<BasicResource> resources;
+
+      /// <summary>
+      /// List containing all raw resources from DATA.WAR
+      /// </summary>
+      private static List<WarResource> rawResources;
+      /// <summary>
+      /// Dictionary with strongly typed resources. Lazy-loaded at runtime.
+      /// </summary>
+      private static Dictionary<int, BasicResource> resourcesDict;
       /// <summary>
       /// The knowledge base for the currently loaded DATA.WAR
       /// Available after loading calling LoadResources()
@@ -60,6 +67,14 @@ namespace WinWarCS.Data
          }
       }
 
+      #endregion
+
+      #region Constructor
+      static WarFile()
+      {
+         rawResources = null;
+         resourcesDict = new Dictionary<int, BasicResource>();
+      }
       #endregion
 
       #region LoadResources
@@ -97,7 +112,7 @@ namespace WinWarCS.Data
             KnowledgeBase = new KnowledgeBase(Type);
 
             // Load resources
-            resources = new List<BasicResource>(nrOfEntries);
+            rawResources = new List<WarResource>(nrOfEntries);
             ReadResources(reader);
          }
          catch (Exception ex)
@@ -139,7 +154,7 @@ namespace WinWarCS.Data
          return (int)(nextOffset - offsets[index]);
       }
 
-      private static BasicResource CreateResource(int index, ref List<WarResource> rawResources)
+      private static BasicResource CreateResource(int index)
       {
          WarResource resource = rawResources[index];
 
@@ -228,15 +243,14 @@ namespace WinWarCS.Data
 
       private static int ReadResources(BinaryReader br)
       {
-         List<WarResource> rawResources = new List<WarResource>();
-
+         // Read all raw resources from DATA.WAR without processing them (yet)
          int result = 0;
          for (int i = 0; i < nrOfEntries; i++)
          {
             // Happens with demo data
             if (offsets[i] == 0xFFFFFFFF)
             {
-               resources.Add(null);
+               rawResources.Add(null);
                continue;
             }
 
@@ -248,19 +262,6 @@ namespace WinWarCS.Data
             rawResources.Add(new WarResource(br, offset, compr_length, i));
 
             result++;
-         }
-
-         // Build resources
-         for (int i = 0; i < nrOfEntries; i++)
-         {
-            // Happens with demo data
-            if (rawResources[i] == null)
-            {
-               resources.Add(null);
-               continue;
-            }
-
-            resources.Add(CreateResource(i, ref rawResources));
          }
 
          return result;
@@ -286,19 +287,19 @@ namespace WinWarCS.Data
          using (BinaryWriter writer = new BinaryWriter(File.Create(outputFile)))
          {
             writer.Write(fileID);
-            writer.Write(resources.Count);
+            writer.Write(rawResources.Count);
 
             uint offsetOfOffsetTable = (uint)writer.BaseStream.Position;
             // Write empty offset table
-            for (int i = 0; i < resources.Count; i++)
+            for (int i = 0; i < rawResources.Count; i++)
                writer.Write((int)0);
 
             uint curOffset = (uint)writer.BaseStream.Position;
 
             // Write each resource and remember offset
-            for (int i = 0; i < resources.Count; i++)
+            for (int i = 0; i < rawResources.Count; i++)
             {
-               if (resources[i] == null)
+               if (rawResources[i] == null)
                {
                   offsets[i] = 0xFFFFFFFF;
                   continue;
@@ -306,14 +307,14 @@ namespace WinWarCS.Data
 
                offsets[i] = curOffset;
 
-               //WriteResource(writer, resources[i].Resource);
+               WriteResource(writer, rawResources[i]);
 
                curOffset = (uint)writer.BaseStream.Position;
             }
 
             // Write full offset table
             writer.BaseStream.Seek(offsetOfOffsetTable, SeekOrigin.Begin);
-            for (int i = 0; i < resources.Count; i++)
+            for (int i = 0; i < rawResources.Count; i++)
                writer.Write(offsets[i]);
          }
  #endif
@@ -330,7 +331,7 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileImage)
             return null;
 
-         return resources[id] as ImageResource;
+         return GetResource(id) as ImageResource;
       }
 
       #endregion
@@ -345,7 +346,7 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileCursor)
             return null;
 
-         return resources[id] as CursorResource;
+         return GetResource(id) as CursorResource;
       }
 
       #endregion
@@ -360,7 +361,7 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileSprite)
             return null;
 
-         return resources[id] as SpriteResource;
+         return GetResource(id) as SpriteResource;
       }
 
       #endregion
@@ -375,7 +376,7 @@ namespace WinWarCS.Data
          if (KnowledgeBase[id].type != ContentFileType.FileUI)
             return null;
 
-         return resources[id] as UIResource;
+         return GetResource(id) as UIResource;
       }
 
       #endregion
@@ -387,7 +388,13 @@ namespace WinWarCS.Data
          if ((index < 0) || (index >= Count))
             return null;
 
-         return resources[index];
+         if (resourcesDict.ContainsKey(index))
+            return resourcesDict[index];
+
+         // Lazy-load the requested resource
+         BasicResource res = CreateResource(index);
+         resourcesDict.Add(index, res);
+         return res;
       }
 
       #endregion
@@ -412,14 +419,22 @@ namespace WinWarCS.Data
 
       #region Properties
 
+      internal static bool AreResoucesLoaded
+      {
+         get
+         {
+            return rawResources != null && KnowledgeBase != null;
+         }
+      }
+
       internal static int Count
       {
          get
          {
-            if (resources == null)
+            if (rawResources == null)
                return 0;
 
-            return resources.Count; 
+            return rawResources.Count; 
          }
       }
 

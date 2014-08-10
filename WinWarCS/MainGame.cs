@@ -138,20 +138,15 @@ namespace WinWarCS
 
          Console.WriteLine ("WinWarCS -- Version: " + Version);
 
-         /*Windows.Storage.StorageFile warFile = await WinWarCS.Data.WarFile.GetDataWarFile();
-         if (warFile == null)
-         {
-            /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarCS - WarCraft for Windows Modern UI");
-            await dlg.ShowAsync();
-            return;
-         }*/
-
          Exception loadingException = null;
 
-         try {
+         try 
+         {
             await WinWarCS.Data.WarFile.LoadResources ();
             WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
-         } catch (Exception ex) {
+         } 
+         catch (Exception ex) 
+         {
             loadingException = ex;
          }
 
@@ -173,47 +168,7 @@ namespace WinWarCS
                   SetNextGameScreen (new MenuGameScreen (!wasCancelled));
                }));
          }
-
-         //SetNextGameScreen(new MenuGameScreen());
-         /*MovieGameScreen.PlayMovie("TITLE.WAR", 
-             delegate
-             {
-                 SetNextGameScreen(new MenuGameScreen(true));
-             });*/
       }
-
-      /*private bool HasData(byte[] blob, byte[] dataToSearch)
-      {
-         int counter = 0;
-         for (int i = 0; i < blob.Length; i++)
-         {
-            if (blob[i] == dataToSearch[counter])
-               counter++;
-            else
-               counter = 0;
-
-            if (counter >= dataToSearch.Length)
-               return true;
-         }
-
-         return false;
-      }
-
-      private void SearchForText(string text)
-      {
-         byte[] byteData = Encoding.UTF8.GetBytes(text);
-
-         for (int i = 0; i < 485; i++)
-         {
-            WinWarCS.Data.WarResource res = WinWarCS.Data.WarFile.GetResource(i);
-
-            bool hasData = HasData(res.data, byteData);
-            if (hasData)
-            {
-               int hehe = 42;
-            }
-         }
-      }*/
 
       /// <summary>
       /// LoadContent will be called once per game and is the place to load
