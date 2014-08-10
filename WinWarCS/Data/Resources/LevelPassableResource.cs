@@ -18,12 +18,10 @@ namespace WinWarCS.Data.Resources
       {
          Type = ContentFileType.FileLevelPassable;
 
-         this.Resource = setData;
-
          width = 64;
          height = 64;
 			
-         CreatePassableData ();
+         CreatePassableData(setData);
       }
       // LevelVisualResource(setData, setOffset)
 
@@ -35,15 +33,15 @@ namespace WinWarCS.Data.Resources
       /// <summary>
       /// Create visual data
       /// </summary>
-      private void CreatePassableData ()
+      private void CreatePassableData (WarResource setData)
       {
          passableData = new short[width, height];
 			
-         if (Resource.data != null) 
+         if (setData.data != null) 
          {
             unsafe 
             {
-               fixed (byte* org_ptr = &Resource.data[0]) 
+               fixed (byte* org_ptr = &setData.data[0]) 
                {
                   short* ptr = (short*)org_ptr;
 						

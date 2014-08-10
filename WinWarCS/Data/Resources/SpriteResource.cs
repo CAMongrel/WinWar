@@ -30,15 +30,12 @@ namespace WinWarCS.Data.Resources
       {
          Type = ContentFileType.FileSprite;
 
-         this.Resource = data;
-         this.palette = palette;
-
          Frames = null;
 
-         CreateImageData(palette == null, addPalette);
+         CreateImageData(data, palette, addPalette);
       }
 
-      internal void CreateImageData(bool bForceGrayscale, WarResource addPalette)
+      internal void CreateImageData(WarResource imgResource, WarResource palette, WarResource addPalette)
       {
          int i, offset, x, y, c;
 
@@ -46,7 +43,7 @@ namespace WinWarCS.Data.Resources
 
          unsafe
          {
-            fixed (byte* org_ptr = &Resource.data[0])
+            fixed (byte* org_ptr = &imgResource.data[0])
             {
                FrameCount = org_ptr[0] + (org_ptr[1] << 8);
                MaxWidth = org_ptr[2];
@@ -73,7 +70,7 @@ namespace WinWarCS.Data.Resources
 
                   int temp_index;
 
-                  if (bForceGrayscale || palette == null) 
+                  if (palette == null) 
                   {	// No palette for this image or grayscale forced ... use grayscale palette
                      for (y = Frames [i].disp_y; y < (Frames [i].height + Frames [i].disp_y); y++) 
                      {

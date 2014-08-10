@@ -65,90 +65,90 @@ namespace WinWarCS.Data.Resources
       // -2 resource index of pressed button
       */
 
-      private int ReadResourceIndex(int index)
+      private int ReadResourceIndex(int index, WarResource res)
       {
-         int offset = ReadInt(index);
+         int offset = ReadInt(index, res.data);
 
-         int resIndex = ReadInt(offset);
+         int resIndex = ReadInt(offset, res.data);
          if (resIndex == 0)
             return 0;
 
          return resIndex - 2;
       }
 
-      private string ReadString(int index)
+      private string ReadString(int index, WarResource res)
       {
          StringBuilder result = new StringBuilder();
 
-         int offset = ReadInt(index);
+         int offset = ReadInt(index, res.data);
 
-         byte b = Resource.data[offset++];
+         byte b = res.data[offset++];
          // Nullterminated string
          while (b != 0x00)
          {
             result.Append((char)b);
-            b = Resource.data[offset++];
+            b = res.data[offset++];
          }
 
          return result.ToString();
       }
 
-      private void ReadBackgroundImage()
+      private void ReadBackgroundImage(WarResource res)
       {
-         BackgroundImageResourceIndex = ReadResourceIndex(0x12);
+         BackgroundImageResourceIndex = ReadResourceIndex(0x12, res);
       }
 
-      private void ReadSubHeader()
+      private void ReadSubHeader(WarResource res)
       {
          // Unknown int ==> Always 0x2A
          // "Enter" button index
          // "Escape" button index
 
          int index = 0x1E;
-         int offset = ReadInt(index);
+         int offset = ReadInt(index, res.data);
 
-         EnterButtonIndex = ReadUShort(offset + 4);
-         EscapeButtonIndex = ReadUShort(offset + 6);
-         ushort unk1 = ReadUShort(offset + 8);
-         ushort unk2 = ReadUShort(offset + 10);
+         EnterButtonIndex = ReadUShort(offset + 4, res.data);
+         EscapeButtonIndex = ReadUShort(offset + 6, res.data);
+         ushort unk1 = ReadUShort(offset + 8, res.data);
+         ushort unk2 = ReadUShort(offset + 10, res.data);
       }
 
-      private void ReadTitle()
+      private void ReadTitle(WarResource res)
       {
          int index = 0x22;
-         int offset = ReadInt(index);
+         int offset = ReadInt(index, res.data);
 
-         ushort firstVal = ReadUShort(offset);
+         ushort firstVal = ReadUShort(offset, res.data);
          if (firstVal == 0xFFFF)
             // Means => No title
             return;
 
          Title = new MenuEntry();
-         Title.X = ReadUShort(offset + 2);
-         Title.Y = ReadUShort(offset + 4);
-         Title.Text = ReadString(offset + 6);
+         Title.X = ReadUShort(offset + 2, res.data);
+         Title.Y = ReadUShort(offset + 4, res.data);
+         Title.Text = ReadString(offset + 6, res);
       }
 
-      private void ReadButtons()
+      private void ReadButtons(WarResource res)
       {
          int index = 0x26;
-         int offset = ReadInt(index);
+         int offset = ReadInt(index, res.data);
 
          // Length of one button => 0x1C
-         while (offset < Resource.data.Length)
+         while (offset < res.data.Length)
          {
-            ushort firstVal = ReadUShort(offset);
+            ushort firstVal = ReadUShort(offset, res.data);
             if (firstVal == 0xFFFF)
                break;
 
             MenuEntry me = new MenuEntry();
-            me.X = ReadUShort(offset + 4);
-            me.Y = ReadUShort(offset + 6);
-            me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10);
-            me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14);
-            me.Text = ReadString(offset + 18);
-            me.ButtonIndex = ReadInt(offset + 22);
-            me.HotKey = ReadUShort(offset + 26);
+            me.X = ReadUShort(offset + 4, res.data);
+            me.Y = ReadUShort(offset + 6, res.data);
+            me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10, res);
+            me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14, res);
+            me.Text = ReadString(offset + 18, res);
+            me.ButtonIndex = ReadInt(offset + 22, res.data);
+            me.HotKey = ReadUShort(offset + 26, res.data);
             Texts.Add(me);
 
             offset += 0x1C;
@@ -159,15 +159,13 @@ namespace WinWarCS.Data.Resources
 		#region Init
 		private void Init(WarResource data)
       {
-         this.Resource = data;
-
          Title = null;
          Texts = new List<MenuEntry>();
 
-         ReadBackgroundImage();
-         ReadSubHeader();
-         ReadTitle();
-         ReadButtons();
+         ReadBackgroundImage(data);
+         ReadSubHeader(data);
+         ReadTitle(data);
+         ReadButtons(data);
       }
 		#endregion
 	}

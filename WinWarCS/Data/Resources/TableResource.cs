@@ -37,8 +37,6 @@ namespace WinWarCS.Data.Resources
       #region Init
       private void Init(WarResource data)
       {
-         this.Resource = data;
-
          Columns = (ushort)(data.data[0] + (data.data[1] << 8));
          Rows = (ushort)(data.data[2] + (data.data[3] << 8));
 

@@ -4,31 +4,26 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class BasicResource
+   internal abstract class BasicResource
 	{
       public ContentFileType Type { get; protected set; }
-
-		internal WarResource Resource;
 
 		protected BasicResource()
 		{
          Type = ContentFileType.FileUnknown;
-			this.Resource = null;
 		}
 
-      internal BasicResource(WarResource setData)
+      protected ushort ReadUShort(int index, byte[] data)
       {
-         this.Resource = setData;
+         return (ushort)(data[index + 0] + (data[index + 1] << 8));
       }
 
-      protected ushort ReadUShort(int index)
+      protected int ReadInt(int index, byte[] data)
       {
-         return (ushort)(Resource.data[index + 0] + (Resource.data[index + 1] << 8));
-      }
+         if (index < 0 || index >= data.Length)
+            return 0;
 
-      protected int ReadInt(int index)
-      {
-         return Resource.data[index + 0] + (Resource.data[index + 1] << 8) + (Resource.data[index + 2] << 16) + (Resource.data[index + 3] << 24);
+         return data[index + 0] + (data[index + 1] << 8) + (data[index + 2] << 16) + (data[index + 3] << 24);
       }
 	}
 }

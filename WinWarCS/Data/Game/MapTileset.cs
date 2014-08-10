@@ -200,23 +200,25 @@ namespace WinWarCS.Data.Game
       /// </summary>
       internal static void LoadAllTilesets ()
       {
-         WarResource tileset = WarFile.GetResourceByName ("Barrens 1");
-         WarResource tiles = WarFile.GetResourceByName ("Barrens 2");
-         WarResource tilesPAL = WarFile.GetResourceByName ("Barrens 3");
+         // TODO: FIXME with new WarFile resource loading strategy
+
+         WarResource tileset = ((UnknownResource)WarFile.GetResourceByName ("Barrens 1")).Resource;
+         WarResource tiles = ((UnknownResource)WarFile.GetResourceByName ("Barrens 2")).Resource;
+         WarResource tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Barrens 3")).Resource;
          MapTileset swamp = new MapTileset (Tileset.Swamp, tileset, tiles, tilesPAL);
          knownTilesets.Add (swamp);
 
-         tileset = WarFile.GetResourceByName ("Summer 1");
-         tiles = WarFile.GetResourceByName ("Summer 2");
-         tilesPAL = WarFile.GetResourceByName ("Summer 3");
+         tileset = ((UnknownResource)WarFile.GetResourceByName ("Summer 1")).Resource;
+         tiles = ((UnknownResource)WarFile.GetResourceByName ("Summer 2")).Resource;
+         tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Summer 3")).Resource;
          MapTileset summer = new MapTileset (Tileset.Summer, tileset, tiles, tilesPAL);
          knownTilesets.Add (summer);
 
          if (WarFile.IsDemo == false)
          {
-            tileset = WarFile.GetResourceByName ("Dungeon 1");
-            tiles = WarFile.GetResourceByName ("Dungeon 2");
-            tilesPAL = WarFile.GetResourceByName ("Dungeon 3");
+            tileset = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 1")).Resource;
+            tiles = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 2")).Resource;
+            tilesPAL = ((UnknownResource)WarFile.GetResourceByName ("Dungeon 3")).Resource;
             MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
             knownTilesets.Add (dungeon);
          }

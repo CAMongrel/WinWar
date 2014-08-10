@@ -2,27 +2,30 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class CursorResource : BasicImgResource
+   internal class CursorResource : BasicResource
    {
+      internal ushort width;
+      internal ushort height;
+      internal byte[] image_data;
+
       public ushort HotSpotX { get; private set; }
       public ushort HotSpotY { get; private set; }
 
       internal CursorResource(WarResource data, WarResource palette)
-         : base(palette, data)
       {
          Type = ContentFileType.FileCursor;
 
-         CreateImageData(palette == null);
+         CreateImageData(data, palette);
       }
 
-      internal void CreateImageData (bool bForceGrayscale)
+      internal void CreateImageData(WarResource imgResource, WarResource palette)
       {
-         if (Resource == null)
+         if (imgResource == null)
             return;
 
          unsafe
          {
-            fixed (byte* org_ptr = &Resource.data[0])
+            fixed (byte* org_ptr = &imgResource.data[0])
             {
                ushort* usptr = (ushort*)org_ptr;
 
@@ -40,7 +43,7 @@ namespace WinWarCS.Data.Resources
 
                int x, y;
 
-               if ((palette == null) || (bForceGrayscale))  // No palette for this image or grayscale forced ... use grayscale palette
+               if (palette == null)  // No palette for this image or grayscale forced ... use grayscale palette
                {
                   for (y = 0; y < height; y++)
                      for (x = 0; x < width; x++)

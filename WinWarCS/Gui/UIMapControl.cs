@@ -109,9 +109,9 @@ namespace WinWarCS.Gui
       {
          string basenameInfo = race + " " + level;
 
-         LevelInfoResource levelInfo = new LevelInfoResource(WarFile.GetResource(WarFile.KnowledgeBase.IndexByName(basenameInfo)));
-         LevelPassableResource levelPassable = new LevelPassableResource (WarFile.GetResource(levelInfo.PassableResourceIndex));
-         LevelVisualResource levelVisual = new LevelVisualResource (WarFile.GetResource(levelInfo.VisualResourceIndex));
+         LevelInfoResource levelInfo = WarFile.GetResourceByName(basenameInfo) as LevelInfoResource;
+         LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
+         LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
          CurrentMap = new Map (levelInfo, levelVisual, levelPassable);
          SetCameraOffset (levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);

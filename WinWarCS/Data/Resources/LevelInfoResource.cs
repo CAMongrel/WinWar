@@ -204,8 +204,6 @@ namespace WinWarCS.Data.Resources
 
       private void LoadData(WarResource data)
       {
-         this.Resource = data;
-
          unsafe
          {
             fixed (byte* org_ptr = &data.data[0])
@@ -302,7 +300,6 @@ namespace WinWarCS.Data.Resources
 
       private void OldLoadData(WarResource data, int offset)
       {
-         this.Resource = data;
          int _offset = offset;
 
          unsafe

@@ -4,29 +4,35 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class ImageResource : BasicImgResource
+	internal class ImageResource : BasicResource
 	{
-      internal ImageResource(WarResource data, WarResource palette, WarResource addPalette)
-			: base(palette, data)
+      internal ushort width;
+      internal ushort height;
+      internal byte[] image_data;
+
+      internal ImageResource(WarResource imgResource, WarResource palette, WarResource addPalette)
 		{
          Type = ContentFileType.FileImage;
 
-         width = ReadUShort(0);
-         height = ReadUShort(2);
-
-         CreateImageData(palette == null, addPalette);
+         CreateImageData(imgResource, palette, addPalette);
 		}
 
-      internal void CreateImageData(bool bForceGrayscale, WarResource addPalette)
+      internal void CreateImageData(WarResource imgResource, WarResource palette, WarResource addPalette)
 		{
+         bool bForceGrayscale = palette == null;
+
          WarResource addPal = addPalette;
 
 			unsafe
 			{
-				fixed (byte* org_ptr = &Resource.data[0])
+            fixed (byte* org_ptr = &imgResource.data[0])
 				{
-					byte* b_ptr = org_ptr + 4;
+					byte* b_ptr = org_ptr;
 
+               width = *(ushort*)b_ptr;
+               b_ptr += 2;
+               height = *(ushort*)b_ptr;
+               b_ptr += 2;
 					image_data = new byte[width * height * 4];
 
 					int cnt = 0;
@@ -62,9 +68,6 @@ namespace WinWarCS.Data.Resources
 								{
 									pal_index = b_ptr[x + y * width] * 3;
 
-                           if (this.Resource.resource_index == 280)
-                              Console.Write ((pal_index / 3).ToString(" 000"));
-
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 0] * 4);
 									cnt++;
 									image_data[cnt] = (byte)(pal_dataptr[pal_index + 1] * 4);
@@ -83,8 +86,6 @@ namespace WinWarCS.Data.Resources
                               image_data[cnt - 2] = (byte)(addPal.data[pal_index + 2] * 4);
 									}
 								}
-                        if (this.Resource.resource_index == 280)
-                           Console.WriteLine ();
 							}
 						}
 					}
