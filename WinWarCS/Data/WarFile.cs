@@ -100,12 +100,12 @@ namespace WinWarCS.Data
             Type = DataWarFileType.Unknown;
             switch (fileID)
             {
-            case 0x19:
-               Type = DataWarFileType.Demo;
-               break;
-            case 0x18:
-               Type = DataWarFileType.RetailCD;
-               break;
+               case 0x19:
+                  Type = DataWarFileType.Demo;
+                  break;
+               case 0x18:
+                  Type = DataWarFileType.RetailCD;
+                  break;
             }
 
             // Create KnowledgeBase based on type of DATA.WAR
@@ -115,10 +115,6 @@ namespace WinWarCS.Data
             rawResources = new List<WarResource>(nrOfEntries);
             ReadResources(reader);
 
-            UIResource res = (UIResource)GetResource(376);
-         }
-         catch (Exception ex)
-         {
          }
          finally
          {
