@@ -125,22 +125,36 @@ namespace WinWarCS.Gui
       {
          ClearComponents();
 
-         if (resource.Title != null)
+         for (int i = 0; i < resource.Labels.Count; i++)
          {
-            UILabel label = new UILabel(resource.Title.Text);
-            label.X = (int)resource.Title.X;
-            label.Y = (int)resource.Title.Y;
+            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Labels[i];
+
+            UILabel label = new UILabel(me.Text);
+            label.X = (int)me.X;
+            label.Y = (int)me.Y;
+            label.TextAlign = (TextAlignHorizontal)me.Alignment;
             AddComponent(label);
          }
 
-         for (int i = 0; i < resource.Texts.Count; i++)
+         for (int i = 0; i < resource.Elements.Count; i++)
          {
-            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Texts[i];
+            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Elements[i];
 
-            UIButton btn = new UIButton(me.Text, me.ButtonReleasedResourceIndex, me.ButtonPressedResourceIndex);
-            btn.X = (int)(me.X);
-            btn.Y = (int)(me.Y);
-            AddComponent(btn);
+            if (me.Type == UIResource.UIEntryType.ValueList)
+            {
+               UILabel lbl = new UILabel(me.Values[0]);
+               lbl.X = (int)(me.X);
+               lbl.Y = (int)(me.Y);
+               lbl.TextAlign = (TextAlignHorizontal)me.Alignment;
+               AddComponent(lbl);
+            }
+            else
+            {
+               UIButton btn = new UIButton(me.Text, me.ButtonReleasedResourceIndex, me.ButtonPressedResourceIndex);
+               btn.X = (int)(me.X);
+               btn.Y = (int)(me.Y);
+               AddComponent(btn);
+            }
          }
       }
       #endregion

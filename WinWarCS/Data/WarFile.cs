@@ -97,7 +97,7 @@ namespace WinWarCS.Data
             for (int i = 0; i < nrOfEntries; i++)
                offsets[i] = reader.ReadUInt32();
 
-            Type = DataWarFileType.Retail;
+            Type = DataWarFileType.Unknown;
             switch (fileID)
             {
             case 0x19:

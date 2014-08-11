@@ -114,7 +114,6 @@
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
     <Compile Include="Data\Game\UnitSprite.cs" />
-    <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
     <Compile Include="Data\Resources\ImageResource.cs" />
     <Compile Include="Data\Resources\LevelInfoResource.cs" />
@@ -212,6 +211,9 @@
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Resources\TableResource.cs" />
     <Compile Include="Data\Resources\UIResource.cs" />
+    <Compile Include="Data\Resources\PaletteResource.cs" />
+    <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

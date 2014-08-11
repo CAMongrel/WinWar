@@ -68,7 +68,6 @@ namespace WinWarCS.GameScreens.Windows
             sprImg.Y = 10;
             AddComponent(sprImg);
          }*/
-         //sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }
 
       async void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)

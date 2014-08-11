@@ -96,7 +96,7 @@ namespace WinWarCS.GameScreens.Windows
          lumberLabel.Y = 0;
          lumberLabel.Width = 72;
          lumberLabel.Height = 10;
-         lumberLabel.TextAlign = TextAlign.Left;
+         lumberLabel.TextAlign = TextAlignHorizontal.Left;
          AddComponent (lumberLabel);  
 
          lumberValueLabel = new UILabel ("1000");
@@ -104,7 +104,7 @@ namespace WinWarCS.GameScreens.Windows
          lumberValueLabel.Y = 0;
          lumberValueLabel.Width = 72;
          lumberValueLabel.Height = 10;
-         lumberValueLabel.TextAlign = TextAlign.Right;
+         lumberValueLabel.TextAlign = TextAlignHorizontal.Right;
          AddComponent (lumberValueLabel);
 
          goldLabel = new UILabel ("Gold:");
@@ -112,7 +112,7 @@ namespace WinWarCS.GameScreens.Windows
          goldLabel.Y = 0;
          goldLabel.Width = 60;
          goldLabel.Height = 10;
-         goldLabel.TextAlign = TextAlign.Left;
+         goldLabel.TextAlign = TextAlignHorizontal.Left;
          AddComponent (goldLabel);  
 
          goldValueLabel = new UILabel ("1000");
@@ -120,7 +120,7 @@ namespace WinWarCS.GameScreens.Windows
          goldValueLabel.Y = 0;
          goldValueLabel.Width = 60;
          goldValueLabel.Height = 10;
-         goldValueLabel.TextAlign = TextAlign.Right;
+         goldValueLabel.TextAlign = TextAlignHorizontal.Right;
          AddComponent (goldValueLabel);  
 
          AddComponent (MinimapControl);
