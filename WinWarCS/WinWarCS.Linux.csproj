@@ -157,6 +157,7 @@
     <Compile Include="Data\Resources\TableResource.cs" />
     <Compile Include="Data\Resources\PaletteResource.cs" />
     <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
