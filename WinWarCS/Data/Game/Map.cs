@@ -51,7 +51,7 @@ namespace WinWarCS.Data.Game
       /// All placed roads
       /// </summary>
       /// <value>The roads.</value>
-      internal List<Road> Roads { get; private set; }
+      internal List<Construct> Roads { get; private set; }
 
       internal List<BasePlayer> Players { get; private set; }
 
@@ -121,8 +121,8 @@ namespace WinWarCS.Data.Game
          DiscoverMap ();
 
          // Set initial resources
-         HumanPlayer.Gold = levelInfo.StartGold;
-         HumanPlayer.Lumber = levelInfo.StartLumber;
+         HumanPlayer.Gold = levelInfo.PlayerInfos[0].StartGold;
+         HumanPlayer.Lumber = levelInfo.PlayerInfos[0].StartLumber;
          // TODO: Set resource for other players
       }
 
@@ -232,8 +232,8 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < levelInfo.StartObjects.Length; i++)
          {
             LevelObject lo = levelInfo.StartObjects [i];
-            BasePlayer newOwner = getPlayer (lo.player);
-            CreateEntity (lo.x, lo.y, lo.type, newOwner);
+            BasePlayer newOwner = getPlayer (lo.Player);
+            CreateEntity (lo.X, lo.Y, lo.Type, newOwner);
          }
       }
 
@@ -389,15 +389,15 @@ namespace WinWarCS.Data.Game
          {
             bool isVisible = true;
 
-            Road road = Roads [i];
+            Construct road = Roads [i];
 
-            if (mapDiscoverState [road.x + road.y * MapWidth] == MapDiscover.Unknown)
+            if (mapDiscoverState [road.X + road.Y * MapWidth] == MapDiscover.Unknown)
                isVisible = false;
 
-            int x = road.x - startTileX;
-            int y = road.y - startTileY;
+            int x = road.X - startTileX;
+            int y = road.Y - startTileY;
             if (isVisible)
-               tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+               tileSet.DrawRoadTile(road.Type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
 
          // Render entities
@@ -511,10 +511,10 @@ namespace WinWarCS.Data.Game
       #region Roads
       public void PlaceRoad(int x, int y)
       {
-         Road road = new Road ();
-         road.x = (byte)x;
-         road.y = (byte)y;
-         road.type = RoadType.EndPieceBottom;
+         Construct road = new Construct ();
+         road.X = (byte)x;
+         road.Y = (byte)y;
+         road.Type = ConstructType.EndPieceBottom;
 
          Roads.Add (road);
 
@@ -524,10 +524,10 @@ namespace WinWarCS.Data.Game
 
       #region BuildRoadTypes
 
-      private void DetermineRoadType(Road road, int index)
+      private void DetermineRoadType(Construct road, int index)
       {
-         int x = road.x;
-         int y = road.y;
+         int x = road.X;
+         int y = road.Y;
 
          bool topNeighbour = false;
          bool bottomNeighbour = false;
@@ -540,59 +540,59 @@ namespace WinWarCS.Data.Game
                continue;
 
             if (topNeighbour == false)
-               topNeighbour = (Roads [j].x == x && Roads [j].y == y - 1);
+               topNeighbour = (Roads [j].X == x && Roads [j].Y == y - 1);
             if (bottomNeighbour == false)
-               bottomNeighbour = (Roads [j].x == x && Roads [j].y == y + 1);
+               bottomNeighbour = (Roads [j].X == x && Roads [j].Y == y + 1);
             if (leftNeighbour == false)
-               leftNeighbour = (Roads [j].x == x - 1 && Roads [j].y == y);
+               leftNeighbour = (Roads [j].X == x - 1 && Roads [j].Y == y);
             if (rightNeighbour == false)
-               rightNeighbour = (Roads [j].x == x + 1 && Roads [j].y == y);
+               rightNeighbour = (Roads [j].X == x + 1 && Roads [j].Y == y);
          }
 
          // Endpieces
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceBottom;
+            road.Type = ConstructType.EndPieceBottom;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceTop;
+            road.Type = ConstructType.EndPieceTop;
          if (!topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.EndPieceLeft;
+            road.Type = ConstructType.EndPieceLeft;
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceRight;
+            road.Type = ConstructType.EndPieceRight;
 
          // Corner pieces
          if (topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.CornerLeftTop;
+            road.Type = ConstructType.CornerLeftTop;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.CornerLeftBottom;
+            road.Type = ConstructType.CornerLeftBottom;
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.CornerRightTop;
+            road.Type = ConstructType.CornerRightTop;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.CornerRightBottom;
+            road.Type = ConstructType.CornerRightBottom;
 
          // Middle pieces
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.MiddlePieceLeftRight;
+            road.Type = ConstructType.MiddlePieceLeftRight;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.MiddlePieceTopBottom;
+            road.Type = ConstructType.MiddlePieceTopBottom;
 
          // Quad piece
          if (topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.QuadPiece;
+            road.Type = ConstructType.QuadPiece;
 
          // T-Corners
          if (topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.TPieceLeft;
+            road.Type = ConstructType.TPieceLeft;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceRight;
+            road.Type = ConstructType.TPieceRight;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceBottom;
+            road.Type = ConstructType.TPieceBottom;
          if (topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceTop;
+            road.Type = ConstructType.TPieceTop;
       }
 
       private void BuildInitialRoads ()
       {
-         Roads = new List<Road> (levelInfo.StartRoads);
+         Roads = new List<Construct> (levelInfo.StartRoads);
 
          DetermineRoadTypeForAllRoads ();
       }
@@ -602,7 +602,7 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < Roads.Count; i++) 
          {
             // Check the neighbouring road pieces
-            Road road = Roads [i];
+            Construct road = Roads [i];
 
             DetermineRoadType (road, i);
          }

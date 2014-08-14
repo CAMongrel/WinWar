@@ -150,41 +150,41 @@ namespace WinWarCS.Data.Game
          case Tileset.Swamp:
             RoadIndices = new int[15];
             offset = 57;
-            RoadIndices [(int)RoadType.EndPieceLeft] = offset + 0;
-            RoadIndices [(int)RoadType.EndPieceTop] = offset + 1;
-            RoadIndices [(int)RoadType.EndPieceRight] = offset + 2;
-            RoadIndices [(int)RoadType.EndPieceBottom] = offset + 3;
-            RoadIndices [(int)RoadType.CornerRightTop] = offset + 4;
-            RoadIndices [(int)RoadType.MiddlePieceTopBottom] = offset + 5;
-            RoadIndices [(int)RoadType.CornerLeftTop] = offset + 6;
-            RoadIndices [(int)RoadType.TPieceRight] = offset + 7;
-            RoadIndices [(int)RoadType.TPieceTop] = offset + 8;
-            RoadIndices [(int)RoadType.TPieceLeft] = offset + 9;
-            RoadIndices [(int)RoadType.QuadPiece] = offset + 10;
-            RoadIndices [(int)RoadType.CornerRightBottom] = offset + 11;
-            RoadIndices [(int)RoadType.MiddlePieceLeftRight] = offset + 12;
-            RoadIndices [(int)RoadType.TPieceBottom] = offset + 13;
-            RoadIndices [(int)RoadType.CornerLeftBottom] = offset + 14;
+            RoadIndices [(int)ConstructType.EndPieceLeft] = offset + 0;
+            RoadIndices [(int)ConstructType.EndPieceTop] = offset + 1;
+            RoadIndices [(int)ConstructType.EndPieceRight] = offset + 2;
+            RoadIndices [(int)ConstructType.EndPieceBottom] = offset + 3;
+            RoadIndices [(int)ConstructType.CornerRightTop] = offset + 4;
+            RoadIndices [(int)ConstructType.MiddlePieceTopBottom] = offset + 5;
+            RoadIndices [(int)ConstructType.CornerLeftTop] = offset + 6;
+            RoadIndices [(int)ConstructType.TPieceRight] = offset + 7;
+            RoadIndices [(int)ConstructType.TPieceTop] = offset + 8;
+            RoadIndices [(int)ConstructType.TPieceLeft] = offset + 9;
+            RoadIndices [(int)ConstructType.QuadPiece] = offset + 10;
+            RoadIndices [(int)ConstructType.CornerRightBottom] = offset + 11;
+            RoadIndices [(int)ConstructType.MiddlePieceLeftRight] = offset + 12;
+            RoadIndices [(int)ConstructType.TPieceBottom] = offset + 13;
+            RoadIndices [(int)ConstructType.CornerLeftBottom] = offset + 14;
             break;
 
          case Tileset.Summer:
             RoadIndices = new int[15];
             offset = 56;
-            RoadIndices [(int)RoadType.EndPieceLeft] = offset + 0;
-            RoadIndices [(int)RoadType.EndPieceTop] = offset + 1;
-            RoadIndices [(int)RoadType.EndPieceRight] = offset + 2;
-            RoadIndices [(int)RoadType.EndPieceBottom] = offset + 3;
-            RoadIndices [(int)RoadType.CornerRightTop] = offset + 4;
-            RoadIndices [(int)RoadType.MiddlePieceTopBottom] = offset + 5;
-            RoadIndices [(int)RoadType.CornerLeftTop] = offset + 6;
-            RoadIndices [(int)RoadType.TPieceRight] = offset + 7;
-            RoadIndices [(int)RoadType.TPieceTop] = offset + 8;
-            RoadIndices [(int)RoadType.TPieceLeft] = offset + 9;
-            RoadIndices [(int)RoadType.QuadPiece] = offset + 10;
-            RoadIndices [(int)RoadType.CornerRightBottom] = offset + 11;
-            RoadIndices [(int)RoadType.MiddlePieceLeftRight] = offset + 12;
-            RoadIndices [(int)RoadType.TPieceBottom] = offset + 13;
-            RoadIndices [(int)RoadType.CornerLeftBottom] = offset + 14;
+            RoadIndices [(int)ConstructType.EndPieceLeft] = offset + 0;
+            RoadIndices [(int)ConstructType.EndPieceTop] = offset + 1;
+            RoadIndices [(int)ConstructType.EndPieceRight] = offset + 2;
+            RoadIndices [(int)ConstructType.EndPieceBottom] = offset + 3;
+            RoadIndices [(int)ConstructType.CornerRightTop] = offset + 4;
+            RoadIndices [(int)ConstructType.MiddlePieceTopBottom] = offset + 5;
+            RoadIndices [(int)ConstructType.CornerLeftTop] = offset + 6;
+            RoadIndices [(int)ConstructType.TPieceRight] = offset + 7;
+            RoadIndices [(int)ConstructType.TPieceTop] = offset + 8;
+            RoadIndices [(int)ConstructType.TPieceLeft] = offset + 9;
+            RoadIndices [(int)ConstructType.QuadPiece] = offset + 10;
+            RoadIndices [(int)ConstructType.CornerRightBottom] = offset + 11;
+            RoadIndices [(int)ConstructType.MiddlePieceLeftRight] = offset + 12;
+            RoadIndices [(int)ConstructType.TPieceBottom] = offset + 13;
+            RoadIndices [(int)ConstructType.CornerLeftBottom] = offset + 14;
             break;
 
          case Tileset.Dungeon:
@@ -370,7 +370,7 @@ namespace WinWarCS.Data.Game
       }
       // DrawTile(x, y)
 
-      internal void DrawRoadTile(RoadType type, float x, float y, float scale)
+      internal void DrawRoadTile(ConstructType type, float x, float y, float scale)
       {
          if (RoadIndices == null)
             // TileSet has no roads

@@ -118,26 +118,7 @@ namespace WinWarCS.Data.Resources
       {
          int offset = ReadInt(index, res.data);
 
-         int resIndex = ReadInt(offset, res.data);
-         if (resIndex == 0)
-            return 0;
-
-         return resIndex - 2;
-      }
-
-      private string ReadStringDirect(int offset, WarResource res)
-      {
-         StringBuilder result = new StringBuilder();
-
-         byte b = res.data[offset++];
-         // Nullterminated string
-         while (b != 0x00)
-         {
-            result.Append((char)b);
-            b = res.data[offset++];
-         }
-
-         return result.ToString();
+         return ReadResourceIndexDirectInt(offset, res);
       }
 
       private string ReadString(int index, WarResource res)
