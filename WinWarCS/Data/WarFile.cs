@@ -3,6 +3,7 @@
 // Path: P:\Projekte\WinWarCS\WinWarEngine\Data
 // Creation date: 18.11.2009 10:13
 // Last modified: 27.11.2009 10:10
+using WinWarCS.Util;
 
 #region Using directives
 using System;
@@ -85,6 +86,8 @@ namespace WinWarCS.Data
          BinaryReader reader = null;
          try
          {
+            Performance.Push("Loading DATA.WAR");
+
             stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" +
             Platform.IO.DirectorySeparatorChar + "DATA.WAR");
 
@@ -115,6 +118,9 @@ namespace WinWarCS.Data
             rawResources = new List<WarResource>(nrOfEntries);
             ReadResources(reader);
 
+            Performance.Pop();
+
+            Log.Write(LogType.Resources, LogSeverity.Status, "KnowledgeBase contains " + KnowledgeBase.Count + " entries. Loaded " + rawResources.Count + " raw resources");
          }
          finally
          {
@@ -362,6 +368,9 @@ namespace WinWarCS.Data
 
       internal static SpriteResource GetSpriteResource(int id)
       {
+         Performance.Push("GetSpriteResource");
+         try
+         {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
@@ -369,6 +378,11 @@ namespace WinWarCS.Data
             return null;
 
          return GetResource(id) as SpriteResource;
+         }
+         finally
+         {
+            Performance.Pop();
+         }
       }
 
       #endregion
@@ -398,9 +412,17 @@ namespace WinWarCS.Data
          if (resourcesDict.ContainsKey(index))
             return resourcesDict[index];
 
+         if (rawResources[index] == null)
+            return null;
+
          // Lazy-load the requested resource
+         Performance.Push("Load resource " + index);
          BasicResource res = CreateResource(index);
          resourcesDict.Add(index, res);
+         Performance.Pop();
+
+         Log.Write(LogType.Resources, LogSeverity.Debug, "Created resource of type '" + res.GetType().Name + "' for index " + index);
+
          return res;
       }
 

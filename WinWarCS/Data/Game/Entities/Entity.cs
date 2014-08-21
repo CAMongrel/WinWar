@@ -127,17 +127,31 @@ namespace WinWarCS.Data.Game
 
       public Entity (Map currentMap)
       {
+         Performance.Push("Entity ctor");
          VisibleRange = 0;
 
          currentTarget = null;
          PreviousTarget = null;
 
          CurrentMap = currentMap;
-         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
 
+         Performance.Push("Create base sprite");
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
+         Performance.Pop();
+
+         Performance.Push("new HateList");
          HateList = new HateList ();
+         Performance.Pop();
+
+         Performance.Push("new StateMachine");
          StateMachine = new StateMachine (this);
+         Performance.Pop();
+
+         Performance.Push("StateMachine.ChangeState");
          StateMachine.ChangeState (new StateIdle (this));
+         Performance.Pop();
+
+         Performance.Pop();
       }
 
       /// <summary>
@@ -470,6 +484,7 @@ namespace WinWarCS.Data.Game
 
       public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
       {
+         Performance.Push("CreateEntityFromType");
          Entity result = null;
 
          switch (entityType) 
@@ -593,6 +608,7 @@ namespace WinWarCS.Data.Game
          }
 
          result.Type = entityType;
+         Performance.Pop();
          return result;
       }
    }
