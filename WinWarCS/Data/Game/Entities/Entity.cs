@@ -162,8 +162,13 @@ namespace WinWarCS.Data.Game
       public void SetPosition(float newX, float newY)
       {
          Log.AI (this, "Setting position to " + newX + "," + newY);
+
+         CurrentMap.Pathfinder.SetFieldsFree(TileX, TileY, this.TileSizeX, this.TileSizeY);
+
          X = newX;
          Y = newY;
+
+         CurrentMap.Pathfinder.SetFieldsBlocked(TileX, TileY, this.TileSizeX, this.TileSizeY);
       }
 
       /// <summary>

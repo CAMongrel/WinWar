@@ -255,12 +255,18 @@ namespace WinWarCS.Data.Game
          {
             LevelObject lo = levelInfo.StartObjects [i];
             BasePlayer newOwner = getPlayer (lo.Player);
-            CreateEntity (lo.X, lo.Y, lo.Type, newOwner);
+            if (CreateEntity(lo.X, lo.Y, lo.Type, newOwner) == false)
+               Log.Write(LogType.Generic, LogSeverity.Status, "Failed to place entity of type '" + lo.Type + "' at " + lo.X + "," + lo.Y + ".");
          }
       }
 
-      internal void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
+      internal bool CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
+         Log.Write(LogType.Generic, LogSeverity.Debug, "Pathfinder at [" + x + "," + y + "]: " + Pathfinder[x, y]);
+         Log.Write(LogType.Generic, LogSeverity.Debug, "levelPassable at [" + x + "," + y + "]: " + levelPassable.passableData[x, y]);
+         if (Pathfinder[x, y] != 0)
+            return false;
+
          Entity newEnt = Entity.CreateEntityFromType (entityType, this);
          newEnt.SetPosition (x, y);
          entities.Add (newEnt);
@@ -271,7 +277,10 @@ namespace WinWarCS.Data.Game
 
          newEnt.DidSpawn ();
 
-         // TODO: Add to Pathfinder
+         // Add to Pathfinder
+         Pathfinder.SetFieldsBlocked(x, y, newEnt.TileSizeX, newEnt.TileSizeY);
+
+         return true;
       }
 
       internal void RemoveEntity(Entity ent)
@@ -284,7 +293,7 @@ namespace WinWarCS.Data.Game
 
          for (int i = 0; i < entities.Count; i++) 
          {
-            entities [i].HateList.RemoveEntity (ent);
+            entities[i].HateList.RemoveEntity (ent);
          }
 
          entities.Remove (ent);
@@ -292,7 +301,8 @@ namespace WinWarCS.Data.Game
          if (SelectedEntities.Contains(ent))
             SelectedEntities.Remove(ent);
 
-         // TODO: Remove from Pathfinder
+         // Remove from Pathfinder
+         Pathfinder.SetFieldsFree(ent.TileX, ent.TileY, ent.TileSizeX, ent.TileSizeY);
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
@@ -396,11 +406,16 @@ namespace WinWarCS.Data.Game
 
                if (DebugOptions.ShowBlockedTiles) 
                {
-                  bool isBlocked = levelPassable.passableData[x + startTileX, y + startTileY] > 0;
+                  short passableValue = levelPassable.passableData[x + startTileX, y + startTileY];
+                  bool isBlocked = passableValue > 0;
                   if (isBlocked) 
                   {
+                     Color col = new Color(0.0f, 1.0f, 0.0f, 0.5f);
+                     if (passableValue == 128)
+                        col = new Color(0.2f, 0.0f, 0.8f, 0.5f);
+
                      WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
-                        TileWidth, TileHeight, new Color (0.0f, 1.0f, 0.0f, 0.5f));
+                        TileWidth, TileHeight, col);
                   }
                }
             }

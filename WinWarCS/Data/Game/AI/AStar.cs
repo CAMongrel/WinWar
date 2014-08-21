@@ -25,13 +25,13 @@ namespace WinWarCS.Data.Game
 		private static byte[] SQRT = new byte[] { 0, 10, 14 };
 
       private short[,] field = null;
-      private int width;
-      private int height;
+      private int fieldWidth;
+      private int fieldHeight;
 
 		internal AStar2D()
 		{
-			width = 0;
-			height = 0;
+			fieldWidth = 0;
+			fieldHeight = 0;
 			field = null;
 		}
 
@@ -39,17 +39,55 @@ namespace WinWarCS.Data.Game
 		public void SetField(short[,] field, int width, int height)
 		{
 			this.field = field;
-			this.width = width;
-			this.height = height;
+			this.fieldWidth = width;
+			this.fieldHeight = height;
 		}
 
 		public void SetEmptyField(int width, int height)
 		{
-         this.field = new short[height, width];
-			this.width = width;
-			this.height = height;
+         this.field = new short[width, height];
+			this.fieldWidth = width;
+			this.fieldHeight = height;
 		}
       #endregion
+
+      private void SetFieldsValue(int x, int y, int width, int height, short value)
+      {
+         if (x >= fieldWidth || x < 0 ||
+            y >= fieldHeight || y < 0 ||
+            width < 1 || height < 1)
+         {
+            // Invalid placement
+            return;
+         }
+
+         if (x + width >= fieldWidth)
+         {
+            width = fieldWidth - x;
+         }
+         if (y + height >= fieldHeight)
+         {
+            height = fieldHeight - y;
+         }
+
+         for (int valY = y; valY < y + height; valY++)
+         {
+            for (int valX = x; valX < x + width; valX++)
+            {
+               field[valX, valY] = value;
+            }
+         }
+      }
+
+      internal void SetFieldsBlocked(int x, int y, int width, int height)
+      {
+         SetFieldsValue(x, y, width, height, 64);
+      }
+
+      internal void SetFieldsFree(int x, int y, int width, int height)
+      {
+         SetFieldsValue(x, y, width, height, 0);
+      }
 
 #if BLA //!NETFX_CORE
 		public void PrintFieldFile(string filename)
@@ -186,7 +224,7 @@ namespace WinWarCS.Data.Game
 					int newX = node.X + x;
 					int newY = node.Y + y;
 
-					if (newX < 0 || newX >= width || newY < 0 || newY >= height)
+					if (newX < 0 || newX >= fieldWidth || newY < 0 || newY >= fieldHeight)
 						continue;
 
                if (field[newX, newY] > 0 || GetClosedNode(newX, newY, Closed) != null)
@@ -239,7 +277,7 @@ namespace WinWarCS.Data.Game
 				return null;
 
          List<AStarNode> Closed = new List<AStarNode>();
-         BinaryHeap<AStarNode> OpenHeap = new BinaryHeap<AStarNode>(width * height);
+         BinaryHeap<AStarNode> OpenHeap = new BinaryHeap<AStarNode>(fieldWidth * fieldHeight);
          AStarNode Root;
 
 			Root = new AStarNode();
@@ -275,16 +313,16 @@ namespace WinWarCS.Data.Game
       #region Properties
       public short this[int x, int y]
 		{
-			get { return field[y, x]; }
-			set { field[y, x] = value; }
+			get { return field[x, y]; }
+			set { field[x, y] = value; }
 		}
 		public int Width
 		{
-			get { return width; }
+			get { return fieldWidth; }
 		}
 		public int Height
 		{
-			get { return height; }
+			get { return fieldHeight; }
 		}
       #endregion
 	}
