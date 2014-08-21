@@ -217,6 +217,7 @@
     <Compile Include="Util\Performance.cs" />
     <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
