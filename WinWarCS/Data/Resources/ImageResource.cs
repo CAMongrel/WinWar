@@ -92,5 +92,31 @@ namespace WinWarCS.Data.Resources
 				}
 			}
 		}
+
+#if !NETFX_CORE
+      internal override void WriteToStream(System.IO.BinaryWriter writer)
+      {
+         base.WriteToStream(writer);
+      }
+
+      internal override void WriteToFile(string filename)
+      {
+         base.WriteToFile(filename);
+
+         System.Drawing.Bitmap bm = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+         // Yes, this is very slow ... but I don't care, this is only for testing
+         for (int y = 0; y < height; y++)
+         {
+            for (int x = 0; x < width; x++)
+            {
+               int index = (x + (y * width)) * 4;
+               System.Drawing.Color col = System.Drawing.Color.FromArgb(image_data[index + 3], image_data[index + 0], image_data[index + 1], image_data[index + 2]);
+
+               bm.SetPixel(x, y, col);
+            }
+         }
+         bm.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+      }
+#endif
 	}
 }

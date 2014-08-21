@@ -86,6 +86,11 @@ namespace WinWarCS.Data.Resources
       {
          // Implemented in derived classes
       }
+
+      internal virtual void WriteToFile(string filename)
+      {
+         // Implemented in derived classes
+      }
 #endif
 	}
 }
