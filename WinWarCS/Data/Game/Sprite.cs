@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data.Resources;
 using WinWarCS.Graphics;
+using WinWarCS.Util;
 
 namespace WinWarCS.Data.Game
 {
@@ -21,12 +22,8 @@ namespace WinWarCS.Data.Game
 
    internal class Sprite
    {
-      private SpriteFrame[] frames;
-
-      internal int MaxWidth { get; private set; }
-      internal int MaxHeight { get; private set; }
-
       private List<SpriteAnimation> allAnimations;
+      private SpriteFrameData frameData;
 
       internal SpriteAnimation CurrentAnimation { get; private set; }
 
@@ -45,18 +42,18 @@ namespace WinWarCS.Data.Game
       {
          get
          {
-            if (frames == null || frames.Length <= 0)
+            if (frameData == null || frameData.Frames == null || frameData.Frames.Length <= 0)
                return null;
 
             if (CurrentAnimation == null) 
             {
-               return frames [0];
+               return frameData.Frames[0];
             }
 
-            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
+            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frameData.Frames.Length)
                return null;
 
-            return frames[CurrentAnimation.CurrentFrameIndex];
+            return frameData.Frames[CurrentAnimation.CurrentFrameIndex];
          }
       }
 
@@ -64,43 +61,49 @@ namespace WinWarCS.Data.Game
       {
          get
          {
-            if (frames == null || frames.Length <= 0)
+            if (frameData == null || frameData.Frames == null || frameData.Frames.Length <= 0)
                return null;
 
             if (CurrentAnimation == null) 
             {
-               return frames [0].texture;
+               return frameData.Frames[0].texture;
             }
 
-            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frames.Length)
+            if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frameData.Frames.Length)
                return null;
 
-            return frames[CurrentAnimation.CurrentFrameIndex].texture;
+            return frameData.Frames[CurrentAnimation.CurrentFrameIndex].texture;
+         }
+      }
+
+      internal int MaxWidth
+      {
+         get
+         {
+            if (frameData == null)
+               return 0;
+            return frameData.MaxWidth;
+         }
+      }
+      internal int MaxHeight
+      {
+         get
+         {
+            if (frameData == null)
+               return 0;
+            return frameData.MaxHeight;
          }
       }
 
       internal Sprite(SpriteResource resource)
       {
+         Performance.Push("Sprite ctor");
          allAnimations = new List<SpriteAnimation>();
          CurrentAnimation = null;
 
-         MaxWidth = resource.MaxWidth;
-         MaxHeight = resource.MaxHeight;
+         frameData = SpriteFrameData.LoadSpriteFrameData(resource);
 
-         frames = new SpriteFrame[resource.FrameCount];
-
-         for (int i = 0; i < resource.FrameCount; i++)
-         {
-            Texture2D DXTexture = new Texture2D(MainGame.Device, resource.MaxWidth, resource.MaxHeight, false, SurfaceFormat.Color);
-            DXTexture.SetData<byte>(resource.Frames[i].image_data);
-
-            frames [i] = new SpriteFrame ();
-            frames [i].OffsetX = resource.Frames [i].disp_x;
-            frames [i].OffsetY = resource.Frames [i].disp_y;
-            frames [i].Width = resource.Frames [i].width;
-            frames [i].Height = resource.Frames [i].height;
-            frames [i].texture = WWTexture.FromDXTexture(DXTexture);
-         }
+         Performance.Pop();
       }
 
 #if !NETFX_CORE
@@ -109,9 +112,9 @@ namespace WinWarCS.Data.Game
          if (System.IO.Directory.Exists (fullDirectory) == false)
             System.IO.Directory.CreateDirectory (fullDirectory);
 
-         for (int i = 0; i < frames.Length; i++)
+         for (int i = 0; i < frameData.Frames.Length; i++)
          {
-            frames [i].texture.WriteToFile (System.IO.Path.Combine (fullDirectory, prefix + i + ".png"));
+            frameData.Frames[i].texture.WriteToFile (System.IO.Path.Combine (fullDirectory, prefix + i + ".png"));
          }
       }
 #endif
@@ -126,7 +129,7 @@ namespace WinWarCS.Data.Game
             {
                for (int j = 0; j < 5; j++) 
                {
-                  newFrames [i * 5 + j] = frames [i] + j;
+                  newFrames[i * 5 + j] = frames[i] + j;
                }
             }
          }
