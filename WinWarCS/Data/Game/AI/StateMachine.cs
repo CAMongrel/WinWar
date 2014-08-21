@@ -8,7 +8,7 @@ namespace WinWarCS.Data.Game
 {
 	class StateMachine
 	{
-      private State previousState;
+      private State requestedNewState;
       internal State CurrentState { get; private set; }
 
       private Entity owner;
@@ -16,33 +16,49 @@ namespace WinWarCS.Data.Game
       internal StateMachine(Entity setOwner)
       {
          owner = setOwner;
-         previousState = null;
          CurrentState = null;
+         requestedNewState = null;
       }
 
       internal void ChangeState(State newState)
 		{
-			if (newState == null)
-				throw new ArgumentNullException("newState");
-			if (newState.Owner == null)
-				throw new ArgumentNullException("newState.owner");
+         requestedNewState = newState;
+		}
 
-			Log.AI(owner, "Changing state to " + newState.ToString());
+      private void PerformChangeState()
+      {
+         if (requestedNewState == null)
+            throw new ArgumentNullException("requestedNewState");
+         if (requestedNewState.Owner == null)
+            throw new ArgumentNullException("requestedNewState.owner");
 
-         previousState = CurrentState;
+         Log.AI(owner, "Changing state to " + requestedNewState.ToString());
 
-			Log.AI(owner, "Previous state was " + (previousState != null ? previousState.ToString() : "null"));
+         State previousState = CurrentState;
+
+         Log.AI(owner, "Previous state was " + (previousState != null ? previousState.ToString() : "null"));
 
          if (CurrentState != null)
             CurrentState.Leave();
 
-         CurrentState = newState;
+         CurrentState = requestedNewState;
+         requestedNewState = null;
 
-         CurrentState.Enter();
-		}
+         if (CurrentState.Enter() == false)
+         {
+            CurrentState = null;
+            Log.AI(owner, "Failed to enter new state. Reverting to previous state.");
+            ChangeState(previousState);
+         }
+      }
 
       internal void Update(GameTime gameTime)
       {
+         if (requestedNewState != null)
+         {
+            PerformChangeState();
+         }
+
          if (CurrentState != null)
             CurrentState.Update (gameTime);
       }

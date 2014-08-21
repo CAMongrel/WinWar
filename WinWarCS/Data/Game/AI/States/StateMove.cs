@@ -31,7 +31,7 @@ namespace WinWarCS.Data.Game
          this.targetTileY = targetTileY;
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          moveTimer = Owner.WalkSpeed;
          walkDistance = Owner.WalkSpeed;
@@ -57,6 +57,8 @@ namespace WinWarCS.Data.Game
                unit.Orientation = Unit.OrientationFromDiff ((targetPosX - startPosX), (targetPosY - startPosY));
             }
          }
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)

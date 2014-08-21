@@ -31,7 +31,7 @@ namespace WinWarCS.Data.Game
          bUpdatePath = true;
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          moveTimer = 1.0f;
          curNodeIdx = -1;
@@ -41,6 +41,8 @@ namespace WinWarCS.Data.Game
             curNodeIdx = 0;
             bUpdatePath = false;
          }
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)

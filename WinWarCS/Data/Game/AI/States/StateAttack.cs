@@ -26,7 +26,7 @@ namespace WinWarCS.Data.Game
          Path = null;
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          if (Owner is Unit) 
          {
@@ -44,6 +44,8 @@ namespace WinWarCS.Data.Game
          // TODO: This may lead to bugs, if the user manages to quickly switch states.
          // This must be fixed by moving the attackTimer to the unit itself.
          attackTimer = 0;
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)

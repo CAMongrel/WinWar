@@ -12,7 +12,7 @@ namespace WinWarCS.Data.Game
       {
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          updateTimer = 1.0f;
          this.Owner.HateList.Wipe();
@@ -23,6 +23,8 @@ namespace WinWarCS.Data.Game
             if (unit.Sprite != null)
                unit.Sprite.SetCurrentAnimationByName ("Idle");
          }
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)

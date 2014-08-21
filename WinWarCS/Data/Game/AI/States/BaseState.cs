@@ -12,8 +12,9 @@ namespace WinWarCS.Data.Game
          this.Owner = Owner;
       }
 
-      internal virtual void Enter()
+      internal virtual bool Enter()
       {
+         return true;
       }
 
       internal virtual void Update(GameTime gameTime)
