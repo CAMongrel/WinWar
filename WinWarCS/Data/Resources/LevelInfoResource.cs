@@ -8,9 +8,14 @@ using WinWarCS.Data.Game;
 
 namespace WinWarCS.Data.Resources
 {
-   #region enum PieceType
-
+   #region Constructs
    internal enum ConstructType
+   {
+      Road,
+      Wall,
+   }
+
+   internal enum ConstructConfig
    {
       EndPieceLeft,
       EndPieceTop,
@@ -29,18 +34,20 @@ namespace WinWarCS.Data.Resources
       MiddlePieceLeftRight,
    }
 
-   #endregion
-
-   #region struct Construct
-
    internal class Construct
    {
       internal byte X;
       internal byte Y;
       internal ConstructType Type;
+      internal ConstructConfig Config;
       internal byte Owner;
-   }
 
+      internal Construct(ConstructType setType)
+      {
+         Type = setType;
+         Config = ConstructConfig.QuadPiece;
+      }
+   }
    #endregion
 
    #region enum LevelObjectType
@@ -135,6 +142,7 @@ namespace WinWarCS.Data.Resources
    }
 
    #endregion
+
    internal class LevelInfoResource : BasicResource
    {
       private enum LevelInfoType
@@ -238,7 +246,7 @@ namespace WinWarCS.Data.Resources
          return LevelInfoType.Unknown;
       }
 
-      private LevelObject[] ReadStartObjects(int offset, WarResource res)
+      private LevelObject[] ReadStartObjects(int offset, WarResource res, out int endOffset)
       {
          List<LevelObject> result = new List<LevelObject>();
 
@@ -266,6 +274,8 @@ namespace WinWarCS.Data.Resources
 
             result.Add(lo);
          }
+
+         endOffset = offset;
 
          return result.ToArray();
       }
@@ -381,6 +391,114 @@ namespace WinWarCS.Data.Resources
          TilesPaletteResourceIndex = ReadResourceIndexDirectUShort(0xD8, res);
       }
 
+      private void CreateConstructsFromTo(byte startX, byte startY, byte endX, byte endY, byte owner, ConstructType type, List<Construct> constructs)
+      {
+         int dx = endX - startX;
+         int dy = endY - startY;
+
+         Construct ctr = null;
+
+         // Shitty code to create roads
+         if (dx < 0)
+         {     // Road that goes to the left
+            while (dx <= 0)
+            {
+               ctr = new Construct(type);
+               ctr.X = (byte)(startX - dx);
+               ctr.Y = (byte)startY;
+               constructs.Add(ctr);
+
+               dx++;
+            }
+         }
+         else if (dx > 0)
+         {     // Road that goes to the right
+            while (dx >= 0)
+            {
+               ctr = new Construct(type);
+               ctr.X = (byte)(startX + dx);
+               ctr.Y = (byte)startY;
+               constructs.Add(ctr);
+
+               dx--;
+            }
+         }
+         else if (dy < 0)
+         {     // Road that goes to the top
+            while (dy <= 0)
+            {
+               ctr = new Construct(type);
+               ctr.X = (byte)startX;
+               ctr.Y = (byte)(startY - dy);
+               constructs.Add(ctr);
+
+               dy++;
+            }
+         }
+         else if (dy > 0)
+         {     // Road that goes to the bottom
+            while (dy >= 0)
+            {
+               ctr = new Construct(type);
+               ctr.X = startX;
+               ctr.Y = (byte)(startY + dy);
+               constructs.Add(ctr);
+
+               dy--;
+            }
+         }
+      }
+
+      private void ReadConstructs(int offset, WarResource res)
+      {
+         // FF FF
+         // Roads => x/y - x2/y2 - owner
+         // FF FF
+         // Walls => x/y - x2/y2 - owner
+         // FF FF
+
+         List<Construct> roads = new List<Construct>();
+         List<Construct> walls = new List<Construct>();
+
+         ushort val = ReadUShort(offset, res.data);
+         if (val != 0xFFFF)
+            throw new InvalidOperationException();
+         offset += 2;
+
+         // Read roads
+         while (offset < res.data.Length)
+         {
+            val = ReadUShort(offset, res.data);
+            if (val == 0xFFFF)
+               break;
+
+            byte startX = (byte)(res.data[offset++] / 2);
+            byte startY = (byte)(res.data[offset++] / 2);
+            byte endX = (byte)(res.data[offset++] / 2);
+            byte endY = (byte)(res.data[offset++] / 2);
+            byte owner = res.data[offset++];
+            CreateConstructsFromTo(startX, startY, endX, endY, owner, ConstructType.Road, roads);
+         }
+         StartRoads = roads.ToArray();
+         offset += 2;
+
+         // Read walls
+         while (offset < res.data.Length)
+         {
+            val = ReadUShort(offset, res.data);
+            if (val == 0xFFFF)
+               break;
+
+            byte startX = (byte)(res.data[offset++] / 2);
+            byte startY = (byte)(res.data[offset++] / 2);
+            byte endX = (byte)(res.data[offset++] / 2);
+            byte endY = (byte)(res.data[offset++] / 2);
+            byte owner = res.data[offset++];
+            CreateConstructsFromTo(startX, startY, endX, endY, owner, ConstructType.Wall, walls);
+         }
+         StartWalls = walls.ToArray();
+      }
+
       private void LoadData(WarResource res)
       {
          PlayerInfos = new PlayerInfo[5];
@@ -417,184 +535,10 @@ namespace WinWarCS.Data.Resources
                startObjOffset = (int)ReadUShort(startObjOffset, res.data);
 
                // Read start objects
-               StartObjects = ReadStartObjects(startObjOffset, res);
-
-               // FF FF
-               // Roads => x/y - x2/y2 - owner
-               StartRoads = new Construct[0];
-               // FF FF
-               // Walls => x/y - x2/y2 - owner
-               StartWalls = new Construct[0];
-               // FF FF
-            }
-         }
-      }
-
-      private void OldLoadData(WarResource data, int offset)
-      {
-         int _offset = offset;
-
-         unsafe
-         {
-            fixed (byte* org_ptr = &data.data[0])
-            {
-               byte* ptr = org_ptr;
-
-               int StartLumber = *(int*)(&ptr[0x5C]);
-
-               int StartGold = *(int*)(&ptr[0x70]);
-
-               StartCameraX = (*(ushort*)(&ptr[0xCC])) / 2;
-
-               StartCameraY = (*(ushort*)(&ptr[0xCE])) / 2;
-
-               _offset = (*(ushort*)(&ptr[_offset]));
-               int len = data.data.Length;
-               int off = 0;
-               byte x, y;
-
-               List<LevelObject> _objects = new List<LevelObject>();
-               // Add objects
-               do
-               {
-                  x = ptr[_offset + off];
-                  y = ptr[_offset + off + 1];
-
-                  if ((x == 0xFF) && (y == 0xFF))
-                  {
-                     off += 2;
-                     break;
-                  }
-
-                  LevelObject lo = new LevelObject();
-                  lo.X = (byte)(x / 2);
-                  lo.Y = (byte)(y / 2);
-
-                  lo.Type = (LevelObjectType)ptr[_offset + off + 2];
-                  lo.Player = ptr[_offset + off + 3];
-
-                  off += 4;
-                  // If it's a gold mine, check gold amount
-                  if (lo.Type == LevelObjectType.Goldmine)
-                  {
-                     lo.Value1 = ptr[_offset + off];
-                     lo.Value2 = ptr[_offset + off + 1];
-
-                     off += 2;
-                  }
-                  _objects.Add(lo);
-               } while (_offset + off < len);
-
-               StartObjects = _objects.ToArray();
-
-               _offset = _offset + off;
-
-               // Get the text position
-               off = *(int*)(&ptr[0x94]);
-
-               // Are we at the position of the text?
-               if (off != _offset)
-               {
-                  // Should be roads
-                  List<Construct> _roads = new List<Construct>();
-
-                  Construct road;
-                  int x2, y2;
-                  //int i, j;
-                  int dx, dy;
-                  off = 0;
-
-                  do
-                  {
-                     x = ptr[_offset + off];
-                     y = ptr[_offset + off + 1];
-
-                     if ((x == 0xFF) && (y == 0xFF))
-                        break;
-
-                     off += 2;
-
-                     x2 = ptr[_offset + off];
-                     y2 = ptr[_offset + off + 1];
-
-                     off += 2;
-
-                     if (ptr[_offset + off] != 0x00)
-                        break;
-
-                     dx = x2 - x;
-                     dy = y2 - y;
-
-                     // Shitty code to create roads
-                     if (dx < 0)
-                     {		// Road that goes to the left
-                        while (dx <= 0)
-                        {
-                           road = new Construct();
-                           road.X = (byte)((x - dx) / 2);
-                           road.Y = (byte)(y / 2);
-                           _roads.Add(road);
-
-                           dx++;
-                        }
-                     }
-                     else if (dx > 0)
-                     {		// Road that goes to the right
-                        while (dx >= 0)
-                        {
-                           road = new Construct();
-                           road.X = (byte)((x + dx) / 2);
-                           road.Y = (byte)(y / 2);
-                           _roads.Add(road);
-
-                           dx--;
-                        }
-                     }
-                     else if (dy < 0)
-                     {		// Road that goes to the top
-                        while (dy <= 0)
-                        {
-                           road = new Construct();
-                           road.X = (byte)(x / 2);
-                           road.Y = (byte)((y - dy) / 2);
-                           _roads.Add(road);
-
-                           dy++;
-                        }
-                     }
-                     else if (dy > 0)
-                     {		// Road that goes to the bottom
-                        while (dy >= 0)
-                        {
-                           road = new Construct();
-                           road.X = (byte)(x / 2);
-                           road.Y = (byte)((y + dy) / 2);
-                           _roads.Add(road);
-
-                           dy--;
-                        }
-                     }
-
-                     off++;
-                  } while(_offset + off < len);
-
-                  StartRoads = _roads.ToArray();
-               }
-
-               // Get the text position again
-
-               StringBuilder sb = new StringBuilder();
-
-               off = *(int*)(&ptr[0x94]);
-
-               byte* b_ptr = &ptr[off];
-               while (*b_ptr != 0x00)
-               {
-                  sb.Append((char)*b_ptr);
-                  b_ptr++;
-               }
-
-               MissionText = sb.ToString();
+               int endOffsetStartObjects = 0;
+               StartObjects = ReadStartObjects(startObjOffset, res, out endOffsetStartObjects);
+               // Read constructs (roads/walls)
+               ReadConstructs(endOffsetStartObjects, res);
             }
          }
       }
