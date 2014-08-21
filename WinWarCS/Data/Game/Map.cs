@@ -53,6 +53,8 @@ namespace WinWarCS.Data.Game
       /// <value>The roads.</value>
       internal List<Construct> Roads { get; private set; }
 
+      internal List<Construct> Walls { get; private set; }
+
       internal List<BasePlayer> Players { get; private set; }
 
       internal BasePlayer HumanPlayer
@@ -110,20 +112,40 @@ namespace WinWarCS.Data.Game
 
       internal void Start(List<BasePlayer> allPlayers)
       {
-         Players.AddRange (allPlayers);
-         levelPassable.FillAStar (Pathfinder);
+         Performance.Push("Start Map");
+         Players.AddRange(allPlayers);
+
+         Performance.Push("FillAStar");
+         levelPassable.FillAStar(Pathfinder);
+         Performance.Pop();
 
          entities = new List<Entity> ();
 
-         HideMap ();
-         BuildInitialRoads ();
-         PopulateInitialEntities ();
-         DiscoverMap ();
+         Performance.Push("HideMap");
+         HideMap();
+         Performance.Pop();
+
+         Performance.Push("BuildInitialConstructs");
+         BuildInitialConstructs();
+         Performance.Pop();
+
+         Performance.Push("PopulateInitialEntities");
+         PopulateInitialEntities();
+         Performance.Pop();
+
+         Performance.Push("DiscoverMap");
+         DiscoverMap();
+         Performance.Pop();
+
+         // Test
+         if (DebugOptions.ShowFullMapOnLoad)
+            ShowMap();
 
          // Set initial resources
          HumanPlayer.Gold = levelInfo.PlayerInfos[0].StartGold;
          HumanPlayer.Lumber = levelInfo.PlayerInfos[0].StartLumber;
          // TODO: Set resource for other players
+         Performance.Pop();
       }
 
       #region Update
@@ -397,7 +419,7 @@ namespace WinWarCS.Data.Game
             int x = road.X - startTileX;
             int y = road.Y - startTileY;
             if (isVisible)
-               tileSet.DrawRoadTile(road.Type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+               tileSet.DrawRoadTile(road.Config, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
 
          // Render entities
@@ -511,100 +533,109 @@ namespace WinWarCS.Data.Game
       #region Roads
       public void PlaceRoad(int x, int y)
       {
-         Construct road = new Construct ();
+         Construct road = new Construct(ConstructType.Road);
          road.X = (byte)x;
          road.Y = (byte)y;
-         road.Type = ConstructType.EndPieceBottom;
+         road.Config = ConstructConfig.EndPieceBottom;
 
          Roads.Add (road);
 
          // TODO: Only check adjacent roads
-         DetermineRoadTypeForAllRoads ();
+         DetermineConstructConfigForAllConstructs ();
       }
 
       #region BuildRoadTypes
 
-      private void DetermineRoadType(Construct road, int index)
+      private void DetermineConstructConfig(Construct constr, int index, List<Construct> constructs)
       {
-         int x = road.X;
-         int y = road.Y;
+         int x = constr.X;
+         int y = constr.Y;
 
          bool topNeighbour = false;
          bool bottomNeighbour = false;
          bool leftNeighbour = false;
          bool rightNeighbour = false;
 
-         for (int j = 0; j < Roads.Count; j++) 
+         for (int j = 0; j < constructs.Count; j++) 
          {
             if (index == j)
                continue;
 
             if (topNeighbour == false)
-               topNeighbour = (Roads [j].X == x && Roads [j].Y == y - 1);
+               topNeighbour = (constructs [j].X == x && constructs [j].Y == y - 1);
             if (bottomNeighbour == false)
-               bottomNeighbour = (Roads [j].X == x && Roads [j].Y == y + 1);
+               bottomNeighbour = (constructs [j].X == x && constructs [j].Y == y + 1);
             if (leftNeighbour == false)
-               leftNeighbour = (Roads [j].X == x - 1 && Roads [j].Y == y);
+               leftNeighbour = (constructs [j].X == x - 1 && constructs [j].Y == y);
             if (rightNeighbour == false)
-               rightNeighbour = (Roads [j].X == x + 1 && Roads [j].Y == y);
+               rightNeighbour = (constructs [j].X == x + 1 && constructs [j].Y == y);
          }
 
          // Endpieces
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.EndPieceBottom;
+            constr.Config = ConstructConfig.EndPieceBottom;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.EndPieceTop;
+            constr.Config = ConstructConfig.EndPieceTop;
          if (!topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.EndPieceLeft;
+            constr.Config = ConstructConfig.EndPieceLeft;
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.EndPieceRight;
+            constr.Config = ConstructConfig.EndPieceRight;
 
          // Corner pieces
          if (topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.CornerLeftTop;
+            constr.Config = ConstructConfig.CornerLeftTop;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.CornerLeftBottom;
+            constr.Config = ConstructConfig.CornerLeftBottom;
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.CornerRightTop;
+            constr.Config = ConstructConfig.CornerRightTop;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.CornerRightBottom;
+            constr.Config = ConstructConfig.CornerRightBottom;
 
          // Middle pieces
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.MiddlePieceLeftRight;
+            constr.Config = ConstructConfig.MiddlePieceLeftRight;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.MiddlePieceTopBottom;
+            constr.Config = ConstructConfig.MiddlePieceTopBottom;
 
          // Quad piece
          if (topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.QuadPiece;
+            constr.Config = ConstructConfig.QuadPiece;
 
          // T-Corners
          if (topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.Type = ConstructType.TPieceLeft;
+            constr.Config = ConstructConfig.TPieceLeft;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.TPieceRight;
+            constr.Config = ConstructConfig.TPieceRight;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.TPieceBottom;
+            constr.Config = ConstructConfig.TPieceBottom;
          if (topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.Type = ConstructType.TPieceTop;
+            constr.Config = ConstructConfig.TPieceTop;
       }
 
-      private void BuildInitialRoads ()
+      private void BuildInitialConstructs ()
       {
          Roads = new List<Construct> (levelInfo.StartRoads);
+         Walls = new List<Construct> (levelInfo.StartWalls);
 
-         DetermineRoadTypeForAllRoads ();
+         DetermineConstructConfigForAllConstructs ();
       }
 
-      private void DetermineRoadTypeForAllRoads ()
+      private void DetermineConstructConfigForAllConstructs ()
       {
          for (int i = 0; i < Roads.Count; i++) 
          {
             // Check the neighbouring road pieces
             Construct road = Roads [i];
 
-            DetermineRoadType (road, i);
+            DetermineConstructConfig (road, i, Roads);
+         }
+
+         for (int i = 0; i < Walls.Count; i++) 
+         {
+            // Check the neighbouring road pieces
+            Construct wall = Walls [i];
+
+            DetermineConstructConfig (wall, i, Walls);
          }
       }
 
