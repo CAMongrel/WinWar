@@ -13,7 +13,6 @@ using System.Text;
 using WinWarCS.Data;
 
 #endregion
-
 namespace WinWarCS.Data.Game
 {
    internal enum Tileset : int
@@ -29,7 +28,6 @@ namespace WinWarCS.Data.Game
    class MapTileset
    {
       private const byte lightup = 10;
-	
       /// <summary>
       /// Tileset type
       /// </summary>
@@ -46,22 +44,18 @@ namespace WinWarCS.Data.Game
       /// Tileset pal
       /// </summary>
       private PaletteResource tilesetPal;
-		
       /// <summary>
       /// Known tilesets
       /// </summary>
       private static List<MapTileset> knownTilesets;
-		
       /// <summary>
       /// 
       /// </summary>
       private MapTile[] tilesList;
-		
       /// <summary>
       /// 
       /// </summary>
       private byte[] palette;
-
       public int[] RoadIndices;
 
       internal int Count
@@ -80,9 +74,9 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create map tileset
       /// </summary>
-      static MapTileset ()
+      static MapTileset()
       {
-         knownTilesets = new List<MapTileset> ();
+         knownTilesets = new List<MapTileset>();
       }
       // MapTileset()
 
@@ -93,7 +87,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create map tileset
       /// </summary>
-      internal MapTileset (Tileset setTilesetType,
+      internal MapTileset(Tileset setTilesetType,
                            WarResource setTileset, WarResource setTiles,
                            PaletteResource setTilesetPal)
       {
@@ -102,8 +96,8 @@ namespace WinWarCS.Data.Game
          tilesetPal = setTilesetPal;
          tilesetType = setTilesetType;
 			
-         CreateTiles ();
-         CreateRoadTypes ();
+         CreateTiles();
+         CreateRoadTypes();
       }
       // MapTileset(setTilesetType, setTileset, setTiles)
 
@@ -114,24 +108,23 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Get tileset
       /// </summary>
-      internal static MapTileset GetTileset (Tileset tileSetType)
+      internal static MapTileset GetTileset(Tileset tileSetType)
       {
-         for (int i = 0; i < knownTilesets.Count; i++) 
+         for (int i = 0; i < knownTilesets.Count; i++)
          {
-            if (knownTilesets [i].tilesetType == tileSetType)
-               return knownTilesets [i];
+            if (knownTilesets[i].tilesetType == tileSetType)
+               return knownTilesets[i];
          } // for
 			
          return null;
       }
       // GetTileset(tileSetType)
-
-      internal static MapTileset GetTileset (int resourceIndexOfTileset)
+      internal static MapTileset GetTileset(int resourceIndexOfTileset)
       {
-         for (int i = 0; i < knownTilesets.Count; i++) 
+         for (int i = 0; i < knownTilesets.Count; i++)
          {
             if (knownTilesets[i].tileset.resource_index == resourceIndexOfTileset)
-               return knownTilesets [i];
+               return knownTilesets[i];
          } // for
 
          return null;
@@ -140,57 +133,45 @@ namespace WinWarCS.Data.Game
       #endregion
 
       #region CreateRoadTypes
-      void CreateRoadTypes ()
+
+      void CreateRoadTypes()
       {
          // TODO: Refactor me
 
          int offset = 0;
-         switch (tilesetType) 
+         switch (tilesetType)
          {
-         case Tileset.Swamp:
-            RoadIndices = new int[15];
-            offset = 57;
-            RoadIndices [(int)ConstructType.EndPieceLeft] = offset + 0;
-            RoadIndices [(int)ConstructType.EndPieceTop] = offset + 1;
-            RoadIndices [(int)ConstructType.EndPieceRight] = offset + 2;
-            RoadIndices [(int)ConstructType.EndPieceBottom] = offset + 3;
-            RoadIndices [(int)ConstructType.CornerRightTop] = offset + 4;
-            RoadIndices [(int)ConstructType.MiddlePieceTopBottom] = offset + 5;
-            RoadIndices [(int)ConstructType.CornerLeftTop] = offset + 6;
-            RoadIndices [(int)ConstructType.TPieceRight] = offset + 7;
-            RoadIndices [(int)ConstructType.TPieceTop] = offset + 8;
-            RoadIndices [(int)ConstructType.TPieceLeft] = offset + 9;
-            RoadIndices [(int)ConstructType.QuadPiece] = offset + 10;
-            RoadIndices [(int)ConstructType.CornerRightBottom] = offset + 11;
-            RoadIndices [(int)ConstructType.MiddlePieceLeftRight] = offset + 12;
-            RoadIndices [(int)ConstructType.TPieceBottom] = offset + 13;
-            RoadIndices [(int)ConstructType.CornerLeftBottom] = offset + 14;
-            break;
+            case Tileset.Swamp:
+               RoadIndices = new int[15];
+               offset = 57;
+               break;
 
-         case Tileset.Summer:
-            RoadIndices = new int[15];
-            offset = 56;
-            RoadIndices [(int)ConstructType.EndPieceLeft] = offset + 0;
-            RoadIndices [(int)ConstructType.EndPieceTop] = offset + 1;
-            RoadIndices [(int)ConstructType.EndPieceRight] = offset + 2;
-            RoadIndices [(int)ConstructType.EndPieceBottom] = offset + 3;
-            RoadIndices [(int)ConstructType.CornerRightTop] = offset + 4;
-            RoadIndices [(int)ConstructType.MiddlePieceTopBottom] = offset + 5;
-            RoadIndices [(int)ConstructType.CornerLeftTop] = offset + 6;
-            RoadIndices [(int)ConstructType.TPieceRight] = offset + 7;
-            RoadIndices [(int)ConstructType.TPieceTop] = offset + 8;
-            RoadIndices [(int)ConstructType.TPieceLeft] = offset + 9;
-            RoadIndices [(int)ConstructType.QuadPiece] = offset + 10;
-            RoadIndices [(int)ConstructType.CornerRightBottom] = offset + 11;
-            RoadIndices [(int)ConstructType.MiddlePieceLeftRight] = offset + 12;
-            RoadIndices [(int)ConstructType.TPieceBottom] = offset + 13;
-            RoadIndices [(int)ConstructType.CornerLeftBottom] = offset + 14;
-            break;
+            case Tileset.Summer:
+               offset = 56;
+               break;
 
-         case Tileset.Dungeon:
-            break;
+            case Tileset.Dungeon:
+               return;
          }
+
+         RoadIndices = new int[15];
+         RoadIndices[(int)ConstructConfig.EndPieceLeft] = offset + 0;
+         RoadIndices[(int)ConstructConfig.EndPieceTop] = offset + 1;
+         RoadIndices[(int)ConstructConfig.EndPieceRight] = offset + 2;
+         RoadIndices[(int)ConstructConfig.EndPieceBottom] = offset + 3;
+         RoadIndices[(int)ConstructConfig.CornerRightTop] = offset + 4;
+         RoadIndices[(int)ConstructConfig.MiddlePieceTopBottom] = offset + 5;
+         RoadIndices[(int)ConstructConfig.CornerLeftTop] = offset + 6;
+         RoadIndices[(int)ConstructConfig.TPieceRight] = offset + 7;
+         RoadIndices[(int)ConstructConfig.TPieceTop] = offset + 8;
+         RoadIndices[(int)ConstructConfig.TPieceLeft] = offset + 9;
+         RoadIndices[(int)ConstructConfig.QuadPiece] = offset + 10;
+         RoadIndices[(int)ConstructConfig.CornerRightBottom] = offset + 11;
+         RoadIndices[(int)ConstructConfig.MiddlePieceLeftRight] = offset + 12;
+         RoadIndices[(int)ConstructConfig.TPieceBottom] = offset + 13;
+         RoadIndices[(int)ConstructConfig.CornerLeftBottom] = offset + 14;
       }
+
       #endregion
 
       #region LoadAddTilesets
@@ -198,29 +179,29 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Load all tilesets
       /// </summary>
-      internal static void LoadAllTilesets ()
+      internal static void LoadAllTilesets()
       {
          // TODO: FIXME with new WarFile resource loading strategy
 
-         WarResource tileset = ((RawResource)WarFile.GetResourceByName ("Barrens 1")).Resource;
-         WarResource tiles = ((RawResource)WarFile.GetResourceByName ("Barrens 2")).Resource;
-         PaletteResource tilesPAL = WarFile.GetResourceByName ("Barrens 3") as PaletteResource;
-         MapTileset swamp = new MapTileset (Tileset.Swamp, tileset, tiles, tilesPAL);
-         knownTilesets.Add (swamp);
+         WarResource tileset = ((RawResource)WarFile.GetResourceByName("Barrens 1")).Resource;
+         WarResource tiles = ((RawResource)WarFile.GetResourceByName("Barrens 2")).Resource;
+         PaletteResource tilesPAL = WarFile.GetResourceByName("Barrens 3") as PaletteResource;
+         MapTileset swamp = new MapTileset(Tileset.Swamp, tileset, tiles, tilesPAL);
+         knownTilesets.Add(swamp);
 
-         tileset = ((RawResource)WarFile.GetResourceByName ("Summer 1")).Resource;
-         tiles = ((RawResource)WarFile.GetResourceByName ("Summer 2")).Resource;
-         tilesPAL = WarFile.GetResourceByName ("Summer 3") as PaletteResource;
-         MapTileset summer = new MapTileset (Tileset.Summer, tileset, tiles, tilesPAL);
-         knownTilesets.Add (summer);
+         tileset = ((RawResource)WarFile.GetResourceByName("Summer 1")).Resource;
+         tiles = ((RawResource)WarFile.GetResourceByName("Summer 2")).Resource;
+         tilesPAL = WarFile.GetResourceByName("Summer 3") as PaletteResource;
+         MapTileset summer = new MapTileset(Tileset.Summer, tileset, tiles, tilesPAL);
+         knownTilesets.Add(summer);
 
          if (WarFile.IsDemo == false)
          {
-            tileset = ((RawResource)WarFile.GetResourceByName ("Dungeon 1")).Resource;
-            tiles = ((RawResource)WarFile.GetResourceByName ("Dungeon 2")).Resource;
-            tilesPAL = WarFile.GetResourceByName ("Dungeon 3") as PaletteResource;
-            MapTileset dungeon = new MapTileset (Tileset.Dungeon, tileset, tiles, tilesPAL);
-            knownTilesets.Add (dungeon);
+            tileset = ((RawResource)WarFile.GetResourceByName("Dungeon 1")).Resource;
+            tiles = ((RawResource)WarFile.GetResourceByName("Dungeon 2")).Resource;
+            tilesPAL = WarFile.GetResourceByName("Dungeon 3") as PaletteResource;
+            MapTileset dungeon = new MapTileset(Tileset.Dungeon, tileset, tiles, tilesPAL);
+            knownTilesets.Add(dungeon);
          }
       }
       // LoadAllTilesets()
@@ -232,7 +213,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create tiles
       /// </summary>
-      unsafe void CreateTiles ()
+      unsafe void CreateTiles()
       {
          ushort tile1, tile2, tile3, tile4;
          bool tile1_flip_x, tile2_flip_x, tile3_flip_x, tile4_flip_x;
@@ -240,9 +221,10 @@ namespace WinWarCS.Data.Game
 		
          // Create palette
          palette = new byte[768];
-         Array.Copy (tilesetPal.Colors, 0, palette, 0, 384);
-         for (int i = 0; i < 384; i++) {
-            palette [i] = (byte)(palette [i] * 3);
+         Array.Copy(tilesetPal.Colors, 0, palette, 0, 384);
+         for (int i = 0; i < 384; i++)
+         {
+            palette[i] = (byte)(palette[i] * 3);
          }
          //Array.Copy (KnowledgeBase.hardcoded_pal, 0, palette, 384, 384);
 
@@ -252,10 +234,12 @@ namespace WinWarCS.Data.Game
          int numTiles = tileset.data.Length / 8;
          tilesList = new MapTile[numTiles];
 
-         fixed (byte* org_ptr = &tileset.data[0]) {
+         fixed (byte* org_ptr = &tileset.data[0])
+         {
             ushort* ptr = (ushort*)org_ptr;
 			
-            for (int i = 0; i < numTiles; i++) {
+            for (int i = 0; i < numTiles; i++)
+            {
                tile1 = *ptr;
                tile1_flip_y = ((tile1 & 0x01) >= 1);
                tile1_flip_x = ((tile1 & 0x02) >= 1);
@@ -280,7 +264,7 @@ namespace WinWarCS.Data.Game
                tile4 = (ushort)((tile4 & 0xFFFC) * 2);
                ptr++;
 
-               tilesList [i] = CreateTile (tile1, tile1_flip_x, tile1_flip_y,
+               tilesList[i] = CreateTile(tile1, tile1_flip_x, tile1_flip_y,
                   tile2, tile2_flip_x, tile2_flip_y,
                   tile3, tile3_flip_x, tile3_flip_y,
                   tile4, tile4_flip_x, tile4_flip_y);
@@ -297,13 +281,13 @@ namespace WinWarCS.Data.Game
       {
          int x, y, pos;
 
-         fixed (byte* org_ptr = &tiles.data[offset]) 
+         fixed (byte* org_ptr = &tiles.data[offset])
          {
             byte* b_ptr = org_ptr;
 
-            for (y = baseY; y < (8 + baseY); y++) 
+            for (y = baseY; y < (8 + baseY); y++)
             {
-               for (x = baseX; x < (8 + baseX); x++) 
+               for (x = baseX; x < (8 + baseX); x++)
                {
                   int pal_index = *b_ptr;
 
@@ -311,23 +295,23 @@ namespace WinWarCS.Data.Game
                   int yPos = (flipY ? baseY + ((7 + baseY) - y) : y);
 
                   pos = (xPos + yPos * 16) * 4;
-                  data [pos + 0] = palette [pal_index * 3 + 0];
-                  data [pos + 1] = palette [pal_index * 3 + 1];
-                  data [pos + 2] = palette [pal_index * 3 + 2];
-                  data [pos + 3] = 255;
+                  data[pos + 0] = palette[pal_index * 3 + 0];
+                  data[pos + 1] = palette[pal_index * 3 + 1];
+                  data[pos + 2] = palette[pal_index * 3 + 2];
+                  data[pos + 3] = 255;
 
-                  if (data [pos + 0] < 255 - lightup)
-                     data [pos + 0] += lightup;
+                  if (data[pos + 0] < 255 - lightup)
+                     data[pos + 0] += lightup;
                   else
-                     data [pos + 0] = 255;
-                  if (data [pos + 1] < 255 - lightup)
-                     data [pos + 1] += lightup;
+                     data[pos + 0] = 255;
+                  if (data[pos + 1] < 255 - lightup)
+                     data[pos + 1] += lightup;
                   else
-                     data [pos + 1] = 255;
-                  if (data [pos + 2] < 255 - lightup)
-                     data [pos + 2] += lightup;
+                     data[pos + 1] = 255;
+                  if (data[pos + 2] < 255 - lightup)
+                     data[pos + 2] += lightup;
                   else
-                     data [pos + 2] = 255;
+                     data[pos + 2] = 255;
 
                   b_ptr++;
                } // for
@@ -338,19 +322,19 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create tile
       /// </summary>
-      private MapTile CreateTile (ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
-                         ushort tile2, bool tile2_flip_x, bool tile2_flip_y,
-                         ushort tile3, bool tile3_flip_x, bool tile3_flip_y,
-                         ushort tile4, bool tile4_flip_x, bool tile4_flip_y)
+      private MapTile CreateTile(ushort tile1, bool tile1_flip_x, bool tile1_flip_y,
+                                  ushort tile2, bool tile2_flip_x, bool tile2_flip_y,
+                                  ushort tile3, bool tile3_flip_x, bool tile3_flip_y,
+                                  ushort tile4, bool tile4_flip_x, bool tile4_flip_y)
       {
          byte[] data = new byte[16 * 16 * 4];
 
-         FillTileData (tile1, tile1_flip_x, tile1_flip_y, data, 0, 0);
-         FillTileData (tile2, tile2_flip_x, tile2_flip_y, data, 8, 0);
-         FillTileData (tile3, tile3_flip_x, tile3_flip_y, data, 0, 8);
-         FillTileData (tile4, tile4_flip_x, tile4_flip_y, data, 8, 8);
+         FillTileData(tile1, tile1_flip_x, tile1_flip_y, data, 0, 0);
+         FillTileData(tile2, tile2_flip_x, tile2_flip_y, data, 8, 0);
+         FillTileData(tile3, tile3_flip_x, tile3_flip_y, data, 0, 8);
+         FillTileData(tile4, tile4_flip_x, tile4_flip_y, data, 8, 8);
 
-         return new MapTile (data);
+         return new MapTile(data);
       }
       // CreateTile()
 
@@ -361,23 +345,22 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Draw tile
       /// </summary>
-      internal void DrawTile (int index, float x, float y, float scale)
+      internal void DrawTile(int index, float x, float y, float scale)
       {
          if (index < 0 || index >= tilesList.Length)
             return;
 
-         tilesList [index].Render (x, y, scale);
+         tilesList[index].Render(x, y, scale);
       }
       // DrawTile(x, y)
-
-      internal void DrawRoadTile(ConstructType type, float x, float y, float scale)
+      internal void DrawRoadTile(ConstructConfig config, float x, float y, float scale)
       {
          if (RoadIndices == null)
             // TileSet has no roads
             return;
 
-         int index = RoadIndices [(int)type];
-         DrawTile (index, x, y, scale);
+         int index = RoadIndices[(int)config];
+         DrawTile(index, x, y, scale);
       }
 
       #endregion
@@ -387,12 +370,12 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Get tile average color
       /// </summary>
-      internal Color GetTileAverageColor (int index)
+      internal Color GetTileAverageColor(int index)
       {
          if (index < 0 || index >= tilesList.Length)
             return Color.Purple;
 
-         return tilesList [index].AverageColor;
+         return tilesList[index].AverageColor;
       }
       // GetTileAverageColor(index)
 
@@ -403,11 +386,11 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Draw tiles
       /// </summary>
-      internal void DrawTiles (int index = 0)
+      internal void DrawTiles(int index = 0)
       {
-         for (int i = 0; i < (tilesList.Length - index); i++) 
+         for (int i = 0; i < (tilesList.Length - index); i++)
          {
-            DrawTile (i + index, (i % 16) * 16, (i / 16) * 16, 1.0f);
+            DrawTile(i + index, (i % 16) * 16, (i / 16) * 16, 1.0f);
          }
       }
       // DrawTiles()
@@ -419,9 +402,9 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Test tileset
       /// </summary>
-      internal static void TestTileset ()
+      internal static void TestTileset()
       {
-         throw new NotImplementedException ();
+         throw new NotImplementedException();
          /*TestGame.Start("TestTileset",
 				delegate
 				{
@@ -438,7 +421,8 @@ namespace WinWarCS.Data.Game
       // TestTileset()
 
       #endregion
+
    }
    // class MapTileset
 }
- // namespace WinWarCS.Game
+// namespace WinWarCS.Game
