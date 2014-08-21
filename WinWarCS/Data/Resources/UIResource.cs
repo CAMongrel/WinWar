@@ -148,10 +148,6 @@ namespace WinWarCS.Data.Resources
          EnterButtonIndex = ReadUShort(offset + 4, res.data);
          EscapeButtonIndex = ReadUShort(offset + 6, res.data);
          ushort unk1 = ReadUShort(offset + 8, res.data);
-         if (unk1 != 0xFFFF)
-         {
-            int hehe = 42;
-         }
          ushort unk2 = ReadUShort(offset + 10, res.data);
       }
 

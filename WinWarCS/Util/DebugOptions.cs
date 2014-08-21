@@ -14,7 +14,7 @@ namespace WinWarCS.Util
          ShowTiles = false;
          ShowUnitFrames = false;
          ShowBlockedTiles = false;
-         ShowFullMapOnLoad = true;
+         ShowFullMapOnLoad = false;
       }
    }
 }
