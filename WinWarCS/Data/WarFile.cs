@@ -263,7 +263,8 @@ namespace WinWarCS.Data
             int compr_length = GetLength(br, i);
             long offset = br.BaseStream.Position;
 
-            rawResources.Add(new WarResource(br, offset, compr_length, i));
+            WarResource resource = new WarResource(br, offset, compr_length, i);
+            rawResources.Add(resource);
 
             result++;
          }

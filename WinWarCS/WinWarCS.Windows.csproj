@@ -102,15 +102,19 @@
     <Compile Include="Data\Game\UnitSprite.cs" />
     <Compile Include="Data\IntroStoryboard.cs" />
     <Compile Include="Data\KnowledgeBase.cs" />
-    <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
     <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
     <Compile Include="Data\Resources\ImageResource.cs" />
     <Compile Include="Data\Resources\LevelInfoResource.cs" />
     <Compile Include="Data\Resources\LevelPassableResource.cs" />
     <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\PaletteResource.cs" />
+    <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Data\Resources\SpriteResource.cs" />
-    <Compile Include="Data\Resources\TextResource.cs" />
+    <Compile Include="Data\Resources\TableResource.cs" />
+    <Compile Include="Data\Resources\UIResource.cs" />
     <Compile Include="Data\WarFile.cs" />
     <Compile Include="Data\WarResource.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
     <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="Gui\UIBaseComponent.cs" />
     <Compile Include="Gui\UIBaseComponentList.cs" />
     <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
     <Compile Include="Gui\UIImage.cs" />
     <Compile Include="Gui\UILabel.cs" />
     <Compile Include="Gui\UIMapControl.cs" />
@@ -153,6 +159,7 @@
     <Compile Include="Util\DebugOptions.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\Performance.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
   </ItemGroup>
   <ItemGroup>

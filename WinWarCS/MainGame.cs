@@ -136,7 +136,7 @@ namespace WinWarCS
       {
          base.Initialize ();
 
-         Console.WriteLine ("WinWarCS -- Version: " + Version);
+         WinWarCS.Util.Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
 
          Exception loadingException = null;
 

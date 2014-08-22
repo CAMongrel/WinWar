@@ -159,6 +159,9 @@
     <Compile Include="Data\Resources\RawResource.cs" />
     <Compile Include="Gui\UIColorizedText.cs" />
     <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
+    <Compile Include="Data\Resources\SpriteFrameData.cs" />
+    <Compile Include="Util\Performance.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
