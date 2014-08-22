@@ -18,6 +18,13 @@ using WinWarCS.Data.Resources;
 #endregion
 namespace WinWarCS.Data.Game
 {
+   enum MapDiscover
+   {
+      Unknown,
+      Fog,
+      Visible
+   }
+      
    /// <summary>
    /// The Map class is the center point of a playable level (or map) in WinWar
    /// The map handles all spawned entities, updates states, etc... and creates its own
@@ -38,11 +45,15 @@ namespace WinWarCS.Data.Game
 
       internal int MapHeight { get; private set; }
 
+      private MapDiscover[] mapDiscoverState;
+
       /// <summary>
       /// All placed roads
       /// </summary>
       /// <value>The roads.</value>
-      internal List<Road> Roads { get; private set; }
+      internal List<Construct> Roads { get; private set; }
+
+      internal List<Construct> Walls { get; private set; }
 
       internal List<BasePlayer> Players { get; private set; }
 
@@ -62,7 +73,7 @@ namespace WinWarCS.Data.Game
 
       internal Random Rnd { get; private set; }
 
-      internal Entity SelectedEntity { get; private set; }
+      internal List<Entity> SelectedEntities { get; private set; }
 
       #region ctor
 
@@ -73,7 +84,7 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
-         SelectedEntity = null;
+         SelectedEntities = new List<Entity>();
 
          TileWidth = 16;
          TileHeight = 16;
@@ -85,7 +96,9 @@ namespace WinWarCS.Data.Game
          levelVisual = setLevelVisual;
          levelPassable = setLevelPassable;
 			
-         tileSet = MapTileset.GetTileset (levelVisual.Tileset);
+         mapDiscoverState = new MapDiscover[MapWidth * MapHeight];
+
+         tileSet = MapTileset.GetTileset((int)levelInfo.TilesetResourceIndex);
 
          Players = new List<BasePlayer> ();
 
@@ -99,13 +112,40 @@ namespace WinWarCS.Data.Game
 
       internal void Start(List<BasePlayer> allPlayers)
       {
-         Players.AddRange (allPlayers);
-         levelPassable.FillAStar (Pathfinder);
+         Performance.Push("Start Map");
+         Players.AddRange(allPlayers);
+
+         Performance.Push("FillAStar");
+         levelPassable.FillAStar(Pathfinder);
+         Performance.Pop();
 
          entities = new List<Entity> ();
 
-         BuildInitialRoads ();
-         PopulateInitialEntities ();
+         Performance.Push("HideMap");
+         HideMap();
+         Performance.Pop();
+
+         Performance.Push("BuildInitialConstructs");
+         BuildInitialConstructs();
+         Performance.Pop();
+
+         Performance.Push("PopulateInitialEntities");
+         PopulateInitialEntities();
+         Performance.Pop();
+
+         Performance.Push("DiscoverMap");
+         DiscoverMap();
+         Performance.Pop();
+
+         // Test
+         if (DebugOptions.ShowFullMapOnLoad)
+            ShowMap();
+
+         // Set initial resources
+         HumanPlayer.Gold = levelInfo.PlayerInfos[0].StartGold;
+         HumanPlayer.Lumber = levelInfo.PlayerInfos[0].StartLumber;
+         // TODO: Set resource for other players
+         Performance.Pop();
       }
 
       #region Update
@@ -115,9 +155,86 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < entities.Count; i++) 
          {
             entities [i].Update (gameTime);
+
+            // TODO: Implement a shared view flag for allied forces?
+
+            if (entities[i].Owner == HumanPlayer)
+               DiscoverMapByEntity (entities [i]);
          }
       }
 
+      #endregion
+
+      #region Map discovery
+      internal MapDiscover GetDiscoverStateAtTile(int tileX, int tileY)
+      {
+         if (tileX < 0 || tileX >= MapWidth || tileY < 0 || tileY >= MapHeight)
+            return MapDiscover.Unknown;
+
+         return mapDiscoverState[tileX + tileY * MapWidth];
+      }
+
+      private void HideMap ()
+      {
+         for (int i = 0; i < mapDiscoverState.Length; i++)
+            mapDiscoverState [i] = MapDiscover.Unknown;
+      }
+
+      private void ShowMap ()
+      {
+         for (int i = 0; i < mapDiscoverState.Length; i++)
+            mapDiscoverState [i] = MapDiscover.Visible;
+      }
+
+      private void DiscoverMapAt(int centerTileX, int centerTileY, double visibleRange)
+      {
+         double sqrDiscoverRange = visibleRange * visibleRange;
+
+         for (int y = -(int)visibleRange; y <= (int)visibleRange; y++) 
+         {
+            double actualY = (double)y - 0.5;
+            int tileY = centerTileY + (int)actualY;
+
+            if (tileY < 0 || tileY >= MapHeight)
+               continue;
+
+            for (int x = -(int)visibleRange; x <= (int)visibleRange; x++) 
+            {
+               double actualX = (double)x - 0.5;
+               int tileX = centerTileX + (int)actualX;
+
+               if (tileX < 0 || tileX >= MapWidth)
+                  continue;
+
+               double sqrDist = actualX * actualX + actualY * actualY;
+               if (sqrDiscoverRange >= sqrDist)
+                  mapDiscoverState [tileX + tileY * MapWidth] = MapDiscover.Visible;
+            }
+         }
+      }
+
+      private void DiscoverMapByEntity (Entity ent)
+      {
+         for (int y = 0; y < ent.TileSizeY; y++) 
+         {
+            for (int x = 0; x < ent.TileSizeX; x++) 
+            {
+               DiscoverMapAt (ent.TileX + x, ent.TileY + y, ent.VisibleRange);
+            }
+         }
+      }
+
+      private void DiscoverMap ()
+      {
+         // TODO: Implement shared view for allied forces?
+
+         Entity[] ownEntities = HumanPlayer.Entities.ToArray ();
+
+         for (int i = 0; i < ownEntities.Length; i++) 
+         {
+            DiscoverMapByEntity (ownEntities [i]);
+         }
+      }
       #endregion
 
       private BasePlayer getPlayer(byte playerIndex)
@@ -137,13 +254,19 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < levelInfo.StartObjects.Length; i++)
          {
             LevelObject lo = levelInfo.StartObjects [i];
-            BasePlayer newOwner = getPlayer (lo.player);
-            CreateEntity (lo.x, lo.y, lo.type, newOwner);
+            BasePlayer newOwner = getPlayer (lo.Player);
+            if (CreateEntity(lo.X, lo.Y, lo.Type, newOwner) == false)
+               Log.Write(LogType.Generic, LogSeverity.Status, "Failed to place entity of type '" + lo.Type + "' at " + lo.X + "," + lo.Y + ".");
          }
       }
 
-      internal void CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
+      internal bool CreateEntity(int x, int y, LevelObjectType entityType, BasePlayer owner)
       {
+         Log.Write(LogType.Generic, LogSeverity.Debug, "Pathfinder at [" + x + "," + y + "]: " + Pathfinder[x, y]);
+         Log.Write(LogType.Generic, LogSeverity.Debug, "levelPassable at [" + x + "," + y + "]: " + levelPassable.passableData[x, y]);
+         if (Pathfinder[x, y] != 0)
+            return false;
+
          Entity newEnt = Entity.CreateEntityFromType (entityType, this);
          newEnt.SetPosition (x, y);
          entities.Add (newEnt);
@@ -153,6 +276,11 @@ namespace WinWarCS.Data.Game
             owner.ClaimeOwnership (newEnt);
 
          newEnt.DidSpawn ();
+
+         // Add to Pathfinder
+         Pathfinder.SetFieldsBlocked(x, y, newEnt.TileSizeX, newEnt.TileSizeY);
+
+         return true;
       }
 
       internal void RemoveEntity(Entity ent)
@@ -165,12 +293,16 @@ namespace WinWarCS.Data.Game
 
          for (int i = 0; i < entities.Count; i++) 
          {
-            entities [i].HateList.RemoveEntity (ent);
+            entities[i].HateList.RemoveEntity (ent);
          }
 
          entities.Remove (ent);
 
-         SelectEntity (null);
+         if (SelectedEntities.Contains(ent))
+            SelectedEntities.Remove(ent);
+
+         // Remove from Pathfinder
+         Pathfinder.SetFieldsFree(ent.TileX, ent.TileY, ent.TileSizeX, ent.TileSizeY);
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
@@ -191,26 +323,46 @@ namespace WinWarCS.Data.Game
          return null;
       }
 
-      internal void SelectEntity(Entity ent)
+      private void InternalDeselectAllEntities()
       {
-         if (SelectedEntity != null) 
+         for (int i = SelectedEntities.Count - 1; i >= 0; i--)
          {
-            if (SelectedEntity.WillDeselect () == false)
-               return;
+            Entity selEnt = SelectedEntities [i];
+            if (selEnt.WillDeselect () == false)
+               continue;
 
-            Entity preSelEnt = SelectedEntity;
-            SelectedEntity = null;
-            preSelEnt.DidDeselect ();
+            SelectedEntities.Remove (selEnt);
+            selEnt.DidDeselect ();
          }
+      }
+      private void InternalSelectAllEntities(Entity[] entities)
+      {
+         for (int i = 0; i < entities.Length; i++)
+         {
+            Entity selEnt = entities [i];
+            if (selEnt == null || selEnt.WillSelect () == false)
+               continue;
 
-         if (ent == null)
+            SelectedEntities.Add (selEnt);
+            selEnt.DidSelect ();
+         }
+      }
+
+      internal void SelectEntities(params Entity[] entities)
+      {
+         // Try to deselect all entities
+         InternalDeselectAllEntities ();
+
+         // If there is still at least one entity selected, the deselection
+         // process was rejected, so we can't select a new one
+         if (SelectedEntities.Count > 0)
             return;
 
-         if (ent.WillSelect () == false)
+         // If we passed null, then we want to deselect
+         if (entities == null || entities.Length == 0)
             return;
 
-         SelectedEntity = ent;
-         SelectedEntity.DidSelect ();
+         InternalSelectAllEntities (entities);
       }
       #endregion
 
@@ -254,11 +406,16 @@ namespace WinWarCS.Data.Game
 
                if (DebugOptions.ShowBlockedTiles) 
                {
-                  bool isBlocked = levelPassable.passableData[x + startTileX, y + startTileY] > 0;
+                  short passableValue = levelPassable.passableData[x + startTileX, y + startTileY];
+                  bool isBlocked = passableValue > 0;
                   if (isBlocked) 
                   {
+                     Color col = new Color(0.0f, 1.0f, 0.0f, 0.5f);
+                     if (passableValue == 128)
+                        col = new Color(0.2f, 0.0f, 0.8f, 0.5f);
+
                      WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
-                        TileWidth, TileHeight, new Color (0.0f, 1.0f, 0.0f, 0.5f));
+                        TileWidth, TileHeight, col);
                   }
                }
             }
@@ -269,12 +426,15 @@ namespace WinWarCS.Data.Game
          {
             bool isVisible = true;
 
-            Road road = Roads [i];
+            Construct road = Roads [i];
 
-            int x = road.x - startTileX;
-            int y = road.y - startTileY;
+            if (mapDiscoverState [road.X + road.Y * MapWidth] == MapDiscover.Unknown)
+               isVisible = false;
+
+            int x = road.X - startTileX;
+            int y = road.Y - startTileY;
             if (isVisible)
-               tileSet.DrawRoadTile(road.type, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
+               tileSet.DrawRoadTile(road.Config, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
 
          // Render entities
@@ -288,11 +448,30 @@ namespace WinWarCS.Data.Game
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
          }
 
-         // Render selected entity
-         if (SelectedEntity != null) 
+         // Render selected entities
+         for (int i = 0; i < SelectedEntities.Count; i++)
          {
-            WWTexture.RenderRectangle (SelectedEntity.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), Color.Green, 2);
-            //WWTexture.SingleWhite.RenderOnScreen(SelectedEntity.X
+            Entity selEnt = SelectedEntities [i];
+            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
+         }
+
+         // Overlay undiscored places + fog of war
+         for (int y = 0; y < tilesToDrawY; y++)
+         {
+            for (int x = 0; x < tilesToDrawX; x++)
+            {
+               int pos = (x + startTileX) + ((y + startTileY) * MapWidth);
+
+               if (mapDiscoverState [pos] == MapDiscover.Fog) 
+               {
+                  WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                     TileWidth, TileHeight, new Color (0.0f, 0.0f, 0.0f, 0.5f));
+               } else if (mapDiscoverState [pos] == MapDiscover.Unknown) 
+               {
+                  WWTexture.SingleWhite.RenderOnScreen (setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY,
+                     TileWidth, TileHeight, new Color (0.0f, 0.0f, 0.0f, 1.0f));
+               } 
+            }
          }
       }
       // Render()
@@ -310,6 +489,58 @@ namespace WinWarCS.Data.Game
                result [x + y * MapWidth] = tileSet.GetTileAverageColor (levelVisual.visualData [x + (y * MapWidth)]);
             }
          }
+
+         // Overlay units and buildings
+         for (int i = 0; i < entities.Count; i++) 
+         {
+            Color col = Color.LightGray;
+            Entity ent = entities [i];
+            if (ent.Owner != null) 
+            {
+               // Allied and self
+               if (ent.Owner.IsFriendlyTowards (HumanPlayer))
+                  col = new Color(0, 255, 0);
+               // Enemies
+               if (ent.Owner.IsHostileTowards (HumanPlayer))
+                  col = Color.Red;
+            }
+            if (ent.Type == LevelObjectType.Human_HQ ||
+               ent.Type == LevelObjectType.Orc_HQ) 
+            {
+               col = Color.Yellow;
+            }
+
+            if (ent.TileSizeX == 1 && ent.TileSizeY == 1) 
+            {
+               result [ent.TileX + ent.TileY * MapWidth] = col;
+            } 
+            else 
+            {
+               for (int y = 0; y < ent.TileSizeY; y++)
+               {
+                  for (int x = 0; x < ent.TileSizeX; x++)
+                  {
+                     int tileX = ent.TileX + x;
+                     int tileY = ent.TileY + y;
+                     result [tileX + tileY * MapWidth] = col;
+                  }
+               }
+            }
+         }
+
+         // Overlay undiscovered areas.
+         // This is not effective (could also do this conditionally in each of the loops above),
+         // but the most secure way.
+         for (int y = 0; y < MapHeight; y++)
+         {
+            for (int x = 0; x < MapWidth; x++)
+            {
+               int pos = x + y * MapWidth;
+               if (mapDiscoverState[pos] == MapDiscover.Unknown)
+                  result [pos] = Color.Black;
+            }
+         }
+
          return result;
       }
       #endregion
@@ -317,100 +548,109 @@ namespace WinWarCS.Data.Game
       #region Roads
       public void PlaceRoad(int x, int y)
       {
-         Road road = new Road ();
-         road.x = (byte)x;
-         road.y = (byte)y;
-         road.type = RoadType.EndPieceBottom;
+         Construct road = new Construct(ConstructType.Road);
+         road.X = (byte)x;
+         road.Y = (byte)y;
+         road.Config = ConstructConfig.EndPieceBottom;
 
          Roads.Add (road);
 
          // TODO: Only check adjacent roads
-         DetermineRoadTypeForAllRoads ();
+         DetermineConstructConfigForAllConstructs ();
       }
 
       #region BuildRoadTypes
 
-      private void DetermineRoadType(Road road, int index)
+      private void DetermineConstructConfig(Construct constr, int index, List<Construct> constructs)
       {
-         int x = road.x;
-         int y = road.y;
+         int x = constr.X;
+         int y = constr.Y;
 
          bool topNeighbour = false;
          bool bottomNeighbour = false;
          bool leftNeighbour = false;
          bool rightNeighbour = false;
 
-         for (int j = 0; j < Roads.Count; j++) 
+         for (int j = 0; j < constructs.Count; j++) 
          {
             if (index == j)
                continue;
 
             if (topNeighbour == false)
-               topNeighbour = (Roads [j].x == x && Roads [j].y == y - 1);
+               topNeighbour = (constructs [j].X == x && constructs [j].Y == y - 1);
             if (bottomNeighbour == false)
-               bottomNeighbour = (Roads [j].x == x && Roads [j].y == y + 1);
+               bottomNeighbour = (constructs [j].X == x && constructs [j].Y == y + 1);
             if (leftNeighbour == false)
-               leftNeighbour = (Roads [j].x == x - 1 && Roads [j].y == y);
+               leftNeighbour = (constructs [j].X == x - 1 && constructs [j].Y == y);
             if (rightNeighbour == false)
-               rightNeighbour = (Roads [j].x == x + 1 && Roads [j].y == y);
+               rightNeighbour = (constructs [j].X == x + 1 && constructs [j].Y == y);
          }
 
          // Endpieces
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceBottom;
+            constr.Config = ConstructConfig.EndPieceBottom;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceTop;
+            constr.Config = ConstructConfig.EndPieceTop;
          if (!topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.EndPieceLeft;
+            constr.Config = ConstructConfig.EndPieceLeft;
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.EndPieceRight;
+            constr.Config = ConstructConfig.EndPieceRight;
 
          // Corner pieces
          if (topNeighbour && !bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.CornerLeftTop;
+            constr.Config = ConstructConfig.CornerLeftTop;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.CornerLeftBottom;
+            constr.Config = ConstructConfig.CornerLeftBottom;
          if (topNeighbour && !bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.CornerRightTop;
+            constr.Config = ConstructConfig.CornerRightTop;
          if (!topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.CornerRightBottom;
+            constr.Config = ConstructConfig.CornerRightBottom;
 
          // Middle pieces
          if (!topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.MiddlePieceLeftRight;
+            constr.Config = ConstructConfig.MiddlePieceLeftRight;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && !rightNeighbour)
-            road.type = RoadType.MiddlePieceTopBottom;
+            constr.Config = ConstructConfig.MiddlePieceTopBottom;
 
          // Quad piece
          if (topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.QuadPiece;
+            constr.Config = ConstructConfig.QuadPiece;
 
          // T-Corners
          if (topNeighbour && bottomNeighbour && leftNeighbour && !rightNeighbour)
-            road.type = RoadType.TPieceLeft;
+            constr.Config = ConstructConfig.TPieceLeft;
          if (topNeighbour && bottomNeighbour && !leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceRight;
+            constr.Config = ConstructConfig.TPieceRight;
          if (!topNeighbour && bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceBottom;
+            constr.Config = ConstructConfig.TPieceBottom;
          if (topNeighbour && !bottomNeighbour && leftNeighbour && rightNeighbour)
-            road.type = RoadType.TPieceTop;
+            constr.Config = ConstructConfig.TPieceTop;
       }
 
-      private void BuildInitialRoads ()
+      private void BuildInitialConstructs ()
       {
-         Roads = new List<Road> (levelInfo.StartRoads);
+         Roads = new List<Construct> (levelInfo.StartRoads);
+         Walls = new List<Construct> (levelInfo.StartWalls);
 
-         DetermineRoadTypeForAllRoads ();
+         DetermineConstructConfigForAllConstructs ();
       }
 
-      private void DetermineRoadTypeForAllRoads ()
+      private void DetermineConstructConfigForAllConstructs ()
       {
          for (int i = 0; i < Roads.Count; i++) 
          {
             // Check the neighbouring road pieces
-            Road road = Roads [i];
+            Construct road = Roads [i];
 
-            DetermineRoadType (road, i);
+            DetermineConstructConfig (road, i, Roads);
+         }
+
+         for (int i = 0; i < Walls.Count; i++) 
+         {
+            // Check the neighbouring road pieces
+            Construct wall = Walls [i];
+
+            DetermineConstructConfig (wall, i, Walls);
          }
       }
 
@@ -418,23 +658,16 @@ namespace WinWarCS.Data.Game
       #endregion
 
       #region Pathfinding
-      internal List<Node> CalcPath(int startX, int startY, int endX, int endY)
+      internal MapPath CalcPath(int startX, int startY, int endX, int endY)
       {
-         Pathfinder.StartX = startX;
-         Pathfinder.StartY = startY;
-         Pathfinder.EndX = endX;
-         Pathfinder.EndY = endY;
-
          Log.Status("Map: Calculating path from " + startX + "," + 
             startY + " to " + endX + "," + endY + "...");
 
-         if (Pathfinder.FindPath())
+         MapPath path = Pathfinder.FindPath (startX, startY, endX, endY);
+         if (path != null)
          {
-            List<Node> Path = new List<Node>(Pathfinder.PathNodeCount);
-            for (int i = 0; i < Pathfinder.PathNodeCount; i++)
-               Path.Add(Pathfinder.GetPathNode(i));
-            Log.Status("... success (" + Path.Count + " Nodes)!");
-            return Path;
+            Log.Status("... success (" + path.Count + " Nodes)!");
+            return path;
          }
 
          Log.Status("... failed!");

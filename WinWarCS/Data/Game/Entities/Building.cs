@@ -7,6 +7,7 @@ namespace WinWarCS.Data.Game
       public Building (Map currentMap)
          : base(currentMap)
       {
+         VisibleRange = 4f;
       }
    }
 }

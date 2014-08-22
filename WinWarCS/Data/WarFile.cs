@@ -3,6 +3,7 @@
 // Path: P:\Projekte\WinWarCS\WinWarEngine\Data
 // Creation date: 18.11.2009 10:13
 // Last modified: 27.11.2009 10:10
+using WinWarCS.Util;
 
 #region Using directives
 using System;
@@ -23,23 +24,32 @@ namespace WinWarCS.Data
       RetailCD
    }
 
-   internal class WarFile
+   internal static class WarFile
    {
       #region Members
 
-      //static string dataFilename;
+      private static int fileID;    // 0x18 = Full; 0x19 = Demo
       private static int nrOfEntries;
-      private static int[] offsets;
-      private static List<WarResource> resources;
+      private static uint[] offsets;
 
       /// <summary>
-      /// The maximum number of entries allowed for the Data.WAR that's currently la
+      /// List containing all raw resources from DATA.WAR
       /// </summary>
-      private static int maxNrOfEntries;
+      private static List<WarResource> rawResources;
+      /// <summary>
+      /// Dictionary with strongly typed resources. Lazy-loaded at runtime.
+      /// </summary>
+      private static Dictionary<int, BasicResource> resourcesDict;
+      /// <summary>
+      /// The knowledge base for the currently loaded DATA.WAR
+      /// Available after loading calling LoadResources()
+      /// </summary>
+      internal static KnowledgeBase KnowledgeBase;
 
       #endregion
 
       #region Properties
+
       public static DataWarFileType Type { get; private set; }
 
       public static bool IsDemo
@@ -49,6 +59,7 @@ namespace WinWarCS.Data
             return Type == DataWarFileType.Demo;
          }
       }
+
       public static bool HasIntroSpeech
       {
          get
@@ -56,53 +67,66 @@ namespace WinWarCS.Data
             return Type == DataWarFileType.RetailCD;
          }
       }
+
+      #endregion
+
+      #region Constructor
+      static WarFile()
+      {
+         rawResources = null;
+         resourcesDict = new Dictionary<int, BasicResource>();
+      }
       #endregion
 
       #region LoadResources
 
-      internal static async Task LoadResources ()
+      internal static async Task LoadResources()
       {
          Stream stream = null;
          BinaryReader reader = null;
          try
          {
-             stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + 
-                 Platform.IO.DirectorySeparatorChar + "DATA.WAR");
+            Performance.Push("Loading DATA.WAR");
 
-            reader = new BinaryReader (stream);
+            stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" +
+            Platform.IO.DirectorySeparatorChar + "DATA.WAR");
 
-            reader.ReadInt32 ();							// ID
-            nrOfEntries = (int)reader.ReadInt16 ();		// Number of entries
-            reader.ReadInt16 ();							// File ID
+            reader = new BinaryReader(stream);
 
-            offsets = new int[nrOfEntries];
+            fileID = reader.ReadInt32();							// ID
+            nrOfEntries = reader.ReadInt32();		// Number of entries
+
+            offsets = new uint[nrOfEntries];
             for (int i = 0; i < nrOfEntries; i++)
-               offsets [i] = reader.ReadInt32 ();
+               offsets[i] = reader.ReadUInt32();
 
-            resources = new List<WarResource> (nrOfEntries);
-            int actualNumberOfResources = ReadResources (reader);
-
-            switch (actualNumberOfResources)
+            Type = DataWarFileType.Unknown;
+            switch (fileID)
             {
-            case 299:
-               Type = DataWarFileType.Demo;
-               break;
-            case 486:
-               Type = DataWarFileType.Retail;            
-               break;
-            case 583:
-               Type = DataWarFileType.RetailCD;
-               break;
-            default:
-               Type = DataWarFileType.Unknown;
-               break;
+               case 0x19:
+                  Type = DataWarFileType.Demo;
+                  break;
+               case 0x18:
+                  Type = DataWarFileType.RetailCD;
+                  break;
             }
 
-         } finally
+            // Create KnowledgeBase based on type of DATA.WAR
+            KnowledgeBase = new KnowledgeBase(Type);
+
+            // Load resources
+            rawResources = new List<WarResource>(nrOfEntries);
+            ReadResources(reader);
+
+            Performance.Pop();
+
+            Log.Write(LogType.Resources, LogSeverity.Status, "KnowledgeBase contains " + KnowledgeBase.Count + " entries. Loaded " + rawResources.Count + " raw resources");
+         }
+         finally
          {
             if (reader != null)
-               reader.Dispose ();
-            stream.Dispose ();
+               reader.Dispose();
+            stream.Dispose();
          }
       }
 
@@ -110,126 +134,297 @@ namespace WinWarCS.Data
 
       #region ReadResources
 
-      private static int ReadResources (BinaryReader br)
+      private static int GetLength(BinaryReader br, int index)
       {
+         if (offsets[index] == 0xFFFFFFFF)
+            return 0;
+
+         if (index == nrOfEntries - 1)
+            return (int)br.BaseStream.Length - (int)offsets[index];
+
+         int counter = 1;
+         uint nextOffset = offsets[index + counter++];
+         while (nextOffset == 0xFFFFFFFF)
+         {
+            if (index + counter >= offsets.Length)
+            {
+               nextOffset = (uint)br.BaseStream.Length;
+               break;
+            }
+
+            nextOffset = offsets[index + counter++];
+         }
+
+         return (int)(nextOffset - offsets[index]);
+      }
+
+      private static BasicResource CreateResource(int index)
+      {
+         WarResource resource = rawResources[index];
+
+         KnowledgeEntry ke = KnowledgeBase[index];
+
+         ContentFileType fileType = ContentFileType.FileUnknown;
+         if (ke != null)
+            fileType = ke.type;
+
+         switch (fileType)
+         {
+            case ContentFileType.FileBriefing:
+               return new RawResource(resource);
+
+            case ContentFileType.FileCursor:
+               {
+                  WarResource palRes = null;
+                  if (ke != null)
+                     palRes = rawResources[ke.param];
+
+                  return new CursorResource(resource, palRes); 
+               }
+
+            case ContentFileType.FileImage:
+               {
+                  WarResource palRes = null;
+                  if (ke != null)
+                     palRes = rawResources[ke.param];
+
+                  return new ImageResource(resource, palRes, rawResources[191]); 
+               }
+
+            case ContentFileType.FileLevelInfo:
+               return new LevelInfoResource(resource);
+
+            case ContentFileType.FileLevelPassable:
+               return new LevelPassableResource(resource);
+
+            case ContentFileType.FileLevelVisual:
+               return new LevelVisualResource(resource);
+
+            case ContentFileType.FilePalette:
+               return new PaletteResource(resource);
+
+            case ContentFileType.FilePaletteShort:
+               return new PaletteResource(resource);
+
+            case ContentFileType.FileSprite:
+               {
+                  WarResource palRes = null;
+                  if (ke != null)
+                     palRes = rawResources[ke.param];
+
+                  return new SpriteResource(resource, palRes, rawResources[191]); 
+               }
+
+            case ContentFileType.FileTable:
+               return new TableResource(resource);
+
+            case ContentFileType.FileText:
+               return new RawResource(resource);
+
+            case ContentFileType.FileTiles:
+               return new RawResource(resource);
+
+            case ContentFileType.FileTileSet:
+               return new RawResource(resource);
+
+            case ContentFileType.FileUI:
+               return new UIResource(resource);
+
+            case ContentFileType.FileVOC:
+               return new RawResource(resource);
+
+            case ContentFileType.FileWave:
+               return new RawResource(resource);
+
+            case ContentFileType.FileXMID:
+               return new RawResource(resource);
+
+            default:
+            case ContentFileType.FileUnknown:
+               return new RawResource(resource);
+          }
+      }
+
+      private static int ReadResources(BinaryReader br)
+      {
+         // Read all raw resources from DATA.WAR without processing them (yet)
          int result = 0;
          for (int i = 0; i < nrOfEntries; i++)
          {
             // Happens with demo data
-            if (offsets [i] == -1)
+            if (offsets[i] == 0xFFFFFFFF)
             {
-               resources.Add (null);
+               rawResources.Add(null);
                continue;
             }
 
-            br.BaseStream.Seek ((long)offsets [i], SeekOrigin.Begin);
+            br.BaseStream.Seek((long)offsets[i], SeekOrigin.Begin);
 
-            int length = 0;
-            if (i < nrOfEntries - 1)
-               length = offsets [i + 1] - offsets [i];
-            else
-               length = (int)br.BaseStream.Length - offsets [i];
+            int compr_length = GetLength(br, i);
+            long offset = br.BaseStream.Position;
 
-            resources.Add (new WarResource (br, offsets [i], length, i));
+            WarResource resource = new WarResource(br, offset, compr_length, i);
+            rawResources.Add(resource);
+
             result++;
          }
+
          return result;
+      }
+
+      private static void WriteResource(BinaryWriter writer, WarResource res)
+      {
+         writer.Write((ushort)res.data.Length);
+         writer.Write((byte)0);
+
+         byte comprFlag = 0;
+         writer.Write(comprFlag);
+
+         writer.Write(res.data);
       }
 
       #endregion
 
-      #region DumpResources
-#if !NETFX_CORE
-      internal static void DumpResources(string path)
+      #region WriteWarFile
+      private static void WriteWarFile(string outputFile, bool forceStrongTyped)
       {
-         for (int i = 0; i < resources.Count; i++)
+#if !NETFX_CORE
+         using (BinaryWriter writer = new BinaryWriter(File.Create(outputFile)))
          {
-            ContentFileType fileType = ContentFileType.FileUnknown;
-            if (i < KnowledgeBase.KB_List.Length)
-               fileType = KnowledgeBase.KB_List [i].type;
-            string filename = Path.Combine (path, "res" + i + "." + fileType);
-            File.WriteAllBytes (filename, resources [i].data);
+            writer.Write(fileID);
+            writer.Write(rawResources.Count);
+
+            uint offsetOfOffsetTable = (uint)writer.BaseStream.Position;
+            // Write empty offset table
+            for (int i = 0; i < rawResources.Count; i++)
+               writer.Write((int)0);
+
+            uint curOffset = (uint)writer.BaseStream.Position;
+
+            // Write each resource and remember offset
+            for (int i = 0; i < rawResources.Count; i++)
+            {
+               if (rawResources[i] == null)
+               {
+                  offsets[i] = 0xFFFFFFFF;
+                  continue;
+               }
+
+               offsets[i] = curOffset;
+
+               if (forceStrongTyped)
+               {
+                  // Force loading of resource
+                  BasicResource res = GetResource(i);
+                  res.WriteToStream(writer);
+               }
+               else
+               {
+                  WriteResource(writer, rawResources[i]);
+               }
+
+               curOffset = (uint)writer.BaseStream.Position;
+            }
+
+            // Write full offset table
+            writer.BaseStream.Seek(offsetOfOffsetTable, SeekOrigin.Begin);
+            for (int i = 0; i < rawResources.Count; i++)
+               writer.Write(offsets[i]);
          }
+ #endif
       }
-#endif
       #endregion
 
       #region GetImageResource
 
-      internal static ImageResource GetImageResource (int id)
+      internal static ImageResource GetImageResource(int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileImage)
+         if (KnowledgeBase[id].type != ContentFileType.FileImage)
             return null;
 
-         return new ImageResource (GetResource (id), GetResource (KnowledgeBase.KB_List [id].param));
+         return GetResource(id) as ImageResource;
       }
 
       #endregion
 
       #region GetCursorResource
 
-      internal static CursorResource GetCursorResource (int id)
+      internal static CursorResource GetCursorResource(int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileCursor)
+         if (KnowledgeBase[id].type != ContentFileType.FileCursor)
             return null;
 
-         WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase.KB_List [id].param);
-
-         return new CursorResource (GetResource (id), pal);
+         return GetResource(id) as CursorResource;
       }
 
       #endregion
 
       #region GetSpriteResource
 
-      internal static SpriteResource GetSpriteResource (int id)
+      internal static SpriteResource GetSpriteResource(int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         Performance.Push("GetSpriteResource");
+         try
+         {
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileSprite)
+         if (KnowledgeBase[id].type != ContentFileType.FileSprite)
             return null;
 
-         WarResource pal = null;
-         if (KnowledgeBase.KB_List [KnowledgeBase.KB_List [id].param].type == ContentFileType.FilePalette)
-            pal = GetResource (KnowledgeBase.KB_List [id].param);
-
-         return new SpriteResource (GetResource (id), pal);
+         return GetResource(id) as SpriteResource;
+         }
+         finally
+         {
+            Performance.Pop();
+         }
       }
 
       #endregion
 
-      #region GetTextResource
+      #region GetUIResource
 
-      internal static TextResource GetTextResource (int id)
+      internal static UIResource GetUIResource(int id)
       {
-         if ((id < 0 || id >= KnowledgeBase.KB_List.Length))
+         if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
 
-         if (KnowledgeBase.KB_List [id].type != ContentFileType.FileText)
+         if (KnowledgeBase[id].type != ContentFileType.FileUI)
             return null;
 
-         return new TextResource (GetResource (id));
+         return GetResource(id) as UIResource;
       }
 
       #endregion
 
       #region GetResource
 
-      internal static WarResource GetResource (int index)
+      internal static BasicResource GetResource(int index)
       {
          if ((index < 0) || (index >= Count))
             return null;
 
-         return resources [index];
+         if (resourcesDict.ContainsKey(index))
+            return resourcesDict[index];
+
+         if (rawResources[index] == null)
+            return null;
+
+         // Lazy-load the requested resource
+         Performance.Push("Load resource " + index);
+         BasicResource res = CreateResource(index);
+         resourcesDict.Add(index, res);
+         Performance.Pop();
+
+         Log.Write(LogType.Resources, LogSeverity.Debug, "Created resource of type '" + res.GetType().Name + "' for index " + index);
+
+         return res;
       }
 
       #endregion
@@ -241,24 +436,39 @@ namespace WinWarCS.Data
       /// </summary>
       /// <param name="name">Name of the resource</param>
       /// <returns>The resource or null if no resource of the given name exists</returns>
-      internal static WarResource GetResourceByName (string name)
+      internal static BasicResource GetResourceByName(string name)
       {
-         int idx = KnowledgeBase.IndexByName (name);
+         int idx = KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return null;
 
-         return resources [idx];
+         return GetResource(idx);
       }
 
       #endregion
 
       #region Properties
 
+      internal static bool AreResoucesLoaded
+      {
+         get
+         {
+            return rawResources != null && KnowledgeBase != null;
+         }
+      }
+
       internal static int Count
       {
-         get { return resources.Count; }
+         get
+         {
+            if (rawResources == null)
+               return 0;
+
+            return rawResources.Count; 
+         }
       }
 
       #endregion
+
    }
 }

@@ -51,6 +51,7 @@
     <None Include="Assets\SpriteFont1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Data\Game\AI\MapPath.cs" />
     <Compile Include="Data\Game\AI\StateMachine.cs" />
     <Compile Include="Data\Game\AI\States\BaseState.cs" />
     <Compile Include="Data\Game\AI\States\StateAttack.cs" />
@@ -65,37 +66,55 @@
     <Compile Include="Data\Game\Entities\Building.cs" />
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
-    <Compile Include="Data\Game\Tile.cs" />
-    <Compile Include="Data\Game\Tileset.cs" />
     <Compile Include="Data\Game\UnitSprite.cs" />
     <Compile Include="Data\IntroStoryboard.cs" />
     <Compile Include="Data\KnowledgeBase.cs" />
-    <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
     <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
     <Compile Include="Data\Resources\ImageResource.cs" />
     <Compile Include="Data\Resources\LevelInfoResource.cs" />
     <Compile Include="Data\Resources\LevelPassableResource.cs" />
     <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\PaletteResource.cs" />
+    <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Data\Resources\SpriteResource.cs" />
-    <Compile Include="Data\Resources\TextResource.cs" />
+    <Compile Include="Data\Resources\TableResource.cs" />
+    <Compile Include="Data\Resources\UIResource.cs" />
     <Compile Include="Data\WarFile.cs" />
     <Compile Include="Data\WarResource.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
@@ -107,6 +126,7 @@
     <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
     <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
@@ -121,6 +141,7 @@
     <Compile Include="Gui\UIBaseComponent.cs" />
     <Compile Include="Gui\UIBaseComponentList.cs" />
     <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
     <Compile Include="Gui\UIImage.cs" />
     <Compile Include="Gui\UILabel.cs" />
     <Compile Include="Gui\UIMapControl.cs" />
@@ -138,6 +159,7 @@
     <Compile Include="Util\DebugOptions.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\Performance.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
   </ItemGroup>
   <ItemGroup>

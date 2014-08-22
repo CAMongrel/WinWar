@@ -48,6 +48,7 @@ namespace WinWarCS.Data.Game
          ArmorPoints = 1;
          AttackSpeed = 1.0f;
          WalkSpeed = 0.7f;
+         VisibleRange = 3f;
       }
 
       public override bool CanAttack 
@@ -69,6 +70,13 @@ namespace WinWarCS.Data.Game
          get 
          {
             return !IsDead;
+         }
+      }
+      public override bool AllowsMultiSelection
+      {
+         get
+         {
+            return true;
          }
       }
 

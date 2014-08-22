@@ -110,60 +110,70 @@ namespace WinWarCS.Gui
          components.Clear();
       }
 
-      #region InitWithTextResource
-      internal void InitWithTextResource(string name)
+      #region InitWithUIResource
+      internal void InitWithUIResource(string name)
       {
-         int idx = KnowledgeBase.IndexByName(name);
+         int idx = WarFile.KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return;
 
-         TextResource tr = WarFile.GetTextResource(idx);
-         InitWithTextResource(tr);
+         UIResource tr = WarFile.GetUIResource(idx);
+         InitWithUIResource(tr);
       }
 
-      internal void InitWithTextResource(TextResource resource)
+      internal void InitWithUIResource(UIResource resource)
       {
          ClearComponents();
 
-         for (int i = 0; i < resource.Texts.Count; i++)
+         for (int i = 0; i < resource.Labels.Count; i++)
          {
-            if (resource.Texts[i].unknown1 == 0)
+            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Labels[i];
+
+            UILabel label = new UILabel(me.Text);
+            label.X = (int)me.X;
+            label.Y = (int)me.Y;
+            label.TextAlign = (TextAlignHorizontal)me.Alignment;
+            AddComponent(label);
+         }
+
+         for (int i = 0; i < resource.Elements.Count; i++)
+         {
+            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Elements[i];
+
+            if (me.Type == UIResource.UIEntryType.ValueList)
             {
-               UILabel lbl = new UILabel(resource.Texts[i].Text);
-               lbl.X = (int)(resource.Texts[i].X);
-               lbl.Y = (int)(resource.Texts[i].Y);
+               UILabel lbl = new UILabel(me.Values[0]);
+               lbl.X = (int)(me.X);
+               lbl.Y = (int)(me.Y);
+               lbl.TextAlign = (TextAlignHorizontal)me.Alignment;
                AddComponent(lbl);
             }
             else
             {
-               UIButton.ButtonType type = UIButton.ButtonType.MediumButton;
-               if (resource.Texts[i].unknown4 == 66)
-                  type = UIButton.ButtonType.SmallButton;
-
-               UIButton btn = new UIButton(resource.Texts[i].Text, type);
-               btn.X = (int)(resource.Texts[i].X);
-               btn.Y = (int)(resource.Texts[i].Y);
+               UIButton btn = new UIButton(me.Text, me.ButtonReleasedResourceIndex, me.ButtonPressedResourceIndex);
+               btn.X = (int)(me.X);
+               btn.Y = (int)(me.Y);
                AddComponent(btn);
             }
          }
       }
       #endregion
 
-      #region FromTextResource
-      internal static UIWindow FromTextResource(string name)
+      #region FromUIResource
+      internal static UIWindow FromUIResource(string name)
       {
-         int idx = KnowledgeBase.IndexByName(name);
+         int idx = WarFile.KnowledgeBase.IndexByName(name);
          if (idx == -1)
             return null;
 
-         TextResource tr = WarFile.GetTextResource(idx);
-         return FromTextResource(tr);
+         UIResource tr = WarFile.GetUIResource(idx);
+         return FromUIResource(tr);
       }
 
-      internal static UIWindow FromTextResource(TextResource resource)
+      internal static UIWindow FromUIResource(UIResource resource)
       {
          UIWindow wnd = new UIWindow();
-         wnd.InitWithTextResource (resource);
+         wnd.InitWithUIResource (resource);
 
          return wnd;
       }

@@ -9,13 +9,15 @@ namespace WinWarCS.Data.Game
       {
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          if (Owner is Unit) 
          {
             Unit unit = (Unit)Owner;
             unit.Sprite.SetCurrentAnimationByName ("Death1");
          }
+
+         return true;
       }
 
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)

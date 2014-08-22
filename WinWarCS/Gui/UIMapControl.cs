@@ -8,6 +8,7 @@ using WinWarCS.Data;
 using WinWarCS.Data.Game;
 using WinWarCS.Data.Resources;
 using WinWarCS.Gui.Input;
+using WinWarCS.Graphics;
 
 namespace WinWarCS.Gui
 {
@@ -104,11 +105,13 @@ namespace WinWarCS.Gui
             mapOffsetY = maxY;
       }
 
-      internal void LoadCampaignLevel (string basename)
+      internal void LoadCampaignLevel (Race race, int level)
       {
-         LevelInfoResource levelInfo = new LevelInfoResource (basename);
-         LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
-         LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
+         string basenameInfo = race + " " + level;
+
+         LevelInfoResource levelInfo = WarFile.GetResourceByName(basenameInfo) as LevelInfoResource;
+         LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
+         LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
          CurrentMap = new Map (levelInfo, levelVisual, levelPassable);
          SetCameraOffset (levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
@@ -116,10 +119,11 @@ namespace WinWarCS.Gui
 
       internal void LoadCustomLevel (string basename)
       {
-         LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
-         LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
+         throw new NotImplementedException();
+         //LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
+         //LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
 
-         CurrentMap = new Map (null, levelVisual, levelPassable);
+         //CurrentMap = new Map (null, levelVisual, levelPassable);
       }
 
       internal override void Update (GameTime gameTime)
@@ -139,6 +143,12 @@ namespace WinWarCS.Gui
          if (CurrentMap != null) 
          {
             CurrentMap.Render (this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
+         }
+
+         // Render selection rectangle
+         if (InputHandler.IsSpanningRectangle)
+         {
+            WWTexture.RenderRectangle (InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
          }
       }
 

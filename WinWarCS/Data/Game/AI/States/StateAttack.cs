@@ -14,7 +14,7 @@ namespace WinWarCS.Data.Game
 
       internal int curNodeIdx;
 
-      internal List<Node> Path;
+      internal MapPath Path;
 
       internal StateAttack(Entity Owner, Entity Target)
          : base(Owner)
@@ -26,7 +26,7 @@ namespace WinWarCS.Data.Game
          Path = null;
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          if (Owner is Unit) 
          {
@@ -44,6 +44,8 @@ namespace WinWarCS.Data.Game
          // TODO: This may lead to bugs, if the user manages to quickly switch states.
          // This must be fixed by moving the attackTimer to the unit itself.
          attackTimer = 0;
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)
@@ -105,7 +107,7 @@ namespace WinWarCS.Data.Game
 
             if (curNodeIdx < Path.Count)
             {
-               Node node = Path[curNodeIdx++];
+               IMapPathNode node = Path[curNodeIdx++];
                // TODO!!! Move, not Set
                Owner.SetPosition (node.X, node.Y);
             }

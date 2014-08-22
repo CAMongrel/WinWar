@@ -60,8 +60,8 @@ namespace WinWarCS.GameScreens
             Players.Add (ai);
 
             // Load map
-            backgroundWindow.MapControl.LoadCampaignLevel (HumanPlayer.Campaign.GetCurrentLevelName ());
-            backgroundWindow.MapControl.CurrentMap.Start (Players);
+            backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race, HumanPlayer.Campaign.Level);
+            backgroundWindow.MapControl.CurrentMap.Start(Players);
          } 
          else 
          {
@@ -77,6 +77,14 @@ namespace WinWarCS.GameScreens
       internal override void Draw (Microsoft.Xna.Framework.GameTime gameTime)
       {
          UIWindowManager.Render ();
+      }
+
+      internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
+      {
+         base.Update (gameTime);
+
+         backgroundWindow.SetGoldValue (HumanPlayer.Gold);
+         backgroundWindow.SetLumberValue (HumanPlayer.Lumber);
       }
 
       internal override void PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)

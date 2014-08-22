@@ -7,17 +7,20 @@ using WinWarCS.Graphics;
 using WinWarCS.Gui;
 using WinWarCS.Data.Game;
 using WinWarCS.Data;
+using WinWarCS.Data.Resources;
 
 namespace WinWarCS.GameScreens.Windows
 {
    class IngameMenuWindow : UIWindow
    {
-      UIImage background;
-      UIButton continueButton;
-      UIButton quitButton;
+      private UIImage background;
+      private UIButton continueButton;
+      private UIButton quitButton;
+      private Race curRace;
 
       internal IngameMenuWindow (Race setRace)
       {
+         curRace = setRace;
          LevelGameScreen.Game.GamePaused = true;
 
          BackgroundColor = new Microsoft.Xna.Framework.Color (0.3f, 0.0f, 0.0f, 0.5f);
@@ -25,19 +28,14 @@ namespace WinWarCS.GameScreens.Windows
          //Width = background.Width;
          //Height = background.Height;
 
-         background = new UIImage (WWTexture.FromImageResource ("Large Box (" + setRace + ")"));
-         background.InitWithTextResource (WarFile.GetTextResource (369));
+         UIResource res = WarFile.GetUIResource(setRace == Race.Humans ? 368 : 369);
+
+         background = new UIImage(WWTexture.FromImageResource(WarFile.GetImageResource(res.BackgroundImageResourceIndex)));
+         background.InitWithUIResource (res);
          AddComponent (background);
 
          background.X = 120;
          background.Y = 20;
-
-         ((UIButton)background.Components [1]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [2]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [3]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [4]).Type = UIButton.ButtonType.MediumButton;
-         ((UIButton)background.Components [5]).Type = UIButton.ButtonType.SmallButton;
-         ((UIButton)background.Components [6]).Type = UIButton.ButtonType.SmallButton;
 
          continueButton = (UIButton)background.Components [6];
          continueButton.OnMouseUpInside += closeButton_OnMouseUpInside;
@@ -57,7 +55,7 @@ namespace WinWarCS.GameScreens.Windows
 
       void quitButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         WinWarCS.Platform.Sys.Exit ();
+         new IngameQuitMenuWindow(curRace);
       }
 
       void closeButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)

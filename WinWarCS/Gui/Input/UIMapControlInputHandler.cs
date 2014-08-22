@@ -5,8 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using WinWarCS.Data.Game;
+#if !NETFX_CORE
+using RectangleF = System.Drawing.RectangleF;
+#else
+using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
+#endif
 
-namespace WinWarCS.Gui
+namespace WinWarCS.Gui.Input
 {
    enum InputMode
    {
@@ -25,8 +30,18 @@ namespace WinWarCS.Gui
 
       internal event MapDidScroll OnMapDidScroll;
 
+      protected RectangleF selectionRectangle;
+      public RectangleF SelectionRectangle 
+      { 
+         get { return selectionRectangle; }
+      }
+      public bool IsSpanningRectangle { get; protected set; }
+
       protected UIMapControlInputHandler (InputMode setInputMode, UIMapControl setUIMapControl)
       {
+         IsSpanningRectangle = false;
+         selectionRectangle = RectangleF.Empty;
+
          MapControl = setUIMapControl;
          InputMode = setInputMode;
       }
@@ -58,18 +73,18 @@ namespace WinWarCS.Gui
       }
 
       #region Input logic for all handlers
-      protected Entity GetSelectedEntity()
+      protected Entity[] GetSelectedEntities()
       {
          if (MapControl.CurrentMap != null) 
          {
-            return MapControl.CurrentMap.SelectedEntity;
+            return MapControl.CurrentMap.SelectedEntities.ToArray();
          }
          return null;
       }
 
       protected void Deselect()
       {
-         MapControl.CurrentMap.SelectEntity (null);
+         MapControl.CurrentMap.SelectEntities (null);
       }
 
       protected void GetTileAt(Microsoft.Xna.Framework.Vector2 position, out int tileX, out int tileY)
@@ -85,6 +100,11 @@ namespace WinWarCS.Gui
          int tileY = 0;
          MapControl.GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
 
+         return GetEntityAtTileXY (tileX, tileY);
+      }
+
+      protected Entity GetEntityAtTileXY(int tileX, int tileY)
+      {
          return MapControl.CurrentMap.GetEntityAt (tileX, tileY);
       }
 
@@ -97,12 +117,74 @@ namespace WinWarCS.Gui
 
          if (MapControl.CurrentMap != null) 
          {
+            if (MapControl.CurrentMap.GetDiscoverStateAtTile (tileX, tileY) != MapDiscover.Visible)
+               return false;
+
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
-            MapControl.CurrentMap.SelectEntity (ent);
+            MapControl.CurrentMap.SelectEntities (ent);
             return true;
          }
 
          return false;
+      }
+
+      protected void SelectUnitsInRectangle (RectangleF selectionRectangle)
+      {
+         Vector2 localPosition = new Vector2 (selectionRectangle.X - MapControl.X, selectionRectangle.Y - MapControl.Y);
+         int startTileX = 0;
+         int startTileY = 0;
+         int endTileX = 0;
+         int endTileY = 0;
+
+         MapControl.GetTileXY (localPosition.X, localPosition.Y, out startTileX, out startTileY);
+         MapControl.GetTileXY (localPosition.X + selectionRectangle.Width, localPosition.Y + selectionRectangle.Height, out endTileX, out endTileY);
+
+         Rectangle tileRect = new Rectangle (startTileX, startTileY, endTileX - startTileX, endTileY - startTileY);
+         if (tileRect.Width < 0)
+         {
+            tileRect.X += tileRect.Width;
+            tileRect.Width = -tileRect.Width;
+         }
+         if (tileRect.Height < 0)
+         {
+            tileRect.Y += tileRect.Height;
+            tileRect.Height = -tileRect.Height;
+         }
+         tileRect.Width += 1;
+         tileRect.Height += 1;
+
+         // TODO: Handle mixed owners, handle only non-player owners
+
+         bool mayHaveToFilterOutEntities = false;
+         List<Entity> selectionCandidates = new List<Entity> ();
+         Entity[] humanPlayerEntities = MapControl.CurrentMap.HumanPlayer.Entities.ToArray ();
+         for (int i = 0; i < humanPlayerEntities.Length; i++)
+         {
+            Entity ent = humanPlayerEntities [i];
+
+            Rectangle entRect = new Rectangle (ent.TileX, ent.TileY, ent.TileSizeX, ent.TileSizeY);
+
+            if (tileRect.Contains(entRect) ||
+               tileRect.Intersects(entRect))
+            {
+               if (ent.AllowsMultiSelection == false)
+                  mayHaveToFilterOutEntities = true;
+
+               selectionCandidates.Add (ent);
+            }
+         }
+
+         if (mayHaveToFilterOutEntities && selectionCandidates.Count > 1)
+         {
+            // Remove all entities which do not allow multi selection
+            for (int i = selectionCandidates.Count - 1; i >= 0; i--)
+            {
+               if (selectionCandidates [i].AllowsMultiSelection == false)
+                  selectionCandidates.RemoveAt (i);
+            }
+         }
+
+         MapControl.CurrentMap.SelectEntities (selectionCandidates.ToArray ());
       }
 
       protected bool ShowMagnifierAt(Microsoft.Xna.Framework.Vector2 position)
@@ -114,6 +196,9 @@ namespace WinWarCS.Gui
 
          if (MapControl.CurrentMap != null) 
          {
+            if (MapControl.CurrentMap.GetDiscoverStateAtTile (tileX, tileY) != MapDiscover.Visible)
+               return false;
+
             Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
             if (ent != null && ent.CanBeSelected) 
             {

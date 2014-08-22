@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data.Game;
 using WinWarCS.Gui;
+using WinWarCS.Gui.Input;
+using WinWarCS.Data;
 
 namespace WinWarCS.GameScreens.Windows
 {
@@ -17,6 +19,10 @@ namespace WinWarCS.GameScreens.Windows
       private UIImage bottomBar;
       private UIImage rightBar;
       private UIButton menuButton;
+      private UILabel goldLabel;
+      private UILabel goldValueLabel;
+      private UILabel lumberLabel;
+      private UILabel lumberValueLabel;
 
       internal UIMapControl MapControl { get; private set; }
 
@@ -79,13 +85,43 @@ namespace WinWarCS.GameScreens.Windows
          MinimapControl.Height = 64;
          MinimapControl.Init ();
 
-         menuButton = new UIButton ("Menu", UIButton.ButtonType.SmallButton);
-         menuButton.Width = (int)((float)menuButton.Width * 1.22f);
-         menuButton.Height = (int)((float)menuButton.Height / 1.3f);
+         menuButton = new UIButton ("", WarFile.KnowledgeBase.IndexByName("Menu Button"), WarFile.KnowledgeBase.IndexByName("Menu Button (Pressed)"));
          menuButton.X = leftSidebar.Width / 2 - menuButton.Width / 2 - 1;
          menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
          menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
          AddComponent (menuButton);
+
+         lumberLabel = new UILabel ("Lumber:");
+         lumberLabel.X = 95;
+         lumberLabel.Y = 0;
+         lumberLabel.Width = 72;
+         lumberLabel.Height = 10;
+         lumberLabel.TextAlign = TextAlignHorizontal.Left;
+         AddComponent (lumberLabel);  
+
+         lumberValueLabel = new UILabel ("1000");
+         lumberValueLabel.X = 95;
+         lumberValueLabel.Y = 0;
+         lumberValueLabel.Width = 72;
+         lumberValueLabel.Height = 10;
+         lumberValueLabel.TextAlign = TextAlignHorizontal.Right;
+         AddComponent (lumberValueLabel);
+
+         goldLabel = new UILabel ("Gold:");
+         goldLabel.X = 206;
+         goldLabel.Y = 0;
+         goldLabel.Width = 60;
+         goldLabel.Height = 10;
+         goldLabel.TextAlign = TextAlignHorizontal.Left;
+         AddComponent (goldLabel);  
+
+         goldValueLabel = new UILabel ("1000");
+         goldValueLabel.X = 206;
+         goldValueLabel.Y = 0;
+         goldValueLabel.Width = 60;
+         goldValueLabel.Height = 10;
+         goldValueLabel.TextAlign = TextAlignHorizontal.Right;
+         AddComponent (goldValueLabel);  
 
          AddComponent (MinimapControl);
       }
@@ -93,6 +129,16 @@ namespace WinWarCS.GameScreens.Windows
       void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
          IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.HumanPlayer.Race);
+      }
+
+      internal void SetGoldValue(int newValue)
+      {
+         goldValueLabel.Text = newValue.ToString ();
+      }
+
+      internal void SetLumberValue(int newValue)
+      {
+         lumberValueLabel.Text = newValue.ToString ();
       }
 
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)

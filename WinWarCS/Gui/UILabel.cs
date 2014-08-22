@@ -11,20 +11,31 @@ namespace WinWarCS.Gui
 {
    class UILabel : UIBaseComponent
    {
-
       #region Variables
-
-      private string text;
+      private UIColorizedText colText;
+      internal string Text 
+      { 
+         get { return colText.Text; }
+         set 
+         { 
+            colText.Text = value; 
+         } 
+      }
       private SpriteFont font;
 
+      #endregion
+
+      #region Properties
+      internal TextAlignHorizontal TextAlign { get; set; }
       #endregion
 
       #region Constructor
 
       internal UILabel (string setText)
       {
-         text = setText;
+         colText = new UIColorizedText(setText);
          font = MainGame.DefaultFont;
+         TextAlign = TextAlignHorizontal.Center;
       }
 
       #endregion
@@ -36,13 +47,9 @@ namespace WinWarCS.Gui
          Vector2 screenPos = ScreenPosition;
 
          Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));
-         Microsoft.Xna.Framework.Vector2 size = font.MeasureString (text);
+         Color hotKeyCol = Color.Yellow;
 
-         Microsoft.Xna.Framework.Vector2 position = new Microsoft.Xna.Framework.Vector2 (
-                                                       screenPos.X + ((float)Width / 2.0f - size.X / 2.0f),
-                                                       screenPos.Y + ((float)Height / 2.0f - size.Y / 2.0f));
-
-         FontRenderer.DrawStringDirect (font, text, position.X, position.Y, col);
+         colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlign, col, hotKeyCol);
 
          base.Render ();
       }
@@ -53,7 +60,7 @@ namespace WinWarCS.Gui
 
       public override string ToString ()
       {
-         return text;
+         return Text;
       }
 
       #endregion

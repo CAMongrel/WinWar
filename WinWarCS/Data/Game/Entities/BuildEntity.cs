@@ -7,12 +7,12 @@ namespace WinWarCS.Data.Game
 {
    internal class BuildEntity : Entity
    {
-      internal Queue<Entity> BuildQueue { get; private set; }
+      internal Queue<LevelObjectType> BuildQueue { get; private set; }
 
       public BuildEntity (Map currentMap)
          : base(currentMap)
       {
-         BuildQueue = new Queue<Entity> ();
+         BuildQueue = new Queue<LevelObjectType> ();
       }
 
       /// <summary>
@@ -24,18 +24,16 @@ namespace WinWarCS.Data.Game
          if (!CanBuild)
             return;
 
-         Entity be = Entity.CreateEntityFromType (EntityID, this.CurrentMap);
-         if (be == null)
-            return;
-
-         Log.AI(this, "Building '" + be.Name + "'");
+         Log.AI(this, "Building '" + EntityID + "'");
 
          if (StateMachine.CurrentState is StateBuilding)
-            BuildQueue.Enqueue(be);
+         {
+            BuildQueue.Enqueue(EntityID);
+         }
          else
          {
             BuildQueue.Clear();
-            BuildQueue.Enqueue(be);
+            BuildQueue.Enqueue(EntityID);
             StateMachine.ChangeState(new StateBuilding(this));
          }
       } // Build(EntityID)

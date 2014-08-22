@@ -8,6 +8,8 @@ namespace WinWarCS.Platform.WindowsRT
 {
     struct RectangleF
     {
+       public static RectangleF Empty = new RectangleF(0, 0, 0, 0);
+
         public float X;
         public float Y;
         public float Width;

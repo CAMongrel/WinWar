@@ -2,27 +2,30 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class CursorResource : BasicImgResource
+   internal class CursorResource : BasicResource
    {
+      internal ushort width;
+      internal ushort height;
+      internal byte[] image_data;
+
       public ushort HotSpotX { get; private set; }
       public ushort HotSpotY { get; private set; }
 
       internal CursorResource(WarResource data, WarResource palette)
-         : this(data, palette, false)
       {
+         Type = ContentFileType.FileCursor;
+
+         CreateImageData(data, palette);
       }
 
-      internal CursorResource(WarResource data, WarResource palette, bool bForceGrayscale)
-         : base(palette, data)
+      internal void CreateImageData(WarResource imgResource, WarResource palette)
       {
-         CreateImageData(bForceGrayscale);
-      }
+         if (imgResource == null)
+            return;
 
-      internal override void CreateImageData (bool bForceGrayscale)
-      {
          unsafe
          {
-            fixed (byte* org_ptr = &data.data[0])
+            fixed (byte* org_ptr = &imgResource.data[0])
             {
                ushort* usptr = (ushort*)org_ptr;
 
@@ -40,7 +43,7 @@ namespace WinWarCS.Data.Resources
 
                int x, y;
 
-               if ((palette == null) || (bForceGrayscale))  // No palette for this image or grayscale forced ... use grayscale palette
+               if (palette == null)  // No palette for this image or grayscale forced ... use grayscale palette
                {
                   for (y = 0; y < height; y++)
                      for (x = 0; x < width; x++)
@@ -76,26 +79,6 @@ namespace WinWarCS.Data.Resources
                            cnt++;
                            image_data [cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
                            cnt++;
-
-                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                               (image_data [cnt - 4] == 228) &&
-                               (image_data [cnt - 3] == 108) &&
-                               (image_data [cnt - 2] == 228))
-                           {
-                              image_data [cnt - 4] = KnowledgeBase.hardcoded_pal [pal_index];
-                              image_data [cnt - 3] = KnowledgeBase.hardcoded_pal [pal_index + 1];
-                              image_data [cnt - 2] = KnowledgeBase.hardcoded_pal [pal_index + 2];
-                           }
-
-                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                               (image_data [cnt - 4] == 204) &&
-                               (image_data [cnt - 3] == 0) &&
-                               (image_data [cnt - 2] == 212))
-                           {
-                              image_data [cnt - 4] = KnowledgeBase.hardcoded_pal [pal_index];
-                              image_data [cnt - 3] = KnowledgeBase.hardcoded_pal [pal_index + 1];
-                              image_data [cnt - 2] = KnowledgeBase.hardcoded_pal [pal_index + 2];
-                           }
                         }
                      }
                   }

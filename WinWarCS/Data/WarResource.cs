@@ -12,7 +12,7 @@ namespace WinWarCS.Data
       int compr_length;
       int length;
       internal byte[] data;
-      int resource_index;
+      internal int resource_index;
 
       internal WarResource(BinaryReader br, long offset, int compr_length, int resource_index)
       {
@@ -32,10 +32,120 @@ namespace WinWarCS.Data
          ushort len = br.ReadUInt16();
          byte align = br.ReadByte();
 
-         length = len + (align >> 16);
+         length = len + (align << 16);
 
-         align = br.ReadByte();
-         bCompressed = (align != 0);
+         byte comprFlag = br.ReadByte();
+         bCompressed = (comprFlag != 0);
+      }
+
+      internal unsafe static byte[] RLEUncompress(byte[] inputData)
+      {
+         int length = inputData[0];
+
+         BinaryReader reader = new BinaryReader(new MemoryStream(inputData, 1, inputData.Length - 1));
+
+         int i, j, br, b1pos, b2pos;
+         int b1, b2, _bytes_read, cnt;
+         BitMask bm;
+
+         byte[] _compr_data = new byte[4096];
+         byte[] _out = new byte[4096];
+
+         _bytes_read = reader.Read(_compr_data, 0, 4096);
+
+         br = 0;
+         b1pos = 0;
+         b2pos = 0;
+
+         int nbrBytes = 0;
+         byte[] localData = null;
+         List<byte> outData = new List<byte>();
+
+         cnt = 0;
+
+         int compr_length = inputData.Length - 1;
+
+         while (br <= compr_length)
+         {
+            bm = (BitMask)_compr_data[b1pos];
+            b1pos++;
+            if (b1pos >= 4096)
+            {
+               _bytes_read = reader.Read(_compr_data, 0, 4096);
+               b1pos = 0;
+            }
+            br++;
+
+            for (i = 0; i < 8; i++)
+            {
+               if (bm.bits[i])      // uncompressed
+               {
+                  _out[b2pos] = _compr_data[b1pos];
+                  b2pos++;
+                  if (b2pos >= 4096)
+                  {
+                     nbrBytes = ((length - cnt > 4096) ? _bytes_read : length - cnt);
+                     localData = new byte[nbrBytes];
+                     Array.Copy(_out, 0, localData, 0, nbrBytes);
+                     outData.InsertRange(cnt, localData);
+
+                     cnt += ((length - cnt > 4096) ? _bytes_read : length - cnt);
+                     b2pos = 0;
+                  }
+                  b1pos++;
+                  if (b1pos >= 4096)
+                  {
+                     _bytes_read = reader.Read(_compr_data, 0, 4096);
+                     b1pos = 0;
+                  }
+                  br++;
+               }
+               else
+               {                    // compressed
+                  b1 = _compr_data[b1pos];
+                  b1pos++;
+                  if (b1pos >= 4096)
+                  {
+                     _bytes_read = reader.Read(_compr_data, 0, 4096);
+                     b1pos = 0;
+                  }
+                  b2 = _compr_data[b1pos];
+                  b1pos++;
+                  if (b1pos >= 4096)
+                  {
+                     _bytes_read = reader.Read(_compr_data, 0, 4096);
+                     b1pos = 0;
+                  }
+                  br = br + 2;
+
+                  b1 = (((b2 & 0x0F) << 8) | b1);
+                  b2 = ((b2 & 0xF0) >> 4) + 3 + b1;
+
+                  for (j = b1; j < b2; j++)
+                  {
+                     _out[b2pos] = _out[j % 4096];
+                     b2pos++;
+                     if (b2pos >= 4096)
+                     {
+                        nbrBytes = ((length - cnt > 4096) ? _bytes_read : length - cnt);
+                        localData = new byte[nbrBytes];
+                        Array.Copy(_out, 0, localData, 0, nbrBytes);
+                        outData.InsertRange(cnt, localData);
+
+                        cnt += ((length - cnt > 4096) ? _bytes_read : length - cnt);
+                        b2pos = 0;
+                     }
+                  }
+               }
+            }
+         }
+
+         nbrBytes = ((length - cnt > 4096) ? _bytes_read : length - cnt);
+         localData = new byte[nbrBytes];
+         Array.Copy(_out, 0, localData, 0, nbrBytes);
+         outData.InsertRange(cnt, localData);
+
+         return outData.ToArray();
       }
 
       private unsafe void ReadData(BinaryReader read)
@@ -43,7 +153,7 @@ namespace WinWarCS.Data
          if (!bCompressed)
          {
             read.BaseStream.Seek(offset + 4, SeekOrigin.Begin);
-            data = read.ReadBytes(compr_length);
+            data = read.ReadBytes(length);
          }
          else
          {

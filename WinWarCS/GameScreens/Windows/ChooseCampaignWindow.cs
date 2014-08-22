@@ -14,7 +14,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          this.Y = 70;
 
-         InitWithTextResource ("Choose Campaign");
+         InitWithUIResource ("Choose Campaign");
 
          // Orc Campaign
          UIButton orcBtn = Components [1] as UIButton;

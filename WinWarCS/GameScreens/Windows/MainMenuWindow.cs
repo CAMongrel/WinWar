@@ -17,29 +17,19 @@ namespace WinWarCS.GameScreens.Windows
       {
          this.Y = 70;
 
-         InitWithTextResource("Main Menu Text");
-
-         // The order in the text resource is wrong, so switch first and second button
-         UIBaseComponent comp1 = Components[0];
-         Components[0] = Components[1];
-         Components[1] = comp1;
-
-         // Also switch actual screen position
-         int y = Components[0].Y;
-         Components[0].Y = Components[1].Y;
-         Components[1].Y = y;
+         InitWithUIResource("Main Menu Text");
 
          // Start new game
          UIButton newGameBtn = Components[0] as UIButton;
          newGameBtn.OnMouseUpInside += newGameBtn_OnMouseUpInside;
 
-         // Replay introduction
-         UIButton replayIntroBtn = Components[1] as UIButton;
-         replayIntroBtn.OnMouseUpInside += replayIntroBtn_OnMouseUpInside;
-
          // Load existing game
-         UIButton loadGameBtn = Components[2] as UIButton;
+         UIButton loadGameBtn = Components[1] as UIButton;
          loadGameBtn.OnMouseUpInside += loadGameBtn_OnMouseUpInside;
+
+         // Replay introduction
+         UIButton replayIntroBtn = Components[2] as UIButton;
+         replayIntroBtn.OnMouseUpInside += replayIntroBtn_OnMouseUpInside;
 
          // Quit Game
          UIButton quitGameBtn = Components[3] as UIButton;
@@ -78,7 +68,6 @@ namespace WinWarCS.GameScreens.Windows
             sprImg.Y = 10;
             AddComponent(sprImg);
          }*/
-         //sprImg.Sprite.DumpToDirectory ("/data/Temp/WinWar/Garana/", "Garana");
       }
 
       async void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
@@ -90,7 +79,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          if (WarFile.IsDemo)
          {
-            await WinWarCS.Platform.UI.ShowMessageDialog ("Not available in demo!");
+            await WinWarCS.Platform.UI.ShowMessageDialog ("No idea ... ask Blizzard");
             return;
          }
 

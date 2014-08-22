@@ -22,7 +22,7 @@ namespace WinWarCS.Data.Game
 
       internal int curNodeIdx;
 
-      internal List<Node> Path;
+      internal MapPath Path;
 
       internal StateMove(Entity Owner, int targetTileX, int targetTileY)
          : base(Owner)
@@ -31,7 +31,7 @@ namespace WinWarCS.Data.Game
          this.targetTileY = targetTileY;
       }
 
-      internal override void Enter()
+      internal override bool Enter()
       {
          moveTimer = Owner.WalkSpeed;
          walkDistance = Owner.WalkSpeed;
@@ -45,7 +45,7 @@ namespace WinWarCS.Data.Game
          {
             curNodeIdx = 0;
 
-            Node initialNode = Path[curNodeIdx++];
+            IMapPathNode initialNode = Path[curNodeIdx++];
 
             targetPosX = initialNode.X;
             targetPosY = initialNode.Y;
@@ -57,6 +57,8 @@ namespace WinWarCS.Data.Game
                unit.Orientation = Unit.OrientationFromDiff ((targetPosX - startPosX), (targetPosY - startPosY));
             }
          }
+
+         return true;
       }
 
       internal override void Update(GameTime gameTime)
@@ -96,7 +98,7 @@ namespace WinWarCS.Data.Game
             return;
          }
 
-         Node node = Path[curNodeIdx++];
+         IMapPathNode node = Path[curNodeIdx++];
 
          targetPosX = node.X;
          targetPosY = node.Y;

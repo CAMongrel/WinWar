@@ -60,6 +60,8 @@ namespace WinWarCS.Data.Game
 
       public Entity PreviousTarget { get; private set; }
 
+      internal LevelObjectType Type { get; private set; }
+
       public string Name
       {
          get
@@ -78,6 +80,10 @@ namespace WinWarCS.Data.Game
       /// The attack speed.
       /// </summary>
       public double AttackSpeed;
+      /// <summary>
+      /// The visible range.
+      /// </summary>
+      public double VisibleRange;
       /// <summary>
       /// The walking speed.
       /// </summary>
@@ -121,15 +127,31 @@ namespace WinWarCS.Data.Game
 
       public Entity (Map currentMap)
       {
+         Performance.Push("Entity ctor");
+         VisibleRange = 0;
+
          currentTarget = null;
          PreviousTarget = null;
 
          CurrentMap = currentMap;
-         sprite = new Sprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Peasant")));
 
+         Performance.Push("Create base sprite");
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
+         Performance.Pop();
+
+         Performance.Push("new HateList");
          HateList = new HateList ();
+         Performance.Pop();
+
+         Performance.Push("new StateMachine");
          StateMachine = new StateMachine (this);
+         Performance.Pop();
+
+         Performance.Push("StateMachine.ChangeState");
          StateMachine.ChangeState (new StateIdle (this));
+         Performance.Pop();
+
+         Performance.Pop();
       }
 
       /// <summary>
@@ -140,8 +162,13 @@ namespace WinWarCS.Data.Game
       public void SetPosition(float newX, float newY)
       {
          Log.AI (this, "Setting position to " + newX + "," + newY);
+
+         CurrentMap.Pathfinder.SetFieldsFree(TileX, TileY, this.TileSizeX, this.TileSizeY);
+
          X = newX;
          Y = newY;
+
+         CurrentMap.Pathfinder.SetFieldsBlocked(TileX, TileY, this.TileSizeX, this.TileSizeY);
       }
 
       /// <summary>
@@ -214,7 +241,7 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < CurrentMap.Players.Count; i++)
          {
             BasePlayer pl = CurrentMap.Players[i];
-            if (pl == this.Owner || pl.IsNeutralTowards(this))
+            if (pl == this.Owner || pl.IsNeutralTowards(this.Owner))
                continue;
 
             foreach (Entity ent in pl.Entities)
@@ -430,6 +457,13 @@ namespace WinWarCS.Data.Game
             return true;
          }
       }
+      public virtual bool AllowsMultiSelection
+      {
+         get
+         {
+            return false;
+         }
+      }
       public virtual bool IsDead
       {
          get
@@ -455,52 +489,132 @@ namespace WinWarCS.Data.Game
 
       public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
       {
+         Performance.Push("CreateEntityFromType");
+         Entity result = null;
+
          switch (entityType) 
          {
          // Orc Units
          case LevelObjectType.Peon:
-            return new OrcPeon (inMap);
+            result = new OrcPeon (inMap);
+            break;
 
          case LevelObjectType.Grunt:
-            return new OrcGrunt (inMap);
+            result = new OrcGrunt (inMap);
+            break;
 
          case LevelObjectType.Spearman:
-            return new OrcAxethrower (inMap);
+            result = new OrcAxethrower (inMap);
+            break;
+
+         case LevelObjectType.Catapult:
+            result = new OrcCatapult (inMap);
+            break;
+
+         case LevelObjectType.Rider:
+            result = new OrcRider (inMap);
+            break;
+
+         case LevelObjectType.Necrolyte:
+            result = new OrcNecro (inMap);
+            break;
+
+         case LevelObjectType.Warlock:
+            result = new OrcWizard (inMap);
+            break;
 
             // Human Units
          case LevelObjectType.Peasant:
-            return new HumanPeasant (inMap);
+            result = new HumanPeasant (inMap);
+            break;
 
          case LevelObjectType.Warrior:
-            return new HumanWarrior (inMap);
+            result = new HumanWarrior (inMap);
+            break;
 
          case LevelObjectType.Bowman:
-            return new HumanArcher (inMap);
+            result = new HumanArcher (inMap);
+            break;
+
+         case LevelObjectType.Ballista:
+            result = new HumanBalista (inMap);
+            break;
+
+         case LevelObjectType.Conjurer:
+            result = new HumanConjurer (inMap);
+            break;
+
+         case LevelObjectType.Knight:
+            result = new HumanKnight (inMap);
+            break;
+
+         case LevelObjectType.Cleric:
+            result = new HumanPriest (inMap);
+            break;
 
             // Orc Buildings
          case LevelObjectType.Orc_Farm:
-            return new OrcFarm (inMap);
+            result = new OrcFarm (inMap);
+            break;
 
          case LevelObjectType.Orc_HQ:
-            return new OrcBase (inMap);
+            result = new OrcBase (inMap);
+            break;
 
             // Human Buildings
          case LevelObjectType.Human_Farm:
-            return new HumanFarm (inMap);
+            result = new HumanFarm (inMap);
+            break;
 
          case LevelObjectType.Human_HQ:
-            return new HumanBase (inMap);
+            result = new HumanBase (inMap);
+            break;
+
+         case LevelObjectType.Human_Barracks:
+            result = new HumanBarracks (inMap);
+            break;
+
+         case LevelObjectType.Human_Blacksmith:
+            result = new HumanSmith (inMap);
+            break;
+
+         case LevelObjectType.Human_Church:
+            result = new HumanChurch (inMap);
+            break;
+
+         case LevelObjectType.Human_Mill:
+            result = new HumanBarracks (inMap);
+            break;
+
+         case LevelObjectType.Human_Stables:
+            result = new HumanStables (inMap);
+            break;
+
+         case LevelObjectType.Human_Tower:
+            result = new HumanTower (inMap);
+            break;
+
+         case LevelObjectType.Stormwind:
+            result = new HumanStormwind (inMap);
+            break;
 
             // Neutral
          case LevelObjectType.Goldmine:
-            return new Goldmine (inMap);
+            result = new Goldmine (inMap);
+            break;
 
          case LevelObjectType.Orc_corpse:
-            return new Corpse (inMap);
+            result = new Corpse (inMap);
+            break;
 
          default:
-            return new Entity (inMap);
+            result = new Entity (inMap);
+            break;
          }
+
+         result.Type = entityType;
+         Performance.Pop();
+         return result;
       }
    }
 }

@@ -4,37 +4,35 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class ImageResource : BasicImgResource
+	internal class ImageResource : BasicResource
 	{
-		internal ImageResource(WarResource data, WarResource palette)
-			: this(data, palette, false)
+      internal ushort width;
+      internal ushort height;
+      internal byte[] image_data;
+
+      internal ImageResource(WarResource imgResource, WarResource palette, WarResource addPalette)
 		{
+         Type = ContentFileType.FileImage;
+
+         CreateImageData(imgResource, palette, addPalette);
 		}
 
-		internal ImageResource(WarResource data, WarResource palette, bool bForceGrayscale)
-			: base(palette, data)
+      internal void CreateImageData(WarResource imgResource, WarResource palette, WarResource addPalette)
 		{
+         bool bForceGrayscale = palette == null;
+
+         WarResource addPal = addPalette;
+
 			unsafe
 			{
-				fixed (byte* org_ptr = &data.data[0])
+            fixed (byte* org_ptr = &imgResource.data[0])
 				{
-					ushort* usptr = (ushort*)org_ptr;
-					width = *usptr++;
-					height = *usptr++;
-				}
-			}
+					byte* b_ptr = org_ptr;
 
-			CreateImageData(bForceGrayscale);
-		}
-
-		internal override void CreateImageData(bool bForceGrayscale)
-		{
-			unsafe
-			{
-				fixed (byte* org_ptr = &data.data[0])
-				{
-					byte* b_ptr = org_ptr + 4;
-
+               width = *(ushort*)b_ptr;
+               b_ptr += 2;
+               height = *(ushort*)b_ptr;
+               b_ptr += 2;
 					image_data = new byte[width * height * 4];
 
 					int cnt = 0;
@@ -79,24 +77,13 @@ namespace WinWarCS.Data.Resources
                            image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
 									cnt++;
 
-									if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                                        (image_data[cnt - 4] == 228) &&
-										(image_data[cnt - 3] == 108) &&
-										(image_data[cnt - 2] == 228))
+									if ((image_data[cnt - 4] == 228) &&
+										 (image_data[cnt - 3] == 108) &&
+										 (image_data[cnt - 2] == 228))
 									{
-										image_data[cnt - 4] = KnowledgeBase.hardcoded_pal[pal_index];
-										image_data[cnt - 3] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
-									}
-
-                           if (pal_index < KnowledgeBase.hardcoded_pal.Length &&
-                              (image_data[cnt - 4] == 204) &&
-										(image_data[cnt - 3] == 0) &&
-										(image_data[cnt - 2] == 212))
-									{
-										image_data[cnt - 4] = KnowledgeBase.hardcoded_pal[pal_index];
-										image_data[cnt - 3] = KnowledgeBase.hardcoded_pal[pal_index + 1];
-										image_data[cnt - 2] = KnowledgeBase.hardcoded_pal[pal_index + 2];
+                              image_data[cnt - 4] = (byte)(addPal.data[pal_index] * 4);
+                              image_data[cnt - 3] = (byte)(addPal.data[pal_index + 1] * 4);
+                              image_data[cnt - 2] = (byte)(addPal.data[pal_index + 2] * 4);
 									}
 								}
 							}
@@ -105,5 +92,31 @@ namespace WinWarCS.Data.Resources
 				}
 			}
 		}
+
+#if !NETFX_CORE
+      internal override void WriteToStream(System.IO.BinaryWriter writer)
+      {
+         base.WriteToStream(writer);
+      }
+
+      internal override void WriteToFile(string filename)
+      {
+         base.WriteToFile(filename);
+
+         System.Drawing.Bitmap bm = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+         // Yes, this is very slow ... but I don't care, this is only for testing
+         for (int y = 0; y < height; y++)
+         {
+            for (int x = 0; x < width; x++)
+            {
+               int index = (x + (y * width)) * 4;
+               System.Drawing.Color col = System.Drawing.Color.FromArgb(image_data[index + 3], image_data[index + 0], image_data[index + 1], image_data[index + 2]);
+
+               bm.SetPixel(x, y, col);
+            }
+         }
+         bm.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+      }
+#endif
 	}
 }

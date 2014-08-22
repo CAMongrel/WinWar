@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -113,17 +113,13 @@
     <Compile Include="Data\Game\Race.cs" />
     <Compile Include="Data\Game\Sprite.cs" />
     <Compile Include="Data\Game\SpriteAnimation.cs" />
-    <Compile Include="Data\Game\Tile.cs" />
-    <Compile Include="Data\Game\Tileset.cs" />
     <Compile Include="Data\Game\UnitSprite.cs" />
-    <Compile Include="Data\Resources\BasicImgResource.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
     <Compile Include="Data\Resources\ImageResource.cs" />
     <Compile Include="Data\Resources\LevelInfoResource.cs" />
     <Compile Include="Data\Resources\LevelPassableResource.cs" />
     <Compile Include="Data\Resources\LevelVisualResource.cs" />
     <Compile Include="Data\Resources\SpriteResource.cs" />
-    <Compile Include="Data\Resources\TextResource.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
     <Compile Include="Gui\UIBaseComponent.cs" />
@@ -176,6 +172,8 @@
     <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs">
+    </Compile>
     <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\AI\AStar.cs" />
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
@@ -195,6 +193,31 @@
     <Compile Include="Util\DebugOptions.cs" />
     <Compile Include="Gui\Input\PointerType.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
+    <Compile Include="Data\Game\MapTileset.cs" />
+    <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\AI\MapPath.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
+    <Compile Include="Data\Resources\TableResource.cs" />
+    <Compile Include="Data\Resources\UIResource.cs" />
+    <Compile Include="Data\Resources\PaletteResource.cs" />
+    <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
+    <Compile Include="Util\Performance.cs" />
+    <Compile Include="Data\Resources\SpriteFrameData.cs" />
+    <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

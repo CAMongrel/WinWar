@@ -7,7 +7,7 @@ namespace WinWarCS.Data.Game
       public HumanPeasant (Map currentMap)
          : base(currentMap)
       {
-         sprite = new UnitSprite (WarFile.GetSpriteResource (KnowledgeBase.IndexByName ("Human Peasant")));
+         sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
       }
    }
 }

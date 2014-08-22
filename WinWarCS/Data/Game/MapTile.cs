@@ -26,7 +26,7 @@ namespace WinWarCS.Data.Game
    /// <summary>
    /// Tile
    /// </summary>
-   class Tile
+   class MapTile
    {
       /// <summary>
       /// Texture
@@ -51,7 +51,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create tile
       /// </summary>
-      internal Tile(byte[] data)
+      internal MapTile(byte[] data)
       {
          if (data.Length != 256 * 4)
             throw new InvalidDataException("Wrong length of tile data array, must be 1024 bytes.");

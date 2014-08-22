@@ -15,7 +15,7 @@ namespace WinWarCS
    public class MainGame : Game
    {
       public static int MajorVersion = 0;
-      public static int MinorVersion = 1;
+      public static int MinorVersion = 2;
       public static int RevisionVersion = 0;
 
       public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
@@ -136,77 +136,39 @@ namespace WinWarCS
       {
          base.Initialize ();
 
-         Console.WriteLine ("WinWarCS -- Version: " + Version);
-
-         /*Windows.Storage.StorageFile warFile = await WinWarCS.Data.WarFile.GetDataWarFile();
-         if (warFile == null)
-         {
-            /*Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("DATA.WAR not found in local documents store.", "WinWarCS - WarCraft for Windows Modern UI");
-            await dlg.ShowAsync();
-            return;
-         }*/
+         WinWarCS.Util.Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
 
          Exception loadingException = null;
 
-         try {
+         try 
+         {
             await WinWarCS.Data.WarFile.LoadResources ();
             WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
-         } catch (Exception ex) {
+         } 
+         catch (Exception ex) 
+         {
             loadingException = ex;
          }
 
-         //WarFile.DumpResources ("/data/Temp/WinWar/Resources");
-
-         if (loadingException != null) {
+         if (loadingException != null) 
+         {
             await Platform.UI.ShowMessageDialog ("An error occured during loading of DATA.WAR (" + loadingException + ").");
             return;
          }
 
-         SetNextGameScreen (new IntroGameScreen (
-            delegate(bool wasCancelled) {
-               SetNextGameScreen (new MenuGameScreen (!wasCancelled));
-            }));
-
-         //SetNextGameScreen(new MenuGameScreen());
-         /*MovieGameScreen.PlayMovie("TITLE.WAR", 
-             delegate
-             {
-                 SetNextGameScreen(new MenuGameScreen(true));
-             });*/
-      }
-
-      /*private bool HasData(byte[] blob, byte[] dataToSearch)
-      {
-         int counter = 0;
-         for (int i = 0; i < blob.Length; i++)
+         if (WarFile.IsDemo) 
          {
-            if (blob[i] == dataToSearch[counter])
-               counter++;
-            else
-               counter = 0;
-
-            if (counter >= dataToSearch.Length)
-               return true;
-         }
-
-         return false;
-      }
-
-      private void SearchForText(string text)
-      {
-         byte[] byteData = Encoding.UTF8.GetBytes(text);
-
-         for (int i = 0; i < 485; i++)
+            SetNextGameScreen (new MenuGameScreen (false));
+         } 
+         else 
          {
-            WinWarCS.Data.WarResource res = WinWarCS.Data.WarFile.GetResource(i);
-
-            bool hasData = HasData(res.data, byteData);
-            if (hasData)
-            {
-               int hehe = 42;
-            }
+            // Play demo
+            SetNextGameScreen (new IntroGameScreen (
+               delegate(bool wasCancelled) {
+                  SetNextGameScreen (new MenuGameScreen (!wasCancelled));
+               }));
          }
-      }*/
+      }
 
       /// <summary>
       /// LoadContent will be called once per game and is the place to load

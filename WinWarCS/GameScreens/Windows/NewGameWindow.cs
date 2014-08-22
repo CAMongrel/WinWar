@@ -13,7 +13,7 @@ namespace WinWarCS.GameScreens.Windows
       {
          this.Y = 70;
 
-         InitWithTextResource ("Select Game Type");
+         InitWithUIResource ("Select Game Type");
 
          // Single Player
          UIButton singlePlayerBtn = Components [1] as UIButton;

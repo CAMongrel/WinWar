@@ -80,7 +80,7 @@ namespace WinWarCS.Graphics
 
       internal static WWTexture FromImageResource (string name)
       {
-         int idx = KnowledgeBase.IndexByName (name);
+         int idx = WarFile.KnowledgeBase.IndexByName (name);
          if (idx == -1)
             return null;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data.Resources;
+using WinWarCS.Util;
 
 namespace WinWarCS.Data.Game
 {
@@ -30,11 +31,21 @@ namespace WinWarCS.Data.Game
       public UnitSprite(SpriteResource resource)
          : base(resource)
       {
+         Performance.Push("UnitSprite ctor");
+
+         Performance.Push("ApplyWarriorAnimationSet");
          ApplyWarriorAnimationSet ();
+         Performance.Pop();
 
+         Performance.Push("SetCurrentAnimationByName");
          SetCurrentAnimationByName("Idle");
+         Performance.Pop();
 
+         Performance.Push("Set SpriteOrientation");
          SpriteOrientation = Orientation.NorthWest;
+         Performance.Pop();
+
+         Performance.Pop();
       }
 
       internal override void SetCurrentAnimationByName(string name, double? overrideDelay = null)

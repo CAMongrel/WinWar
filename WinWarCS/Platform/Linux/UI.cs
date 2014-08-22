@@ -7,6 +7,7 @@ namespace WinWarCS.Platform
    {
       public static async Task<bool> ShowMessageDialog(string message)
       {
+         Console.WriteLine("ShowMessageDialog: " + message);
          return true;
       }
    }

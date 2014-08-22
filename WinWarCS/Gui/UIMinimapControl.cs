@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data.Game;
 using WinWarCS.Graphics;
+using WinWarCS.Gui.Input;
 
 namespace WinWarCS.Gui
 {
@@ -17,7 +18,8 @@ namespace WinWarCS.Gui
       private Texture2D minimapTexInternal;
       private WWTexture minimapTex;
 
-      private bool isPressed;
+      private bool isLeftPressed;
+      private bool isRightPressed;
 
       internal Map CurrentMap {
          get {
@@ -27,7 +29,8 @@ namespace WinWarCS.Gui
 
       internal UIMinimapControl (UIMapControl setUIMapControl)
       {
-         isPressed = false;
+         isLeftPressed = false;
+         isRightPressed = false;
          MapControl = setUIMapControl;
       }
 
@@ -72,24 +75,60 @@ namespace WinWarCS.Gui
 
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         CenterOnPosition (position);
+         if (pointerType == PointerType.LeftMouse) 
+         {
+            isLeftPressed = true;
+         }
+         if (pointerType == PointerType.RightMouse) 
+         {
+            isRightPressed = true;
+         }
 
-         isPressed = true;
+         bool shouldCenter = isLeftPressed;
+         if (MapControl.InputHandler.InputMode == InputMode.Classic)
+            shouldCenter |= isRightPressed;
+
+         if (shouldCenter) 
+         {
+            CenterOnPosition (position);
+         }
 
          return base.PointerDown (position, pointerType);
       }
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
       {
-         if (isPressed) {
+         bool shouldCenter = isLeftPressed;
+         if (MapControl.InputHandler.InputMode == InputMode.Classic)
+            shouldCenter |= isRightPressed;
+
+         if (shouldCenter) 
+         {
             CenterOnPosition (position);
          }
+
          return base.PointerMoved (position);
       }
 
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         isPressed = false;
+         if (pointerType == PointerType.LeftMouse)
+            isLeftPressed = false;
+         if (pointerType == PointerType.RightMouse)
+            isRightPressed = false;
+
+         if (pointerType == PointerType.RightMouse && 
+            MapControl.InputHandler.InputMode == InputMode.EnhancedMouse) 
+         {
+            Vector2 localCoords = ConvertGlobalToLocal (position);
+
+            int tileX = (int)localCoords.X;
+            int tileY = (int)localCoords.Y;
+
+            // Perform order if applicable
+            UIMapControlInputHandlerEnhancedMouse mouseControl = (UIMapControlInputHandlerEnhancedMouse)MapControl.InputHandler;
+            mouseControl.PerformRightClick (tileX, tileY);
+         }
 
          return base.PointerUp (position, pointerType);
       }
@@ -98,12 +137,10 @@ namespace WinWarCS.Gui
       {
          base.Update (gameTime);
 
-         if (CurrentMap != null) {
-            // Get terrain colors
+         if (CurrentMap != null) 
+         {
+            // Get terrain colors and entities
             Color[] colors = CurrentMap.GetMinimap ();
-
-            // Overlay units and buildings
-            // TODO ...
 
             // Overlay camera rectangle
             int width = MapControl.Width / MapControl.TileWidth;
@@ -112,14 +149,15 @@ namespace WinWarCS.Gui
             if (MapControl.CameraTileY + height >= MapControl.MapHeight)
                height = MapControl.MapHeight - MapControl.CameraTileY - 1;
 
+            Color camRectColor = Color.LightGray;
             for (int x = 0; x < width; x++) {
-               colors [x + MapControl.CameraTileX + MapControl.CameraTileY * MapControl.MapWidth] = Color.Yellow;
-               colors [x + MapControl.CameraTileX + (MapControl.CameraTileY + height) * MapControl.MapWidth] = Color.Yellow;
+               colors [x + MapControl.CameraTileX + MapControl.CameraTileY * MapControl.MapWidth] = camRectColor;
+               colors [x + MapControl.CameraTileX + (MapControl.CameraTileY + height) * MapControl.MapWidth] = camRectColor;
             }
 
             for (int y = 1; y < height; y++) {
-               colors [MapControl.CameraTileX + ((y + MapControl.CameraTileY) * MapControl.MapWidth)] = Color.Yellow;
-               colors [MapControl.CameraTileX + (width - 1) + ((y + MapControl.CameraTileY) * MapControl.MapWidth)] = Color.Yellow;
+               colors [MapControl.CameraTileX + ((y + MapControl.CameraTileY) * MapControl.MapWidth)] = camRectColor;
+               colors [MapControl.CameraTileX + (width - 1) + ((y + MapControl.CameraTileY) * MapControl.MapWidth)] = camRectColor;
             }
 
             // Apply to texture

@@ -37,7 +37,7 @@ namespace WinWarCS.Gui
 
       internal static UISpriteImage FromSpriteResource(string name)
       {
-         UISpriteImage res = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(name))));
+         UISpriteImage res = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(WarFile.KnowledgeBase.IndexByName(name))));
          return res;
       }
 
