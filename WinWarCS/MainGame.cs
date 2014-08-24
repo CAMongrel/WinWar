@@ -18,7 +18,7 @@ namespace WinWarCS
    {
       public static int MajorVersion = 0;
       public static int MinorVersion = 2;
-      public static int RevisionVersion = 0;
+      public static int RevisionVersion = 1;
 
       public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
 
