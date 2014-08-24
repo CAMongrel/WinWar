@@ -7,6 +7,7 @@ namespace WinWarCS.Platform
    {
       public static async Task<bool> ShowMessageDialog(string message)
       {
+         System.Windows.Forms.MessageBox.Show(message, "WinWarCS");
          return true;
       }
    }

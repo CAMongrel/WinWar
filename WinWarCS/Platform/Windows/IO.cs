@@ -29,6 +29,12 @@ namespace WinWarCS.Platform
          string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
          return await GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
       }
+
+      public static string ExpectedDataDirectory()
+      {
+         string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
+         return System.IO.Path.Combine(installedLocation, "Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar);
+      }
    }
 }
 

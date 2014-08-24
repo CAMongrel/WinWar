@@ -6,6 +6,8 @@ using WinWarCS.GameScreens;
 using Microsoft.Xna.Framework.Input;
 using WinWarCS.Data;
 using WinWarCS.Gui;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace WinWarCS
 {
@@ -126,6 +128,28 @@ namespace WinWarCS
          Content.RootDirectory = "Assets";
       }
 
+      private async Task<bool> ValidateDataWar()
+      {
+         Stream stream = null;
+         try
+         {
+            stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar + "DATA.WAR");
+            return true;
+         }
+         catch
+         {
+            return false;
+         }
+         finally
+         {
+            if (stream != null)
+            {
+               stream.Dispose();
+               stream = null;
+            }
+         }
+      }
+
       /// <summary>
       /// Allows the game to perform any initialization it needs to before starting to run.
       /// This is where it can query for any required services and load any non-graphic
@@ -138,12 +162,21 @@ namespace WinWarCS
 
          WinWarCS.Util.Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
 
+         bool result = await ValidateDataWar();
+         if (result == false)
+         {
+            await Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" + Platform.IO.ExpectedDataDirectory() + 
+               "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " + 
+               "please also copy all the other .WAR files from the data directory.");
+            return;
+         }
+
          Exception loadingException = null;
 
          try 
          {
-            await WinWarCS.Data.WarFile.LoadResources ();
-            WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
+            await WinWarCS.Data.WarFile.LoadResources();
+            WinWarCS.Data.Game.MapTileset.LoadAllTilesets();
          } 
          catch (Exception ex) 
          {
