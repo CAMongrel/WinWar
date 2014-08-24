@@ -46,6 +46,12 @@ namespace WinWarCS.Platform
 
             return resultStream;
         }
+
+		public static string ExpectedDataDirectory()
+		{
+			var installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
+			return System.IO.Path.Combine(installedLocation.Path, "Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar);
+		}
     }
 }
 

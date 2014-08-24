@@ -30,6 +30,12 @@ namespace WinWarCS.Platform
          return await GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
       }
 
+      public static string ExpectedDataDirectory()
+      {
+         string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
+         return Path.Combine(installedLocation, "Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar);
+      }
+
       /*var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
          localStorage = await localStorage.GetFolderAsync("Assets\\Data");
          var resultFile = await localStorage.GetFileAsync("TITLE.WAR");*/
