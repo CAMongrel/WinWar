@@ -55,23 +55,23 @@ namespace WinWarCS.GameScreens.Windows
       {
          ClearComponents ();
 
-         MapControl = new UIMapControl ();
+         MapControl = new UIMapControl();
          AddComponent (MapControl);
 
          MinimapControl = new UIMinimapControl (MapControl);
 
-         LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-         LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.UIRace + ")");
+         LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.UIRace + ")");
          leftSidebar.Y = leftSidebarTop.Height;
 
-         LoadUIImage (ref topBar, "Topbar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-         LoadUIImage (ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref topBar, "Topbar (" + LevelGameScreen.Game.UIRace + ")");
+         LoadUIImage (ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.UIRace + ")");
 
          topBar.X = leftSidebarTop.Width;
          bottomBar.X = leftSidebar.Width;
          bottomBar.Y = 200 - bottomBar.Height;
 
-         LoadUIImage (ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.UIRace + ")");
          rightBar.X = 320 - rightBar.Width;
 
          MapControl.X = leftSidebarTop.Width;
@@ -124,11 +124,12 @@ namespace WinWarCS.GameScreens.Windows
          AddComponent (goldValueLabel);  
 
          AddComponent (MinimapControl);
+         AddComponent (EntityControl);
       }
 
       void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.HumanPlayer.Race);
+         IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.UIRace);
       }
 
       internal void SetGoldValue(int newValue)
@@ -141,12 +142,20 @@ namespace WinWarCS.GameScreens.Windows
          lumberValueLabel.Text = newValue.ToString ();
       }
 
+      private void UpdateUI()
+      {
+         SetGoldValue(MapControl.CurrentMap.HumanPlayer.Gold);
+         SetLumberValue(MapControl.CurrentMap.HumanPlayer.Lumber);
+      }
+
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
       {
          if (GamePaused)
             return;
 
          base.Update (gameTime);
+
+         UpdateUI();
 
          bool leftClickNeeded = false;
          if (MapControl.InputHandler.InputMode == InputMode.Classic)

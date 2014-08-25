@@ -77,7 +77,7 @@ namespace WinWarCS.Gui.Input
       {
          if (MapControl.CurrentMap != null) 
          {
-            return MapControl.CurrentMap.SelectedEntities.ToArray();
+            return MapControl.CurrentMap.GetSelectedEntities();
          }
          return null;
       }

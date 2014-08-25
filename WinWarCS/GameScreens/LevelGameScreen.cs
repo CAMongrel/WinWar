@@ -13,15 +13,25 @@ namespace WinWarCS.GameScreens
    {
       internal static LevelGameScreen Game { get; private set; }
 
-      internal HumanPlayer HumanPlayer { get; private set; }
+      internal Campaign Campaign { get; private set; }
 
-      internal List<BasePlayer> Players;
+      internal Race UIRace
+      {
+         get
+         {
+            if (Campaign != null)
+               return Campaign.Race;
+
+            // TODO: Implement me for custom levels
+            return Race.Humans;
+         }
+      }
 
       internal bool IsCampaignLevel
       {
          get
          {
-            return HumanPlayer.Campaign != null;
+            return Campaign != null;
          }
       }
 
@@ -33,73 +43,59 @@ namespace WinWarCS.GameScreens
          set { backgroundWindow.GamePaused = value; }
       }
 
-      internal LevelGameScreen (HumanPlayer setHumanPlayer)
+      internal LevelGameScreen(Campaign setCampaign)
       {
          Game = this;
 
-         HumanPlayer = setHumanPlayer;
-
-         Players = new List<BasePlayer> ();
-         Players.Add (HumanPlayer);
+         Campaign = setCampaign;
       }
 
-      internal override void InitUI ()
+      internal override void InitUI()
       {
          MouseCursor.State = MouseCursorState.Pointer;
 
-         backgroundWindow = new GameBackgroundWindow (this);
+         backgroundWindow = new GameBackgroundWindow(this);
 
-         if (IsCampaignLevel) 
+         if (IsCampaignLevel)
          {
-            // Create AI player
-            BasePlayer ai = new AIPlayer ();
-            ai.Race = Race.Humans;
-            if (HumanPlayer.Race == Race.Humans)
-               ai.Race = Race.Orcs;
-            ai.Name = ai.Race.ToString ();
-            Players.Add (ai);
-
             // Load map
-            backgroundWindow.MapControl.LoadCampaignLevel(HumanPlayer.Race, HumanPlayer.Campaign.Level);
-            backgroundWindow.MapControl.CurrentMap.Start(Players);
-         } 
-         else 
+            backgroundWindow.MapControl.LoadCampaignLevel(Campaign.Race, Campaign.Level);
+            backgroundWindow.MapControl.CurrentMap.Start();
+         }
+         else
          {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
          }
       }
 
-      internal override void Close ()
+      internal override void Close()
       {
-         UIWindowManager.Clear ();
+         UIWindowManager.Clear();
       }
 
-      internal override void Draw (Microsoft.Xna.Framework.GameTime gameTime)
+      internal override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
       {
-         UIWindowManager.Render ();
+         UIWindowManager.Render();
       }
 
-      internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
+      internal override void Update(Microsoft.Xna.Framework.GameTime gameTime)
       {
-         base.Update (gameTime);
-
-         backgroundWindow.SetGoldValue (HumanPlayer.Gold);
-         backgroundWindow.SetLumberValue (HumanPlayer.Lumber);
+         base.Update(gameTime);
       }
 
-      internal override void PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         UIWindowManager.PointerDown (position, pointerType);
+         UIWindowManager.PointerDown(position, pointerType);
       }
 
-      internal override void PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
-         UIWindowManager.PointerUp (position, pointerType);
+         UIWindowManager.PointerUp(position, pointerType);
       }
 
-      internal override void PointerMoved (Microsoft.Xna.Framework.Vector2 position)
+      internal override void PointerMoved(Microsoft.Xna.Framework.Vector2 position)
       {
-         UIWindowManager.PointerMoved (position);
+         UIWindowManager.PointerMoved(position);
       }
    }
 }

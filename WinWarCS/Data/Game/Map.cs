@@ -68,12 +68,15 @@ namespace WinWarCS.Data.Game
       }
 
       private List<Entity> entities;
+      private List<Entity> selectedEntities;
 
       internal AStar2D Pathfinder;
 
       internal Random Rnd { get; private set; }
 
-      internal List<Entity> SelectedEntities { get; private set; }
+      #region Events
+      internal event EventHandler OnSelectedEntitiesChanged;
+      #endregion
 
       #region ctor
 
@@ -84,7 +87,9 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
-         SelectedEntities = new List<Entity>();
+         OnSelectedEntitiesChanged = null;
+
+         selectedEntities = new List<Entity>();
 
          TileWidth = 16;
          TileHeight = 16;
@@ -101,19 +106,41 @@ namespace WinWarCS.Data.Game
          tileSet = MapTileset.GetTileset((int)levelInfo.TilesetResourceIndex);
 
          Players = new List<BasePlayer> ();
+         AddPlayers();
 
          Rnd = new Random ();
 
          Pathfinder = new AStar2D ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
-
       #endregion
 
-      internal void Start(List<BasePlayer> allPlayers)
+      private void AddPlayers()
+      {
+         Players.Clear();
+
+         // Create players
+         for (int i = 0; i < levelInfo.PlayerInfos.Length; i++)
+         {
+            if (levelInfo.PlayerInfos[i] == null)
+               continue;
+
+            BasePlayer pl = null;
+            if (i == 0)
+               pl = new HumanPlayer();
+            else
+               pl = new AIPlayer();
+
+            pl.Gold = levelInfo.PlayerInfos[i].StartGold;
+            pl.Lumber = levelInfo.PlayerInfos[i].StartLumber;
+            pl.Race = levelInfo.PlayerInfos[i].Race;
+            Players.Add(pl);
+         }
+      }
+
+      internal void Start()
       {
          Performance.Push("Start Map");
-         Players.AddRange(allPlayers);
 
          Performance.Push("FillAStar");
          levelPassable.FillAStar(Pathfinder);
@@ -298,11 +325,18 @@ namespace WinWarCS.Data.Game
 
          entities.Remove (ent);
 
-         if (SelectedEntities.Contains(ent))
-            SelectedEntities.Remove(ent);
+         bool didChange = false;
+         if (selectedEntities.Contains(ent))
+         {
+            selectedEntities.Remove(ent);
+            didChange = true;
+         }
 
          // Remove from Pathfinder
          Pathfinder.SetFieldsFree(ent.TileX, ent.TileY, ent.TileSizeX, ent.TileSizeY);
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
@@ -325,27 +359,38 @@ namespace WinWarCS.Data.Game
 
       private void InternalDeselectAllEntities()
       {
-         for (int i = SelectedEntities.Count - 1; i >= 0; i--)
+         bool didChange = false;
+         for (int i = selectedEntities.Count - 1; i >= 0; i--)
          {
-            Entity selEnt = SelectedEntities [i];
+            Entity selEnt = selectedEntities[i];
             if (selEnt.WillDeselect () == false)
                continue;
 
-            SelectedEntities.Remove (selEnt);
+            selectedEntities.Remove (selEnt);
+            didChange = true;
             selEnt.DidDeselect ();
          }
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
+
       private void InternalSelectAllEntities(Entity[] entities)
       {
+         bool didChange = false;
          for (int i = 0; i < entities.Length; i++)
          {
             Entity selEnt = entities [i];
             if (selEnt == null || selEnt.WillSelect () == false)
                continue;
 
-            SelectedEntities.Add (selEnt);
-            selEnt.DidSelect ();
+            selectedEntities.Add(selEnt);
+            didChange = true;
+            selEnt.DidSelect();
          }
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
 
       internal void SelectEntities(params Entity[] entities)
@@ -355,7 +400,7 @@ namespace WinWarCS.Data.Game
 
          // If there is still at least one entity selected, the deselection
          // process was rejected, so we can't select a new one
-         if (SelectedEntities.Count > 0)
+         if (selectedEntities.Count > 0)
             return;
 
          // If we passed null, then we want to deselect
@@ -363,6 +408,14 @@ namespace WinWarCS.Data.Game
             return;
 
          InternalSelectAllEntities (entities);
+      }
+
+      /// <summary>
+      /// Returns a read-only array of the currently selected entities
+      /// </summary>
+      internal Entity[] GetSelectedEntities()
+      {
+         return selectedEntities.ToArray();
       }
       #endregion
 
