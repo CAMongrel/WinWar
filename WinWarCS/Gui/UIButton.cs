@@ -35,7 +35,6 @@ namespace WinWarCS.Gui
       #endregion
 
       #region Constructor
-
       internal UIButton (string setText, int releaseButtonResourceIndex, int pressedButtonResourceIndex)
       {
          colText = new UIColorizedText(setText);
@@ -45,7 +44,6 @@ namespace WinWarCS.Gui
 
          AutoSetButtonImage (releaseButtonResourceIndex, pressedButtonResourceIndex);
       }
-
       #endregion
 
       #region AutoSetButtonImage
@@ -60,7 +58,6 @@ namespace WinWarCS.Gui
       #endregion
 
       #region Render
-
       internal override void Draw()
       {
          base.Draw();
@@ -78,11 +75,9 @@ namespace WinWarCS.Gui
 
          colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlignHorizontal.Center, col, Color.Yellow);
       }
-
       #endregion
 
       #region MouseDown
-
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (!base.PointerDown (position, pointerType))
@@ -95,11 +90,9 @@ namespace WinWarCS.Gui
 
          return true;
       }
-
       #endregion
 
       #region MouseUp
-
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (!base.PointerUp (position, pointerType))
@@ -112,16 +105,13 @@ namespace WinWarCS.Gui
 
          return true;
       }
-
       #endregion
 
       #region ToString
-
       public override string ToString ()
       {
          return Text;
       }
-
       #endregion
 
    }
