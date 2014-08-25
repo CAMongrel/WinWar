@@ -396,6 +396,7 @@ namespace WinWarCS.Data.Game
          int innerTileOffsetY = ((int)tileOffsetY % TileHeight);
 
          //int count = 170;
+         Performance.Push("Map rendering - Tiles");
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
@@ -420,7 +421,9 @@ namespace WinWarCS.Data.Game
                }
             }
          }
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Roads");
          // Render Roads
          for (int i = 0; i < Roads.Count; i++) 
          {
@@ -436,7 +439,9 @@ namespace WinWarCS.Data.Game
             if (isVisible)
                tileSet.DrawRoadTile(road.Config, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Entities");
          // Render entities
          for (int i = 0; i < entities.Count; i++) 
          {
@@ -447,15 +452,19 @@ namespace WinWarCS.Data.Game
             if (isVisible)
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
          }
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Selected Entities");
          // Render selected entities
-         for (int i = 0; i < SelectedEntities.Count; i++)
+         for (int i = 0; i < selectedEntities.Count; i++)
          {
-            Entity selEnt = SelectedEntities [i];
+            Entity selEnt = selectedEntities [i];
             WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
          }
+         Performance.Pop();
 
-         // Overlay undiscored places + fog of war
+         Performance.Push("Map rendering - Undiscovered places");
+         // Overlay undiscovered places + fog of war
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
@@ -473,6 +482,7 @@ namespace WinWarCS.Data.Game
                } 
             }
          }
+         Performance.Pop();
       }
       // Render()
 

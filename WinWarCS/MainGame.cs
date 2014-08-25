@@ -8,6 +8,7 @@ using WinWarCS.Data;
 using WinWarCS.Gui;
 using System.IO;
 using System.Threading.Tasks;
+using WinWarCS.Util;
 
 namespace WinWarCS
 {
@@ -108,6 +109,8 @@ namespace WinWarCS
       public MainGame ()
       {
          MainGame.WinWarGame = this;
+
+         Log.Type = LogType.None;
 
          this.IsMouseVisible = false;
 
@@ -265,19 +268,22 @@ namespace WinWarCS
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Draw (GameTime gameTime)
       {
-         if (currentGameScreen != null)
+         Performance.Push("Render loop");
+         if (currentGameScreen != null) 
          {
-            GraphicsDevice.Clear (currentGameScreen.BackgroundColor);
+            GraphicsDevice.Clear(currentGameScreen.BackgroundColor);
 
-            currentGameScreen.Draw (gameTime);
-         } else
+            currentGameScreen.Draw(gameTime);
+         } 
+         else 
          {
-            GraphicsDevice.Clear (backgroundClearColor);
+            GraphicsDevice.Clear(backgroundClearColor);
          }
 
          base.Draw (gameTime);
 
          MouseCursor.Render (gameTime);
+         Performance.Pop();
       }
 
       internal void PointerPressed (Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)

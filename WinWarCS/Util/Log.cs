@@ -36,10 +36,10 @@ namespace WinWarCS.Util
          return "[" + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.ffff") + "] ";
       }
 
-      private static void LogInternal(LogType type, LogSeverity severity, string message)
+      private static void LogInternal(LogType type, LogSeverity severity, string message, bool forced = false)
       {
 #if !NETFX_CORE
-         if (((int)severity <= (int)Severity) && ((Type & type) == type))
+         if (forced || (((int)severity <= (int)Severity) && ((Type & type) == type)))
             Console.WriteLine(GetTimestamp() + "[" + severity + "] [" + type + "]: " + message);
 #endif
       }
@@ -68,6 +68,11 @@ namespace WinWarCS.Util
       internal static void AI(Entity entity, string message, LogSeverity severity = LogSeverity.Debug)
       {
          LogInternal(LogType.AI, severity, entity + ": " + message);
+      }
+
+      internal static void Forced(string message)
+      {
+         LogInternal(LogType.Game, LogSeverity.Status, message, true);
       }
    }
 }
