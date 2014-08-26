@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<entities>
+	<entity type="0">
+		<ArmorPoints></ArmorPoints>
+		<AttackRange></AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<DecayRate></DecayRate>
+		<GoldCost></GoldCost>
+		<HitPoints></HitPoints>
+		<IconIndex></IconIndex>
+		<LumberCost></LumberCost>
+		<MaxHitPoints></MaxHitPoints>
+		<MaxMana></MaxMana>
+		<RandomDamage></RandomDamage>
+		<MinDamage></MinDamage>
+		<TimeToBuild></TimeToBuild>
+		<VisibleRange>1.0</VisibleRange>
+		<WalkSpeed>1.0</WalkSpeed>
+	</entity>
+</entities>

@@ -508,7 +508,13 @@ namespace WinWarCS.Data.Game
          for (int i = 0; i < selectedEntities.Count; i++)
          {
             Entity selEnt = selectedEntities [i];
-            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
+            Color selCol = new Color(0, 255, 0);
+            if (HumanPlayer.IsNeutralTowards(selEnt.Owner))
+               selCol = new Color(255, 255, 0);
+            else if (HumanPlayer.IsHostileTowards(selEnt.Owner))
+               selCol = new Color(255, 0, 0);
+
+            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), selCol, 3);
          }
          Performance.Pop();
 

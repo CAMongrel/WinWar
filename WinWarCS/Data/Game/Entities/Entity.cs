@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
 using WinWarCS.Util;
@@ -14,6 +15,8 @@ namespace WinWarCS.Data.Game
 {
    internal class Entity
    {
+      private static Dictionary<LevelObjectType, Dictionary<string, object>> defaultValueDict;
+
       protected Sprite sprite;
 
       public float X { get; private set; }
@@ -134,6 +137,11 @@ namespace WinWarCS.Data.Game
       public short DecayRate;
 
       public int IconIndex;
+
+      static Entity()
+      {
+         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, object>>();
+      }
 
       public Entity (Map currentMap)
       {
@@ -499,7 +507,40 @@ namespace WinWarCS.Data.Game
          return this.GetType ().Name;
       }
 
-      public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
+      private static void LoadDefaultValues()
+      {
+
+      }
+
+      private static void ApplyDefaultValues(Entity entity, LevelObjectType entityType)
+      {
+         if (defaultValueDict.ContainsKey(entityType) == false)
+         {
+            Log.Warning("Unable to apply default values for entityType '" + entityType + "'. EntityType not found in database.");
+            return;
+         }
+
+         Dictionary<string, object> values = defaultValueDict[entityType];
+
+         entity.ArmorPoints = (short)values["ArmorPoints"];
+         entity.AttackRange = (byte)values["AttackRange"];
+         entity.AttackSpeed = (double)values["AttackSpeed"];
+         entity.DecayRate = (short)values["DecayRate"];
+         entity.GoldCost = (short)values["GoldCost"];
+         entity.HitPoints = (short)values["HitPoints"];
+         entity.IconIndex = (int)values["IconIndex"];
+         entity.LumberCost = (short)values["LumberCost"];
+         entity.Mana = (short)values["Mana"];
+         entity.MaxHitPoints = (short)values["MaxHitPoints"];
+         entity.MaxMana = (short)values["MaxMana"];
+         entity.MinDamage = (byte)values["MinDamage"];
+         entity.RandomDamage = (byte)values["RandomDamage"];
+         entity.TimeToBuild = (short)values["TimeToBuild"];
+         entity.VisibleRange = (double)values["VisibleRange"];
+         entity.WalkSpeed = (double)values["WalkSpeed"];
+      }
+
+      public static Entity CreateEntityFromType(LevelObjectType entityType, Map inMap)
       {
          Performance.Push("CreateEntityFromType");
          Entity result = null;
@@ -625,6 +666,9 @@ namespace WinWarCS.Data.Game
          }
 
          result.Type = entityType;
+
+         ApplyDefaultValues(result, entityType);
+
          Performance.Pop();
          return result;
       }

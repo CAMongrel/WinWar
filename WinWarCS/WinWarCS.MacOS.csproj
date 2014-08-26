@@ -226,6 +226,7 @@
   <ItemGroup>
     <None Include="TODO.txt" />
     <None Include="Info.plist" />
+    <None Include="Assets\entities.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
