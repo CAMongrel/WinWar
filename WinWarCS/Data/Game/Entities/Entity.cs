@@ -101,6 +101,14 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public short MaxHitPoints;
       /// <summary>
+      /// Hit points
+      /// </summary>
+      public short Mana;
+      /// <summary>
+      /// Maximum hit points
+      /// </summary>
+      public short MaxMana;
+      /// <summary>
       /// Minimum damage
       /// </summary>
       public byte MinDamage;
@@ -125,10 +133,14 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public short DecayRate;
 
+      public int IconIndex;
+
       public Entity (Map currentMap)
       {
          Performance.Push("Entity ctor");
          VisibleRange = 0;
+
+         IconIndex = 0;
 
          currentTarget = null;
          PreviousTarget = null;

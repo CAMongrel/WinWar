@@ -412,7 +412,7 @@ namespace WinWarCS.Data
          new KnowledgeEntry (357, ContentFileType.FileSprite, 217, "Unit_357"),
          new KnowledgeEntry (358, ContentFileType.FileSprite, 217, "Unit_358"),
          new KnowledgeEntry (359, ContentFileType.FileSprite, 217, "UI Pictures Orcs"),
-         new KnowledgeEntry (360, ContentFileType.FileSprite, 217, "UI Pictures Humans"),
+         new KnowledgeEntry (360, ContentFileType.FileSprite, 255, "UI Pictures Humans"),
          new KnowledgeEntry (361, ContentFileType.FileSprite, 217, "UI Pictures Icons"),
          new KnowledgeEntry (362, ContentFileType.FileImage, 260, "Menu Button"),   
          new KnowledgeEntry (363, ContentFileType.FileImage, 260, "Menu Button (Pressed)"),   

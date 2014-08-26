@@ -16,9 +16,9 @@ namespace WinWarCS.Gui
       #region Variables
       private WWTexture backgroundNotClicked;
       private WWTexture backgroundClicked;
-      private bool isActive;
       private SpriteFont font;
       private UIColorizedText colText;
+      protected bool isPressed;
       #endregion
 
       #region Events
@@ -40,7 +40,7 @@ namespace WinWarCS.Gui
          colText = new UIColorizedText(setText);
          font = MainGame.DefaultFont;
 
-         isActive = false;
+         isPressed = false;
 
          AutoSetButtonImage (releaseButtonResourceIndex, pressedButtonResourceIndex);
       }
@@ -63,7 +63,7 @@ namespace WinWarCS.Gui
          base.Draw();
 
          WWTexture background = null;
-         if (isActive)
+         if (isPressed)
             background = backgroundClicked;
          else
             background = backgroundNotClicked;
@@ -83,7 +83,7 @@ namespace WinWarCS.Gui
          if (!base.PointerDown (position, pointerType))
             return false;
 
-         isActive = true;
+         isPressed = true;
 
          if (OnMouseDownInside != null)
             OnMouseDownInside (position);
@@ -98,7 +98,7 @@ namespace WinWarCS.Gui
          if (!base.PointerUp (position, pointerType))
             return false;
 
-         isActive = false;
+         isPressed = false;
 
          if (OnMouseUpInside != null)
             OnMouseUpInside (position);

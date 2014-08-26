@@ -168,10 +168,6 @@ namespace WinWarCS.Data.Game
          if (DebugOptions.ShowFullMapOnLoad)
             ShowMap();
 
-         // Set initial resources
-         HumanPlayer.Gold = levelInfo.PlayerInfos[0].StartGold;
-         HumanPlayer.Lumber = levelInfo.PlayerInfos[0].StartLumber;
-         // TODO: Set resource for other players
          Performance.Pop();
       }
 

@@ -49,6 +49,10 @@ namespace WinWarCS.Gui
 
       internal UIMapControlInputHandler InputHandler { get; private set; }
 
+      #region Events
+      internal event EventHandler OnSelectedEntitiesChanged;
+      #endregion
+
       internal UIMapControl ()
       {
          CurrentMap = null;
@@ -117,8 +121,16 @@ namespace WinWarCS.Gui
          LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
          LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
-         CurrentMap = new Map (levelInfo, levelVisual, levelPassable);
-         SetCameraOffset (levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
+         CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
+         SetCameraOffset(levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
+
+         CurrentMap.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
+      }
+
+      private void HandleOnSelectedEntitiesChanged(object sender, EventArgs e)
+      {
+         if (OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(sender, e);
       }
 
       internal void LoadCustomLevel (string basename)

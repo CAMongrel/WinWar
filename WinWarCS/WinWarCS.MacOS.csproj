@@ -220,6 +220,8 @@
     <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
     <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

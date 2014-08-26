@@ -24,8 +24,8 @@ namespace WinWarCS.GameScreens.Windows
       private UILabel lumberLabel;
       private UILabel lumberValueLabel;
 
+      internal UIEntityControl EntityControl { get; private set; }
       internal UIMapControl MapControl { get; private set; }
-
       internal UIMinimapControl MinimapControl { get; private set; }
 
       private Vector2 currentPointerPos;
@@ -56,9 +56,11 @@ namespace WinWarCS.GameScreens.Windows
          ClearComponents ();
 
          MapControl = new UIMapControl();
+         MapControl.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
          AddComponent (MapControl);
 
-         MinimapControl = new UIMinimapControl (MapControl);
+         EntityControl = new UIEntityControl(LevelGameScreen.Game.UIRace);
+         MinimapControl = new UIMinimapControl(MapControl);
 
          LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.UIRace + ")");
          LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.UIRace + ")");
@@ -83,6 +85,7 @@ namespace WinWarCS.GameScreens.Windows
          MinimapControl.Y = 6;
          MinimapControl.Width = 64;
          MinimapControl.Height = 64;
+         MinimapControl.BackgroundColor = Color.AliceBlue;
          MinimapControl.Init ();
 
          menuButton = new UIButton ("", WarFile.KnowledgeBase.IndexByName("Menu Button"), WarFile.KnowledgeBase.IndexByName("Menu Button (Pressed)"));
@@ -90,6 +93,11 @@ namespace WinWarCS.GameScreens.Windows
          menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
          menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
          AddComponent (menuButton);
+
+         EntityControl.X = 2;
+         EntityControl.Y = MinimapControl.Y + MinimapControl.Height + 2;
+         EntityControl.Width = 64;
+         EntityControl.Height = MainGame.OriginalAppHeight - EntityControl.Y - menuButton.Height - 2;
 
          lumberLabel = new UILabel ("Lumber:");
          lumberLabel.X = 95;
@@ -127,7 +135,14 @@ namespace WinWarCS.GameScreens.Windows
          AddComponent (EntityControl);
       }
 
-      void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      private void HandleOnSelectedEntitiesChanged (object sender, EventArgs e)
+      {
+         Map map = (Map)sender;
+
+         EntityControl.SetEntities(map.GetSelectedEntities());
+      }
+
+      private void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
          IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.UIRace);
       }
