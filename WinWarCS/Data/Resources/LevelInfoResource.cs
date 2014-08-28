@@ -55,19 +55,19 @@ namespace WinWarCS.Data.Resources
    internal enum LevelObjectType
    {
       //Units:
-      Warrior,
       // 0x00
+      Footman,
       Grunt,
       Peasant,
       Peon,
-      Ballista,
-      Catapult,
+      CatapultHumans,
+      CatapultOrcs,
       Knight,
-      Rider,
-      Bowman,
+      Raider,
+      Archer,
       Spearman,
-      Conjurer,
       // 0x0A
+      Conjurer,
       Warlock,
       Cleric,
       Necrolyte,
@@ -80,7 +80,7 @@ namespace WinWarCS.Data.Resources
       Ogre,
       Spider,
       Slime,
-      Fire_Elemental,
+      FireElemental,
       Scorpion,
       Brigand,
       Skeleton,
@@ -88,36 +88,36 @@ namespace WinWarCS.Data.Resources
       Daemon,
       Dragon_Cyclops_Giant,
       Unk3,
-      Water_Elemental,
       // 0x1F
+      WaterElemental,
 
       //Buildings:
-      Human_Farm,
       // 0x20
-      Orc_Farm,
-      Human_Barracks,
-      Orc_Barracks,
-      Human_Church,
-      Orc_Temple,
-      Human_Tower,
-      Orc_Tower,
-      Human_HQ,
-      Orc_HQ,
-      Human_Mill,
+      FarmHumans,
+      FarmOrc,
+      BarracksHumans,
+      BarracksOrcs,
+      Church,
+      Temple,
+      TowerHumans,
+      TowerOrcs,
+      TownhallHumans,
+      TownhallOrcs,
       // 0x2A
-      Orc_Mill,
-      Human_Stables,
-      Orc_Kennel,
-      Human_Blacksmith,
-      Orc_Blacksmith,
+      LumbermillHumans,
+      LumbermillOrcs,
+      Stables,
+      Kennel,
+      BlacksmithHumans,
+      BlacksmithOrcs,
       Stormwind,
-      Black_Rock,
-      Goldmine,
+      BlackRock,
       // 0x32
+      Goldmine,
 
       //Other:
-      Orc_corpse,
       // 0x33
+      Orc_corpse,
    }
 
    #endregion

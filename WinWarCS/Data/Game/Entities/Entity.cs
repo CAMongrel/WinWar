@@ -560,11 +560,11 @@ namespace WinWarCS.Data.Game
             result = new OrcAxethrower (inMap);
             break;
 
-         case LevelObjectType.Catapult:
+         case LevelObjectType.CatapultOrcs:
             result = new OrcCatapult (inMap);
             break;
 
-         case LevelObjectType.Rider:
+         case LevelObjectType.Raider:
             result = new OrcRider (inMap);
             break;
 
@@ -581,15 +581,15 @@ namespace WinWarCS.Data.Game
             result = new HumanPeasant (inMap);
             break;
 
-         case LevelObjectType.Warrior:
+         case LevelObjectType.Footman:
             result = new HumanWarrior (inMap);
             break;
 
-         case LevelObjectType.Bowman:
+         case LevelObjectType.Archer:
             result = new HumanArcher (inMap);
             break;
 
-         case LevelObjectType.Ballista:
+         case LevelObjectType.CatapultHumans:
             result = new HumanBalista (inMap);
             break;
 
@@ -606,44 +606,44 @@ namespace WinWarCS.Data.Game
             break;
 
             // Orc Buildings
-         case LevelObjectType.Orc_Farm:
+         case LevelObjectType.FarmOrc:
             result = new OrcFarm (inMap);
             break;
 
-         case LevelObjectType.Orc_HQ:
+         case LevelObjectType.TownhallOrcs:
             result = new OrcBase (inMap);
             break;
 
             // Human Buildings
-         case LevelObjectType.Human_Farm:
+         case LevelObjectType.FarmHumans:
             result = new HumanFarm (inMap);
             break;
 
-         case LevelObjectType.Human_HQ:
+         case LevelObjectType.TownhallHumans:
             result = new HumanBase (inMap);
             break;
 
-         case LevelObjectType.Human_Barracks:
+         case LevelObjectType.BarracksHumans:
             result = new HumanBarracks (inMap);
             break;
 
-         case LevelObjectType.Human_Blacksmith:
+         case LevelObjectType.BlacksmithHumans:
             result = new HumanSmith (inMap);
             break;
 
-         case LevelObjectType.Human_Church:
+         case LevelObjectType.Church:
             result = new HumanChurch (inMap);
             break;
 
-         case LevelObjectType.Human_Mill:
+         case LevelObjectType.LumbermillHumans:
             result = new HumanBarracks (inMap);
             break;
 
-         case LevelObjectType.Human_Stables:
+         case LevelObjectType.Stables:
             result = new HumanStables (inMap);
             break;
 
-         case LevelObjectType.Human_Tower:
+         case LevelObjectType.TowerHumans:
             result = new HumanTower (inMap);
             break;
 

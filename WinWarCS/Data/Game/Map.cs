@@ -569,8 +569,8 @@ namespace WinWarCS.Data.Game
                if (ent.Owner.IsHostileTowards (HumanPlayer))
                   col = Color.Red;
             }
-            if (ent.Type == LevelObjectType.Human_HQ ||
-               ent.Type == LevelObjectType.Orc_HQ) 
+            if (ent.Type == LevelObjectType.TownhallHumans ||
+               ent.Type == LevelObjectType.TownhallOrcs) 
             {
                col = Color.Yellow;
             }
