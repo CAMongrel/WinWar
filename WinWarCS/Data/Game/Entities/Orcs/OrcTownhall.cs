@@ -2,9 +2,9 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class OrcBase : Building
+   internal class OrcTownhall : Building
    {
-      public OrcBase (Map currentMap)
+      public OrcTownhall (Map currentMap)
          : base(currentMap)
       {
          sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Base")));

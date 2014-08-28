@@ -557,7 +557,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Spearman:
-            result = new OrcAxethrower (inMap);
+            result = new OrcSpearman (inMap);
             break;
 
          case LevelObjectType.CatapultOrcs:
@@ -565,15 +565,15 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Raider:
-            result = new OrcRider (inMap);
+            result = new OrcRaider (inMap);
             break;
 
          case LevelObjectType.Necrolyte:
-            result = new OrcNecro (inMap);
+            result = new OrcNecrolyte (inMap);
             break;
 
          case LevelObjectType.Warlock:
-            result = new OrcWizard (inMap);
+            result = new OrcWarlock (inMap);
             break;
 
             // Human Units
@@ -582,7 +582,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Footman:
-            result = new HumanWarrior (inMap);
+            result = new HumanFootman (inMap);
             break;
 
          case LevelObjectType.Archer:
@@ -590,7 +590,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.CatapultHumans:
-            result = new HumanBalista (inMap);
+            result = new HumanCatapult (inMap);
             break;
 
          case LevelObjectType.Conjurer:
@@ -602,7 +602,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Cleric:
-            result = new HumanPriest (inMap);
+            result = new HumanCleric (inMap);
             break;
 
             // Orc Buildings
@@ -611,7 +611,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.TownhallOrcs:
-            result = new OrcBase (inMap);
+            result = new OrcTownhall (inMap);
             break;
 
             // Human Buildings
@@ -620,7 +620,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.TownhallHumans:
-            result = new HumanBase (inMap);
+            result = new HumanTownhall (inMap);
             break;
 
          case LevelObjectType.BarracksHumans:
@@ -628,7 +628,7 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.BlacksmithHumans:
-            result = new HumanSmith (inMap);
+            result = new HumanBlacksmith (inMap);
             break;
 
          case LevelObjectType.Church:

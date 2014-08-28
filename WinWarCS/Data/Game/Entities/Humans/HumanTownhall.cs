@@ -2,12 +2,12 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class HumanSmith : Building
+   internal class HumanTownhall : Building
    {
-      public HumanSmith (Map currentMap)
+      public HumanTownhall (Map currentMap)
          : base(currentMap)
       {
-         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Smith")));
+         sprite = new Sprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Base")));
       }
 
       public override int TileSizeX 
