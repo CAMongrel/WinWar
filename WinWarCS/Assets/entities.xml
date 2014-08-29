@@ -270,7 +270,7 @@
 		<TimeToBuild>2000</TimeToBuild>
 		<IconIndex>28</IconIndex>
 	</entity>
-	<entity type="36" name="Temple">
+	<entity type="37" name="Temple">
 		<ArmorPoints>0</ArmorPoints>
 		<AttackRange>0</AttackRange>
 		<AttackSpeed>0.0</AttackSpeed>
@@ -379,5 +379,39 @@
       // Scorpion, 48
       // OrcSkeleton, 49
       // Skeleton, 50
+      // Daemon, 51
+      // WaterElemental, 52
 
+      // Lothar, 53
+      // Medivh, 54
+      // Garona, 55
+      // Griselda, 56
+      // Wounded?, 57
+      // Brigand, 58
+
+      // Holy Lance, 59 (Attack, Cleric)
+      // Elemental Blast, 60 (Attack, Conjurer)
+      // Shadow Spear, 61 (Attack, Necrolyte)
+      // Fireball, 62 (Attack, Warlock)
+      // Sword1, 63 
+      // Sword2, 64
+      // Sword3, 65
+      // Axe1, 66
+      // Axe2, 67
+      // Axe3, 68
+      // Unk, 69
+      // Unk, 70
+      // Crossbar1, 71
+      // Crossbar2, 72
+      // Crossbar3, 73
+      // Spear1, 74
+      // Spear2, 75
+	  // Spear3, 76
+
+	  // Horse1, 77
+	  // Horse2, 78
+
+	  // Shield1, 79
+	  // Shield2, 80
+	  // Shield3, 81
 -->

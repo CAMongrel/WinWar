@@ -4,6 +4,9 @@ using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
 using WinWarCS.Util;
 using WinWarCS.Graphics;
+using System.IO;
+using System.Xml;
+using System.Globalization;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -15,7 +18,7 @@ namespace WinWarCS.Data.Game
 {
    internal class Entity
    {
-      private static Dictionary<LevelObjectType, Dictionary<string, object>> defaultValueDict;
+      private static Dictionary<LevelObjectType, Dictionary<string, string>> defaultValueDict;
 
       protected Sprite sprite;
 
@@ -88,6 +91,10 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public double VisibleRange;
       /// <summary>
+      /// The visible range.
+      /// </summary>
+      public double AggroRange;
+      /// <summary>
       /// The walking speed.
       /// </summary>
       public double WalkSpeed;
@@ -140,7 +147,9 @@ namespace WinWarCS.Data.Game
 
       static Entity()
       {
-         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, object>>();
+         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
+
+         LoadDefaultValues();
       }
 
       public Entity (Map currentMap)
@@ -507,9 +516,27 @@ namespace WinWarCS.Data.Game
          return this.GetType ().Name;
       }
 
-      private static void LoadDefaultValues()
+      private static async void LoadDefaultValues()
       {
+         XmlDocument doc = new XmlDocument();
+         using (FileStream stream = await Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "entities.xml"))
+         {
+            doc.Load(stream);
+         }
 
+         XmlNodeList list = doc.DocumentElement.ChildNodes;
+         for (int i = 0; i < list.Count; i++)
+         {
+            XmlNode node = list[i];
+            Dictionary<string, string> entityValues = new Dictionary<string, string>();
+            for (int j = 0; j < node.ChildNodes.Count; j++)
+            {
+               string name = node.ChildNodes[j].Name;
+               string value = node.ChildNodes[j].InnerText;
+               entityValues.Add(name, value);
+            }
+            defaultValueDict.Add((LevelObjectType)int.Parse(node.Attributes["type"].InnerText), entityValues);
+         }
       }
 
       private static void ApplyDefaultValues(Entity entity, LevelObjectType entityType)
@@ -520,24 +547,26 @@ namespace WinWarCS.Data.Game
             return;
          }
 
-         Dictionary<string, object> values = defaultValueDict[entityType];
+         Dictionary<string, string> values = defaultValueDict[entityType];
 
-         entity.ArmorPoints = (short)values["ArmorPoints"];
-         entity.AttackRange = (byte)values["AttackRange"];
-         entity.AttackSpeed = (double)values["AttackSpeed"];
-         entity.DecayRate = (short)values["DecayRate"];
-         entity.GoldCost = (short)values["GoldCost"];
-         entity.HitPoints = (short)values["HitPoints"];
-         entity.IconIndex = (int)values["IconIndex"];
-         entity.LumberCost = (short)values["LumberCost"];
-         entity.Mana = (short)values["Mana"];
-         entity.MaxHitPoints = (short)values["MaxHitPoints"];
-         entity.MaxMana = (short)values["MaxMana"];
-         entity.MinDamage = (byte)values["MinDamage"];
-         entity.RandomDamage = (byte)values["RandomDamage"];
-         entity.TimeToBuild = (short)values["TimeToBuild"];
-         entity.VisibleRange = (double)values["VisibleRange"];
-         entity.WalkSpeed = (double)values["WalkSpeed"];
+         entity.ArmorPoints = short.Parse(values["ArmorPoints"], CultureInfo.InvariantCulture);
+         entity.AttackRange = byte.Parse(values["AttackRange"], CultureInfo.InvariantCulture);
+         entity.AttackSpeed = double.Parse(values["AttackSpeed"], CultureInfo.InvariantCulture);
+         entity.AggroRange = double.Parse(values["AggroRange"], CultureInfo.InvariantCulture);
+         entity.DecayRate = short.Parse(values["DecayRate"], CultureInfo.InvariantCulture);
+         entity.GoldCost = short.Parse(values["GoldCost"], CultureInfo.InvariantCulture);
+         entity.IconIndex = int.Parse(values["IconIndex"], CultureInfo.InvariantCulture);
+         entity.LumberCost = short.Parse(values["LumberCost"], CultureInfo.InvariantCulture);
+         entity.MaxHitPoints = short.Parse(values["MaxHitPoints"], CultureInfo.InvariantCulture);
+         entity.MaxMana = short.Parse(values["MaxMana"], CultureInfo.InvariantCulture);
+         entity.MinDamage = byte.Parse(values["MinDamage"], CultureInfo.InvariantCulture);
+         entity.RandomDamage = byte.Parse(values["RandomDamage"], CultureInfo.InvariantCulture);
+         entity.TimeToBuild = short.Parse(values["TimeToBuild"], CultureInfo.InvariantCulture);
+         entity.VisibleRange = double.Parse(values["VisibleRange"], CultureInfo.InvariantCulture);
+         entity.WalkSpeed = double.Parse(values["WalkSpeed"], CultureInfo.InvariantCulture);
+
+         entity.HitPoints = entity.MaxHitPoints;
+         entity.Mana = entity.MaxMana;
       }
 
       public static Entity CreateEntityFromType(LevelObjectType entityType, Map inMap)
