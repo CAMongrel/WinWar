@@ -399,19 +399,29 @@
       // Axe1, 66
       // Axe2, 67
       // Axe3, 68
-      // Unk, 69
-      // Unk, 70
+      // Wolf1, 69
+      // Wolf2 70
       // Crossbar1, 71
       // Crossbar2, 72
       // Crossbar3, 73
       // Spear1, 74
       // Spear2, 75
 	  // Spear3, 76
-
 	  // Horse1, 77
 	  // Horse2, 78
-
 	  // Shield1, 79
 	  // Shield2, 80
 	  // Shield3, 81
+	  // ShieldOrc1, 82
+	  // ShieldOrc2, 83
+	  // ShieldOrc3, 84
+	  // Heal, 85
+	  // Far Sight, 86
+	  // Invisibility, 87
+	  // Rain of Fire, 88
+	  // Raising Dead, 89
+	  // Dark Vision, 90
+	  // Unholy Armor, 91
+	  // Cloud of Poison, 92
+
 -->
