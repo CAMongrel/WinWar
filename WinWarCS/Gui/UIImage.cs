@@ -17,8 +17,11 @@ namespace WinWarCS.Gui
       {
          image = setImage;
 
-         Width = image.Width;
-         Height = image.Height;
+         if (image != null)
+         {
+            Width = image.Width;
+            Height = image.Height;
+         }
       }
 
       internal static UIImage FromImageResource (string name)

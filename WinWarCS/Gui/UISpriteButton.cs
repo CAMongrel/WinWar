@@ -1,5 +1,6 @@
 ﻿using System;
 using WinWarCS.Data.Game;
+using WinWarCS.Data;
 
 namespace WinWarCS.Gui
 {
@@ -7,6 +8,12 @@ namespace WinWarCS.Gui
    {
       private Sprite curSpr;
       private UISpriteImage img;
+
+      internal UISpriteButton(Sprite spr, string spriteName)
+         : this(spr, WarFile.KnowledgeBase.IconIDByName(spriteName))
+      {
+         //
+      }
 
       internal UISpriteButton(Sprite spr, int spriteFrameIndex)
          : base(string.Empty, 364, 365)
@@ -18,11 +25,6 @@ namespace WinWarCS.Gui
          img.X = 2;
          img.Y = 2;
          AddComponent(img);
-
-         OnMouseUpInside += (Microsoft.Xna.Framework.Vector2 position) => 
-         {
-            curSpr.FixedSpriteFrame = curSpr.FixedSpriteFrame + 1;
-         };
       }
 
       internal override void Render()
