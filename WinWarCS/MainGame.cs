@@ -240,9 +240,10 @@ namespace WinWarCS
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Update (GameTime gameTime)
       {
+         Performance.Push("Game loop");
          Platform.Input.UpdateInput (gameTime);
 
-         if (nextGameScreen != null)
+         if (nextGameScreen != null) 
          {
             if (currentGameScreen != null)
                currentGameScreen.Close ();
@@ -254,12 +255,13 @@ namespace WinWarCS
             nextGameScreen = null;
          }
 
-         if (currentGameScreen != null)
+         if (currentGameScreen != null) 
          {
             currentGameScreen.Update (gameTime);
          }
 
          base.Update (gameTime);
+         Performance.Pop();
       }
 
       /// <summary>

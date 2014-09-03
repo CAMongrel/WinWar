@@ -8,6 +8,7 @@ using WinWarCS.Data.Game;
 using WinWarCS.Gui;
 using WinWarCS.Gui.Input;
 using WinWarCS.Data;
+using WinWarCS.Util;
 
 namespace WinWarCS.GameScreens.Windows
 {
@@ -168,9 +169,13 @@ namespace WinWarCS.GameScreens.Windows
          if (GamePaused)
             return;
 
-         base.Update (gameTime);
+         Performance.Push("Game loop - base.Update");
+         base.Update(gameTime);
+         Performance.Pop();
 
+         Performance.Push("Game loop - UpdateUI");
          UpdateUI();
+         Performance.Pop();
 
          bool leftClickNeeded = false;
          if (MapControl.InputHandler.InputMode == InputMode.Classic)
