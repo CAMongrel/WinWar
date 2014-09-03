@@ -1,20 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using WinWarCS.Data.Game;
 using WinWarCS.Data;
 using WinWarCS.Data.Resources;
+using Microsoft.Xna.Framework;
+using WinWarCS.Graphics;
+using WinWarCS.Util;
 
 namespace WinWarCS.Gui
 {
    internal class UIEntityControl : UIBaseComponent
    {
       private Entity[] currentEntities;
+      private Dictionary<Entity, UIImage> healthBars;
       private Race race;
+      private bool isInSubmenu;
 
       internal UIEntityControl(Race setRace)
       {
+         isInSubmenu = false;
          race = setRace;
 
+         healthBars = new Dictionary<Entity, UIImage>();
+
          RebuildUI();
+      }
+
+      private void SetHealthbar(UIImage img, Entity ent)
+      {
+         img.Width = (int)((float)currentEntities[0].HitPoints / (float)currentEntities[0].MaxHitPoints) * 27;
       }
 
       private void ShowSingleUI()
@@ -39,6 +53,22 @@ namespace WinWarCS.Gui
          unitIcon.X = 4;
          unitIcon.Y = 4;
          unitFrame.AddComponent(unitIcon);
+
+         UILabel nameLabel = new UILabel(currentEntities[0].Name);
+         nameLabel.TextAlign = TextAlignHorizontal.Left;
+         nameLabel.X = 4;
+         nameLabel.Y = unitIcon.Y + unitIcon.Height + 2;
+         unitFrame.AddComponent(nameLabel);
+
+         UIImage img = new UIImage(null);
+         img.X = 35;
+         img.Y = 20;
+         img.Height = 3;
+         img.BackgroundColor = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+         SetHealthbar(img, ent);
+         unitFrame.AddComponent(img);
+
+         healthBars.Add(ent, img);
       }
 
       private void ShowMultiUI()
@@ -51,10 +81,41 @@ namespace WinWarCS.Gui
 
       }
 
+      private void ShowBuildSubMenu()
+      {
+         isInSubmenu = true;
+
+         ClearComponents();
+
+         // No entities? Then just exit
+         if (currentEntities == null || currentEntities.Length == 0)
+            return;
+
+         if (currentEntities.Length == 1)
+            ShowSingleUI();
+         else
+            ShowMultiUI();
+
+         int buttonIndex = 0;
+         if (ShowCancel)
+         {
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Cancel");
+            btn.OnMouseUpInside += (position) => { RebuildUI(); };
+            SetButtonPosition(btn, 5);
+            AddComponent(btn);
+
+            buttonIndex++;
+         }
+      }
+
       private void RebuildUI()
       {
          // Remove all old components
          ClearComponents();
+
+         isInSubmenu = false;
+
+         healthBars.Clear();
 
          // No entities? Then just exit
          if (currentEntities == null || currentEntities.Length == 0)
@@ -69,15 +130,17 @@ namespace WinWarCS.Gui
 
          if (ShowMove)
          {
-            UISpriteButton moveBtn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 1);
+            UISpriteButton moveBtn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Move" + race);
+            moveBtn.OnMouseUpInside += (position) => {};
             SetButtonPosition(moveBtn, buttonIndex);
             AddComponent(moveBtn);
 
             buttonIndex++;
          }
-         if (ShowAttack)
+         if (ShowStop)
          {
-            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 2);
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Shield1" + (race == Race.Humans ? "" : "Orcs"));
+            btn.OnMouseUpInside += (position) => { Stop(); };
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
@@ -85,36 +148,52 @@ namespace WinWarCS.Gui
          }
          if (ShowAttack)
          {
-            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 2);
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Sword1");
+            btn.OnMouseUpInside += (position) => {};
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
             buttonIndex++;
          }
-         if (ShowAttack)
+         if (ShowRepair)
          {
-            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 2);
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Repair");
+            btn.OnMouseUpInside += (position) => {};
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
             buttonIndex++;
          }
-         if (ShowAttack)
+         if (ShowHarvest)
          {
-            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 2);
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Harvest");
+            btn.OnMouseUpInside += (position) => {};
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
             buttonIndex++;
          }
-         if (ShowAttack)
+         if (ShowBuild)
          {
-            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), 2);
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Build");
+            btn.OnMouseUpInside += (position) => { ShowBuildSubMenu(); };
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
             buttonIndex++;
          }
+         if (ShowCancel)
+         {
+            UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Cancel");
+            btn.OnMouseUpInside += (position) => { RebuildUI(); };
+            SetButtonPosition(btn, 6);
+            AddComponent(btn);
+
+            buttonIndex++;
+         }
+
+         if (currentEntities.Length == 1)
+            currentEntities[0].AddCustomUI(this);
       }
 
       internal void SetEntities(Entity[] newEntities)
@@ -138,9 +217,45 @@ namespace WinWarCS.Gui
 
          if (currentEntities == null)
             return;
+
+         // Update healthbars
+         for (int i = 0; i < currentEntities.Length; i++)
+         {
+            if (healthBars.ContainsKey(currentEntities[i]) == false)
+            {
+               Log.Warning("Trying to update healthbar for entity '" + currentEntities[i] + "', but there's no matching healthbar!");
+               continue;
+            }
+
+            UIImage hpBar = healthBars[currentEntities[i]];
+            SetHealthbar(hpBar, currentEntities[i]);
+         }
       }
 
+      #region Order helpers
+      private void Stop()
+      {
+         if (currentEntities == null)
+            return;
+
+         for (int i = 0; i < currentEntities.Length; i++)
+         {
+            currentEntities[i].Idle();
+         }
+      }
+      #endregion
+
       #region Properties
+      private bool ShowCancel
+      {
+         get
+         {
+            if (isInSubmenu)
+               return true;
+
+            return false;
+         }
+      }
       private bool ShowMove
       {
          get
@@ -167,6 +282,67 @@ namespace WinWarCS.Gui
             for (int i = 0; i < currentEntities.Length; i++)
             {
                if (currentEntities[i].CanAttack == false)
+                  return false;
+            }
+
+            return true;
+         }
+      }
+      private bool ShowHarvest
+      {
+         get
+         {
+            if (currentEntities == null)
+               return false;
+
+            for (int i = 0; i < currentEntities.Length; i++)
+            {
+               if (currentEntities[i].CanHarvest == false)
+                  return false;
+            }
+
+            return true;
+         }
+      }
+      private bool ShowBuild
+      {
+         get
+         {
+            if (currentEntities == null || currentEntities.Length > 1)
+               return false;
+
+            if (currentEntities[0].CanBuild == false)
+               return false;
+
+            return true;
+         }
+      }
+      private bool ShowRepair
+      {
+         get
+         {
+            if (currentEntities == null)
+               return false;
+
+            for (int i = 0; i < currentEntities.Length; i++)
+            {
+               if (currentEntities[i].CanRepair == false)
+                  return false;
+            }
+
+            return true;
+         }
+      }
+      private bool ShowStop
+      {
+         get
+         {
+            if (currentEntities == null)
+               return false;
+
+            for (int i = 0; i < currentEntities.Length; i++)
+            {
+               if (currentEntities[i].CanStop == false)
                   return false;
             }
 
