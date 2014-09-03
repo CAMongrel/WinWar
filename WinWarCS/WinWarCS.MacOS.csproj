@@ -104,6 +104,7 @@
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />
     <Folder Include="Data\Game\AI\States\" />
+    <Folder Include="Data\Game\Abilities\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IntroStoryboard.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Data\Game\Abilities\BaseAbility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
