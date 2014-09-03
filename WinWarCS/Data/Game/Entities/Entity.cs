@@ -7,6 +7,7 @@ using WinWarCS.Graphics;
 using System.IO;
 using System.Xml;
 using System.Globalization;
+using WinWarCS.Gui;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -288,6 +289,11 @@ namespace WinWarCS.Data.Game
          } // foreach
       } // UpdateHateList()
 
+      internal virtual void AddCustomUI(UIBaseComponent parentComponent)
+      {
+         //
+      }
+
       /// <summary>
       /// Update the specified gameTime.
       /// </summary>
@@ -465,7 +471,28 @@ namespace WinWarCS.Data.Game
             return false;
          }
       }
+      public virtual bool CanHarvest
+      {
+         get
+         {
+            return false;
+         }
+      }
       public virtual bool CanBuild
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanRepair
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanStop
       {
          get
          {

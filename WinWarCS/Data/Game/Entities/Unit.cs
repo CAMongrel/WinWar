@@ -40,22 +40,14 @@ namespace WinWarCS.Data.Game
       public Unit (Map currentMap)
          : base (currentMap)
       {
-         AttackRange = 2;
-         MaxHitPoints = 20;
-         HitPoints = MaxHitPoints;
-         MinDamage = 5;
-         RandomDamage = 2;
-         ArmorPoints = 1;
-         AttackSpeed = 1.0f;
-         WalkSpeed = 0.7f;
-         VisibleRange = 3f;
+
       }
 
       public override bool CanAttack 
       {
          get 
          {
-            return !IsDead;
+            return !IsDead && ((MinDamage + RandomDamage) > 0) && AttackSpeed > 0.0;
          }
       }
       public override bool CanMove
@@ -77,6 +69,13 @@ namespace WinWarCS.Data.Game
          get
          {
             return true;
+         }
+      }
+      public override bool CanStop
+      {
+         get
+         {
+            return !IsDead;
          }
       }
 

@@ -9,6 +9,30 @@ namespace WinWarCS.Data.Game
       {
          sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Peasant")));
       }
+
+      public override bool CanHarvest
+      {
+         get
+         {
+            return !IsDead;
+         }
+      }
+
+      public override bool CanBuild
+      {
+         get
+         {
+            return !IsDead;
+         }
+      }
+
+      public override bool CanRepair
+      {
+         get
+         {
+            return !IsDead;
+         }
+      }
    }
 }
 
