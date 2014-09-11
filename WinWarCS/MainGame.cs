@@ -110,7 +110,8 @@ namespace WinWarCS
       {
          MainGame.WinWarGame = this;
 
-         Log.Type = LogType.None;
+         Log.Severity = LogSeverity.Debug;
+         Log.Type = LogType.Performance;
 
          this.IsMouseVisible = false;
 

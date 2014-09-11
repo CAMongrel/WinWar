@@ -31,7 +31,8 @@ namespace WinWarCS.Util
          entry.Description = description;
          counterStack.Push(entry);
 
-         Log.Write(LogType.Performance, LogSeverity.Debug, entry.Description + " starts");
+         if (DebugOptions.LogLongRunningTasksOnly == false)
+            Log.Write(LogType.Performance, LogSeverity.Debug, entry.Description + " starts");
       }
 
       public static double Pop()
@@ -47,7 +48,14 @@ namespace WinWarCS.Util
          long diff = System.Diagnostics.Stopwatch.GetTimestamp() - entry.StartTime;
          double seconds = (double)diff / (double)System.Diagnostics.Stopwatch.Frequency;
 
-         Log.Write(LogType.Performance, LogSeverity.Debug, entry.Description + " took " + (seconds * 1000) + " ms");
+         bool performLog = true;
+         if (DebugOptions.LogLongRunningTasksOnly == true)
+         {
+            performLog = (seconds >= DebugOptions.LongRunningTaskThresholdInSeconds);
+         }
+
+         if (performLog)
+            Log.Write(LogType.Performance, LogSeverity.Debug, entry.Description + " took " + (seconds * 1000) + " ms");
 
          return seconds;
       }

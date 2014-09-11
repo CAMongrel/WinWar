@@ -175,15 +175,17 @@ namespace WinWarCS.Data.Game
 
       internal void Update(GameTime gameTime)
       {
+         Performance.Push("Map Update");
          for (int i = 0; i < entities.Count; i++) 
          {
-            entities [i].Update (gameTime);
+            entities[i].Update(gameTime);
 
             // TODO: Implement a shared view flag for allied forces?
 
             if (entities[i].Owner == HumanPlayer)
-               DiscoverMapByEntity (entities [i]);
+               DiscoverMapByEntity(entities [i]);
          }
+         Performance.Pop();
       }
 
       #endregion
