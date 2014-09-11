@@ -82,7 +82,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Attack range
       /// </summary>
-      public byte AttackRange;
+      public double AttackRange;
       /// <summary>
       /// The attack speed.
       /// </summary>
@@ -577,7 +577,7 @@ namespace WinWarCS.Data.Game
          Dictionary<string, string> values = defaultValueDict[entityType];
 
          entity.ArmorPoints = short.Parse(values["ArmorPoints"], CultureInfo.InvariantCulture);
-         entity.AttackRange = byte.Parse(values["AttackRange"], CultureInfo.InvariantCulture);
+         entity.AttackRange = double.Parse(values["AttackRange"], CultureInfo.InvariantCulture);
          entity.AttackSpeed = double.Parse(values["AttackSpeed"], CultureInfo.InvariantCulture);
          entity.AggroRange = double.Parse(values["AggroRange"], CultureInfo.InvariantCulture);
          entity.DecayRate = short.Parse(values["DecayRate"], CultureInfo.InvariantCulture);

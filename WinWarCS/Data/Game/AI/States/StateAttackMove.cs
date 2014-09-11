@@ -100,9 +100,9 @@ namespace WinWarCS.Data.Game
          float offx = this.Owner.X - ent.X;
          float offy = this.Owner.Y - ent.Y;
 
-         float sqr_dist = (offx * offx + offy * offy);
+         double sqr_dist = (offx * offx + offy * offy);
 
-         float sqr_meleerange = ent.AttackRange * ent.AttackRange;
+         double sqr_meleerange = ent.AttackRange * ent.AttackRange;
 
          if (sqr_dist < sqr_meleerange)
          {
