@@ -2,7 +2,7 @@
 <entities>
 	<entity type="0" name="Footman">
 		<ArmorPoints>2</ArmorPoints>
-		<AttackRange>0</AttackRange>
+		<AttackRange>1.5</AttackRange>
 		<AttackSpeed>1.0</AttackSpeed>
 		<MinDamage>1</MinDamage>
 		<RandomDamage>9</RandomDamage>
@@ -20,7 +20,7 @@
 	</entity>
 	<entity type="1" name="Grunt">
 		<ArmorPoints>2</ArmorPoints>
-		<AttackRange>0</AttackRange>
+		<AttackRange>1.5</AttackRange>
 		<AttackSpeed>1.0</AttackSpeed>
 		<MinDamage>1</MinDamage>
 		<RandomDamage>9</RandomDamage>
@@ -110,7 +110,7 @@
 	</entity>
 	<entity type="6" name="Knight">
 		<ArmorPoints>5</ArmorPoints>
-		<AttackRange>0</AttackRange>
+		<AttackRange>1.5</AttackRange>
 		<AttackSpeed>1.0</AttackSpeed>
 		<MinDamage>1</MinDamage>
 		<RandomDamage>13</RandomDamage>
@@ -128,7 +128,7 @@
 	</entity>
 	<entity type="7" name="Raider">
 		<ArmorPoints>5</ArmorPoints>
-		<AttackRange>0</AttackRange>
+		<AttackRange>1.5</AttackRange>
 		<AttackSpeed>1.0</AttackSpeed>
 		<MinDamage>1</MinDamage>
 		<RandomDamage>13</RandomDamage>
