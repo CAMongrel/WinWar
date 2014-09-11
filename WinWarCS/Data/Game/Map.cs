@@ -732,19 +732,27 @@ namespace WinWarCS.Data.Game
       #region Pathfinding
       internal MapPath CalcPath(int startX, int startY, int endX, int endY)
       {
-         Log.Status("Map: Calculating path from " + startX + "," + 
-            startY + " to " + endX + "," + endY + "...");
-
-         MapPath path = Pathfinder.FindPath (startX, startY, endX, endY);
-         if (path != null)
+         Performance.Push("Calculate path from " + startX + "," + startY + " to " + endX + "," + endY);
+         try
          {
-            Log.Status("... success (" + path.Count + " Nodes)!");
-            return path;
+            Log.Status("Map: Calculating path from " + startX + "," + 
+               startY + " to " + endX + "," + endY + "...");
+
+            MapPath path = Pathfinder.FindPath (startX, startY, endX, endY);
+            if (path != null)
+            {
+               Log.Status("... success (" + path.Count + " Nodes)!");
+               return path;
+            }
+
+            Log.Status("... failed!");
+
+            return null;
          }
-
-         Log.Status("... failed!");
-
-         return null;
+         finally
+         {
+            Performance.Pop();
+         }
       }
       #endregion
 

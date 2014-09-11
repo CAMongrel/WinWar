@@ -28,8 +28,11 @@ namespace WinWarCS.Data.Game
       private int fieldWidth;
       private int fieldHeight;
 
+      internal bool UseHeuristic;
+
 		internal AStar2D()
 		{
+         UseHeuristic = true;
 			fieldWidth = 0;
 			fieldHeight = 0;
 			field = null;
@@ -227,6 +230,11 @@ namespace WinWarCS.Data.Game
 					if (newX < 0 || newX >= fieldWidth || newY < 0 || newY >= fieldHeight)
 						continue;
 
+               if (field[newX, newY] > 0 && newX == endX && newY == endY)
+               {
+                  return 2;
+               }
+
                if (field[newX, newY] > 0 || GetClosedNode(newX, newY, Closed) != null)
 						continue;
 
@@ -257,11 +265,18 @@ namespace WinWarCS.Data.Game
 						n.G = node.G + SQRT[x * x + y * y];
 						int offX = Math.Abs(n.X - endX);
 						int offY = Math.Abs(n.Y - endY);
-						if (offX > offY)
-							n.H = 14 * offY + 10 * (offX - offY);
-						else
-							n.H = 14 * offX + 10 * (offY - offX);
-						n.H = (Math.Abs(n.X - endX) + Math.Abs(n.Y - endY)) * 10;
+                  if (UseHeuristic == false)
+                  {
+                     n.H = 0;
+                  }
+                  else
+                  {
+                     if (offX > offY)
+                        n.H = 14 * offY + 10 * (offX - offY);
+                     else
+                        n.H = 14 * offX + 10 * (offY - offX);
+                     n.H = (Math.Abs(n.X - endX) + Math.Abs(n.Y - endY)) * 10;
+                  }
 
 						OpenHeap.Add(n.F, n);
 					}
@@ -271,10 +286,12 @@ namespace WinWarCS.Data.Game
 			return 0;
 		}
 
-      public MapPath FindPath(int startX, int startY, int endX, int endY)
-		{
+      public MapPath FindPath(int startX, int startY, int endX, int endY, bool useHeuristic = true)
+      {
 			if (field == null)
 				return null;
+
+         UseHeuristic = useHeuristic;
 
          List<AStarNode> Closed = new List<AStarNode>();
          BinaryHeap<AStarNode> OpenHeap = new BinaryHeap<AStarNode>(fieldWidth * fieldHeight);
@@ -287,10 +304,17 @@ namespace WinWarCS.Data.Game
 			Root.G = 0;
 			int offX = Math.Abs(Root.X - endX);
 			int offY = Math.Abs(Root.Y - endY);
-			if (offX > offY)
-				Root.H = 14 * offY + 10 * (offX - offY);
-			else
-				Root.H = 14 * offX + 10 * (offY - offX);
+         if (UseHeuristic == false)
+         {
+            Root.H = 0;
+         }
+         else
+         {
+            if (offX > offY)
+               Root.H = 14 * offY + 10 * (offX - offY);
+            else
+               Root.H = 14 * offX + 10 * (offY - offX);
+         }
 			OpenHeap.Add(Root.F, Root);
 
          int res = ProcessLowestNode (endX, endY, Closed, OpenHeap);
@@ -302,7 +326,12 @@ namespace WinWarCS.Data.Game
 			if (res == -1)
 				return null;
 
-         AStarNode node = GetClosedNode(endX, endY, Closed);
+         AStarNode node = null;
+         if (res == 1)
+            node = GetClosedNode(endX, endY, Closed);
+         else if (res == 2)
+            node = Closed[Closed.Count - 1];
+
          MapPath result = new MapPath ();
          result.BuildFromFinalAStarNode (node);
 

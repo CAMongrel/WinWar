@@ -41,21 +41,27 @@ namespace WinWarCS.Data.Game
          startPosX = Owner.X;
          startPosY = Owner.Y;
 
-         if (Path != null) 
+         if (Path != null)
          {
             curNodeIdx = 0;
 
             IMapPathNode initialNode = Path[curNodeIdx++];
-
+            if (initialNode == null)
+               return false;
+            
             targetPosX = initialNode.X;
             targetPosY = initialNode.Y;
 
-            if (Owner is Unit) 
+            if (Owner is Unit)
             {
                Unit unit = (Unit)Owner;
-               unit.Sprite.SetCurrentAnimationByName ("Walk");
-               unit.Orientation = Unit.OrientationFromDiff ((targetPosX - startPosX), (targetPosY - startPosY));
+               unit.Sprite.SetCurrentAnimationByName("Walk");
+               unit.Orientation = Unit.OrientationFromDiff((targetPosX - startPosX), (targetPosY - startPosY));
             }
+         }
+         else
+         {
+            return false;
          }
 
          return true;
