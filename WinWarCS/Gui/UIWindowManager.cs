@@ -52,7 +52,8 @@ namespace WinWarCS.Gui
          {
             if (windows[i].Visible == false)
                continue;
-            windows[i].Render();
+
+            windows[i].InternalRender();
          }
       }
 

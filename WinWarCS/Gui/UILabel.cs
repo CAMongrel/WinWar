@@ -42,16 +42,16 @@ namespace WinWarCS.Gui
 
       #region Render
 
-      internal override void Render ()
+      internal override void Draw()
       {
+         base.Draw();
+
          Vector2 screenPos = ScreenPosition;
 
          Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));
          Color hotKeyCol = Color.Yellow;
 
          colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlign, col, hotKeyCol);
-
-         base.Render ();
       }
 
       #endregion

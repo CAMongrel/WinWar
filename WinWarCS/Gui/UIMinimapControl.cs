@@ -165,9 +165,9 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal override void Render ()
+      internal override void Draw()
       {
-         base.Render ();
+         base.Draw();
 
          minimapTex.RenderOnScreen (X, Y);
       }
