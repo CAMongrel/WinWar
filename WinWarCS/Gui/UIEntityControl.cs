@@ -6,6 +6,7 @@ using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
 using WinWarCS.Graphics;
 using WinWarCS.Util;
+using WinWarCS.GameScreens;
 
 namespace WinWarCS.Gui
 {
@@ -83,9 +84,12 @@ namespace WinWarCS.Gui
 
       private void ShowBuildSubMenu()
       {
+         // Remove all old components
+         ClearComponents();
+
          isInSubmenu = true;
 
-         ClearComponents();
+         healthBars.Clear();
 
          // No entities? Then just exit
          if (currentEntities == null || currentEntities.Length == 0)
@@ -131,7 +135,7 @@ namespace WinWarCS.Gui
          if (ShowMove)
          {
             UISpriteButton moveBtn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Move" + race);
-            moveBtn.OnMouseUpInside += (position) => {};
+            moveBtn.OnMouseUpInside += (position) => { SetMapUnitOrder(MapUnitOrder.Move); };
             SetButtonPosition(moveBtn, buttonIndex);
             AddComponent(moveBtn);
 
@@ -149,7 +153,7 @@ namespace WinWarCS.Gui
          if (ShowAttack)
          {
             UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Sword1");
-            btn.OnMouseUpInside += (position) => {};
+            btn.OnMouseUpInside += (position) => { SetMapUnitOrder(MapUnitOrder.Attack); };
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
@@ -158,7 +162,7 @@ namespace WinWarCS.Gui
          if (ShowRepair)
          {
             UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Repair");
-            btn.OnMouseUpInside += (position) => {};
+            btn.OnMouseUpInside += (position) => { SetMapUnitOrder(MapUnitOrder.Repair); };
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
@@ -167,7 +171,7 @@ namespace WinWarCS.Gui
          if (ShowHarvest)
          {
             UISpriteButton btn = new UISpriteButton(new Sprite(WarFile.GetSpriteResource(361)), "Harvest");
-            btn.OnMouseUpInside += (position) => {};
+            btn.OnMouseUpInside += (position) => { SetMapUnitOrder(MapUnitOrder.Harvest); };
             SetButtonPosition(btn, buttonIndex);
             AddComponent(btn);
 
@@ -241,6 +245,14 @@ namespace WinWarCS.Gui
          for (int i = 0; i < currentEntities.Length; i++)
          {
             currentEntities[i].Idle();
+         }
+      }
+
+      private void SetMapUnitOrder(MapUnitOrder order)
+      {
+         if (LevelGameScreen.Game != null)
+         {
+            LevelGameScreen.Game.SetMapUnitOrder(order);
          }
       }
       #endregion

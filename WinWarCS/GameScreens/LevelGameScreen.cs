@@ -68,6 +68,15 @@ namespace WinWarCS.GameScreens
          }
       }
 
+      internal void SetMapUnitOrder(MapUnitOrder setMapUnitOrder)
+      {
+         if (backgroundWindow != null && backgroundWindow.MapControl != null &&
+            backgroundWindow.MapControl.InputHandler != null)
+         {
+            backgroundWindow.MapControl.InputHandler.SetMapUnitOrder(setMapUnitOrder);
+         }
+      }
+
       internal override void Close()
       {
          UIWindowManager.Clear();

@@ -37,8 +37,11 @@ namespace WinWarCS.Gui.Input
       }
       public bool IsSpanningRectangle { get; protected set; }
 
+      private MapUnitOrder mapUnitOrder;
+
       protected UIMapControlInputHandler (InputMode setInputMode, UIMapControl setUIMapControl)
       {
+         mapUnitOrder = MapUnitOrder.None;
          IsSpanningRectangle = false;
          selectionRectangle = RectangleF.Empty;
 
@@ -73,6 +76,46 @@ namespace WinWarCS.Gui.Input
       }
 
       #region Input logic for all handlers
+      internal void SetMapUnitOrder(MapUnitOrder setMapUnitOrder)
+      {
+         mapUnitOrder = setMapUnitOrder;
+      }
+
+      protected bool ShowUnitOrderAt(Vector2 position)
+      {
+         if (mapUnitOrder == MapUnitOrder.None)
+            return false;
+
+         MouseCursor.State = MouseCursorState.CrosshairOrange;
+
+         Vector2 localPosition = new Vector2 (position.X - MapControl.X, position.Y - MapControl.Y);
+         int tileX = 0;
+         int tileY = 0;
+         MapControl.GetTileXY (localPosition.X, localPosition.Y, out tileX, out tileY);
+
+         if (MapControl.CurrentMap != null) 
+         {
+            if (MapControl.CurrentMap.GetDiscoverStateAtTile(tileX, tileY) != MapDiscover.Visible)
+            {
+               MouseCursor.State = MouseCursorState.CrosshairOrange;
+               return true;
+            }
+
+            Entity ent = MapControl.CurrentMap.GetEntityAt (tileX, tileY);
+            if (ent != null) 
+            {
+               if (ent.IsNeutralTowards(MapControl.CurrentMap.HumanPlayer))
+                  MouseCursor.State = MouseCursorState.CrosshairOrange;
+               if (ent.IsHostileTowards(MapControl.CurrentMap.HumanPlayer))
+                  MouseCursor.State = MouseCursorState.CrosshairRed;
+               if (ent.IsFriendlyTowards(MapControl.CurrentMap.HumanPlayer))
+                  MouseCursor.State = MouseCursorState.CrosshairGreen;
+            }
+         }
+
+         return true;
+      }
+
       protected Entity[] GetSelectedEntities()
       {
          if (MapControl.CurrentMap != null) 

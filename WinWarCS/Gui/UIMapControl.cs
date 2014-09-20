@@ -12,6 +12,15 @@ using WinWarCS.Graphics;
 
 namespace WinWarCS.Gui
 {
+   enum MapUnitOrder
+   {
+      None,
+      Move,
+      Attack,
+      Harvest,
+      Repair
+   }
+
    class UIMapControl : UIBaseComponent
    {
       private float mapOffsetX;
@@ -121,6 +130,11 @@ namespace WinWarCS.Gui
          LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
          LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
+         if (InputHandler != null)
+         {
+            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
+         }
+
          CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
          SetCameraOffset(levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
 
@@ -135,6 +149,11 @@ namespace WinWarCS.Gui
 
       internal void LoadCustomLevel (string basename)
       {
+         if (InputHandler != null)
+         {
+            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
+         }
+
          throw new NotImplementedException();
          //LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
          //LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
@@ -167,7 +186,7 @@ namespace WinWarCS.Gui
             WWTexture.RenderRectangle (InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
          }
       }
-
+       
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return InputHandler.PointerDown (position, pointerType);
