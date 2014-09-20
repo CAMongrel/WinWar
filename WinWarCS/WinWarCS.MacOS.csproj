@@ -240,6 +240,7 @@
     <BundleResource Include="Assets\warcraft-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
+    <BundleResource Include="Resources\warcraft.icns" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\DefaultFont.xnb">

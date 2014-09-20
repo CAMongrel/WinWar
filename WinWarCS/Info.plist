@@ -11,10 +11,12 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.camongrel.WinWarCS</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.3.0</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleVersion</key>
+	<string>0.3.0</string>
+	<key>CFBundleIconFile</key>
+	<string>warcraft</string>
 </dict>
 </plist>
