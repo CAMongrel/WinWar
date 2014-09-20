@@ -538,6 +538,28 @@ namespace WinWarCS.Data.Game
          }
       }
 
+      internal bool IsNeutralTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsNeutralTowards(player);
+      }
+      internal bool IsHostileTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsHostileTowards(player);
+      }
+      internal bool IsFriendlyTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsFriendlyTowards(player);
+      }
+
       public override string ToString ()
       {
          return this.GetType ().Name;
