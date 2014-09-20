@@ -61,8 +61,10 @@ namespace WinWarCS.Gui
 
       #region Render
 
-      internal override void Render ()
+      internal override void Draw()
       {
+         base.Draw();
+
          WWTexture background = null;
          if (isActive)
             background = backgroundClicked;
@@ -75,8 +77,6 @@ namespace WinWarCS.Gui
          background.RenderOnScreen (screenPos.X, screenPos.Y, Width, Height, col);
 
          colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlignHorizontal.Center, col, Color.Yellow);
-
-         base.Render ();
       }
 
       #endregion

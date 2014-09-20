@@ -136,9 +136,9 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal override void Render ()
+      internal override void Draw()
       {
-         base.Render ();
+         base.Draw();
 
          if (CurrentMap != null) 
          {

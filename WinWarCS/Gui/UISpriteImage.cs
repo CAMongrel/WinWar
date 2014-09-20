@@ -55,9 +55,9 @@ namespace WinWarCS.Gui
             Sprite.Update(gameTime);
       }
 
-      internal override void Render()
+      internal override void Draw()
       {
-         base.Render();
+         base.Draw();
 
          if (Sprite == null)
             return;

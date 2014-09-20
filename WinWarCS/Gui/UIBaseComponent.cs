@@ -250,19 +250,27 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal virtual void Render()
+      internal void InternalRender()
       {
-         if (BackgroundColor.A > 0)
-         {
-            WWTexture.SingleWhite.RenderOnScreen (this.X, this.Y, this.Width, this.Height, BackgroundColor);
-         }
+         // Call actual draw method
+         Draw();
 
+         // Iterate through child components
          for (int i = 0; i < components.Count; i++)
          {
             if (components[i].Visible == false)
                continue;
 
-            components[i].Render();
+            components[i].InternalRender();
+         }
+      }
+         
+      internal virtual void Draw()
+      {
+         // Draw background
+         if (BackgroundColor.A > 0)
+         {
+            WWTexture.SingleWhite.RenderOnScreen (this.X, this.Y, this.Width, this.Height, BackgroundColor);
          }
       }
 

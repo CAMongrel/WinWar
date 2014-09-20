@@ -33,9 +33,9 @@ namespace WinWarCS.Gui
       #endregion
 
       #region Render
-      internal override void Render()
+      internal override void Draw()
       {
-         base.Render();
+         base.Draw();
       }
       #endregion
 
