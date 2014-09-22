@@ -180,11 +180,12 @@
     <Compile Include="Gui\UIWindow.cs" />
     <Compile Include="Gui\UIWindowManager.cs" />
     <Compile Include="MainGame.cs" />
-    <Compile Include="Platform\Windows\Input.cs" />
-    <Compile Include="Platform\Windows\IO.cs" />
-    <Compile Include="Platform\Windows\Program.cs" />
-    <Compile Include="Platform\Windows\Sys.cs" />
-    <Compile Include="Platform\Windows\UI.cs" />
+    <Compile Include="Platform\Input.cs" />
+    <Compile Include="Platform\IO.cs" />
+    <Compile Include="Platform\Program.cs" />
+    <Compile Include="Platform\RectangleF.cs" />
+    <Compile Include="Platform\Sys.cs" />
+    <Compile Include="Platform\UI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DebugOptions.cs" />
     <Compile Include="Util\Log.cs" />
