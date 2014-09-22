@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG; LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -97,11 +97,6 @@
     <Compile Include="Gui\Rendering\FontRenderer.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
-    <Compile Include="Platform\Linux\Program.cs" />
-    <Compile Include="Platform\Linux\IO.cs" />
-    <Compile Include="Platform\Linux\UI.cs" />
-    <Compile Include="Platform\Linux\Sys.cs" />
-    <Compile Include="Platform\Linux\Input.cs" />
     <Compile Include="Data\Game\BasePlayer.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\AIPlayer.cs" />
@@ -109,13 +104,9 @@
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
@@ -140,20 +131,14 @@
     <Compile Include="Data\Game\MapTile.cs" />
     <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\AI\MapPath.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
     <Compile Include="Data\Resources\UIResource.cs" />
     <Compile Include="Data\Resources\TableResource.cs" />
     <Compile Include="Data\Resources\PaletteResource.cs" />
@@ -163,11 +148,28 @@
     <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Util\Performance.cs" />
     <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
+    <Compile Include="Platform\IO.cs" />
+    <Compile Include="Platform\Input.cs" />
+    <Compile Include="Platform\Program.cs" />
+    <Compile Include="Platform\Sys.cs" />
+    <Compile Include="Platform\UI.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBlacksmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCleric.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFootman.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcSpearman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
+    <Compile Include="Platform\RectangleF.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Platform\" />
-    <Folder Include="Platform\Linux\" />
     <Folder Include="Data\Game\Entities\" />
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />

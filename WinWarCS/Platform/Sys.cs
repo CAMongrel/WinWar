@@ -6,7 +6,11 @@ namespace WinWarCS.Platform
    {
       public static void Exit(int exitCode = 0)
       {
-         Environment.Exit (exitCode);
+#if WINFX_CORE
+         App.Current.Exit();
+#else
+         Environment.Exit(exitCode);
+#endif
       }
    }
 }
