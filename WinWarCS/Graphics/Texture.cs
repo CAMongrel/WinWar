@@ -198,7 +198,7 @@ namespace WinWarCS.Graphics
       #endregion
 
       #region WriteToFile
-#if !NETFX_CORE
+#if !NETFX_CORE && !IOS
       internal void WriteToFile(string fullFilename)
       {
          byte[] outputData = new byte[Width * Height * 4];

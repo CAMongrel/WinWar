@@ -93,7 +93,7 @@ namespace WinWarCS.Data.Resources
 			}
 		}
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !IOS
       internal override void WriteToStream(System.IO.BinaryWriter writer)
       {
          base.WriteToStream(writer);

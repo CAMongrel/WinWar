@@ -106,7 +106,7 @@ namespace WinWarCS.Data.Game
          Performance.Pop();
       }
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !IOS
       internal void DumpToDirectory(string fullDirectory, string prefix)
       {
          if (System.IO.Directory.Exists (fullDirectory) == false)
