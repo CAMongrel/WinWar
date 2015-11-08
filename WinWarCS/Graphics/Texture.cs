@@ -71,9 +71,39 @@ namespace WinWarCS.Graphics
          Width = width;
          Height = height;
 
+         if (RequiresPowerOfTwo ()) 
+         {
+            width = (int)NextPowerOfTwo ((uint)width);
+            height = (int)NextPowerOfTwo ((uint)height);
+         }
+
          DXTexture = new Texture2D (MainGame.Device, width, height, false, SurfaceFormat.Color);
       }
 
+      #endregion
+
+      #region Utility
+      private uint NextPowerOfTwo(uint val)
+      {
+         // Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+         val--;
+         val |= val >> 1;
+         val |= val >> 2;
+         val |= val >> 4;
+         val |= val >> 8;
+         val |= val >> 16;
+         val++;
+         return val;
+      }
+
+      private bool RequiresPowerOfTwo()
+      {
+         #if IOS
+         return true;
+         #else
+         return false;
+         #endif
+      }
       #endregion
 
       #region FromImageResource
@@ -92,7 +122,7 @@ namespace WinWarCS.Graphics
       {
          WWTexture tex = null;
          tex = new WWTexture (res.width, res.height);
-         tex.DXTexture.SetData<byte> (res.image_data);
+         tex.SetData (res.image_data);
 
          return tex;
       }
@@ -108,6 +138,19 @@ namespace WinWarCS.Graphics
       }
       // FromDXTexture(tex)
 
+      #endregion
+
+      #region SetData
+      private void SetData(byte[] data)
+      {
+         if (RequiresPowerOfTwo () == false) 
+         {
+            DXTexture.SetData<byte> (data);
+         } else 
+         {
+            DXTexture.SetData<byte> (0, new Rectangle(0, 0, this.Width, this.Height), data, 0, data.Length);
+         }
+      }
       #endregion
 
       #region RenderOnScreen

@@ -83,7 +83,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\MonoGame.Framework.iOS.3.4.0.459\lib\XamariniOS\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\Libs\iOS\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="FLCLib.MonoGame">
       <HintPath>..\Libs\iOS\FLCLib.MonoGame.dll</HintPath>
@@ -206,10 +206,27 @@
     <Compile Include="Platform\iOS\Sys.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\warcraft.icns" />
     <None Include="Info.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Assets\warcraft-logo-square-mini.png" />
+    <BundleResource Include="Assets\warcraft-logo-square-mini_32.png" />
+    <BundleResource Include="Assets\warcraft-logo-square.png" />
+    <BundleResource Include="Assets\warcraft-logo-square_128.png" />
+    <BundleResource Include="Assets\warcraft-logo-square_256.png" />
+    <BundleResource Include="Assets\warcraft-logo-store.png" />
+    <BundleResource Include="Assets\warcraft-logo-store_64.png" />
+    <BundleResource Include="Assets\warcraft-logo-wide.png" />
+    <BundleResource Include="Assets\warcraft-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\DefaultFont.xnb" />
+    <Content Include="Assets\SpriteFont1.xnb" />
+    <Content Include="Assets\Data\DATA.WAR" />
   </ItemGroup>
 </Project>

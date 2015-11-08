@@ -128,23 +128,21 @@ namespace WinWarCS
          Content.RootDirectory = "Assets";
       }
 
-      private async Task<bool> ValidateDataWar()
+      private async Task<bool> ValidateDataWar ()
       {
          Stream stream = null;
          try
          {
-            stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar + "DATA.WAR");
+            stream = await WinWarCS.Platform.IO.OpenContentFile ("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar + "DATA.WAR");
             return true;
-         }
-         catch
+         } catch
          {
             return false;
-         }
-         finally
+         } finally
          {
             if (stream != null)
             {
-               stream.Dispose();
+               stream.Dispose ();
                stream = null;
             }
          }
@@ -160,40 +158,38 @@ namespace WinWarCS
       {
          base.Initialize ();
 
-         WinWarCS.Util.Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
+         WinWarCS.Util.Log.Write (Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
 
-         bool result = await ValidateDataWar();
+         bool result = await ValidateDataWar ();
          if (result == false)
          {
-            await Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" + Platform.IO.ExpectedDataDirectory() + 
-               "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " + 
-               "please also copy all the other .WAR files from the data directory.");
+            await Platform.UI.ShowMessageDialog ("DATA.WAR not found at expected location '" + Platform.IO.ExpectedDataDirectory () +
+            "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
+            "please also copy all the other .WAR files from the data directory.");
             return;
          }
 
          Exception loadingException = null;
 
-         try 
+         try
          {
-            await WinWarCS.Data.WarFile.LoadResources();
-            WinWarCS.Data.Game.MapTileset.LoadAllTilesets();
-         } 
-         catch (Exception ex) 
+            await WinWarCS.Data.WarFile.LoadResources ();
+            WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
+         } catch (Exception ex)
          {
             loadingException = ex;
          }
 
-         if (loadingException != null) 
+         if (loadingException != null)
          {
             await Platform.UI.ShowMessageDialog ("An error occured during loading of DATA.WAR (" + loadingException + ").");
             return;
          }
 
-         if (WarFile.IsDemo) 
+         if (WarFile.IsDemo)
          {
             SetNextGameScreen (new MenuGameScreen (false));
-         } 
-         else 
+         } else
          {
             // Play demo
             SetNextGameScreen (new IntroGameScreen (
@@ -239,7 +235,8 @@ namespace WinWarCS
       {
          Platform.Input.UpdateInput (gameTime);
 
-         if (nextGameScreen != null) {
+         if (nextGameScreen != null)
+         {
             if (currentGameScreen != null)
                currentGameScreen.Close ();
 
@@ -250,7 +247,8 @@ namespace WinWarCS
             nextGameScreen = null;
          }
 
-         if (currentGameScreen != null) {
+         if (currentGameScreen != null)
+         {
             currentGameScreen.Update (gameTime);
          }
 
@@ -263,11 +261,13 @@ namespace WinWarCS
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Draw (GameTime gameTime)
       {
-         if (currentGameScreen != null) {
+         if (currentGameScreen != null)
+         {
             GraphicsDevice.Clear (currentGameScreen.BackgroundColor);
 
             currentGameScreen.Draw (gameTime);
-         } else {
+         } else
+         {
             GraphicsDevice.Clear (backgroundClearColor);
          }
 
@@ -278,21 +278,24 @@ namespace WinWarCS
 
       internal void PointerPressed (Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
       {
-         if (currentGameScreen != null) {
+         if (currentGameScreen != null)
+         {
             currentGameScreen.PointerDown (scaledPosition, pointerType);
          }
       }
 
       internal void PointerReleased (Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
       {
-         if (currentGameScreen != null) {
+         if (currentGameScreen != null)
+         {
             currentGameScreen.PointerUp (scaledPosition, pointerType);
          }
       }
 
       internal void PointerMoved (Microsoft.Xna.Framework.Vector2 scaledPosition)
       {
-         if (currentGameScreen != null) {
+         if (currentGameScreen != null)
+         {
             currentGameScreen.PointerMoved (scaledPosition);
          }
       }
