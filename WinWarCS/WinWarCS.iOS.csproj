@@ -223,10 +223,9 @@
     <BundleResource Include="Assets\warcraft-logo-store_64.png" />
     <BundleResource Include="Assets\warcraft-logo-wide.png" />
     <BundleResource Include="Assets\warcraft-logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\DefaultFont.xnb" />
-    <Content Include="Assets\SpriteFont1.xnb" />
-    <Content Include="Assets\Data\DATA.WAR" />
+    <BundleResource Include="Resources\Icon-76%402x.png" />
+    <BundleResource Include="Assets\Data\DATA.WAR" />
+    <BundleResource Include="Assets\DefaultFont.xnb" />
+    <BundleResource Include="Assets\SpriteFont1.xnb" />
   </ItemGroup>
 </Project>

@@ -15,9 +15,9 @@ namespace WinWarCS.Platform
          }
       }
 
-      public static async Task<FileStream> GetFileStream(string filename)
+      public static async Task<FileStream> GetFileStream(string filename, bool readOnly = true)
       {
-         return new FileStream (filename, FileMode.Open);
+         return new FileStream (filename, FileMode.Open, readOnly ? FileAccess.Read : FileAccess.ReadWrite);
       }
 
       /// <summary>
@@ -27,49 +27,15 @@ namespace WinWarCS.Platform
       /// <param name="relativeFilename">Relative filename.</param>
       public static async Task<FileStream> OpenContentFile(string relativeFilename)
       {
-			string installedLocation = NSBundle.MainBundle.ResourcePath;
+         string installedLocation = "";//NSBundle.MainBundle.ResourcePath;
          return await GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
       }
 
 		public static string ExpectedDataDirectory()
 		{
-			string installedLocation = NSBundle.MainBundle.ResourcePath;
+         string installedLocation = "";//NSBundle.MainBundle.ResourcePath;
 			return Path.Combine(installedLocation, "Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar);
 		}
-
-
-      /*var localStorage = global::Windows.ApplicationModel.Package.Current.InstalledLocation;
-         localStorage = await localStorage.GetFolderAsync("Assets\\Data");
-         var resultFile = await localStorage.GetFileAsync("TITLE.WAR");*/
-
-      /*internal async static Task<Windows.Storage.StorageFile> GetDataWarFile()
-      {
-         Windows.Storage.StorageFile resultFile = null;
-
-         try
-         {
-            var localStorage = Windows.Storage.ApplicationData.Current.LocalFolder;
-            resultFile = await localStorage.GetFileAsync("DATAA.WAR");
-         }
-         catch (Exception)
-         {
-         }
-
-         if (resultFile != null)
-            return resultFile;
-
-         try
-         {
-            var localStorage = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            localStorage = await localStorage.GetFolderAsync("Assets");
-            resultFile = await localStorage.GetFileAsync("DATA.WAR");
-         }
-         catch (Exception)
-         {
-         }
-
-         return resultFile;
-      }*/
    }
 }
 

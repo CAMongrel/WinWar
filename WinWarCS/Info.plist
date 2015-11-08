@@ -7,6 +7,7 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>GameThumbnail.png</string>
+		<string>Icon-76@2x</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.camongrel.winwar</string>
@@ -24,5 +25,11 @@
 	</array>
 	<key>CFBundleName</key>
 	<string>WinWar</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.3</string>
+	<key>CFBundleVersion</key>
+	<string>0.3</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>

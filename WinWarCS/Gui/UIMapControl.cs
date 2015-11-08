@@ -53,7 +53,11 @@ namespace WinWarCS.Gui
       {
          CurrentMap = null;
 
+         #if IOS
+         SetInputMode (InputMode.EnhancedTouch);
+         #else
          SetInputMode (InputMode.EnhancedMouse);
+         #endif
       }
 
       internal void SetInputMode(InputMode setMode)

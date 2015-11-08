@@ -126,6 +126,10 @@ namespace WinWarCS
 #endif
 
          Content.RootDirectory = "Assets";
+
+         #if IOS
+         MouseCursor.IsVisible = false;
+         #endif
       }
 
       private async Task<bool> ValidateDataWar ()
@@ -135,7 +139,7 @@ namespace WinWarCS
          {
             stream = await WinWarCS.Platform.IO.OpenContentFile ("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar + "DATA.WAR");
             return true;
-         } catch
+         } catch (Exception ex)
          {
             return false;
          } finally
