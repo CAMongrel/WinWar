@@ -91,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Platform\iOS\Main.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
     <Compile Include="GameScreens\BlizzardGameScreen.cs" />
@@ -200,10 +199,12 @@
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\Performance.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
-    <Compile Include="Platform\iOS\Input.cs" />
-    <Compile Include="Platform\iOS\IO.cs" />
-    <Compile Include="Platform\iOS\UI.cs" />
-    <Compile Include="Platform\iOS\Sys.cs" />
+    <Compile Include="Platform\Input.cs" />
+    <Compile Include="Platform\IO.cs" />
+    <Compile Include="Platform\Program.cs" />
+    <Compile Include="Platform\RectangleF.cs" />
+    <Compile Include="Platform\Sys.cs" />
+    <Compile Include="Platform\UI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\warcraft.icns" />
