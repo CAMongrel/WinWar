@@ -13,21 +13,31 @@ namespace WinWarCS.Gui
 {
    class UISpriteImage : UIBaseComponent
    {
-      public UnitSprite Sprite { get; private set; }
+      public Sprite Sprite { get; private set; }
 
       public Orientation Orientation
       {
          get
          {
-            return Sprite.SpriteOrientation;
+            if (Sprite is UnitSprite)
+               return ((UnitSprite)Sprite).SpriteOrientation;
+
+            return Orientation.North;
          }
          set
          {
-            Sprite.SpriteOrientation = value;
+            if (Sprite is UnitSprite)
+               ((UnitSprite)Sprite).SpriteOrientation = value;
          }
       }
 
-      internal UISpriteImage(UnitSprite setSprite)
+      internal int FixedSpriteFrame
+      {
+         get { return Sprite.FixedSpriteFrame; }
+         set { Sprite.FixedSpriteFrame = value; }
+      }
+
+      internal UISpriteImage(Sprite setSprite)
       {
          Sprite = setSprite;
 
@@ -55,18 +65,22 @@ namespace WinWarCS.Gui
             Sprite.Update(gameTime);
       }
 
-      internal override void Render()
+      internal override void Draw()
       {
-         base.Render();
-
+         base.Draw();
          if (Sprite == null)
+         {
+            base.Draw();
             return;
+         }
 
          Vector2 screenPos = ScreenPosition;
 
          WWTexture image = Sprite.CurrentFrameTexture;
          if (image != null)
             image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
+
+         base.Draw();
       }
    }
 }

@@ -2,19 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.strategy-games</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.9</string>
 	<key>CFBundleDisplayName</key>
-	<string>WinWarCS</string>
+	<string>WinWar</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>GameThumbnail.png</string>
+		<string>Icon-76@2x</string>
+	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.camongrel.WinWarCS</string>
+	<string>com.camongrel.winwar</string>
+	<key>MinimumOSVersion</key>
+	<string>9.1</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+		<integer>2</integer>
+	</array>
+	<key>CFBundleName</key>
+	<string>WinWar</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>0.3</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>

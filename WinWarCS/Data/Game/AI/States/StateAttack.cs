@@ -73,9 +73,9 @@ namespace WinWarCS.Data.Game
          float offx = ent.X - this.Owner.X;
          float offy = ent.Y - this.Owner.Y;
 
-         float sqr_dist = (offx * offx + offy * offy);
+         double sqr_dist = (offx * offx + offy * offy);
 
-         float sqr_meleerange = ent.AttackRange * ent.AttackRange;
+         double sqr_meleerange = ent.AttackRange * ent.AttackRange;
 
          if (sqr_dist < sqr_meleerange)
          {

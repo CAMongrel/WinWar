@@ -68,12 +68,15 @@ namespace WinWarCS.Data.Game
       }
 
       private List<Entity> entities;
+      private List<Entity> selectedEntities;
 
       internal AStar2D Pathfinder;
 
       internal Random Rnd { get; private set; }
 
-      internal List<Entity> SelectedEntities { get; private set; }
+      #region Events
+      internal event EventHandler OnSelectedEntitiesChanged;
+      #endregion
 
       #region ctor
 
@@ -84,7 +87,9 @@ namespace WinWarCS.Data.Game
                LevelVisualResource setLevelVisual,
                LevelPassableResource setLevelPassable)
       {
-         SelectedEntities = new List<Entity>();
+         OnSelectedEntitiesChanged = null;
+
+         selectedEntities = new List<Entity>();
 
          TileWidth = 16;
          TileHeight = 16;
@@ -101,19 +106,41 @@ namespace WinWarCS.Data.Game
          tileSet = MapTileset.GetTileset((int)levelInfo.TilesetResourceIndex);
 
          Players = new List<BasePlayer> ();
+         AddPlayers();
 
          Rnd = new Random ();
 
          Pathfinder = new AStar2D ();
       }
       // Map(setLevelInfo, setLevelVisual, setLevelPassable)
-
       #endregion
 
-      internal void Start(List<BasePlayer> allPlayers)
+      private void AddPlayers()
+      {
+         Players.Clear();
+
+         // Create players
+         for (int i = 0; i < levelInfo.PlayerInfos.Length; i++)
+         {
+            if (levelInfo.PlayerInfos[i] == null)
+               continue;
+
+            BasePlayer pl = null;
+            if (i == 0)
+               pl = new HumanPlayer();
+            else
+               pl = new AIPlayer();
+
+            pl.Gold = levelInfo.PlayerInfos[i].StartGold;
+            pl.Lumber = levelInfo.PlayerInfos[i].StartLumber;
+            pl.Race = levelInfo.PlayerInfos[i].Race;
+            Players.Add(pl);
+         }
+      }
+
+      internal void Start()
       {
          Performance.Push("Start Map");
-         Players.AddRange(allPlayers);
 
          Performance.Push("FillAStar");
          levelPassable.FillAStar(Pathfinder);
@@ -141,10 +168,6 @@ namespace WinWarCS.Data.Game
          if (DebugOptions.ShowFullMapOnLoad)
             ShowMap();
 
-         // Set initial resources
-         HumanPlayer.Gold = levelInfo.PlayerInfos[0].StartGold;
-         HumanPlayer.Lumber = levelInfo.PlayerInfos[0].StartLumber;
-         // TODO: Set resource for other players
          Performance.Pop();
       }
 
@@ -152,15 +175,17 @@ namespace WinWarCS.Data.Game
 
       internal void Update(GameTime gameTime)
       {
+         Performance.Push("Map Update");
          for (int i = 0; i < entities.Count; i++) 
          {
-            entities [i].Update (gameTime);
+            entities[i].Update(gameTime);
 
             // TODO: Implement a shared view flag for allied forces?
 
             if (entities[i].Owner == HumanPlayer)
-               DiscoverMapByEntity (entities [i]);
+               DiscoverMapByEntity(entities [i]);
          }
+         Performance.Pop();
       }
 
       #endregion
@@ -298,11 +323,18 @@ namespace WinWarCS.Data.Game
 
          entities.Remove (ent);
 
-         if (SelectedEntities.Contains(ent))
-            SelectedEntities.Remove(ent);
+         bool didChange = false;
+         if (selectedEntities.Contains(ent))
+         {
+            selectedEntities.Remove(ent);
+            didChange = true;
+         }
 
          // Remove from Pathfinder
          Pathfinder.SetFieldsFree(ent.TileX, ent.TileY, ent.TileSizeX, ent.TileSizeY);
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
 
       internal Entity GetEntityAt(int tileX, int tileY)
@@ -325,27 +357,38 @@ namespace WinWarCS.Data.Game
 
       private void InternalDeselectAllEntities()
       {
-         for (int i = SelectedEntities.Count - 1; i >= 0; i--)
+         bool didChange = false;
+         for (int i = selectedEntities.Count - 1; i >= 0; i--)
          {
-            Entity selEnt = SelectedEntities [i];
+            Entity selEnt = selectedEntities[i];
             if (selEnt.WillDeselect () == false)
                continue;
 
-            SelectedEntities.Remove (selEnt);
+            selectedEntities.Remove (selEnt);
+            didChange = true;
             selEnt.DidDeselect ();
          }
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
+
       private void InternalSelectAllEntities(Entity[] entities)
       {
+         bool didChange = false;
          for (int i = 0; i < entities.Length; i++)
          {
             Entity selEnt = entities [i];
             if (selEnt == null || selEnt.WillSelect () == false)
                continue;
 
-            SelectedEntities.Add (selEnt);
-            selEnt.DidSelect ();
+            selectedEntities.Add(selEnt);
+            didChange = true;
+            selEnt.DidSelect();
          }
+
+         if (didChange && OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(this, null);
       }
 
       internal void SelectEntities(params Entity[] entities)
@@ -355,7 +398,7 @@ namespace WinWarCS.Data.Game
 
          // If there is still at least one entity selected, the deselection
          // process was rejected, so we can't select a new one
-         if (SelectedEntities.Count > 0)
+         if (selectedEntities.Count > 0)
             return;
 
          // If we passed null, then we want to deselect
@@ -363,6 +406,14 @@ namespace WinWarCS.Data.Game
             return;
 
          InternalSelectAllEntities (entities);
+      }
+
+      /// <summary>
+      /// Returns a read-only array of the currently selected entities
+      /// </summary>
+      internal Entity[] GetSelectedEntities()
+      {
+         return selectedEntities.ToArray();
       }
       #endregion
 
@@ -396,6 +447,8 @@ namespace WinWarCS.Data.Game
          int innerTileOffsetY = ((int)tileOffsetY % TileHeight);
 
          //int count = 170;
+         Performance.Push("Map rendering - Tiles");
+         RenderManager.StartBatch ();
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
@@ -420,7 +473,10 @@ namespace WinWarCS.Data.Game
                }
             }
          }
+         RenderManager.EndBatch ();
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Roads");
          // Render Roads
          for (int i = 0; i < Roads.Count; i++) 
          {
@@ -436,7 +492,9 @@ namespace WinWarCS.Data.Game
             if (isVisible)
                tileSet.DrawRoadTile(road.Config, setX + x * TileWidth - innerTileOffsetX, setY + y * TileHeight - innerTileOffsetY, 1.0f);
          }
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Entities");
          // Render entities
          for (int i = 0; i < entities.Count; i++) 
          {
@@ -447,15 +505,25 @@ namespace WinWarCS.Data.Game
             if (isVisible)
                ent.Render (setX, setY, tileOffsetX, tileOffsetY);
          }
+         Performance.Pop();
 
+         Performance.Push("Map rendering - Selected Entities");
          // Render selected entities
-         for (int i = 0; i < SelectedEntities.Count; i++)
+         for (int i = 0; i < selectedEntities.Count; i++)
          {
-            Entity selEnt = SelectedEntities [i];
-            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), new Color(0, 255, 0), 3);
-         }
+            Entity selEnt = selectedEntities [i];
+            Color selCol = new Color(0, 255, 0);
+            if (HumanPlayer.IsNeutralTowards(selEnt.Owner))
+               selCol = new Color(255, 255, 0);
+            else if (HumanPlayer.IsHostileTowards(selEnt.Owner))
+               selCol = new Color(255, 0, 0);
 
-         // Overlay undiscored places + fog of war
+            WWTexture.RenderRectangle (selEnt.GetTileRectangle (setX, setY, tileOffsetX, tileOffsetY), selCol, 3);
+         }
+         Performance.Pop();
+
+         Performance.Push("Map rendering - Undiscovered places");
+         // Overlay undiscovered places + fog of war
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
@@ -473,6 +541,7 @@ namespace WinWarCS.Data.Game
                } 
             }
          }
+         Performance.Pop();
       }
       // Render()
 
@@ -504,8 +573,8 @@ namespace WinWarCS.Data.Game
                if (ent.Owner.IsHostileTowards (HumanPlayer))
                   col = Color.Red;
             }
-            if (ent.Type == LevelObjectType.Human_HQ ||
-               ent.Type == LevelObjectType.Orc_HQ) 
+            if (ent.Type == LevelObjectType.TownhallHumans ||
+               ent.Type == LevelObjectType.TownhallOrcs) 
             {
                col = Color.Yellow;
             }

@@ -13,13 +13,14 @@
     <AssemblyName>WinWarCS.MacOS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
+    <SuppressXamMacMigration>True</SuppressXamMacMigration>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG; OSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -34,6 +35,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>OSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -102,6 +104,7 @@
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />
     <Folder Include="Data\Game\AI\States\" />
+    <Folder Include="Data\Game\Abilities\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IntroStoryboard.cs" />
@@ -164,17 +167,11 @@
     <Compile Include="Data\Game\Entities\Building.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs">
-    </Compile>
-    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
     <Compile Include="Data\Game\AI\AStar.cs" />
     <Compile Include="Data\Game\AI\BinaryHeap.cs" />
     <Compile Include="Data\Game\AI\HateList.cs" />
@@ -196,17 +193,11 @@
     <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\MapTile.cs" />
     <Compile Include="Data\Game\AI\MapPath.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Resources\TableResource.cs" />
@@ -218,6 +209,20 @@
     <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
     <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCleric.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBlacksmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFootman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcSpearman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Data\Game\Abilities\BaseAbility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />
@@ -240,12 +245,16 @@
     <BundleResource Include="Assets\warcraft-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
+    <BundleResource Include="Resources\warcraft.icns" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\DefaultFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\SpriteFont1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\entities.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

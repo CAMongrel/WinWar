@@ -182,7 +182,7 @@ namespace WinWarCS.Data.Game
 			ResortUpFrom(idx);
 		}
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !IOS
 		public void Print()
 		{
 			int[] line_pos = new int[20];

@@ -30,7 +30,8 @@ namespace WinWarCS.Gui.Input
 
       internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
       {
-         ShowMagnifierAt (position);
+         if (ShowUnitOrderAt(position) == false)
+            ShowMagnifierAt (position);
 
          return true;
       }

@@ -28,7 +28,7 @@
             (See comments for ShowGuideViewController below for more information.)
             </summary>
         </member>
-        <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowViewController(MonoTouch.UIKit.UIViewController)">
+        <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowViewController(UIKit.UIViewController)">
             <summary>
             Shows guide view controllers, e.g., Game Center view controllers.
             In iOS 5 and older, the guide is presented using GuideViewController.
@@ -37,7 +37,18 @@
             </summary>
             <param name="viewController">The view controller to be shown, e.g., Game Center view controllers</param>
         </member>
-        <!--FIXME: Invalid documentation markup was found for member M:Microsoft.Xna.Framework.GamerServices.Guide.ShowMatchMaker(System.Int32,System.Int32,System.String[])-->
+        <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowMatchMaker(System.Int32,System.Int32,System.String[])">
+            <summary>
+            Displays the iOS matchmaker to the player.
+            </summary>
+            <remarks>
+            Note this is not overloaded in derived classes on purpose.  This is
+            only a reason this exists is for caching effects.
+            </remarks>
+            <param name="minPlayers">Minimum players to find</param>
+            <param name="maxPlayers">Maximum players to find</param>
+            <param name="playersToInvite">Players to invite</param>
+        </member>
         <member name="M:Microsoft.Xna.Framework.GamerServices.Guide.ShowMatchMaker(System.Int32,System.Int32)">
             <summary>
             Displays the iOS matchmaker to the player.

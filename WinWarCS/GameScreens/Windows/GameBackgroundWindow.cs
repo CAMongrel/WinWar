@@ -8,6 +8,7 @@ using WinWarCS.Data.Game;
 using WinWarCS.Gui;
 using WinWarCS.Gui.Input;
 using WinWarCS.Data;
+using WinWarCS.Util;
 
 namespace WinWarCS.GameScreens.Windows
 {
@@ -24,8 +25,8 @@ namespace WinWarCS.GameScreens.Windows
       private UILabel lumberLabel;
       private UILabel lumberValueLabel;
 
+      internal UIEntityControl EntityControl { get; private set; }
       internal UIMapControl MapControl { get; private set; }
-
       internal UIMinimapControl MinimapControl { get; private set; }
 
       private Vector2 currentPointerPos;
@@ -55,23 +56,25 @@ namespace WinWarCS.GameScreens.Windows
       {
          ClearComponents ();
 
-         MapControl = new UIMapControl ();
+         MapControl = new UIMapControl();
+         MapControl.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
          AddComponent (MapControl);
 
-         MinimapControl = new UIMinimapControl (MapControl);
+         EntityControl = new UIEntityControl(LevelGameScreen.Game.UIRace);
+         MinimapControl = new UIMinimapControl(MapControl);
 
-         LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-         LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref leftSidebarTop, "Sidebar Left Minimap Black (" + LevelGameScreen.Game.UIRace + ")");
+         LoadUIImage (ref leftSidebar, "Sidebar Left (" + LevelGameScreen.Game.UIRace + ")");
          leftSidebar.Y = leftSidebarTop.Height;
 
-         LoadUIImage (ref topBar, "Topbar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
-         LoadUIImage (ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref topBar, "Topbar (" + LevelGameScreen.Game.UIRace + ")");
+         LoadUIImage (ref bottomBar, "Lower Bar (" + LevelGameScreen.Game.UIRace + ")");
 
          topBar.X = leftSidebarTop.Width;
          bottomBar.X = leftSidebar.Width;
          bottomBar.Y = 200 - bottomBar.Height;
 
-         LoadUIImage (ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.HumanPlayer.Race + ")");
+         LoadUIImage (ref rightBar, "Sidebar Right (" + LevelGameScreen.Game.UIRace + ")");
          rightBar.X = 320 - rightBar.Width;
 
          MapControl.X = leftSidebarTop.Width;
@@ -83,6 +86,7 @@ namespace WinWarCS.GameScreens.Windows
          MinimapControl.Y = 6;
          MinimapControl.Width = 64;
          MinimapControl.Height = 64;
+         MinimapControl.BackgroundColor = Color.AliceBlue;
          MinimapControl.Init ();
 
          menuButton = new UIButton ("", WarFile.KnowledgeBase.IndexByName("Menu Button"), WarFile.KnowledgeBase.IndexByName("Menu Button (Pressed)"));
@@ -90,6 +94,11 @@ namespace WinWarCS.GameScreens.Windows
          menuButton.Y = leftSidebarTop.Height + leftSidebar.Height - menuButton.Height - 1;
          menuButton.OnMouseUpInside += menuButton_OnMouseUpInside;
          AddComponent (menuButton);
+
+         EntityControl.X = 2;
+         EntityControl.Y = MinimapControl.Y + MinimapControl.Height + 2;
+         EntityControl.Width = 64;
+         EntityControl.Height = MainGame.OriginalAppHeight - EntityControl.Y - menuButton.Height - 2;
 
          lumberLabel = new UILabel ("Lumber:");
          lumberLabel.X = 95;
@@ -124,11 +133,19 @@ namespace WinWarCS.GameScreens.Windows
          AddComponent (goldValueLabel);  
 
          AddComponent (MinimapControl);
+         AddComponent (EntityControl);
       }
 
-      void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      private void HandleOnSelectedEntitiesChanged (object sender, EventArgs e)
       {
-         IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.HumanPlayer.Race);
+         Map map = (Map)sender;
+
+         EntityControl.SetEntities(map.GetSelectedEntities());
+      }
+
+      private void menuButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      {
+         IngameMenuWindow menu = new IngameMenuWindow (levelGameScreenOwner.UIRace);
       }
 
       internal void SetGoldValue(int newValue)
@@ -141,12 +158,24 @@ namespace WinWarCS.GameScreens.Windows
          lumberValueLabel.Text = newValue.ToString ();
       }
 
+      private void UpdateUI()
+      {
+         SetGoldValue(MapControl.CurrentMap.HumanPlayer.Gold);
+         SetLumberValue(MapControl.CurrentMap.HumanPlayer.Lumber);
+      }
+
       internal override void Update (Microsoft.Xna.Framework.GameTime gameTime)
       {
          if (GamePaused)
             return;
 
-         base.Update (gameTime);
+         Performance.Push("Game loop - base.Update");
+         base.Update(gameTime);
+         Performance.Pop();
+
+         Performance.Push("Game loop - UpdateUI");
+         UpdateUI();
+         Performance.Pop();
 
          bool leftClickNeeded = false;
          if (MapControl.InputHandler.InputMode == InputMode.Classic)

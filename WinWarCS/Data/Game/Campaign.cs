@@ -9,19 +9,20 @@ namespace WinWarCS.Data.Game
    class Campaign
    {
       public int Level { get; private set; }
+
       public int MaxLevels { get; private set; }
 
-      private BasePlayer curPlayer;
+      internal Race Race { get; private set; }
 
-      internal Campaign (BasePlayer refPlayer)
+      internal Campaign(Race setRace)
       {
+         Race = setRace;
+
          MaxLevels = 12;
          if (WarFile.IsDemo)
             MaxLevels = 3;
 
-         curPlayer = refPlayer;
-
-         StartNew ();
+         StartNew();
       }
 
       internal void StartNew()
@@ -33,15 +34,15 @@ namespace WinWarCS.Data.Game
       {
          Level++;
 
-         if (Level > MaxLevels) 
+         if (Level > MaxLevels)
          {
             // TODO: End campaign
          }
       }
 
-      public string GetCurrentLevelName ()
+      public string GetCurrentLevelName()
       {
-         return curPlayer.Race + " " + Level;
+         return Race + " " + Level;
       }
    }
 }

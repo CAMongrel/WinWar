@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG; LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -97,11 +97,6 @@
     <Compile Include="Gui\Rendering\FontRenderer.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\UnsafeReader.cs" />
-    <Compile Include="Platform\Linux\Program.cs" />
-    <Compile Include="Platform\Linux\IO.cs" />
-    <Compile Include="Platform\Linux\UI.cs" />
-    <Compile Include="Platform\Linux\Sys.cs" />
-    <Compile Include="Platform\Linux\Input.cs" />
     <Compile Include="Data\Game\BasePlayer.cs" />
     <Compile Include="Data\Game\HumanPlayer.cs" />
     <Compile Include="Data\Game\AIPlayer.cs" />
@@ -163,11 +158,16 @@
     <Compile Include="Data\Resources\SpriteFrameData.cs" />
     <Compile Include="Util\Performance.cs" />
     <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
+    <Compile Include="Platform\IO.cs" />
+    <Compile Include="Platform\Input.cs" />
+    <Compile Include="Platform\Program.cs" />
+    <Compile Include="Platform\Sys.cs" />
+    <Compile Include="Platform\UI.cs" />
+    <Compile Include="Platform\RectangleF.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Platform\" />
-    <Folder Include="Platform\Linux\" />
     <Folder Include="Data\Game\Entities\" />
     <Folder Include="Data\Game\AI\" />
     <Folder Include="Assets\Data\" />

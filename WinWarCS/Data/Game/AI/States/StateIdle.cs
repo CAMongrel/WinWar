@@ -47,7 +47,7 @@ namespace WinWarCS.Data.Game
             }
          }
 
-         float sqr_aggrorange = Owner.AttackRange;
+         double sqr_aggrorange = Owner.AggroRange;
 
          foreach (BasePlayer pl in Owner.CurrentMap.Players)
          {

@@ -21,7 +21,7 @@ namespace WinWarCS.Gui.Input
          camOffsetX = 0;
          camOffsetY = 0;
 
-         MouseCursor.IsVisible = true;
+         MouseCursor.IsVisible = false;
       }
 
       internal override void SetCameraOffset (float setCamOffsetX, float setCamOffsetY)

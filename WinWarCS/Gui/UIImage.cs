@@ -17,8 +17,11 @@ namespace WinWarCS.Gui
       {
          image = setImage;
 
-         Width = image.Width;
-         Height = image.Height;
+         if (image != null)
+         {
+            Width = image.Width;
+            Height = image.Height;
+         }
       }
 
       internal static UIImage FromImageResource (string name)
@@ -33,16 +36,16 @@ namespace WinWarCS.Gui
          return res;
       }
 
-      internal override void Render ()
+      internal override void Draw()
       {
+         base.Draw();
+
          if (image != null)
          {
             Vector2 screenPos = ScreenPosition;
 
             image.RenderOnScreen (screenPos.X, screenPos.Y, Width, Height, Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha)));
          }
-
-         base.Render ();
       }
    }
 }

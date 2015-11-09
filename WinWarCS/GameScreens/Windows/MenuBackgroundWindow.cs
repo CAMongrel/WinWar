@@ -18,12 +18,12 @@ namespace WinWarCS.GameScreens.Windows
          backgroundImage = WWTexture.FromImageResource("Mainmenu Background");
       }
 
-      internal override void Render()
+      internal override void Draw()
       {
+         base.Draw();
+
          Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
          backgroundImage.RenderOnScreen(0, 0, col);
-
-         base.Render();
       }
    }
 }

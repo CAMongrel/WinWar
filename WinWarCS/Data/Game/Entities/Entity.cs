@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
 using WinWarCS.Util;
 using WinWarCS.Graphics;
+using System.IO;
+using System.Xml;
+using System.Globalization;
+using WinWarCS.Gui;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -14,6 +19,8 @@ namespace WinWarCS.Data.Game
 {
    internal class Entity
    {
+      private static Dictionary<LevelObjectType, Dictionary<string, string>> defaultValueDict;
+
       protected Sprite sprite;
 
       public float X { get; private set; }
@@ -75,7 +82,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Attack range
       /// </summary>
-      public byte AttackRange;
+      public double AttackRange;
       /// <summary>
       /// The attack speed.
       /// </summary>
@@ -84,6 +91,10 @@ namespace WinWarCS.Data.Game
       /// The visible range.
       /// </summary>
       public double VisibleRange;
+      /// <summary>
+      /// The visible range.
+      /// </summary>
+      public double AggroRange;
       /// <summary>
       /// The walking speed.
       /// </summary>
@@ -100,6 +111,14 @@ namespace WinWarCS.Data.Game
       /// Maximum hit points
       /// </summary>
       public short MaxHitPoints;
+      /// <summary>
+      /// Hit points
+      /// </summary>
+      public short Mana;
+      /// <summary>
+      /// Maximum hit points
+      /// </summary>
+      public short MaxMana;
       /// <summary>
       /// Minimum damage
       /// </summary>
@@ -125,10 +144,21 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public short DecayRate;
 
+      public int IconIndex;
+
+      static Entity()
+      {
+         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
+
+         LoadDefaultValues();
+      }
+
       public Entity (Map currentMap)
       {
          Performance.Push("Entity ctor");
          VisibleRange = 0;
+
+         IconIndex = 0;
 
          currentTarget = null;
          PreviousTarget = null;
@@ -258,6 +288,11 @@ namespace WinWarCS.Data.Game
             } // foreach
          } // foreach
       } // UpdateHateList()
+
+      internal virtual void AddCustomUI(UIBaseComponent parentComponent)
+      {
+         //
+      }
 
       /// <summary>
       /// Update the specified gameTime.
@@ -436,7 +471,28 @@ namespace WinWarCS.Data.Game
             return false;
          }
       }
+      public virtual bool CanHarvest
+      {
+         get
+         {
+            return false;
+         }
+      }
       public virtual bool CanBuild
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanRepair
+      {
+         get
+         {
+            return false;
+         }
+      }
+      public virtual bool CanStop
       {
          get
          {
@@ -482,12 +538,87 @@ namespace WinWarCS.Data.Game
          }
       }
 
+      internal bool IsNeutralTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsNeutralTowards(player);
+      }
+      internal bool IsHostileTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsHostileTowards(player);
+      }
+      internal bool IsFriendlyTowards(BasePlayer player)
+      {
+         if (this.Owner == null)
+            return true;
+
+         return this.Owner.IsFriendlyTowards(player);
+      }
+
       public override string ToString ()
       {
          return this.GetType ().Name;
       }
 
-      public static Entity CreateEntityFromType (LevelObjectType entityType, Map inMap)
+      private static async void LoadDefaultValues()
+      {
+         XmlDocument doc = new XmlDocument();
+         using (FileStream stream = await Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "entities.xml"))
+         {
+            doc.Load(stream);
+         }
+
+         XmlNodeList list = doc.DocumentElement.ChildNodes;
+         for (int i = 0; i < list.Count; i++)
+         {
+            XmlNode node = list[i];
+            Dictionary<string, string> entityValues = new Dictionary<string, string>();
+            for (int j = 0; j < node.ChildNodes.Count; j++)
+            {
+               string name = node.ChildNodes[j].Name;
+               string value = node.ChildNodes[j].InnerText;
+               entityValues.Add(name, value);
+            }
+            defaultValueDict.Add((LevelObjectType)int.Parse(node.Attributes["type"].InnerText), entityValues);
+         }
+      }
+
+      private static void ApplyDefaultValues(Entity entity, LevelObjectType entityType)
+      {
+         if (defaultValueDict.ContainsKey(entityType) == false)
+         {
+            Log.Warning("Unable to apply default values for entityType '" + entityType + "'. EntityType not found in database.");
+            return;
+         }
+
+         Dictionary<string, string> values = defaultValueDict[entityType];
+
+         entity.ArmorPoints = short.Parse(values["ArmorPoints"], CultureInfo.InvariantCulture);
+         entity.AttackRange = double.Parse(values["AttackRange"], CultureInfo.InvariantCulture);
+         entity.AttackSpeed = double.Parse(values["AttackSpeed"], CultureInfo.InvariantCulture);
+         entity.AggroRange = double.Parse(values["AggroRange"], CultureInfo.InvariantCulture);
+         entity.DecayRate = short.Parse(values["DecayRate"], CultureInfo.InvariantCulture);
+         entity.GoldCost = short.Parse(values["GoldCost"], CultureInfo.InvariantCulture);
+         entity.IconIndex = int.Parse(values["IconIndex"], CultureInfo.InvariantCulture);
+         entity.LumberCost = short.Parse(values["LumberCost"], CultureInfo.InvariantCulture);
+         entity.MaxHitPoints = short.Parse(values["MaxHitPoints"], CultureInfo.InvariantCulture);
+         entity.MaxMana = short.Parse(values["MaxMana"], CultureInfo.InvariantCulture);
+         entity.MinDamage = byte.Parse(values["MinDamage"], CultureInfo.InvariantCulture);
+         entity.RandomDamage = byte.Parse(values["RandomDamage"], CultureInfo.InvariantCulture);
+         entity.TimeToBuild = short.Parse(values["TimeToBuild"], CultureInfo.InvariantCulture);
+         entity.VisibleRange = double.Parse(values["VisibleRange"], CultureInfo.InvariantCulture);
+         entity.WalkSpeed = double.Parse(values["WalkSpeed"], CultureInfo.InvariantCulture);
+
+         entity.HitPoints = entity.MaxHitPoints;
+         entity.Mana = entity.MaxMana;
+      }
+
+      public static Entity CreateEntityFromType(LevelObjectType entityType, Map inMap)
       {
          Performance.Push("CreateEntityFromType");
          Entity result = null;
@@ -504,23 +635,23 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Spearman:
-            result = new OrcAxethrower (inMap);
+            result = new OrcSpearman (inMap);
             break;
 
-         case LevelObjectType.Catapult:
+         case LevelObjectType.CatapultOrcs:
             result = new OrcCatapult (inMap);
             break;
 
-         case LevelObjectType.Rider:
-            result = new OrcRider (inMap);
+         case LevelObjectType.Raider:
+            result = new OrcRaider (inMap);
             break;
 
          case LevelObjectType.Necrolyte:
-            result = new OrcNecro (inMap);
+            result = new OrcNecrolyte (inMap);
             break;
 
          case LevelObjectType.Warlock:
-            result = new OrcWizard (inMap);
+            result = new OrcWarlock (inMap);
             break;
 
             // Human Units
@@ -528,16 +659,16 @@ namespace WinWarCS.Data.Game
             result = new HumanPeasant (inMap);
             break;
 
-         case LevelObjectType.Warrior:
-            result = new HumanWarrior (inMap);
+         case LevelObjectType.Footman:
+            result = new HumanFootman (inMap);
             break;
 
-         case LevelObjectType.Bowman:
+         case LevelObjectType.Archer:
             result = new HumanArcher (inMap);
             break;
 
-         case LevelObjectType.Ballista:
-            result = new HumanBalista (inMap);
+         case LevelObjectType.CatapultHumans:
+            result = new HumanCatapult (inMap);
             break;
 
          case LevelObjectType.Conjurer:
@@ -549,48 +680,48 @@ namespace WinWarCS.Data.Game
             break;
 
          case LevelObjectType.Cleric:
-            result = new HumanPriest (inMap);
+            result = new HumanCleric (inMap);
             break;
 
             // Orc Buildings
-         case LevelObjectType.Orc_Farm:
+         case LevelObjectType.FarmOrc:
             result = new OrcFarm (inMap);
             break;
 
-         case LevelObjectType.Orc_HQ:
-            result = new OrcBase (inMap);
+         case LevelObjectType.TownhallOrcs:
+            result = new OrcTownhall (inMap);
             break;
 
             // Human Buildings
-         case LevelObjectType.Human_Farm:
+         case LevelObjectType.FarmHumans:
             result = new HumanFarm (inMap);
             break;
 
-         case LevelObjectType.Human_HQ:
-            result = new HumanBase (inMap);
+         case LevelObjectType.TownhallHumans:
+            result = new HumanTownhall (inMap);
             break;
 
-         case LevelObjectType.Human_Barracks:
+         case LevelObjectType.BarracksHumans:
             result = new HumanBarracks (inMap);
             break;
 
-         case LevelObjectType.Human_Blacksmith:
-            result = new HumanSmith (inMap);
+         case LevelObjectType.BlacksmithHumans:
+            result = new HumanBlacksmith (inMap);
             break;
 
-         case LevelObjectType.Human_Church:
+         case LevelObjectType.Church:
             result = new HumanChurch (inMap);
             break;
 
-         case LevelObjectType.Human_Mill:
+         case LevelObjectType.LumbermillHumans:
             result = new HumanBarracks (inMap);
             break;
 
-         case LevelObjectType.Human_Stables:
+         case LevelObjectType.Stables:
             result = new HumanStables (inMap);
             break;
 
-         case LevelObjectType.Human_Tower:
+         case LevelObjectType.TowerHumans:
             result = new HumanTower (inMap);
             break;
 
@@ -613,6 +744,9 @@ namespace WinWarCS.Data.Game
          }
 
          result.Type = entityType;
+
+         ApplyDefaultValues(result, entityType);
+
          Performance.Pop();
          return result;
       }

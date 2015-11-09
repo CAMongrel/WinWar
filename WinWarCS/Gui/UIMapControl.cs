@@ -12,6 +12,15 @@ using WinWarCS.Graphics;
 
 namespace WinWarCS.Gui
 {
+   enum MapUnitOrder
+   {
+      None,
+      Move,
+      Attack,
+      Harvest,
+      Repair
+   }
+
    class UIMapControl : UIBaseComponent
    {
       private float mapOffsetX;
@@ -49,11 +58,19 @@ namespace WinWarCS.Gui
 
       internal UIMapControlInputHandler InputHandler { get; private set; }
 
+      #region Events
+      internal event EventHandler OnSelectedEntitiesChanged;
+      #endregion
+
       internal UIMapControl ()
       {
          CurrentMap = null;
 
+         #if IOS
+         SetInputMode (InputMode.EnhancedTouch);
+         #else
          SetInputMode (InputMode.EnhancedMouse);
+         #endif
       }
 
       internal void SetInputMode(InputMode setMode)
@@ -113,12 +130,30 @@ namespace WinWarCS.Gui
          LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
          LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
-         CurrentMap = new Map (levelInfo, levelVisual, levelPassable);
-         SetCameraOffset (levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
+         if (InputHandler != null)
+         {
+            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
+         }
+
+         CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
+         SetCameraOffset(levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
+
+         CurrentMap.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
+      }
+
+      private void HandleOnSelectedEntitiesChanged(object sender, EventArgs e)
+      {
+         if (OnSelectedEntitiesChanged != null)
+            OnSelectedEntitiesChanged(sender, e);
       }
 
       internal void LoadCustomLevel (string basename)
       {
+         if (InputHandler != null)
+         {
+            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
+         }
+
          throw new NotImplementedException();
          //LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
          //LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
@@ -136,9 +171,9 @@ namespace WinWarCS.Gui
          }
       }
 
-      internal override void Render ()
+      internal override void Draw()
       {
-         base.Render ();
+         base.Draw();
 
          if (CurrentMap != null) 
          {
@@ -151,7 +186,7 @@ namespace WinWarCS.Gui
             WWTexture.RenderRectangle (InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
          }
       }
-
+       
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          return InputHandler.PointerDown (position, pointerType);

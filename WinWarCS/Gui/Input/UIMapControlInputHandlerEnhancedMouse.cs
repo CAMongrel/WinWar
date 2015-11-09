@@ -139,7 +139,10 @@ namespace WinWarCS.Gui.Input
          }
 
          if (isLeftPressed == false && isRightPressed == false)
-            ShowMagnifierAt (position);
+         {
+            if (ShowUnitOrderAt(position) == false)
+               ShowMagnifierAt (position);
+         }
 
          return true;
       }

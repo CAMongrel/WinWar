@@ -24,7 +24,7 @@ using Matrix = Microsoft.Xna.Framework.Matrix;
 #endregion
 namespace WinWarCS.Graphics
 {
-   internal class WWTexture
+   internal class WWTexture : IDisposable
    {
       #region Constants
 
@@ -71,9 +71,52 @@ namespace WinWarCS.Graphics
          Width = width;
          Height = height;
 
+         if (RequiresPowerOfTwo ()) 
+         {
+            width = (int)NextPowerOfTwo ((uint)width);
+            height = (int)NextPowerOfTwo ((uint)height);
+         }
+
          DXTexture = new Texture2D (MainGame.Device, width, height, false, SurfaceFormat.Color);
       }
 
+      #endregion
+
+      #region IDisposable implementation
+
+      public void Dispose ()
+      {
+         if (DXTexture != null)
+         {
+            DXTexture.Dispose ();
+            DXTexture = null;
+         }
+      }
+
+      #endregion
+
+      #region Utility
+      private uint NextPowerOfTwo(uint val)
+      {
+         // Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+         val--;
+         val |= val >> 1;
+         val |= val >> 2;
+         val |= val >> 4;
+         val |= val >> 8;
+         val |= val >> 16;
+         val++;
+         return val;
+      }
+
+      private bool RequiresPowerOfTwo()
+      {
+         #if IOS
+         return true;
+         #else
+         return false;
+         #endif
+      }
       #endregion
 
       #region FromImageResource
@@ -90,24 +133,55 @@ namespace WinWarCS.Graphics
 
       internal static WWTexture FromImageResource (ImageResource res)
       {
-         WWTexture tex = null;
-         tex = new WWTexture (res.width, res.height);
-         tex.DXTexture.SetData<byte> (res.image_data);
+         return FromRawData (res.width, res.height, res.image_data);
+      }
 
+      internal static WWTexture FromCursorResource (CursorResource res)
+      {
+         return FromRawData (res.width, res.height, res.image_data);
+      }
+
+      internal static WWTexture FromRawData (int width, int height, byte[] data)
+      {
+         WWTexture tex = new WWTexture (width, height);
+         tex.SetData (data);
          return tex;
       }
 
-      /// <summary>
-      /// From DirectX texture
-      /// </summary>
-      internal static WWTexture FromDXTexture (Texture2D tex)
-      {
-         WWTexture res = new WWTexture (tex.Width, tex.Height);
-         res.DXTexture = tex;
-         return res;
-      }
-      // FromDXTexture(tex)
+      #endregion
 
+      #region SetData
+      public void SetData(byte[] data)
+      {
+         if (data == null)
+         {
+            return;
+         }
+
+         if (RequiresPowerOfTwo () == false) 
+         {
+            DXTexture.SetData<byte> (data);
+         } else 
+         {
+            DXTexture.SetData<byte> (0, new Rectangle(0, 0, this.Width, this.Height), data, 0, data.Length);
+         }
+      }
+
+      public void SetData(Color[] data)
+      {
+         if (data == null)
+         {
+            return;
+         }
+
+         if (RequiresPowerOfTwo () == false) 
+         {
+            DXTexture.SetData<Color> (data);
+         } else 
+         {
+            DXTexture.SetData<Color> (0, new Rectangle(0, 0, this.Width, this.Height), data, 0, data.Length);
+         }
+      }
       #endregion
 
       #region RenderOnScreen
@@ -168,12 +242,18 @@ namespace WinWarCS.Graphics
       internal void RenderOnScreen (RectangleF sourceRect, RectangleF destRect, Color col)
       {
          Rectangle srcRect = new Rectangle ((int)sourceRect.X, (int)sourceRect.Y, (int)sourceRect.Width, (int)sourceRect.Height);
-         Rectangle dstRect = new Rectangle (MainGame.ScaledOffsetX + (int)(destRect.X * MainGame.ScaleX), MainGame.ScaledOffsetY + (int)(destRect.Y * MainGame.ScaleY),
-                          (int)(destRect.Width * MainGame.ScaleX), (int)(destRect.Height * MainGame.ScaleY));
+         Vector2 position = new Vector2 (MainGame.ScaledOffsetX + destRect.X * MainGame.ScaleX,
+                               MainGame.ScaledOffsetY + destRect.Y * MainGame.ScaleY);
+         Vector2 scale = new Vector2 (MainGame.ScaleX, MainGame.ScaleY);
 
-         MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
-         MainGame.SpriteBatch.Draw (DXTexture, dstRect, srcRect, col);
-         MainGame.SpriteBatch.End ();
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         
+         MainGame.SpriteBatch.Draw (DXTexture, position, srcRect, col, 0, Vector2.Zero, 
+            scale, SpriteEffects.None, 1.0f);
+         
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.End ();
       }
 
       internal static void RenderRectangle (RectangleF destRect, Color col, int BorderWidth = 1)
@@ -187,18 +267,20 @@ namespace WinWarCS.Graphics
          Rectangle rightRect = new Rectangle((int)destRect.X + (int)destRect.Width - BorderWidth, (int)destRect.Y, BorderWidth, (int)destRect.Height);
          Rectangle bottomRect = new Rectangle((int)destRect.X, (int)destRect.Y + (int)destRect.Height - BorderWidth, (int)destRect.Width, BorderWidth);
 
-         MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, leftRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, topRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, rightRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, bottomRect, singleRect, col);
-         MainGame.SpriteBatch.End ();
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.End ();
       }
 
       #endregion
 
       #region WriteToFile
-#if !NETFX_CORE
+#if !NETFX_CORE && !IOS
       internal void WriteToFile(string fullFilename)
       {
          byte[] outputData = new byte[Width * Height * 4];

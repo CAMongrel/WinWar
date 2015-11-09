@@ -16,9 +16,9 @@ namespace WinWarCS.Gui
       #region Variables
       private WWTexture backgroundNotClicked;
       private WWTexture backgroundClicked;
-      private bool isActive;
       private SpriteFont font;
       private UIColorizedText colText;
+      protected bool isPressed;
       #endregion
 
       #region Events
@@ -35,17 +35,15 @@ namespace WinWarCS.Gui
       #endregion
 
       #region Constructor
-
       internal UIButton (string setText, int releaseButtonResourceIndex, int pressedButtonResourceIndex)
       {
          colText = new UIColorizedText(setText);
          font = MainGame.DefaultFont;
 
-         isActive = false;
+         isPressed = false;
 
          AutoSetButtonImage (releaseButtonResourceIndex, pressedButtonResourceIndex);
       }
-
       #endregion
 
       #region AutoSetButtonImage
@@ -60,11 +58,12 @@ namespace WinWarCS.Gui
       #endregion
 
       #region Render
-
-      internal override void Render ()
+      internal override void Draw()
       {
+         base.Draw();
+
          WWTexture background = null;
-         if (isActive)
+         if (isPressed)
             background = backgroundClicked;
          else
             background = backgroundNotClicked;
@@ -75,53 +74,44 @@ namespace WinWarCS.Gui
          background.RenderOnScreen (screenPos.X, screenPos.Y, Width, Height, col);
 
          colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlignHorizontal.Center, col, Color.Yellow);
-
-         base.Render ();
       }
-
       #endregion
 
       #region MouseDown
-
       internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (!base.PointerDown (position, pointerType))
             return false;
 
-         isActive = true;
+         isPressed = true;
 
          if (OnMouseDownInside != null)
             OnMouseDownInside (position);
 
          return true;
       }
-
       #endregion
 
       #region MouseUp
-
       internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (!base.PointerUp (position, pointerType))
             return false;
 
-         isActive = false;
+         isPressed = false;
 
          if (OnMouseUpInside != null)
             OnMouseUpInside (position);
 
          return true;
       }
-
       #endregion
 
       #region ToString
-
       public override string ToString ()
       {
          return Text;
       }
-
       #endregion
 
    }

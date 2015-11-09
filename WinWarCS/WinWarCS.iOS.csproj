@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{5D12EBA0-E1A2-4391-9FF1-BF5A24D35AB4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>WinWarCS.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>WinWarCS.iOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG; IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchProfiling>true</MtouchProfiling>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG; IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchProfiling>true</MtouchProfiling>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\Libs\iOS\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="FLCLib.MonoGame">
+      <HintPath>..\Libs\iOS\FLCLib.MonoGame.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="GameScreens\BaseGameScreen.cs" />
+    <Compile Include="GameScreens\BlizzardGameScreen.cs" />
+    <Compile Include="GameScreens\IntroGameScreen.cs" />
+    <Compile Include="GameScreens\LevelGameScreen.cs" />
+    <Compile Include="GameScreens\MenuGameScreen.cs" />
+    <Compile Include="GameScreens\MovieGameScreen.cs" />
+    <Compile Include="GameScreens\Windows\ChooseCampaignWindow.cs" />
+    <Compile Include="GameScreens\Windows\GameBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\IngameQuitMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MainMenuWindow.cs" />
+    <Compile Include="GameScreens\Windows\MenuBackgroundWindow.cs" />
+    <Compile Include="GameScreens\Windows\NewGameWindow.cs" />
+    <Compile Include="Data\IntroStoryboard.cs" />
+    <Compile Include="Data\KnowledgeBase.cs" />
+    <Compile Include="Data\WarFile.cs" />
+    <Compile Include="Data\WarResource.cs" />
+    <Compile Include="Data\Game\AIPlayer.cs" />
+    <Compile Include="Data\Game\BasePlayer.cs" />
+    <Compile Include="Data\Game\Campaign.cs" />
+    <Compile Include="Data\Game\HumanPlayer.cs" />
+    <Compile Include="Data\Game\Map.cs" />
+    <Compile Include="Data\Game\MapTile.cs" />
+    <Compile Include="Data\Game\MapTileset.cs" />
+    <Compile Include="Data\Game\Race.cs" />
+    <Compile Include="Data\Game\Sprite.cs" />
+    <Compile Include="Data\Game\SpriteAnimation.cs" />
+    <Compile Include="Data\Game\UnitSprite.cs" />
+    <Compile Include="Data\Game\AI\AStar.cs" />
+    <Compile Include="Data\Game\AI\BinaryHeap.cs" />
+    <Compile Include="Data\Game\AI\HateList.cs" />
+    <Compile Include="Data\Game\AI\MapPath.cs" />
+    <Compile Include="Data\Game\AI\StateMachine.cs" />
+    <Compile Include="Data\Game\AI\States\BaseState.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttack.cs" />
+    <Compile Include="Data\Game\AI\States\StateAttackMove.cs" />
+    <Compile Include="Data\Game\AI\States\StateBuilding.cs" />
+    <Compile Include="Data\Game\AI\States\StateDeath.cs" />
+    <Compile Include="Data\Game\AI\States\StateIdle.cs" />
+    <Compile Include="Data\Game\AI\States\StateMove.cs" />
+    <Compile Include="Data\Game\Entities\BuildEntity.cs" />
+    <Compile Include="Data\Game\Entities\Building.cs" />
+    <Compile Include="Data\Game\Entities\Entity.cs" />
+    <Compile Include="Data\Game\Entities\Unit.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
+    <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
+    <Compile Include="Data\Resources\BasicResource.cs" />
+    <Compile Include="Data\Resources\CursorResource.cs" />
+    <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
+    <Compile Include="Data\Resources\ImageResource.cs" />
+    <Compile Include="Data\Resources\LevelInfoResource.cs" />
+    <Compile Include="Data\Resources\LevelPassableResource.cs" />
+    <Compile Include="Data\Resources\LevelVisualResource.cs" />
+    <Compile Include="Data\Resources\PaletteResource.cs" />
+    <Compile Include="Data\Resources\RawResource.cs" />
+    <Compile Include="Data\Resources\SpriteFrameData.cs" />
+    <Compile Include="Data\Resources\SpriteResource.cs" />
+    <Compile Include="Data\Resources\TableResource.cs" />
+    <Compile Include="Data\Resources\UIResource.cs" />
+    <Compile Include="Gui\MouseCursor.cs" />
+    <Compile Include="Gui\UIBaseComponent.cs" />
+    <Compile Include="Gui\UIBaseComponentList.cs" />
+    <Compile Include="Gui\UIButton.cs" />
+    <Compile Include="Gui\UIColorizedText.cs" />
+    <Compile Include="Gui\UIImage.cs" />
+    <Compile Include="Gui\UILabel.cs" />
+    <Compile Include="Gui\UIMapControl.cs" />
+    <Compile Include="Gui\UIMinimapControl.cs" />
+    <Compile Include="Gui\UISpriteImage.cs" />
+    <Compile Include="Gui\UIWindow.cs" />
+    <Compile Include="Gui\UIWindowManager.cs" />
+    <Compile Include="Gui\Input\PointerType.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandler.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerClassic.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedMouse.cs" />
+    <Compile Include="Gui\Input\UIMapControlInputHandlerEnhancedTouch.cs" />
+    <Compile Include="Gui\Rendering\FontRenderer.cs" />
+    <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Util\DebugOptions.cs" />
+    <Compile Include="Util\Log.cs" />
+    <Compile Include="Util\MathHelper.cs" />
+    <Compile Include="Util\Performance.cs" />
+    <Compile Include="Util\UnsafeReader.cs" />
+    <Compile Include="Platform\Input.cs" />
+    <Compile Include="Platform\IO.cs" />
+    <Compile Include="Platform\Program.cs" />
+    <Compile Include="Platform\RectangleF.cs" />
+    <Compile Include="Platform\Sys.cs" />
+    <Compile Include="Platform\UI.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBlacksmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCleric.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFootman.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcSpearman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
+    <Compile Include="Graphics\RenderManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\warcraft.icns" />
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Assets\warcraft-logo-square-mini.png" />
+    <BundleResource Include="Assets\warcraft-logo-square-mini_32.png" />
+    <BundleResource Include="Assets\warcraft-logo-square.png" />
+    <BundleResource Include="Assets\warcraft-logo-square_128.png" />
+    <BundleResource Include="Assets\warcraft-logo-square_256.png" />
+    <BundleResource Include="Assets\warcraft-logo-store.png" />
+    <BundleResource Include="Assets\warcraft-logo-store_64.png" />
+    <BundleResource Include="Assets\warcraft-logo-wide.png" />
+    <BundleResource Include="Assets\warcraft-logo.png" />
+    <BundleResource Include="Resources\Icon-76%402x.png" />
+    <BundleResource Include="Assets\Data\DATA.WAR" />
+    <BundleResource Include="Assets\DefaultFont.xnb" />
+    <BundleResource Include="Assets\SpriteFont1.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\entities.xml" />
+  </ItemGroup>
+</Project>
