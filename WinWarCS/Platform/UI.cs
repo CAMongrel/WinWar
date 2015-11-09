@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+#if __IOS__
+using UIKit;
+#endif
 
 namespace WinWarCS.Platform
 {
@@ -13,6 +16,9 @@ namespace WinWarCS.Platform
 #elif WINFX_CORE
          Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog(message, "WinWarCS - WarCraft for Windows Modern UI");
          await dlg.ShowAsync();
+#elif __IOS__
+         UIAlertView alertView = new UIAlertView ("WinWar", message, null, "Ok", null);
+         alertView.Show ();
 #else
          Console.WriteLine("ShowMessageDialog: " + message);
          System.Windows.Forms.MessageBox.Show(message, "WinWarCS");

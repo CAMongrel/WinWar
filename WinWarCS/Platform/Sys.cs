@@ -8,6 +8,8 @@ namespace WinWarCS.Platform
       {
 #if WINFX_CORE
          App.Current.Exit();
+#elif __IOS__
+         // Not allowed on iOS
 #else
          Environment.Exit(exitCode);
 #endif

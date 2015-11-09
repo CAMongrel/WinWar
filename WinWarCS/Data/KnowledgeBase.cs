@@ -412,7 +412,7 @@ namespace WinWarCS.Data
          new KnowledgeEntry (357, ContentFileType.FileSprite, 217, "Unit_357"),
          new KnowledgeEntry (358, ContentFileType.FileSprite, 217, "Unit_358"),
          new KnowledgeEntry (359, ContentFileType.FileSprite, 217, "UI Pictures Orcs"),
-         new KnowledgeEntry (360, ContentFileType.FileSprite, 217, "UI Pictures Humans"),
+         new KnowledgeEntry (360, ContentFileType.FileSprite, 255, "UI Pictures Humans"),
          new KnowledgeEntry (361, ContentFileType.FileSprite, 217, "UI Pictures Icons"),
          new KnowledgeEntry (362, ContentFileType.FileImage, 260, "Menu Button"),   
          new KnowledgeEntry (363, ContentFileType.FileImage, 260, "Menu Button (Pressed)"),   
@@ -638,6 +638,8 @@ namespace WinWarCS.Data
       };
       #endregion
 
+      private Dictionary<string, int> iconDatabase;
+
       private KnowledgeEntry[] database;
       private Dictionary<string, int> hashes;
 
@@ -652,6 +654,9 @@ namespace WinWarCS.Data
 
       private void SetupDatabase()
       {
+         iconDatabase = new Dictionary<string, int>();
+         SetupIconDatabase();
+
          database = new KnowledgeEntry[KnowledgeBaseEntries.Length];
          Array.Copy(KnowledgeBaseEntries, database, KnowledgeBaseEntries.Length);
 
@@ -703,12 +708,117 @@ namespace WinWarCS.Data
          return -1;
       }
 
+      internal int IconIDByName(string name)
+      {
+         if (iconDatabase.ContainsKey(name) == false)
+            return -1;
+
+         return iconDatabase[name];
+      }
+
       internal int Count
       {
          get
          {
             return database.Length;
          }
+      }
+
+      private void SetupIconDatabase()
+      {
+         iconDatabase.Add("Footman", 0);
+         iconDatabase.Add("Grunt", 1);
+         iconDatabase.Add("Conjurer", 2);
+         iconDatabase.Add("Warlock", 3);
+         iconDatabase.Add("Peasant", 4);
+         iconDatabase.Add("Peon", 5);
+         iconDatabase.Add("CatapultHumans", 6);
+         iconDatabase.Add("CatapultOrcs", 7);
+         iconDatabase.Add("Knight", 8);
+         iconDatabase.Add("Raider", 9);
+         iconDatabase.Add("Archer", 10);
+         iconDatabase.Add("Spearman", 11);
+         iconDatabase.Add("Cleric", 12);
+         iconDatabase.Add("Necrolyte", 13);
+         iconDatabase.Add("FarmHumans", 14);
+         iconDatabase.Add("FarmOrc", 15);
+         iconDatabase.Add("BarracksHumans", 16);
+         iconDatabase.Add("BarracksOrcs", 17);
+         iconDatabase.Add("TowerHumans", 18);
+         iconDatabase.Add("TowerOrcs", 19);
+         iconDatabase.Add("TownhallHumans", 20);
+         iconDatabase.Add("TownhallOrcs", 21);
+         iconDatabase.Add("LumbermillHumans", 22);
+         iconDatabase.Add("LumbermillOrcs", 23);
+         iconDatabase.Add("Stables", 24);
+         iconDatabase.Add("Kennel", 25);
+         iconDatabase.Add("BlacksmithHumans", 26);
+         iconDatabase.Add("BlacksmithOrcs", 27);
+         iconDatabase.Add("Church", 28);
+         iconDatabase.Add("Temple", 29);
+         iconDatabase.Add("Goldmine", 30);
+         iconDatabase.Add("Stormwind", 31);
+         iconDatabase.Add("BlackRock", 32);
+         iconDatabase.Add("MoveHumans", 33);
+         iconDatabase.Add("MoveOrcs", 34);
+         iconDatabase.Add("Repair", 35);
+         iconDatabase.Add("Harvest", 36);
+         iconDatabase.Add("Build", 37);
+         iconDatabase.Add("BuildAdvanced", 38);
+         iconDatabase.Add("ReturnLumber", 39);
+         iconDatabase.Add("Cancel", 40);
+         iconDatabase.Add("Wall", 41);
+         iconDatabase.Add("Road", 42);
+         iconDatabase.Add("Unk", 43);
+         iconDatabase.Add("Ogre", 44);
+         iconDatabase.Add("Spider", 45);
+         iconDatabase.Add("Slime", 46);
+         iconDatabase.Add("FireElemental", 47);
+         iconDatabase.Add("Scorpion", 48);
+         iconDatabase.Add("OrcSkeleton", 49);
+         iconDatabase.Add("Skeleton", 50);
+         iconDatabase.Add("Daemon", 51);
+         iconDatabase.Add("WaterElemental", 52);
+         iconDatabase.Add("Lothar", 53);
+         iconDatabase.Add("Medivh", 54);
+         iconDatabase.Add("Garona", 55);
+         iconDatabase.Add("Griselda", 56);
+         iconDatabase.Add("Wounded", 57);
+         iconDatabase.Add("Brigand", 58);
+         iconDatabase.Add("Holy Lance", 59); // (Attack, Cleric)
+         iconDatabase.Add("Elemental Blast", 60); // (Attack, Conjurer)
+         iconDatabase.Add("Shadow Spear", 61); // (Attack, Necrolyte)
+         iconDatabase.Add("Fireball", 62); // (Attack, Warlock)
+         iconDatabase.Add("Sword1", 63);
+         iconDatabase.Add("Sword2", 64);
+         iconDatabase.Add("Sword3", 65);
+         iconDatabase.Add("Axe1", 66);
+         iconDatabase.Add("Axe2", 67);
+         iconDatabase.Add("Axe3", 68);
+         iconDatabase.Add("Wolf1", 69);
+         iconDatabase.Add("Wolf2", 70);
+         iconDatabase.Add("Crossbar1", 71);
+         iconDatabase.Add("Crossbar2", 72);
+         iconDatabase.Add("Crossbar3", 73);
+         iconDatabase.Add("Spear1", 74);
+         iconDatabase.Add("Spear2", 75);
+         iconDatabase.Add("Spear3", 76);
+         iconDatabase.Add("Horse1", 77);
+         iconDatabase.Add("Horse2", 78);
+         iconDatabase.Add("Shield1", 79);
+         iconDatabase.Add("Shield2", 80);
+         iconDatabase.Add("Shield3", 81);
+         iconDatabase.Add("Shield1Orcs", 82);
+         iconDatabase.Add("Shield2Orcs", 83);
+         iconDatabase.Add("Shield3Orcs", 84);
+         iconDatabase.Add("Heal", 85);
+         iconDatabase.Add("Far Sight", 86);
+         iconDatabase.Add("Invisibility", 87);
+         iconDatabase.Add("Rain of Fire", 88);
+         iconDatabase.Add("Raising Dead", 89);
+         iconDatabase.Add("Dark Vision", 90);
+         iconDatabase.Add("Unholy Armor", 91);
+         iconDatabase.Add("Cloud of Poison", 92);
       }
 
       internal void DumpResource(int index, WarResource res, bool writeToConsole = true, string filename = null)

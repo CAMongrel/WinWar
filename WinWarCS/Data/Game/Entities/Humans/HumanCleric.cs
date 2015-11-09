@@ -2,9 +2,9 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class HumanPriest : Unit
+   internal class HumanCleric : Unit
    {
-      public HumanPriest (Map currentMap)
+      public HumanCleric (Map currentMap)
          : base(currentMap)
       {
          sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Human Priest")));

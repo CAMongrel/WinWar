@@ -4,6 +4,9 @@ using WinWarCS;
 #if OSX
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+#elif __IOS__
+using Foundation;
+using UIKit;
 #endif
 
 namespace WinWarCS.Platform
@@ -26,15 +29,28 @@ namespace WinWarCS.Platform
    }
 #endif
 
-	static class Program
+#if __IOS__
+   [Register("AppDelegate")]
+   class Program : UIApplicationDelegate
+#else
+   static class Program
+#endif
 	{
       internal static MainGame game;
+
+      internal static void RunGame ()
+      {
+         game = new MainGame ();
+         game.Run ();
+      }
 
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		[STAThread]
-		static void Main ()
+#if !MONOMAC && !__IOS__     
+      [STAThread]
+#endif
+      static void Main (string[] args)
 		{
 #if OSX
          NSApplication.Init ();
@@ -45,11 +61,19 @@ namespace WinWarCS.Platform
 
             NSApplication.Main (args);
          }
+#elif __IOS__
+         UIApplication.Main(args, null, "AppDelegate");
 #else
-			game = new MainGame ();
-			game.Run ();
+         RunGame();
 #endif
 		}
+
+#if __IOS__
+      public override void FinishedLaunching(UIApplication app)
+      {
+         RunGame();
+      }
+#endif
 	}
 }
 

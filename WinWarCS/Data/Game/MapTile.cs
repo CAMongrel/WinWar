@@ -58,10 +58,7 @@ namespace WinWarCS.Data.Game
 
          averageColor = Color.Black;
 
-         Texture2D DXTexture = new Texture2D(MainGame.Device, 16, 16, false, SurfaceFormat.Color);
-         DXTexture.SetData<byte>(data);
-
-         texture = WWTexture.FromDXTexture(DXTexture);
+         texture = WWTexture.FromRawData(16, 16, data);
 
          int avgR = 0;
          int avgG = 0;

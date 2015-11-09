@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -24,9 +24,9 @@ namespace WinWarCS.Platform
          return await file.OpenStreamForReadAsync();
       }
 #else
-      public static async Task<FileStream> GetFileStream(string filename)
+      public static async Task<FileStream> GetFileStream(string filename, bool readOnly = true)
       {
-         return new FileStream (filename, FileMode.OpenOrCreate);
+         return new FileStream (filename, readOnly ? FileMode.Open : FileMode.OpenOrCreate, readOnly ? FileAccess.Read : FileAccess.ReadWrite);
       }
 #endif
 
@@ -59,6 +59,9 @@ namespace WinWarCS.Platform
          return resultStream;
 #else
          string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
+#if IOS
+         installedLocation = string.Empty;
+#endif
          return await GetFileStream(System.IO.Path.Combine(installedLocation, relativeFilename));
 #endif
       }
@@ -69,6 +72,9 @@ namespace WinWarCS.Platform
          string installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
 #else
          string installedLocation = AppDomain.CurrentDomain.BaseDirectory;
+#if IOS
+         installedLocation = string.Empty;
+#endif
 #endif
          return Path.Combine(installedLocation, "Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar);
       }

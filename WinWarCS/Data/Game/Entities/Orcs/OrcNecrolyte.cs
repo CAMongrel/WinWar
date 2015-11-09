@@ -2,9 +2,9 @@
 
 namespace WinWarCS.Data.Game
 {
-   internal class OrcNecro : Unit
+   internal class OrcNecrolyte : Unit
    {
-      public OrcNecro (Map currentMap)
+      public OrcNecrolyte (Map currentMap)
          : base(currentMap)
       {
          sprite = new UnitSprite (WarFile.GetSpriteResource (WarFile.KnowledgeBase.IndexByName ("Orc Necro")));

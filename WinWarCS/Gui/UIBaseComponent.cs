@@ -246,7 +246,9 @@ namespace WinWarCS.Gui
       {
          for (int i = 0; i < components.Count; i++)
          {
+            Performance.Push(this.GetType() + ".components[" + i + "] - Update");
             components[i].Update(gameTime);
+            Performance.Pop();
          }
       }
 

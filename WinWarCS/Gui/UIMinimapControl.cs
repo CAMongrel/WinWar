@@ -15,7 +15,6 @@ namespace WinWarCS.Gui
    {
       internal UIMapControl MapControl { get; private set; }
 
-      private Texture2D minimapTexInternal;
       private WWTexture minimapTex;
 
       private bool isLeftPressed;
@@ -36,9 +35,10 @@ namespace WinWarCS.Gui
 
       public override void Dispose ()
       {
-         if (minimapTexInternal != null) {
-            minimapTexInternal.Dispose ();
-            minimapTexInternal = null;
+         if (minimapTex != null) 
+         {
+            minimapTex.Dispose ();
+            minimapTex = null;
          }
 
          base.Dispose ();
@@ -46,9 +46,7 @@ namespace WinWarCS.Gui
 
       internal void Init ()
       {
-         minimapTexInternal = new Texture2D (MainGame.Device, Width, Height, false, SurfaceFormat.Color);
-
-         minimapTex = WWTexture.FromDXTexture (minimapTexInternal);
+         minimapTex = WWTexture.FromRawData (Width, Height, null);
       }
 
       private void CenterOnPosition (Microsoft.Xna.Framework.Vector2 position)
@@ -161,7 +159,7 @@ namespace WinWarCS.Gui
             }
 
             // Apply to texture
-            minimapTexInternal.SetData<Color> (colors);
+            minimapTex.SetData(colors);
          }
       }
 

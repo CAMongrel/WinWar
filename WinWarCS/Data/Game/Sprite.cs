@@ -27,6 +27,23 @@ namespace WinWarCS.Data.Game
 
       internal SpriteAnimation CurrentAnimation { get; private set; }
 
+      private int fixedSpriteFrame;
+      internal int FixedSpriteFrame 
+      { 
+         get { return fixedSpriteFrame; } 
+         set
+         {
+            if (frameData == null || frameData.Frames == null || 
+               value < 0 || value >= frameData.Frames.Length)
+            {
+               fixedSpriteFrame = 0;
+               return;
+            }
+
+            fixedSpriteFrame = value;
+         }
+      }
+
       internal bool ShouldFlipX
       {
          get
@@ -47,7 +64,7 @@ namespace WinWarCS.Data.Game
 
             if (CurrentAnimation == null) 
             {
-               return frameData.Frames[0];
+               return frameData.Frames[FixedSpriteFrame];
             }
 
             if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frameData.Frames.Length)
@@ -66,7 +83,7 @@ namespace WinWarCS.Data.Game
 
             if (CurrentAnimation == null) 
             {
-               return frameData.Frames[0].texture;
+               return frameData.Frames[FixedSpriteFrame].texture;
             }
 
             if (CurrentAnimation.CurrentFrameIndex < 0 || CurrentAnimation.CurrentFrameIndex >= frameData.Frames.Length)
@@ -98,6 +115,7 @@ namespace WinWarCS.Data.Game
       internal Sprite(SpriteResource resource)
       {
          Performance.Push("Sprite ctor");
+         fixedSpriteFrame = 0;
          allAnimations = new List<SpriteAnimation>();
          CurrentAnimation = null;
 

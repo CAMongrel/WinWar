@@ -33,25 +33,25 @@ namespace WinWarCS.GameScreens.Windows
          cancelBtn.OnMouseUpInside += cancelBtn_OnMouseUpInside;
       }
 
-      void orcBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      private void StartNewCampaign(Race setRace)
       {
-         HumanPlayer newPlayer = new HumanPlayer ();
-         newPlayer.Race = Race.Orcs;
-         newPlayer.StartNewCampaign ();
+         Campaign campaign = new Campaign(setRace);
+         campaign.StartNew();
 
-         MainGame.WinWarGame.SetNextGameScreen (new LevelGameScreen (newPlayer));
+         MainGame.WinWarGame.SetNextGameScreen(new LevelGameScreen(campaign));
       }
 
-      void humanBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      private void orcBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         HumanPlayer newPlayer = new HumanPlayer ();
-         newPlayer.Race = Race.Humans;
-         newPlayer.StartNewCampaign ();
-
-         MainGame.WinWarGame.SetNextGameScreen (new LevelGameScreen (newPlayer));
+         StartNewCampaign(Race.Orcs);
       }
 
-      async void customGameBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      private void humanBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
+      {
+         StartNewCampaign(Race.Humans);
+      }
+
+      private async void customGameBtn_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
          await WinWarCS.Platform.UI.ShowMessageDialog ("Not implemented yet");
       }

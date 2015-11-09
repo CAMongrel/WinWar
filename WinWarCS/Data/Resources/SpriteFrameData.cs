@@ -40,9 +40,8 @@ namespace WinWarCS.Data.Resources
 
          for (int i = 0; i < resource.FrameCount; i++)
          {
-            Texture2D DXTexture = new Texture2D(MainGame.Device, resource.MaxWidth, resource.MaxHeight, false, SurfaceFormat.Color);
             Performance.Push("SetData");
-            DXTexture.SetData<byte>(resource.Frames[i].image_data);
+            WWTexture tex = WWTexture.FromRawData(resource.MaxWidth, resource.MaxHeight, resource.Frames[i].image_data);
             Performance.Pop();
 
             Frames[i] = new SpriteFrame ();
@@ -51,7 +50,7 @@ namespace WinWarCS.Data.Resources
             Frames[i].Width = resource.Frames [i].width;
             Frames[i].Height = resource.Frames [i].height;
             Performance.Push("FromDXTexture");
-            Frames[i].texture = WWTexture.FromDXTexture(DXTexture);
+            Frames[i].texture = tex;
             Performance.Pop();
          }
       }
