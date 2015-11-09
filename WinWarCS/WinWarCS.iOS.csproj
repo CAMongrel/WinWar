@@ -137,31 +137,21 @@
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Corpse.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
     <Compile Include="Data\Resources\BasicResource.cs" />
     <Compile Include="Data\Resources\CursorResource.cs" />
     <Compile Include="Data\Resources\EmbeddedDataResource.cs" />
@@ -205,6 +195,18 @@
     <Compile Include="Platform\RectangleF.cs" />
     <Compile Include="Platform\Sys.cs" />
     <Compile Include="Platform\UI.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBlacksmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCleric.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFootman.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcSpearman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\warcraft.icns" />
@@ -228,5 +230,8 @@
     <BundleResource Include="Assets\Data\DATA.WAR" />
     <BundleResource Include="Assets\DefaultFont.xnb" />
     <BundleResource Include="Assets\SpriteFont1.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\entities.xml" />
   </ItemGroup>
 </Project>

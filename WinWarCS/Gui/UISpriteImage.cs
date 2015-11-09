@@ -70,7 +70,7 @@ namespace WinWarCS.Gui
          base.Draw();
          if (Sprite == null)
          {
-            base.Render();
+            base.Draw();
             return;
          }
 
@@ -80,7 +80,7 @@ namespace WinWarCS.Gui
          if (image != null)
             image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
 
-         base.Render();
+         base.Draw();
       }
    }
 }

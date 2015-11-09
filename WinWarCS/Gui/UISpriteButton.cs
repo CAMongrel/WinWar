@@ -27,11 +27,11 @@ namespace WinWarCS.Gui
          AddComponent(img);
       }
 
-      internal override void Render()
+      internal override void Draw()
       {
          img.Y = (isPressed ? 3 : 2);
 
-         base.Render();
+         base.Draw();
       }
    }
 }
