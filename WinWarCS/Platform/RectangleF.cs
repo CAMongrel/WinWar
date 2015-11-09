@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINFX_CORE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,3 +25,4 @@ namespace WinWarCS.Platform.WindowsRT
         }
     }
 }
+#endif
