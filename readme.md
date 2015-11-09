@@ -14,6 +14,7 @@ http://wowpedia.org/Warcraft:_Orcs_%26_Humans_%28Demo%29
 - Android (planned)
 
 ##Screenshots
+![iPad](/../screenshots/Screenshots/iPad.jpg?raw=true "iPad")
 
 ##Compiling and Running
 ###Compiling from source
