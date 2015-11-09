@@ -448,6 +448,7 @@ namespace WinWarCS.Data.Game
 
          //int count = 170;
          Performance.Push("Map rendering - Tiles");
+         RenderManager.StartBatch ();
          for (int y = 0; y < tilesToDrawY; y++)
          {
             for (int x = 0; x < tilesToDrawX; x++)
@@ -472,6 +473,7 @@ namespace WinWarCS.Data.Game
                }
             }
          }
+         RenderManager.EndBatch ();
          Performance.Pop();
 
          Performance.Push("Map rendering - Roads");

@@ -148,17 +148,6 @@ namespace WinWarCS.Graphics
          return tex;
       }
 
-      /// <summary>
-      /// From DirectX texture
-      /// </summary>
-      /*internal static WWTexture FromDXTexture (Texture2D tex)
-      {
-         WWTexture res = new WWTexture (tex.Width, tex.Height);
-         res.DXTexture = tex;
-         return res;
-      }*/
-      // FromDXTexture(tex)
-
       #endregion
 
       #region SetData
@@ -253,12 +242,18 @@ namespace WinWarCS.Graphics
       internal void RenderOnScreen (RectangleF sourceRect, RectangleF destRect, Color col)
       {
          Rectangle srcRect = new Rectangle ((int)sourceRect.X, (int)sourceRect.Y, (int)sourceRect.Width, (int)sourceRect.Height);
-         Rectangle dstRect = new Rectangle (MainGame.ScaledOffsetX + (int)(destRect.X * MainGame.ScaleX), MainGame.ScaledOffsetY + (int)(destRect.Y * MainGame.ScaleY),
-                          (int)(destRect.Width * MainGame.ScaleX), (int)(destRect.Height * MainGame.ScaleY));
+         Vector2 position = new Vector2 (MainGame.ScaledOffsetX + destRect.X * MainGame.ScaleX,
+                               MainGame.ScaledOffsetY + destRect.Y * MainGame.ScaleY);
+         Vector2 scale = new Vector2 (MainGame.ScaleX, MainGame.ScaleY);
 
-         MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
-         MainGame.SpriteBatch.Draw (DXTexture, dstRect, srcRect, col);
-         MainGame.SpriteBatch.End ();
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         
+         MainGame.SpriteBatch.Draw (DXTexture, position, srcRect, col, 0, Vector2.Zero, 
+            scale, SpriteEffects.None, 1.0f);
+         
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.End ();
       }
 
       internal static void RenderRectangle (RectangleF destRect, Color col, int BorderWidth = 1)
@@ -272,12 +267,14 @@ namespace WinWarCS.Graphics
          Rectangle rightRect = new Rectangle((int)destRect.X + (int)destRect.Width - BorderWidth, (int)destRect.Y, BorderWidth, (int)destRect.Height);
          Rectangle bottomRect = new Rectangle((int)destRect.X, (int)destRect.Y + (int)destRect.Height - BorderWidth, (int)destRect.Width, BorderWidth);
 
-         MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, leftRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, topRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, rightRect, singleRect, col);
          MainGame.SpriteBatch.Draw (WWTexture.SingleWhite.DXTexture, bottomRect, singleRect, col);
-         MainGame.SpriteBatch.End ();
+         if (RenderManager.IsBatching == false)
+            MainGame.SpriteBatch.End ();
       }
 
       #endregion

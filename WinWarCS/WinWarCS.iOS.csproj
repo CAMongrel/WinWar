@@ -207,6 +207,7 @@
     <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
     <Compile Include="Gui\UIEntityControl.cs" />
     <Compile Include="Gui\UISpriteButton.cs" />
+    <Compile Include="Graphics\RenderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\warcraft.icns" />

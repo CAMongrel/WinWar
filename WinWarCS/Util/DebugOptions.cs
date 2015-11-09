@@ -19,7 +19,7 @@ namespace WinWarCS.Util
          ShowFullMapOnLoad = true;
 
          // Long running tasks (Performance)
-         LogLongRunningTasksOnly = true;
+         LogLongRunningTasksOnly = false;
          LongRunningTaskThresholdInSeconds = 0.2;
       }
    }
