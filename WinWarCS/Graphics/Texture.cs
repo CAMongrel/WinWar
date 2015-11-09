@@ -24,7 +24,7 @@ using Matrix = Microsoft.Xna.Framework.Matrix;
 #endregion
 namespace WinWarCS.Graphics
 {
-   internal class WWTexture
+   internal class WWTexture : IDisposable
    {
       #region Constants
 
@@ -82,6 +82,19 @@ namespace WinWarCS.Graphics
 
       #endregion
 
+      #region IDisposable implementation
+
+      public void Dispose ()
+      {
+         if (DXTexture != null)
+         {
+            DXTexture.Dispose ();
+            DXTexture = null;
+         }
+      }
+
+      #endregion
+
       #region Utility
       private uint NextPowerOfTwo(uint val)
       {
@@ -120,35 +133,64 @@ namespace WinWarCS.Graphics
 
       internal static WWTexture FromImageResource (ImageResource res)
       {
-         WWTexture tex = null;
-         tex = new WWTexture (res.width, res.height);
-         tex.SetData (res.image_data);
+         return FromRawData (res.width, res.height, res.image_data);
+      }
 
+      internal static WWTexture FromCursorResource (CursorResource res)
+      {
+         return FromRawData (res.width, res.height, res.image_data);
+      }
+
+      internal static WWTexture FromRawData (int width, int height, byte[] data)
+      {
+         WWTexture tex = new WWTexture (width, height);
+         tex.SetData (data);
          return tex;
       }
 
       /// <summary>
       /// From DirectX texture
       /// </summary>
-      internal static WWTexture FromDXTexture (Texture2D tex)
+      /*internal static WWTexture FromDXTexture (Texture2D tex)
       {
          WWTexture res = new WWTexture (tex.Width, tex.Height);
          res.DXTexture = tex;
          return res;
-      }
+      }*/
       // FromDXTexture(tex)
 
       #endregion
 
       #region SetData
-      private void SetData(byte[] data)
+      public void SetData(byte[] data)
       {
+         if (data == null)
+         {
+            return;
+         }
+
          if (RequiresPowerOfTwo () == false) 
          {
             DXTexture.SetData<byte> (data);
          } else 
          {
             DXTexture.SetData<byte> (0, new Rectangle(0, 0, this.Width, this.Height), data, 0, data.Length);
+         }
+      }
+
+      public void SetData(Color[] data)
+      {
+         if (data == null)
+         {
+            return;
+         }
+
+         if (RequiresPowerOfTwo () == false) 
+         {
+            DXTexture.SetData<Color> (data);
+         } else 
+         {
+            DXTexture.SetData<Color> (0, new Rectangle(0, 0, this.Width, this.Height), data, 0, data.Length);
          }
       }
       #endregion
