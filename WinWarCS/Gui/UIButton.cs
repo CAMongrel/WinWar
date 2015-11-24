@@ -68,6 +68,11 @@ namespace WinWarCS.Gui
          else
             background = backgroundNotClicked;
 
+         if (background == null)
+         {
+            return;
+         }
+
          Vector2 screenPos = ScreenPosition;
 
          Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));

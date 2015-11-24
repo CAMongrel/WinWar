@@ -68,9 +68,9 @@ namespace WinWarCS.Gui
       internal override void Draw()
       {
          base.Draw();
+
          if (Sprite == null)
          {
-            base.Draw();
             return;
          }
 
@@ -79,8 +79,6 @@ namespace WinWarCS.Gui
          WWTexture image = Sprite.CurrentFrameTexture;
          if (image != null)
             image.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height);
-
-         base.Draw();
       }
    }
 }

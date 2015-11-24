@@ -272,7 +272,7 @@ namespace WinWarCS.Gui
          // Draw background
          if (BackgroundColor.A > 0)
          {
-            WWTexture.SingleWhite.RenderOnScreen (this.X, this.Y, this.Width, this.Height, BackgroundColor);
+            WWTexture.SingleWhite.RenderOnScreen (ScreenPosition.X, ScreenPosition.Y, this.Width, this.Height, BackgroundColor);
          }
       }
 
