@@ -131,9 +131,9 @@ namespace WinWarCS
 
          Content.RootDirectory = "Assets";
 
-         #if IOS
+#if IOS
          MouseCursor.IsVisible = false;
-         #endif
+#endif
       }
 
       private async Task<bool> ValidateDataWar ()

@@ -16,7 +16,7 @@ namespace WinWarCS.Util
          ShowTiles = false;
          ShowUnitFrames = false;
          ShowBlockedTiles = false;
-         ShowFullMapOnLoad = true;
+         ShowFullMapOnLoad = false;
 
          // Long running tasks (Performance)
          LogLongRunningTasksOnly = false;

@@ -14,9 +14,12 @@ namespace WinWarCS.Graphics
          IsBatching = false;
       }
 
-      internal static void StartBatch()
+      internal static void StartBatch(BlendState blendState = null, SpriteSortMode sortMode = SpriteSortMode.Texture)
       {
-         MainGame.SpriteBatch.Begin (SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+         if (blendState == null)
+            blendState = BlendState.NonPremultiplied;
+
+         MainGame.SpriteBatch.Begin (sortMode, blendState, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
 
          IsBatching = true;
       }

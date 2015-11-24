@@ -5,6 +5,7 @@
 // Last modified: 27.11.2009 23:04
 using WinWarCS.Util;
 using WinWarCS.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -523,6 +524,7 @@ namespace WinWarCS.Data.Game
          Performance.Pop();
 
          Performance.Push("Map rendering - Undiscovered places");
+         RenderManager.StartBatch (BlendState.AlphaBlend);
          // Overlay undiscovered places + fog of war
          for (int y = 0; y < tilesToDrawY; y++)
          {
@@ -541,6 +543,7 @@ namespace WinWarCS.Data.Game
                } 
             }
          }
+         RenderManager.EndBatch ();
          Performance.Pop();
       }
       // Render()

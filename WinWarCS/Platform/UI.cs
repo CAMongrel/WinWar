@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 #if __IOS__
 using UIKit;
+#elif OSX
+using MonoMac.AppKit;
 #endif
 
 namespace WinWarCS.Platform

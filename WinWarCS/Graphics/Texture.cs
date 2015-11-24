@@ -57,8 +57,7 @@ namespace WinWarCS.Graphics
             if (singleWhite != null)
                return singleWhite;
 
-            singleWhite = new WWTexture (1, 1);
-            singleWhite.DXTexture.SetData<byte> (new byte[] { 255, 255, 255, 255 });
+            singleWhite = WWTexture.FromRawData(1, 1, new byte[] { 255, 255, 255, 255 });
             return singleWhite;
          }
       }
@@ -111,11 +110,11 @@ namespace WinWarCS.Graphics
 
       private bool RequiresPowerOfTwo()
       {
-         #if IOS
+#if IOS
          return true;
-         #else
+#else
          return false;
-         #endif
+#endif
       }
       #endregion
 
@@ -194,11 +193,11 @@ namespace WinWarCS.Graphics
       internal void RenderOnScreen (float x, float y, Color color)
       {
          RenderOnScreen (new RectangleF (0, 0, (float)this.Width, (float)this.Height),
-			#if ABSOLUTE_COORDS
+#if ABSOLUTE_COORDS
 				new RectangleF(x, y, x + (float)this.Width, y + (float)this.Height), color);
-			#else
+#else
             new RectangleF (x, y, (float)this.Width, (float)this.Height), color);
-         #endif
+#endif
       }
 
       internal void RenderOnScreen (RectangleF display_rect)
@@ -216,7 +215,7 @@ namespace WinWarCS.Graphics
 
          RenderOnScreen (sourceRect,
             new RectangleF (display_rect.X, display_rect.Y, display_rect.Width, display_rect.Height),
-            Color.White);
+            Color.White, flipX, flipY);
       }
 
       internal void RenderOnScreen (float x, float y, float width, float height)
@@ -227,11 +226,11 @@ namespace WinWarCS.Graphics
       internal void RenderOnScreen (float x, float y, float width, float height, Color color)
       {
          RenderOnScreen (new RectangleF (0, 0, (float)this.Width, (float)this.Height),
-			#if ABSOLUTE_COORDS
+#if ABSOLUTE_COORDS
 				new RectangleF(x, y, x + width, y + height), color);
-			#else
+#else
             new RectangleF (x, y, width, height), color);
-         #endif
+#endif
       }
 
       internal void RenderOnScreen (RectangleF sourceRect, RectangleF destRect)
@@ -239,18 +238,20 @@ namespace WinWarCS.Graphics
          RenderOnScreen (sourceRect, destRect, Color.White);
       }
 
-      internal void RenderOnScreen (RectangleF sourceRect, RectangleF destRect, Color col)
+      internal void RenderOnScreen (RectangleF sourceRect, RectangleF destRect, Color col, bool flipX = false, bool flipY = false)
       {
          Rectangle srcRect = new Rectangle ((int)sourceRect.X, (int)sourceRect.Y, (int)sourceRect.Width, (int)sourceRect.Height);
          Vector2 position = new Vector2 (MainGame.ScaledOffsetX + destRect.X * MainGame.ScaleX,
                                MainGame.ScaledOffsetY + destRect.Y * MainGame.ScaleY);
-         Vector2 scale = new Vector2 (MainGame.ScaleX, MainGame.ScaleY);
+         Vector2 scale = new Vector2 (flipX ? -MainGame.ScaleX : MainGame.ScaleX, flipY ? -MainGame.ScaleY : MainGame.ScaleY);
+         scale = new Vector2 (MainGame.ScaleX, MainGame.ScaleY);
+         scale.X *= destRect.Width / sourceRect.Width;
+         scale.Y *= destRect.Height / sourceRect.Height;
 
          if (RenderManager.IsBatching == false)
             MainGame.SpriteBatch.Begin (SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
          
-         MainGame.SpriteBatch.Draw (DXTexture, position, srcRect, col, 0, Vector2.Zero, 
-            scale, SpriteEffects.None, 1.0f);
+         MainGame.SpriteBatch.Draw (DXTexture, position, srcRect, col, 0, Vector2.Zero, scale, SpriteEffects.None, 1.0f);
          
          if (RenderManager.IsBatching == false)
             MainGame.SpriteBatch.End ();
