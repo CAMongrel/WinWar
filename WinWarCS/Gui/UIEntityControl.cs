@@ -29,7 +29,7 @@ namespace WinWarCS.Gui
 
       private void SetHealthbar(UIImage img, Entity ent)
       {
-         img.Width = (int)((float)currentEntities[0].HitPoints / (float)currentEntities[0].MaxHitPoints) * 27;
+         img.Width = (int)(((float)ent.HitPoints / (float)ent.MaxHitPoints) * 27.0f);
       }
 
       private void ShowSingleUI()
