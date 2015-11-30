@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F8A28BB3-C996-4745-AC2C-6A48B2997750}</ProjectGuid>
     <ProjectTypeGuids>{9B831FEF-F496-498F-9FE8-180DA5CB4258};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
@@ -104,13 +102,9 @@
     <Compile Include="Data\Game\Entities\Entity.cs" />
     <Compile Include="Data\Game\Entities\Unit.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanArcher.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBase.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanFarm.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanPeasant.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanWarrior.cs" />
     <Compile Include="Data\Game\Entities\Neutral\Goldmine.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcAxethrower.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcBase.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcFarm.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcGrunt.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcPeon.cs" />
@@ -135,20 +129,14 @@
     <Compile Include="Data\Game\MapTile.cs" />
     <Compile Include="Data\Game\MapTileset.cs" />
     <Compile Include="Data\Game\AI\MapPath.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanBalista.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanBarracks.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanChurch.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanConjurer.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanKnight.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanPriest.cs" />
-    <Compile Include="Data\Game\Entities\Humans\HumanSmith.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStables.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanStormwind.cs" />
     <Compile Include="Data\Game\Entities\Humans\HumanTower.cs" />
     <Compile Include="Data\Game\Entities\Orcs\OrcCatapult.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcNecro.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcRider.cs" />
-    <Compile Include="Data\Game\Entities\Orcs\OrcWizard.cs" />
     <Compile Include="Data\Resources\UIResource.cs" />
     <Compile Include="Data\Resources\TableResource.cs" />
     <Compile Include="Data\Resources\PaletteResource.cs" />
@@ -164,6 +152,19 @@
     <Compile Include="Platform\Sys.cs" />
     <Compile Include="Platform\UI.cs" />
     <Compile Include="Platform\RectangleF.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanBlacksmith.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCatapult.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanCleric.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanFootman.cs" />
+    <Compile Include="Data\Game\Entities\Humans\HumanTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcNecrolyte.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcRaider.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcSpearman.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcTownhall.cs" />
+    <Compile Include="Data\Game\Entities\Orcs\OrcWarlock.cs" />
+    <Compile Include="Gui\UIEntityControl.cs" />
+    <Compile Include="Gui\UISpriteButton.cs" />
+    <Compile Include="Graphics\RenderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
