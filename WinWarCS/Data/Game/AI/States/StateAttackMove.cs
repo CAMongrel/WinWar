@@ -36,11 +36,11 @@ namespace WinWarCS.Data.Game
          moveTimer = 1.0f;
          curNodeIdx = -1;
          Path = Owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, destX, destY);
-         if (Path != null)
-         {
-            curNodeIdx = 0;
-            bUpdatePath = false;
-         }
+         if (Path == null)
+            return false;
+
+         curNodeIdx = 0;
+         bUpdatePath = false;
 
          return true;
       }

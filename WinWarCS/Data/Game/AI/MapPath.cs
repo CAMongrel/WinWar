@@ -44,6 +44,9 @@ namespace WinWarCS.Data.Game
       {
          path.Clear ();
 
+         if (finalNode == null)
+            return;
+
          AStarNode node = finalNode;
 
          path.Add(node);
