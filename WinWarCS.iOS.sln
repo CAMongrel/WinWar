@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.iOS", "WinWarCS\WinWarCS.iOS.csproj", "{5D12EBA0-E1A2-4391-9FF1-BF5A24D35AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.iOS", "Platforms\iOS\WinWarCS.iOS.csproj", "{5D12EBA0-E1A2-4391-9FF1-BF5A24D35AB4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinWarGame", "WinWarGame\WinWarGame.shproj", "{04383935-35FE-4983-9D26-841E3804B35C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
