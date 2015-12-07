@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.MacOS", "WinWarCS\WinWarCS.MacOS.csproj", "{C91694A8-23C5-4A46-BDAB-8A808F13529C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinWarGame", "WinWarGame\WinWarGame.shproj", "{04383935-35FE-4983-9D26-841E3804B35C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -18,7 +20,6 @@ Global
 		{C91694A8-23C5-4A46-BDAB-8A808F13529C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WinWarCS\WinWarCS.MacOS.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 120
@@ -54,5 +55,6 @@ Global
 		$0.DotNetNamingPolicy = $3
 		$3.DirectoryNamespaceAssociation = None
 		$3.ResourceNamePolicy = FileFormatDefault
+		StartupItem = WinWarCS\WinWarCS.MacOS.csproj
 	EndGlobalSection
 EndGlobal
