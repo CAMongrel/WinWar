@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.MacOS", "WinWarCS\WinWarCS.MacOS.csproj", "{C91694A8-23C5-4A46-BDAB-8A808F13529C}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinWarGame", "WinWarGame\WinWarGame.shproj", "{04383935-35FE-4983-9D26-841E3804B35C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.MacOS", "Platforms\OSX\WinWarCS.MacOS.csproj", "{C91694A8-23C5-4A46-BDAB-8A808F13529C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
