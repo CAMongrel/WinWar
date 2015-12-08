@@ -8,6 +8,7 @@
 
 # Declare files that will always have CRLF line endings on checkout.
 *.sln text eol=crlf
+WinWarCS.OSX.sln text eol=line
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
