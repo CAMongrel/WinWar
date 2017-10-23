@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.Linux", "WinWarCS\WinWarCS.Linux.csproj", "{F8A28BB3-C996-4745-AC2C-6A48B2997750}"
 EndProject
 Global
@@ -15,7 +15,6 @@ Global
 		{F8A28BB3-C996-4745-AC2C-6A48B2997750}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WinWarCS\WinWarCS.Linux.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = null
@@ -44,5 +43,6 @@ Global
 		$2.inheritsSet = Mono
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
+		StartupItem = WinWarCS\WinWarCS.Linux.csproj
 	EndGlobalSection
 EndGlobal

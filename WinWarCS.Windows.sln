@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.Windows", "WinWarCS\WinWarCS.Windows.csproj", "{57FE4DC6-7B4B-44A9-B5BE-1E9CB79E351F}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinWarGame", "WinWarGame\WinWarGame.shproj", "{04383935-35FE-4983-9D26-841E3804B35C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.Windows", "Platforms\WindowsDesktop\WinWarCS.Windows.csproj", "{57FE4DC6-7B4B-44A9-B5BE-1E9CB79E351F}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		WinWarGame\WinWarGame.projitems*{04383935-35fe-4983-9d26-841e3804b35c}*SharedItemsImports = 13
+		WinWarGame\WinWarGame.projitems*{57fe4dc6-7b4b-44a9-b5be-1e9cb79e351f}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86

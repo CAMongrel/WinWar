@@ -35,3 +35,5 @@ UpgradeLog.htm
 GameAssets/
 *.userprefs
 publish/
+packages/
+.vs/
