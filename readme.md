@@ -15,7 +15,7 @@ http://wowpedia.org/Warcraft:_Orcs_%26_Humans_%28Demo%29
 
 ## Screenshots
 ![Intro](/../screenshots/Screenshots/Intro.png?raw=true "Intro")
-![Orc1](/../screenshots/Screenshots/Intro.png?raw=true "Orc1")
+![Orc1](/../screenshots/Screenshots/Orc1.png?raw=true "Orc1")
 ![iPad](/../screenshots/Screenshots/iPad.jpg?raw=true "iPad")
 
 ## Compiling and Running
