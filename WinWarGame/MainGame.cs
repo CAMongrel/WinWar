@@ -9,6 +9,7 @@ using WinWarCS.Gui;
 using System.IO;
 using System.Threading.Tasks;
 using WinWarCS.Util;
+using MouseCursor = WinWarCS.Gui.MouseCursor;
 
 namespace WinWarCS
 {

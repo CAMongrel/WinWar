@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using WinWarCS.Gui;
+using MouseCursor = WinWarCS.Gui.MouseCursor;
 #if IOS
 using UIKit;
 #endif
