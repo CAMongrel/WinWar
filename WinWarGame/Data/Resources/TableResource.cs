@@ -9,10 +9,10 @@ namespace WinWarCS.Data.Resources
 
       private ushort[,] tableData;
 
-      internal ushort this[int col, int row] 
-      { 
+      internal ushort this[int col, int row]
+      {
          get
-         { 
+         {
             if (col < 0 || col >= Columns)
                return 0;
             if (row < 0 || row >= Rows)

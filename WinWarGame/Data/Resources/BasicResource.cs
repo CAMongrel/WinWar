@@ -6,13 +6,13 @@ using System.IO;
 namespace WinWarCS.Data.Resources
 {
    internal abstract class BasicResource
-	{
+   {
       public ContentFileType Type { get; protected set; }
 
-		protected BasicResource()
-		{
+      protected BasicResource()
+      {
          Type = ContentFileType.FileUnknown;
-		}
+      }
 
       protected byte[] ReadBytes(int index, int count, byte[] data)
       {
@@ -92,5 +92,5 @@ namespace WinWarCS.Data.Resources
          // Implemented in derived classes
       }
 #endif
-	}
+   }
 }

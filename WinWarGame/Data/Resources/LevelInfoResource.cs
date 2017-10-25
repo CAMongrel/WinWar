@@ -201,8 +201,8 @@ namespace WinWarCS.Data.Resources
       /// <summary>
       /// PlayerInfo of the human player (Orcs/Humans)
       /// </summary>
-      internal PlayerInfo HumanPlayerInfo 
-      { 
+      internal PlayerInfo HumanPlayerInfo
+      {
          get { return PlayerInfos[0]; }
       }
 
@@ -345,7 +345,7 @@ namespace WinWarCS.Data.Resources
             humanPlayerRace = Race.Humans;
          else
             if ((*(ushort*)(&ptr[0x84])) > 0)
-               humanPlayerRace = Race.Orcs;
+            humanPlayerRace = Race.Orcs;
 
          if (PlayerInfos[0] != null)
             PlayerInfos[0].Race = humanPlayerRace;
@@ -363,7 +363,7 @@ namespace WinWarCS.Data.Resources
          uint missionTextOffset = *(uint*)(&ptr[0x94]);
          MissionText = string.Empty;
          if (missionTextOffset > 0)// 0 => No MissionText
-         
+
          {
             StringBuilder sb = new StringBuilder();
             byte* b_ptr = &ptr[missionTextOffset];

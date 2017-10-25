@@ -70,18 +70,18 @@ namespace WinWarCS.Data.Resources
 
                   int temp_index;
 
-                  if (palette == null) 
+                  if (palette == null)
                   {	// No palette for this image or grayscale forced ... use grayscale palette
-                     for (y = Frames [i].disp_y; y < (Frames [i].height + Frames [i].disp_y); y++) 
+                     for (y = Frames[i].disp_y; y < (Frames[i].height + Frames[i].disp_y); y++)
                      {
-                        for (x = Frames [i].disp_x; x < (Frames [i].width + Frames [i].disp_x); x++) 
+                        for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
                         {
                            temp_index = (x + (y * MaxWidth)) * 4;
 
                            for (c = 0; c < 3; c++)
-                              Frames [i].image_data [temp_index + c] = org_ptr [offset];
+                              Frames[i].image_data[temp_index + c] = org_ptr[offset];
 
-                           Frames [i].image_data [temp_index + 3] = 255;
+                           Frames[i].image_data[temp_index + 3] = 255;
 
                            offset++;
                         }
@@ -97,12 +97,12 @@ namespace WinWarCS.Data.Resources
 
                         for (y = Frames[i].disp_y; y < (Frames[i].height + Frames[i].disp_y); y++)
                         {
-				               for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
+                           for (x = Frames[i].disp_x; x < (Frames[i].width + Frames[i].disp_x); x++)
                            {
                               temp_index = (x + (y * MaxWidth)) * 4;
                               pal_index = org_ptr[offset++] * 3;
 
-                              if (pal_index / 3 == 96) 
+                              if (pal_index / 3 == 96)
                               {
                                  // Shadow
                                  Frames[i].image_data[temp_index] = 0;
@@ -113,7 +113,7 @@ namespace WinWarCS.Data.Resources
                               }
 
                               for (c = 0; c < 3; c++)
-                                 Frames [i].image_data [temp_index + c] = (byte)(pal_dataptr[pal_index + c] * 4);
+                                 Frames[i].image_data[temp_index + c] = (byte)(pal_dataptr[pal_index + c] * 4);
 
                               Frames[i].image_data[temp_index + 3] = (((Frames[i].image_data[temp_index] == 0) && (Frames[i].image_data[temp_index + 1] == 0) &&
                                                              (Frames[i].image_data[temp_index + 2] == 0)) ? (byte)0 : (byte)255);

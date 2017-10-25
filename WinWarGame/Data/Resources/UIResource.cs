@@ -6,9 +6,9 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-	internal class UIResource : BasicResource
-	{
-		#region Subclass MenuEntry
+   internal class UIResource : BasicResource
+   {
+      #region Subclass MenuEntry
       internal enum UIEntryType
       {
          Button = 0,
@@ -30,18 +30,18 @@ namespace WinWarCS.Data.Resources
          Right,
       }
 
-		internal class UIEntry
-		{
+      internal class UIEntry
+      {
          internal UIEntryType Type;
-			internal string Text;
-			internal ushort X;
-			internal ushort Y;
+         internal string Text;
+         internal ushort X;
+         internal ushort Y;
          internal UIEntryTextAlignment Alignment;
 
-			internal int ButtonReleasedResourceIndex;
+         internal int ButtonReleasedResourceIndex;
          internal int ButtonPressedResourceIndex;
          internal int ButtonIndex;
-			internal ushort HotKey;
+         internal ushort HotKey;
          internal int ValueCount;
          internal List<string> Values;
 
@@ -75,29 +75,29 @@ namespace WinWarCS.Data.Resources
             }
             return result;
          }
-		}
-		#endregion
+      }
+      #endregion
 
-		#region Variables
+      #region Variables
       internal int BackgroundImageResourceIndex;
       internal List<UIEntry> Labels;
-		internal List<UIEntry> Elements;
+      internal List<UIEntry> Elements;
 
       internal ushort EnterButtonIndex;
       internal ushort EscapeButtonIndex;
-		#endregion
+      #endregion
 
-		#region Constructor
-		internal UIResource(WarResource data)
-		{
+      #region Constructor
+      internal UIResource(WarResource data)
+      {
          Type = ContentFileType.FileUI;
 
-			if (data == null)
-				throw new ArgumentNullException("data");
+         if (data == null)
+            throw new ArgumentNullException("data");
 
-			Init(data);
-		}
-		#endregion
+         Init(data);
+      }
+      #endregion
 
       #region ReadData
       /*
@@ -238,7 +238,7 @@ namespace WinWarCS.Data.Resources
             me.ButtonReleasedResourceIndex = ReadResourceIndex(offset + 10, res);
             me.ButtonPressedResourceIndex = ReadResourceIndex(offset + 14, res);
             me.Text = string.Empty;
-            if (me.Type == UIEntryType.Button || me.Type == UIEntryType.TextFieldSelectable || 
+            if (me.Type == UIEntryType.Button || me.Type == UIEntryType.TextFieldSelectable ||
                me.Type == UIEntryType.ListBoxSelectButton || me.Type == UIEntryType.TextFieldButton ||
                me.Type == UIEntryType.TextFieldHidden)
             {
@@ -251,7 +251,7 @@ namespace WinWarCS.Data.Resources
                while (valuesOffset < res.data.Length)
                {
                   int valueOff = ReadInt(valuesOffset, res.data);
-                  if (valueOff == unchecked((int)0xFFFFFFFF) || 
+                  if (valueOff == unchecked((int)0xFFFFFFFF) ||
                      valueOff == 0)
                      break;
 
@@ -281,8 +281,8 @@ namespace WinWarCS.Data.Resources
       }
       #endregion
 
-		#region Init
-		private void Init(WarResource data)
+      #region Init
+      private void Init(WarResource data)
       {
          Labels = new List<UIEntry>();
          Elements = new List<UIEntry>();
@@ -292,6 +292,6 @@ namespace WinWarCS.Data.Resources
          ReadTitle(data);
          ReadUIElements(data);
       }
-		#endregion
-	}
+      #endregion
+   }
 }
