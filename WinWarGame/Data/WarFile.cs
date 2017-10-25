@@ -12,11 +12,11 @@ using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
-
 #endregion
+
 namespace WinWarCS.Data
 {
-   internal enum DataWarFileType
+   public enum DataWarFileType
    {
       Unknown,
       Demo,
@@ -24,7 +24,7 @@ namespace WinWarCS.Data
       RetailCD
    }
 
-   internal static class WarFile
+   public static class WarFile
    {
       #region Members
 
@@ -44,7 +44,7 @@ namespace WinWarCS.Data
       /// The knowledge base for the currently loaded DATA.WAR
       /// Available after loading calling LoadResources()
       /// </summary>
-      internal static KnowledgeBase KnowledgeBase;
+      public static KnowledgeBase KnowledgeBase;
 
       #endregion
 
@@ -80,16 +80,27 @@ namespace WinWarCS.Data
 
       #region LoadResources
 
-      internal static async Task LoadResources()
+      public static async void LoadResources(IAssetProvider assetProvider)
       {
          Stream stream = null;
+         try
+         {
+            stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "Data" + assetProvider.DirectorySeparatorChar + "DATA.WAR");
+            LoadResourcesFromStream(stream);
+         }
+         finally
+         {
+            stream?.Dispose();
+            stream = null;
+         }
+      }
+
+      public static void LoadResourcesFromStream(Stream stream)
+      {
          BinaryReader reader = null;
          try
          {
             Performance.Push("Loading DATA.WAR");
-
-            stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" +
-            Platform.IO.DirectorySeparatorChar + "DATA.WAR");
 
             reader = new BinaryReader(stream);
 
@@ -125,11 +136,21 @@ namespace WinWarCS.Data
          finally
          {
             if (reader != null)
+            {
                reader.Dispose();
-            stream.Dispose();
+               reader = null;
+            }
          }
       }
 
+      #endregion
+
+      #region Unload
+      public static void Unload()
+      {
+         rawResources = null;
+         KnowledgeBase = null;
+      }
       #endregion
 
       #region ReadResources
@@ -286,9 +307,8 @@ namespace WinWarCS.Data
       #endregion
 
       #region WriteWarFile
-      private static void WriteWarFile(string outputFile, bool forceStrongTyped)
+      public static void WriteWarFile(string outputFile, bool forceStrongTyped)
       {
-#if !NETFX_CORE
          using (BinaryWriter writer = new BinaryWriter(File.Create(outputFile)))
          {
             writer.Write(fileID);
@@ -331,13 +351,12 @@ namespace WinWarCS.Data
             for (int i = 0; i < rawResources.Count; i++)
                writer.Write(offsets[i]);
          }
- #endif
       }
       #endregion
 
       #region GetImageResource
 
-      internal static ImageResource GetImageResource(int id)
+      public static ImageResource GetImageResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -352,7 +371,7 @@ namespace WinWarCS.Data
 
       #region GetCursorResource
 
-      internal static CursorResource GetCursorResource(int id)
+      public static CursorResource GetCursorResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -367,7 +386,7 @@ namespace WinWarCS.Data
 
       #region GetSpriteResource
 
-      internal static SpriteResource GetSpriteResource(int id)
+      public static SpriteResource GetSpriteResource(int id)
       {
          Performance.Push("GetSpriteResource");
          try
@@ -390,7 +409,7 @@ namespace WinWarCS.Data
 
       #region GetUIResource
 
-      internal static UIResource GetUIResource(int id)
+      public static UIResource GetUIResource(int id)
       {
          if ((id < 0 || id >= KnowledgeBase.Count))
             return null;
@@ -405,7 +424,7 @@ namespace WinWarCS.Data
 
       #region GetResource
 
-      internal static BasicResource GetResource(int index)
+      public static BasicResource GetResource(int index)
       {
          if ((index < 0) || (index >= Count))
             return null;
@@ -436,11 +455,13 @@ namespace WinWarCS.Data
       /// </summary>
       /// <param name="name">Name of the resource</param>
       /// <returns>The resource or null if no resource of the given name exists</returns>
-      internal static BasicResource GetResourceByName(string name)
+      public static BasicResource GetResourceByName(string name)
       {
          int idx = KnowledgeBase.IndexByName(name);
          if (idx == -1)
+         {
             return null;
+         }
 
          return GetResource(idx);
       }
@@ -449,7 +470,7 @@ namespace WinWarCS.Data
 
       #region Properties
 
-      internal static bool AreResoucesLoaded
+      public static bool AreResoucesLoaded
       {
          get
          {
@@ -457,7 +478,7 @@ namespace WinWarCS.Data
          }
       }
 
-      internal static int Count
+      public static int Count
       {
          get
          {

@@ -58,7 +58,7 @@ namespace WinWarCS.Data.Game
          HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
          if (entry.Target == null)
          {
-            Log.AI(this.Owner, "No enemy ... moving!");
+            Log.AI(this.Owner?.ToString(), "No enemy ... moving!");
 
             if (bUpdatePath)
             {
@@ -87,7 +87,7 @@ namespace WinWarCS.Data.Game
 
          this.Owner.CurrentTarget = entry.Target;
 
-         Log.AI(this.Owner, "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueID);
+         Log.AI(this.Owner?.ToString(), "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueID);
 
          bUpdatePath = true;
          Path = null;
@@ -116,7 +116,7 @@ namespace WinWarCS.Data.Game
          {
             // Target is out of range -> Move towards it
 
-            Log.AI(this.Owner, "Target is out of range ... moving towards it!");
+            Log.AI(this.Owner?.ToString(), "Target is out of range ... moving towards it!");
 
             // If no path has been calculated yet or if the target has moved, calculate new path
             if (TargetPath == null || ent.X != targetX || ent.Y != targetY)

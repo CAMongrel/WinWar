@@ -8,13 +8,13 @@ using WinWarCS.Data.Game;
 namespace WinWarCS.Data.Resources
 {
    #region Constructs
-   internal enum ConstructType
+   public enum ConstructType
    {
       Road,
       Wall,
    }
 
-   internal enum ConstructConfig
+   public enum ConstructConfig
    {
       EndPieceLeft,
       EndPieceTop,
@@ -33,7 +33,7 @@ namespace WinWarCS.Data.Resources
       MiddlePieceLeftRight,
    }
 
-   internal class Construct
+   public class Construct
    {
       internal byte X;
       internal byte Y;
@@ -51,7 +51,7 @@ namespace WinWarCS.Data.Resources
 
    #region enum LevelObjectType
 
-   internal enum LevelObjectType
+   public enum LevelObjectType
    {
       //Units:
       // 0x00
@@ -123,7 +123,7 @@ namespace WinWarCS.Data.Resources
 
    #region Struct LevelObject
 
-   internal class LevelObject
+   public class LevelObject
    {
       internal byte X;
       internal byte Y;
@@ -133,7 +133,7 @@ namespace WinWarCS.Data.Resources
       internal byte Value2;
    };
 
-   internal class PlayerInfo
+   public class PlayerInfo
    {
       internal int StartGold { get; set; }
       internal int StartLumber { get; set; }
@@ -142,7 +142,7 @@ namespace WinWarCS.Data.Resources
 
    #endregion
 
-   internal class LevelInfoResource : BasicResource
+   public class LevelInfoResource : BasicResource
    {
       private enum LevelInfoType
       {
@@ -201,8 +201,8 @@ namespace WinWarCS.Data.Resources
       /// <summary>
       /// PlayerInfo of the human player (Orcs/Humans)
       /// </summary>
-      internal PlayerInfo HumanPlayerInfo 
-      { 
+      internal PlayerInfo HumanPlayerInfo
+      {
          get { return PlayerInfos[0]; }
       }
 
@@ -345,7 +345,7 @@ namespace WinWarCS.Data.Resources
             humanPlayerRace = Race.Humans;
          else
             if ((*(ushort*)(&ptr[0x84])) > 0)
-               humanPlayerRace = Race.Orcs;
+            humanPlayerRace = Race.Orcs;
 
          if (PlayerInfos[0] != null)
             PlayerInfos[0].Race = humanPlayerRace;
@@ -363,7 +363,7 @@ namespace WinWarCS.Data.Resources
          uint missionTextOffset = *(uint*)(&ptr[0x94]);
          MissionText = string.Empty;
          if (missionTextOffset > 0)// 0 => No MissionText
-         
+
          {
             StringBuilder sb = new StringBuilder();
             byte* b_ptr = &ptr[missionTextOffset];

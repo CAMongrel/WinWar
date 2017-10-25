@@ -5,14 +5,14 @@ using System.IO;
 
 namespace WinWarCS.Data.Resources
 {
-   internal abstract class BasicResource
-	{
+   public abstract class BasicResource
+   {
       public ContentFileType Type { get; protected set; }
 
-		protected BasicResource()
-		{
+      protected BasicResource()
+      {
          Type = ContentFileType.FileUnknown;
-		}
+      }
 
       protected byte[] ReadBytes(int index, int count, byte[] data)
       {
@@ -29,6 +29,9 @@ namespace WinWarCS.Data.Resources
 
       protected ushort ReadUShort(int index, byte[] data)
       {
+         if (index < 0 || index >= data.Length)
+            return 0;
+
          return (ushort)(data[index + 0] + (data[index + 1] << 8));
       }
 
@@ -92,5 +95,5 @@ namespace WinWarCS.Data.Resources
          // Implemented in derived classes
       }
 #endif
-	}
+   }
 }

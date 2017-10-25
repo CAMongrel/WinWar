@@ -146,13 +146,6 @@ namespace WinWarCS.Data.Game
 
       public int IconIndex;
 
-      static Entity()
-      {
-         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
-
-         LoadDefaultValues();
-      }
-
       public Entity (Map currentMap)
       {
          Performance.Push("Entity ctor");
@@ -191,7 +184,7 @@ namespace WinWarCS.Data.Game
       /// <param name="newY">New y.</param>
       public void SetPosition(float newX, float newY)
       {
-         Log.AI (this, "Setting position to " + newX + "," + newY);
+         Log.AI (this.ToString(), "Setting position to " + newX + "," + newY);
 
          CurrentMap.Pathfinder.SetFieldsFree(TileX, TileY, this.TileSizeX, this.TileSizeY);
 
@@ -327,7 +320,7 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public void Idle()
       {
-         Log.AI(this, "Idling...");
+         Log.AI(this.ToString(), "Idling...");
          StateMachine.ChangeState(new StateIdle(this));
       } // Idle()
 
@@ -336,7 +329,7 @@ namespace WinWarCS.Data.Game
       /// </summary>
       public void Die()
       {
-         Log.AI(this, "Dieing...");
+         Log.AI(this.ToString(), "Dieing...");
          StateMachine.ChangeState(new StateDeath(this));
       } // Idle()
 
@@ -349,7 +342,7 @@ namespace WinWarCS.Data.Game
       {
          if (CanMove)
          {
-            Log.AI(this, "Moving to " + x + "," + y + " and attacking all enemies on the way!");
+            Log.AI(this.ToString(), "Moving to " + x + "," + y + " and attacking all enemies on the way!");
 
             StateMachine.ChangeState(new StateAttackMove(this, x, y));
          }
@@ -363,7 +356,7 @@ namespace WinWarCS.Data.Game
       {
          if (CanAttack)
          {
-            Log.AI(this, "Attacking " + Target.Name + Target.UniqueID);
+            Log.AI(this.ToString(), "Attacking " + Target.Name + Target.UniqueID);
 
             StateMachine.ChangeState(new StateAttack(this, Target));
          }
@@ -378,7 +371,7 @@ namespace WinWarCS.Data.Game
       {
          if (CanMove)
          {
-            Log.AI(this, "Moving to " + x + "," + y);
+            Log.AI(this.ToString(), "Moving to " + x + "," + y);
 
             StateMachine.ChangeState(new StateMove(this, x, y));
          }
@@ -392,8 +385,8 @@ namespace WinWarCS.Data.Game
             damage = 0;
 
          HitPoints -= (short)damage;
-         Log.AI(this, this.Name + this.UniqueID + " takes " + damage + " point(s) of damage. (reduced by armor and effects)");
-         Log.AI(this, this.Name + this.UniqueID + " has " + this.HitPoints + " hitpoints left.");
+         Log.AI(this.ToString(), this.Name + this.UniqueID + " takes " + damage + " point(s) of damage. (reduced by armor and effects)");
+         Log.AI(this.ToString(), this.Name + this.UniqueID + " has " + this.HitPoints + " hitpoints left.");
          if (HitPoints <= 0)
             Die ();
 
@@ -411,7 +404,7 @@ namespace WinWarCS.Data.Game
 
          int damage = this.MinDamage + CurrentMap.Rnd.Next(this.RandomDamage);
 
-         Log.AI(this, "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " (unmitigated) point(s) of damage.");
+         Log.AI(this.ToString(), "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " (unmitigated) point(s) of damage.");
 
          Target.TakeDamage ((short)damage, this);
 
@@ -565,13 +558,15 @@ namespace WinWarCS.Data.Game
          return this.GetType ().Name;
       }
 
-      private static async void LoadDefaultValues()
+      public static async void LoadDefaultValues(IAssetProvider assetProvider)
       {
          XmlDocument doc = new XmlDocument();
-         using (FileStream stream = await Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "entities.xml"))
+         using (FileStream stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "entities.xml"))
          {
             doc.Load(stream);
          }
+
+         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
 
          XmlNodeList list = doc.DocumentElement.ChildNodes;
          for (int i = 0; i < list.Count; i++)

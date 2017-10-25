@@ -2,7 +2,7 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class CursorResource : BasicResource
+   public class CursorResource : BasicResource
    {
       internal ushort width;
       internal ushort height;
@@ -48,16 +48,17 @@ namespace WinWarCS.Data.Resources
                   for (y = 0; y < height; y++)
                      for (x = 0; x < width; x++)
                      {
-                        image_data [cnt] = b_ptr [x + y * width];
+                        image_data[cnt] = b_ptr[x + y * width];
                         cnt++;
-                        image_data [cnt] = b_ptr [x + y * width];
+                        image_data[cnt] = b_ptr[x + y * width];
                         cnt++;
-                        image_data [cnt] = b_ptr [x + y * width];
+                        image_data[cnt] = b_ptr[x + y * width];
                         cnt++;
-                        image_data [cnt] = 255;
+                        image_data[cnt] = 255;
                         cnt++;
                      }
-               } else
+               }
+               else
                {
                   // We have a palette ... use it!
                   fixed (byte* pal_org_ptr = &palette.data[0])
@@ -69,15 +70,15 @@ namespace WinWarCS.Data.Resources
                      {
                         for (x = 0; x < width; x++)
                         {
-                           pal_index = b_ptr [x + y * width] * 3;
+                           pal_index = b_ptr[x + y * width] * 3;
 
-                           image_data [cnt] = (byte)(pal_dataptr [pal_index + 0] * 4);
+                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 0] * 4);
                            cnt++;
-                           image_data [cnt] = (byte)(pal_dataptr [pal_index + 1] * 4);
+                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 1] * 4);
                            cnt++;
-                           image_data [cnt] = (byte)(pal_dataptr [pal_index + 2] * 4);
+                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 2] * 4);
                            cnt++;
-                           image_data [cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
+                           image_data[cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
                            cnt++;
                         }
                      }

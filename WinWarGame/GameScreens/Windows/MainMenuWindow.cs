@@ -83,7 +83,7 @@ namespace WinWarCS.GameScreens.Windows
             return;
          }
 
-         Stream resultFile = await WinWarCS.Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", "TITLE.WAR"));
+         Stream resultFile = await MainGame.AssetProvider.OpenContentFile(Path.Combine("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", "TITLE.WAR"));
 
          MovieGameScreen.PlayMovie(resultFile,
              delegate

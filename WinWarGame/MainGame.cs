@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using WinWarCS.Util;
 using MouseCursor = WinWarCS.Gui.MouseCursor;
+using WinWarCS.Data.Game;
 
 namespace WinWarCS
 {
@@ -105,10 +106,12 @@ namespace WinWarCS
          }
       }
 
+      internal static IAssetProvider AssetProvider { get; private set; }
       #endregion
 
-      public MainGame ()
+      public MainGame(IAssetProvider setAssetProvider)
       {
+         AssetProvider = setAssetProvider;
          MainGame.WinWarGame = this;
 
          Log.Severity = LogSeverity.Debug;
@@ -142,7 +145,7 @@ namespace WinWarCS
          Stream stream = null;
          try
          {
-            stream = await WinWarCS.Platform.IO.OpenContentFile ("Assets" + Platform.IO.DirectorySeparatorChar + "Data" + Platform.IO.DirectorySeparatorChar + "DATA.WAR");
+            stream = await MainGame.AssetProvider.OpenContentFile ("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data" + MainGame.AssetProvider.DirectorySeparatorChar + "DATA.WAR");
             return true;
          } catch (Exception ex)
          {
@@ -172,7 +175,7 @@ namespace WinWarCS
          bool result = await ValidateDataWar ();
          if (result == false)
          {
-            await Platform.UI.ShowMessageDialog ("DATA.WAR not found at expected location '" + Platform.IO.ExpectedDataDirectory () +
+            await Platform.UI.ShowMessageDialog ("DATA.WAR not found at expected location '" + AssetProvider.ExpectedDataDirectory +
             "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
             "please also copy all the other .WAR files from the data directory.");
             return;
@@ -182,8 +185,9 @@ namespace WinWarCS
 
          try
          {
-            await WinWarCS.Data.WarFile.LoadResources ();
-            WinWarCS.Data.Game.MapTileset.LoadAllTilesets ();
+            Entity.LoadDefaultValues(AssetProvider);
+            WarFile.LoadResources(AssetProvider);
+            MapTileset.LoadAllTilesets();
          } catch (Exception ex)
          {
             loadingException = ex;

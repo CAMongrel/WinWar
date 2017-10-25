@@ -24,7 +24,7 @@ namespace WinWarCS.Data.Game
          if (!CanBuild)
             return;
 
-         Log.AI(this, "Building '" + EntityID + "'");
+         Log.AI(this?.ToString(), "Building '" + EntityID + "'");
 
          if (StateMachine.CurrentState is StateBuilding)
          {

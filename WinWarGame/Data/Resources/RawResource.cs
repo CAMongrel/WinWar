@@ -2,7 +2,7 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class RawResource : BasicResource
+   public class RawResource : BasicResource
    {
       internal WarResource Resource;
 

@@ -14,7 +14,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class LevelVisualResource : BasicResource
+   public class LevelVisualResource : BasicResource
    {
       internal ushort[] visualData;
 
@@ -28,7 +28,7 @@ namespace WinWarCS.Data.Resources
          CreateVisualData(setData);
       }
       // LevelVisualResource(setData, setOffset)
-		
+
       /// <summary>
       /// Create visual data
       /// </summary>
@@ -44,7 +44,7 @@ namespace WinWarCS.Data.Resources
                fixed (byte* org_ptr = &setData.data[0])
                {
                   ushort* ptr = (ushort*)org_ptr;
-						
+
                   for (int y = 0; y < 64; y++)
                   {
                      for (int x = 0; x < 64; x++)
@@ -58,7 +58,7 @@ namespace WinWarCS.Data.Resources
          } // if
       }
       // CreateVisualData()
-		
+
       /// <summary>
       /// Destroy visual data
       /// </summary>
