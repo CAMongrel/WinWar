@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Data.Game;
-
 #endregion
 
 namespace WinWarCS.Data.Resources

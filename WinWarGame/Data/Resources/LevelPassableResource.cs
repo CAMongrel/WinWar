@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Game;
+using WinWarCS.Data;
 
 namespace WinWarCS.Data.Resources
 {
@@ -24,11 +24,6 @@ namespace WinWarCS.Data.Resources
          CreatePassableData(setData);
       }
       // LevelVisualResource(setData, setOffset)
-
-      internal void FillAStar(AStar2D astar)
-      {
-         astar.SetField (passableData, width, height);
-      }
 		
       /// <summary>
       /// Create visual data

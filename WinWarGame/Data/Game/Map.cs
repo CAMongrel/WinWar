@@ -144,7 +144,7 @@ namespace WinWarCS.Data.Game
          Performance.Push("Start Map");
 
          Performance.Push("FillAStar");
-         levelPassable.FillAStar(Pathfinder);
+         Pathfinder.SetField(levelPassable.passableData, levelPassable.width, levelPassable.height);
          Performance.Pop();
 
          entities = new List<Entity> ();

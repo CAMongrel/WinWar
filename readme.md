@@ -34,6 +34,7 @@ http://wowpedia.org/Warcraft:_Orcs_%26_Humans_%28Demo%29
 - Originally written in C++
 - Switched to C# sometime in 2008
 - Later moved to MonoGame as base framework to support multiple platforms
+- Note: Due to the age of the project, parts of the codebase are written in a way which I'm not particularly proud of. They will be refactored over time.
 
 ## Acknowledgements
 WarCraft: Orcs & Humans is a trademark of Blizzard Entertainment.
