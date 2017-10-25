@@ -8,6 +8,7 @@ using System.IO;
 using System.Xml;
 using System.Globalization;
 using WinWarCS.Gui;
+using WinWarGame.Data;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -145,13 +146,6 @@ namespace WinWarCS.Data.Game
       public short DecayRate;
 
       public int IconIndex;
-
-      static Entity()
-      {
-         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
-
-         LoadDefaultValues();
-      }
 
       public Entity (Map currentMap)
       {
@@ -565,13 +559,15 @@ namespace WinWarCS.Data.Game
          return this.GetType ().Name;
       }
 
-      private static async void LoadDefaultValues()
+      public static async void LoadDefaultValues(IAssetProvider assetProvider)
       {
          XmlDocument doc = new XmlDocument();
-         using (FileStream stream = await Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "entities.xml"))
+         using (FileStream stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "entities.xml"))
          {
             doc.Load(stream);
          }
+
+         defaultValueDict = new Dictionary<LevelObjectType, Dictionary<string, string>>();
 
          XmlNodeList list = doc.DocumentElement.ChildNodes;
          for (int i = 0; i < list.Count; i++)

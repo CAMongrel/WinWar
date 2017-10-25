@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
+using WinWarGame.Data;
 
 #endregion
 namespace WinWarCS.Data
@@ -80,7 +81,7 @@ namespace WinWarCS.Data
 
       #region LoadResources
 
-      internal static async Task LoadResources()
+      internal static async void LoadResources(IAssetProvider assetProvider)
       {
          Stream stream = null;
          BinaryReader reader = null;
@@ -88,8 +89,7 @@ namespace WinWarCS.Data
          {
             Performance.Push("Loading DATA.WAR");
 
-            stream = await WinWarCS.Platform.IO.OpenContentFile("Assets" + Platform.IO.DirectorySeparatorChar + "Data" +
-            Platform.IO.DirectorySeparatorChar + "DATA.WAR");
+            stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "Data" + assetProvider.DirectorySeparatorChar + "DATA.WAR");
 
             reader = new BinaryReader(stream);
 

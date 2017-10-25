@@ -14,37 +14,37 @@ namespace WinWarCS.Data.Resources
       /// <summary>
       /// Create level visual resource
       /// </summary>
-      internal LevelPassableResource (WarResource setData)
+      internal LevelPassableResource(WarResource setData)
       {
          Type = ContentFileType.FileLevelPassable;
 
          width = 64;
          height = 64;
-			
+
          CreatePassableData(setData);
       }
       // LevelVisualResource(setData, setOffset)
-		
+
       /// <summary>
       /// Create visual data
       /// </summary>
-      private void CreatePassableData (WarResource setData)
+      private void CreatePassableData(WarResource setData)
       {
          passableData = new short[width, height];
-			
-         if (setData.data != null) 
+
+         if (setData.data != null)
          {
-            unsafe 
+            unsafe
             {
-               fixed (byte* org_ptr = &setData.data[0]) 
+               fixed (byte* org_ptr = &setData.data[0])
                {
                   short* ptr = (short*)org_ptr;
-						
-                  for (int y = 0; y < height; y++) 
+
+                  for (int y = 0; y < height; y++)
                   {
-                     for (int x = 0; x < width; x++) 
+                     for (int x = 0; x < width; x++)
                      {
-                        passableData [x, y] = *ptr;
+                        passableData[x, y] = *ptr;
                         ptr++;
                      }
                   }
@@ -53,11 +53,11 @@ namespace WinWarCS.Data.Resources
          } // if
       }
       // CreateVisualData()
-		
+
       /// <summary>
       /// Destroy visual data
       /// </summary>
-      internal void DestroyPassableData ()
+      internal void DestroyPassableData()
       {
       }
       // DestroyVisualData()

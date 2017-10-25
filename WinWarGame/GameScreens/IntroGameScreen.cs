@@ -126,7 +126,7 @@ namespace WinWarCS.GameScreens
 
       internal async Task<Stream> GetMovieFile(string filename)
       {
-          return await Platform.IO.OpenContentFile(Path.Combine("Assets" + Platform.IO.DirectorySeparatorChar + "Data", filename));
+          return await MainGame.AssetProvider.OpenContentFile(Path.Combine("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", filename));
       }
 
       void player_OnPlaybackFinished(FLCFile file, bool didFinishNormally)
