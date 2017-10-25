@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Compile Include="..\WinWarGame\Data\Game\Race.cs" Link="Game\Race.cs" />
+    <Compile Include="..\WinWarGame\Data\IAssetProvider.cs" Link="IAssetProvider.cs" />
     <Compile Include="..\WinWarGame\Data\KnowledgeBase.cs" Link="KnowledgeBase.cs" />
     <Compile Include="..\WinWarGame\Data\Resources\BasicResource.cs" Link="Resources\BasicResource.cs" />
     <Compile Include="..\WinWarGame\Data\Resources\CursorResource.cs" Link="Resources\CursorResource.cs" />
@@ -25,6 +26,7 @@
     <Compile Include="..\WinWarGame\Data\Resources\UIResource.cs" Link="Resources\UIResource.cs" />
     <Compile Include="..\WinWarGame\Data\WarFile.cs" Link="WarFile.cs" />
     <Compile Include="..\WinWarGame\Data\WarResource.cs" Link="WarResource.cs" />
+    <Compile Include="..\WinWarGame\Util\DebugOptions.cs" Link="Util\DebugOptions.cs" />
     <Compile Include="..\WinWarGame\Util\Log.cs" Link="Util\Log.cs" />
     <Compile Include="..\WinWarGame\Util\Performance.cs" Link="Util\Performance.cs" />
   </ItemGroup>

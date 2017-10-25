@@ -32,11 +32,11 @@ namespace WinWarCS.Data.Game
          if (requestedNewState.Owner == null)
             throw new ArgumentNullException("requestedNewState.owner");
 
-         Log.AI(owner, "Changing state to " + requestedNewState.ToString());
+         Log.AI(owner.ToString(), "Changing state to " + requestedNewState.ToString());
 
          State previousState = CurrentState;
 
-         Log.AI(owner, "Previous state was " + (previousState != null ? previousState.ToString() : "null"));
+         Log.AI(owner.ToString(), "Previous state was " + (previousState != null ? previousState.ToString() : "null"));
 
          if (CurrentState != null)
             CurrentState.Leave();
@@ -47,7 +47,7 @@ namespace WinWarCS.Data.Game
          if (CurrentState.Enter() == false)
          {
             CurrentState = null;
-            Log.AI(owner, "Failed to enter new state. Reverting to previous state.");
+            Log.AI(owner.ToString(), "Failed to enter new state. Reverting to previous state.");
             ChangeState(previousState);
          }
       }

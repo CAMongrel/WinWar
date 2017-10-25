@@ -36,7 +36,7 @@ namespace WinWarCS.Data.Game
 
          Owner.HateList.SetHateValue(Owner.CurrentTarget, 25, HateListParam.PushToTop);
 
-         Log.AI(this.Owner, "Attacking " + Owner.CurrentTarget.Name + Owner.CurrentTarget.UniqueID);
+         Log.AI(this.Owner.ToString(), "Attacking " + Owner.CurrentTarget.Name + Owner.CurrentTarget.UniqueID);
 
          targetX = Owner.CurrentTarget.TileX;
          targetY = Owner.CurrentTarget.TileY;

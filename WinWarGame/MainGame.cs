@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using WinWarCS.Util;
 using MouseCursor = WinWarCS.Gui.MouseCursor;
 using WinWarCS.Data.Game;
-using WinWarGame.Data;
 
 namespace WinWarCS
 {

@@ -65,9 +65,9 @@ namespace WinWarCS.Util
       }
 
       // Specialized logging methods
-      internal static void AI(Entity entity, string message, LogSeverity severity = LogSeverity.Debug)
+      internal static void AI(string entityString, string message, LogSeverity severity = LogSeverity.Debug)
       {
-         LogInternal(LogType.AI, severity, entity + ": " + message);
+         LogInternal(LogType.AI, severity, entityString + ": " + message);
       }
 
       internal static void Forced(string message)

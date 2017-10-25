@@ -1,6 +1,6 @@
 using System;
 using WinWarCS.Windows;
-using WinWarGame.Data;
+using WinWarCS.Data;
 
 namespace WinWarCS
 {

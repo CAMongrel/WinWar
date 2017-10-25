@@ -12,9 +12,8 @@ using System.Collections.Generic;
 using System.Text;
 using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
-using WinWarGame.Data;
-
 #endregion
+
 namespace WinWarCS.Data
 {
    internal enum DataWarFileType

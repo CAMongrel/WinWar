@@ -22,7 +22,7 @@ namespace WinWarCS.GameScreens
 
       internal async static void PlayMovie(string moviename, MovieFinished OnMovieFinished)
       {
-         Stream resultFile = await MainGame.AssetProvider.OpenContentFile (Path.Combine ("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", moviename));
+         Stream resultFile = await MainGame.AssetProvider.OpenContentFile(Path.Combine ("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", moviename));
          if (resultFile == null)
             // TODO: Log error
             return;
