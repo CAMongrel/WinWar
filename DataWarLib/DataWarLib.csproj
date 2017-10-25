@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\WinWarGame\Data\Game\Race.cs" Link="Game\Race.cs" />
+    <Compile Include="..\WinWarGame\Data\KnowledgeBase.cs" Link="KnowledgeBase.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\BasicResource.cs" Link="Resources\BasicResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\CursorResource.cs" Link="Resources\CursorResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\EmbeddedDataResource.cs" Link="Resources\EmbeddedDataResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\ImageResource.cs" Link="Resources\ImageResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\LevelInfoResource.cs" Link="Resources\LevelInfoResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\LevelPassableResource.cs" Link="Resources\LevelPassableResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\LevelVisualResource.cs" Link="Resources\LevelVisualResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\PaletteResource.cs" Link="Resources\PaletteResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\RawResource.cs" Link="Resources\RawResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\SpriteResource.cs" Link="Resources\SpriteResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\TableResource.cs" Link="Resources\TableResource.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\UIResource.cs" Link="Resources\UIResource.cs" />
+    <Compile Include="..\WinWarGame\Data\WarFile.cs" Link="WarFile.cs" />
+    <Compile Include="..\WinWarGame\Data\WarResource.cs" Link="WarResource.cs" />
+    <Compile Include="..\WinWarGame\Util\Log.cs" Link="Util\Log.cs" />
+    <Compile Include="..\WinWarGame\Util\Performance.cs" Link="Util\Performance.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Game\" />
+    <Folder Include="Util\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+</Project>
