@@ -31,10 +31,10 @@ namespace WinWarCS.Data
 
    public class KnowledgeEntry
    {
-      internal int id;
-      internal ContentFileType type;
-      internal int param;
-      internal string text;
+      public int id;
+      public ContentFileType type;
+      public int param;
+      public string text;
 
       internal KnowledgeEntry (int id, ContentFileType type, int param, string text)
       {
@@ -197,8 +197,8 @@ namespace WinWarCS.Data
          new KnowledgeEntry (142, ContentFileType.FileLevelInfo, 0, "Unknown Level"),  
          new KnowledgeEntry (143, ContentFileType.FileLevelInfo, 0, "Unknown Level"),  
          new KnowledgeEntry (144, ContentFileType.FileLevelInfo, 0, "Unknown Level"),  
-         new KnowledgeEntry (145, ContentFileType.FileLevelInfo, 0, "Unknown Level"), 
-         new KnowledgeEntry (146, ContentFileType.FileLevelInfo, 0, "Unknown Level"), 
+         new KnowledgeEntry (145, ContentFileType.FileUnknown, 0, "Unknown (broken?) Level"),      // Should be a level, but seems to be broken or a different format
+         new KnowledgeEntry (146, ContentFileType.FileUnknown, 0, "Unknown (broken?) Level"),      // Should be a level, but seems to be broken or a different format
          new KnowledgeEntry (147, ContentFileType.FileLevelInfo, 0, "Unknown Level"), 
          new KnowledgeEntry (148, ContentFileType.FileLevelInfo, 0, "Unknown Level"), 
          new KnowledgeEntry (149, ContentFileType.FileLevelInfo, 0, "Unknown Level"), 
@@ -673,7 +673,7 @@ namespace WinWarCS.Data
          }
       }
 
-      internal KnowledgeEntry this[string name]
+      public KnowledgeEntry this[string name]
       {
          get
          {
@@ -685,7 +685,7 @@ namespace WinWarCS.Data
          }
       }
 
-      internal KnowledgeEntry this[int index]
+      public KnowledgeEntry this[int index]
       {
          get
          {
@@ -696,7 +696,7 @@ namespace WinWarCS.Data
          }
       }
 
-      internal int IndexByName (string name)
+      public int IndexByName (string name)
       {
          name = name.ToLowerInvariant ();
 
@@ -708,7 +708,7 @@ namespace WinWarCS.Data
          return -1;
       }
 
-      internal int IconIDByName(string name)
+      public int IconIDByName(string name)
       {
          if (iconDatabase.ContainsKey(name) == false)
             return -1;
@@ -716,7 +716,7 @@ namespace WinWarCS.Data
          return iconDatabase[name];
       }
 
-      internal int Count
+      public int Count
       {
          get
          {

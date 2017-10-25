@@ -29,6 +29,9 @@ namespace WinWarCS.Data.Resources
 
       protected ushort ReadUShort(int index, byte[] data)
       {
+         if (index < 0 || index >= data.Length)
+            return 0;
+
          return (ushort)(data[index + 0] + (data[index + 1] << 8));
       }
 

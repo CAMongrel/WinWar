@@ -44,7 +44,7 @@ namespace WinWarCS.Data
       /// The knowledge base for the currently loaded DATA.WAR
       /// Available after loading calling LoadResources()
       /// </summary>
-      internal static KnowledgeBase KnowledgeBase;
+      public static KnowledgeBase KnowledgeBase;
 
       #endregion
 
@@ -143,6 +143,14 @@ namespace WinWarCS.Data
          }
       }
 
+      #endregion
+
+      #region Unload
+      public static void Unload()
+      {
+         rawResources = null;
+         KnowledgeBase = null;
+      }
       #endregion
 
       #region ReadResources
@@ -451,7 +459,9 @@ namespace WinWarCS.Data
       {
          int idx = KnowledgeBase.IndexByName(name);
          if (idx == -1)
+         {
             return null;
+         }
 
          return GetResource(idx);
       }
