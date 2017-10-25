@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class UIResource : BasicResource
+   public class UIResource : BasicResource
    {
       #region Subclass MenuEntry
       internal enum UIEntryType

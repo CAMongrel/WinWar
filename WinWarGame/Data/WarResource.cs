@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WinWarCS.Data
 {
-   internal class WarResource
+   public class WarResource
    {
       bool bCompressed;
       long offset;

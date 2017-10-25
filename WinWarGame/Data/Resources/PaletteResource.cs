@@ -2,7 +2,7 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class PaletteResource : BasicResource
+   public class PaletteResource : BasicResource
    {
       internal byte[] Colors;
 

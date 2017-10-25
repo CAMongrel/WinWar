@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinWarCS.Data.Resources
 {
-   internal struct SpriteResourceFrame
+   public struct SpriteResourceFrame
    {
       internal byte disp_x;
       internal byte disp_y;
@@ -17,7 +17,7 @@ namespace WinWarCS.Data.Resources
       internal byte[] image_data;
    }
 
-   internal class SpriteResource : BasicResource
+   public class SpriteResource : BasicResource
    {
       internal int MaxWidth;
       internal int MaxHeight;

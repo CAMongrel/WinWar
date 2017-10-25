@@ -5,7 +5,7 @@ using WinWarCS.Data;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class LevelPassableResource : BasicResource
+   public class LevelPassableResource : BasicResource
    {
       internal short width;
       internal short height;

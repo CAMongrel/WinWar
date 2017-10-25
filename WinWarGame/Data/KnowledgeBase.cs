@@ -6,7 +6,7 @@ using WinWarCS.Data.Game;
 
 namespace WinWarCS.Data
 {
-   internal enum ContentFileType : int
+   public enum ContentFileType : int
    {
       FileUnknown,
       FileImage,
@@ -29,7 +29,7 @@ namespace WinWarCS.Data
       FileEmbeddedData,
    }
 
-   internal class KnowledgeEntry
+   public class KnowledgeEntry
    {
       internal int id;
       internal ContentFileType type;
@@ -48,7 +48,7 @@ namespace WinWarCS.Data
    // NOTE: Unit stats are in WAR.EXE starting at 0x47A6C
    // TimeToBuild,Gold cost,Lumber cost are val * 10
 
-   internal class KnowledgeBase
+   public class KnowledgeBase
    {
       #region KnowledgeBase definitions
       private static KnowledgeEntry[] KnowledgeBaseEntries = {

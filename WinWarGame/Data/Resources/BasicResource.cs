@@ -5,7 +5,7 @@ using System.IO;
 
 namespace WinWarCS.Data.Resources
 {
-   internal abstract class BasicResource
+   public abstract class BasicResource
    {
       public ContentFileType Type { get; protected set; }
 

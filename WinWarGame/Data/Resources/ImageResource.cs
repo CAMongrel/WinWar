@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class ImageResource : BasicResource
+   public class ImageResource : BasicResource
    {
       internal ushort width;
       internal ushort height;

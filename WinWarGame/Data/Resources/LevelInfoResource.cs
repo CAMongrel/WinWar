@@ -8,13 +8,13 @@ using WinWarCS.Data.Game;
 namespace WinWarCS.Data.Resources
 {
    #region Constructs
-   internal enum ConstructType
+   public enum ConstructType
    {
       Road,
       Wall,
    }
 
-   internal enum ConstructConfig
+   public enum ConstructConfig
    {
       EndPieceLeft,
       EndPieceTop,
@@ -33,7 +33,7 @@ namespace WinWarCS.Data.Resources
       MiddlePieceLeftRight,
    }
 
-   internal class Construct
+   public class Construct
    {
       internal byte X;
       internal byte Y;
@@ -51,7 +51,7 @@ namespace WinWarCS.Data.Resources
 
    #region enum LevelObjectType
 
-   internal enum LevelObjectType
+   public enum LevelObjectType
    {
       //Units:
       // 0x00
@@ -123,7 +123,7 @@ namespace WinWarCS.Data.Resources
 
    #region Struct LevelObject
 
-   internal class LevelObject
+   public class LevelObject
    {
       internal byte X;
       internal byte Y;
@@ -133,7 +133,7 @@ namespace WinWarCS.Data.Resources
       internal byte Value2;
    };
 
-   internal class PlayerInfo
+   public class PlayerInfo
    {
       internal int StartGold { get; set; }
       internal int StartLumber { get; set; }
@@ -142,7 +142,7 @@ namespace WinWarCS.Data.Resources
 
    #endregion
 
-   internal class LevelInfoResource : BasicResource
+   public class LevelInfoResource : BasicResource
    {
       private enum LevelInfoType
       {

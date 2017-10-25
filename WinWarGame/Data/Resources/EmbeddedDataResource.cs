@@ -4,7 +4,7 @@ using System.IO;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class EmbeddedDataResource : BasicResource
+   public class EmbeddedDataResource : BasicResource
    {
       internal EmbeddedDataResource(WarResource data)
       {

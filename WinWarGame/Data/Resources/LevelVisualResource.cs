@@ -14,7 +14,7 @@ using System.Text;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class LevelVisualResource : BasicResource
+   public class LevelVisualResource : BasicResource
    {
       internal ushort[] visualData;
 

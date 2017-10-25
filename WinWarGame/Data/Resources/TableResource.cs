@@ -2,7 +2,7 @@
 
 namespace WinWarCS.Data.Resources
 {
-   internal class TableResource : BasicResource
+   public class TableResource : BasicResource
    {
       internal ushort Rows { get; private set; }
       internal ushort Columns { get; private set; }

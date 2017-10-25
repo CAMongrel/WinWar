@@ -2,7 +2,7 @@ using System;
 
 namespace WinWarCS.Data.Resources
 {
-   internal class CursorResource : BasicResource
+   public class CursorResource : BasicResource
    {
       internal ushort width;
       internal ushort height;
