@@ -38,7 +38,7 @@ namespace WinWarCS.Data
          bCompressed = (comprFlag != 0);
       }
 
-      internal unsafe static byte[] RLEUncompress(byte[] inputData)
+      internal static byte[] RLEUncompress(byte[] inputData)
       {
          int length = inputData[0];
 
@@ -148,7 +148,7 @@ namespace WinWarCS.Data
          return outData.ToArray();
       }
 
-      private unsafe void ReadData(BinaryReader read)
+      private void ReadData(BinaryReader read)
       {
          if (!bCompressed)
          {
@@ -255,13 +255,14 @@ namespace WinWarCS.Data
       }
    }
 
-   unsafe struct BitMask
+   struct BitMask
    {
-      internal fixed bool bits[8];
+      internal bool[] bits;
 
       public static explicit operator BitMask(byte b)
       {
          BitMask bm = new BitMask();
+         bm.bits = new bool [8];
          bm.bits[7] = (b & 128) > 0;
          bm.bits[6] = (b & 64) > 0;
          bm.bits[5] = (b & 32) > 0;

@@ -23,66 +23,55 @@ namespace WinWarCS.Data.Resources
          if (imgResource == null)
             return;
 
-         unsafe
+         int offset = 0;
+         HotSpotX = ReadUShort (offset, imgResource.data); offset += 2;
+         HotSpotY = ReadUShort (offset, imgResource.data); offset += 2;
+
+         width = ReadUShort (offset, imgResource.data); offset += 2;
+         height = ReadUShort (offset, imgResource.data); offset += 2;
+
+         image_data = new byte[width * height * 4];
+
+         int cnt = 0;
+
+         int x, y;
+
+         if (palette == null)  // No palette for this image or grayscale forced ... use grayscale palette
          {
-            fixed (byte* org_ptr = &imgResource.data[0])
+            for (y = 0; y < height; y++) 
             {
-               ushort* usptr = (ushort*)org_ptr;
-
-               HotSpotX = *usptr++;
-               HotSpotY = *usptr++;
-
-               width = *usptr++;
-               height = *usptr++;
-
-               byte* b_ptr = (byte*)usptr;
-
-               image_data = new byte[width * height * 4];
-
-               int cnt = 0;
-
-               int x, y;
-
-               if (palette == null)  // No palette for this image or grayscale forced ... use grayscale palette
+               for (x = 0; x < width; x++) 
                {
-                  for (y = 0; y < height; y++)
-                     for (x = 0; x < width; x++)
-                     {
-                        image_data[cnt] = b_ptr[x + y * width];
-                        cnt++;
-                        image_data[cnt] = b_ptr[x + y * width];
-                        cnt++;
-                        image_data[cnt] = b_ptr[x + y * width];
-                        cnt++;
-                        image_data[cnt] = 255;
-                        cnt++;
-                     }
+                  int idx = offset + x + y * width;
+
+                  image_data [cnt] = imgResource.data [idx];
+                  cnt++;
+                  image_data [cnt] = imgResource.data [idx];
+                  cnt++;
+                  image_data [cnt] = imgResource.data [idx];
+                  cnt++;
+                  image_data [cnt] = 255;
+                  cnt++;
                }
-               else
+            }
+         }
+         else
+         {
+            // We have a palette ... use it!
+            for (y = 0; y < height; y++)
+            {
+               for (x = 0; x < width; x++)
                {
-                  // We have a palette ... use it!
-                  fixed (byte* pal_org_ptr = &palette.data[0])
-                  {
-                     byte* pal_dataptr = pal_org_ptr;
-                     int pal_index;
+                  int pal_index = imgResource.data[offset + x + y * width] * 3;
 
-                     for (y = 0; y < height; y++)
-                     {
-                        for (x = 0; x < width; x++)
-                        {
-                           pal_index = b_ptr[x + y * width] * 3;
-
-                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 0] * 4);
-                           cnt++;
-                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 1] * 4);
-                           cnt++;
-                           image_data[cnt] = (byte)(pal_dataptr[pal_index + 2] * 4);
-                           cnt++;
-                           image_data[cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
-                           cnt++;
-                        }
-                     }
-                  }
+                  image_data[cnt] = (byte)(palette.data[pal_index + 0] * 4);
+                  cnt++;
+                  image_data[cnt] = (byte)(palette.data[pal_index + 1] * 4);
+                  cnt++;
+                  image_data[cnt] = (byte)(palette.data[pal_index + 2] * 4);
+                  cnt++;
+                  image_data[cnt] = (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
+                  cnt++;
                }
             }
          }

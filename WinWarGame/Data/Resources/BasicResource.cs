@@ -27,6 +27,14 @@ namespace WinWarCS.Data.Resources
          return result;
       }
 
+      protected short ReadShort (int index, byte [] data)
+      {
+         if (index < 0 || index >= data.Length)
+            return 0;
+
+         return (short)(data [index + 0] + (data [index + 1] << 8));
+      }
+
       protected ushort ReadUShort(int index, byte[] data)
       {
          if (index < 0 || index >= data.Length)

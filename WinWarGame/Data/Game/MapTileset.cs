@@ -213,7 +213,7 @@ namespace WinWarCS.Data.Game
       /// <summary>
       /// Create tiles
       /// </summary>
-      unsafe void CreateTiles()
+      private void CreateTiles()
       {
          ushort tile1, tile2, tile3, tile4;
          bool tile1_flip_x, tile2_flip_x, tile3_flip_x, tile4_flip_x;
@@ -234,42 +234,38 @@ namespace WinWarCS.Data.Game
          int numTiles = tileset.data.Length / 8;
          tilesList = new MapTile[numTiles];
 
-         fixed (byte* org_ptr = &tileset.data[0])
+         int index = 0;
+         for (int i = 0; i < numTiles; i++)
          {
-            ushort* ptr = (ushort*)org_ptr;
-			
-            for (int i = 0; i < numTiles; i++)
-            {
-               tile1 = *ptr;
-               tile1_flip_y = ((tile1 & 0x01) >= 1);
-               tile1_flip_x = ((tile1 & 0x02) >= 1);
-               tile1 = (ushort)((tile1 & 0xFFFC) * 2);
-               ptr++;
+            tile1 = (ushort)(tileset.data[index + 0] + (tileset.data[index + 1] << 8));
+            tile1_flip_y = ((tile1 & 0x01) >= 1);
+            tile1_flip_x = ((tile1 & 0x02) >= 1);
+            tile1 = (ushort)((tile1 & 0xFFFC) * 2);
+            index += 2;
 
-               tile2 = *ptr;
-               tile2_flip_y = ((tile2 & 0x01) >= 1);
-               tile2_flip_x = ((tile2 & 0x02) >= 1);
-               tile2 = (ushort)((tile2 & 0xFFFC) * 2);
-               ptr++;
+            tile2 = (ushort)(tileset.data [index + 0] + (tileset.data [index + 1] << 8));
+            tile2_flip_y = ((tile2 & 0x01) >= 1);
+            tile2_flip_x = ((tile2 & 0x02) >= 1);
+            tile2 = (ushort)((tile2 & 0xFFFC) * 2);
+            index += 2;
 
-               tile3 = *ptr;
-               tile3_flip_y = ((tile3 & 0x01) >= 1);
-               tile3_flip_x = ((tile3 & 0x02) >= 1);
-               tile3 = (ushort)((tile3 & 0xFFFC) * 2);
-               ptr++;
+            tile3 = (ushort)(tileset.data [index + 0] + (tileset.data [index + 1] << 8));
+            tile3_flip_y = ((tile3 & 0x01) >= 1);
+            tile3_flip_x = ((tile3 & 0x02) >= 1);
+            tile3 = (ushort)((tile3 & 0xFFFC) * 2);
+            index += 2;
 
-               tile4 = *ptr;
-               tile4_flip_y = ((tile4 & 0x01) >= 1);
-               tile4_flip_x = ((tile4 & 0x02) >= 1);
-               tile4 = (ushort)((tile4 & 0xFFFC) * 2);
-               ptr++;
+            tile4 = (ushort)(tileset.data [index + 0] + (tileset.data [index + 1] << 8));
+            tile4_flip_y = ((tile4 & 0x01) >= 1);
+            tile4_flip_x = ((tile4 & 0x02) >= 1);
+            tile4 = (ushort)((tile4 & 0xFFFC) * 2);
+            index += 2;
 
-               tilesList[i] = CreateTile(tile1, tile1_flip_x, tile1_flip_y,
-                  tile2, tile2_flip_x, tile2_flip_y,
-                  tile3, tile3_flip_x, tile3_flip_y,
-                  tile4, tile4_flip_x, tile4_flip_y);
-            } // for
-         } // fixed
+            tilesList [i] = CreateTile (tile1, tile1_flip_x, tile1_flip_y,
+               tile2, tile2_flip_x, tile2_flip_y,
+               tile3, tile3_flip_x, tile3_flip_y,
+               tile4, tile4_flip_x, tile4_flip_y);
+         }
       }
       // CreateTiles()
 
@@ -277,46 +273,42 @@ namespace WinWarCS.Data.Game
 
       #region CreateTile
 
-      private unsafe void FillTileData(ushort offset, bool flipX, bool flipY, byte[] data, int baseX, int baseY)
+      private void FillTileData(ushort baseOffset, bool flipX, bool flipY, byte[] data, int baseX, int baseY)
       {
          int x, y, pos;
 
-         fixed (byte* org_ptr = &tiles.data[offset])
+         int offset = baseOffset;
+         for (y = baseY; y < (8 + baseY); y++)
          {
-            byte* b_ptr = org_ptr;
-
-            for (y = baseY; y < (8 + baseY); y++)
+            for (x = baseX; x < (8 + baseX); x++)
             {
-               for (x = baseX; x < (8 + baseX); x++)
-               {
-                  int pal_index = *b_ptr;
+               int pal_index = tiles.data[offset];
 
-                  int xPos = (flipX ? baseX + ((7 + baseX) - x) : x);
-                  int yPos = (flipY ? baseY + ((7 + baseY) - y) : y);
+               int xPos = (flipX ? baseX + ((7 + baseX) - x) : x);
+               int yPos = (flipY ? baseY + ((7 + baseY) - y) : y);
 
-                  pos = (xPos + yPos * 16) * 4;
-                  data[pos + 0] = palette[pal_index * 3 + 0];
-                  data[pos + 1] = palette[pal_index * 3 + 1];
-                  data[pos + 2] = palette[pal_index * 3 + 2];
-                  data[pos + 3] = 255;
+               pos = (xPos + yPos * 16) * 4;
+               data[pos + 0] = palette[pal_index * 3 + 0];
+               data[pos + 1] = palette[pal_index * 3 + 1];
+               data[pos + 2] = palette[pal_index * 3 + 2];
+               data[pos + 3] = 255;
 
-                  if (data[pos + 0] < 255 - lightup)
-                     data[pos + 0] += lightup;
-                  else
-                     data[pos + 0] = 255;
-                  if (data[pos + 1] < 255 - lightup)
-                     data[pos + 1] += lightup;
-                  else
-                     data[pos + 1] = 255;
-                  if (data[pos + 2] < 255 - lightup)
-                     data[pos + 2] += lightup;
-                  else
-                     data[pos + 2] = 255;
+               if (data[pos + 0] < 255 - lightup)
+                  data[pos + 0] += lightup;
+               else
+                  data[pos + 0] = 255;
+               if (data[pos + 1] < 255 - lightup)
+                  data[pos + 1] += lightup;
+               else
+                  data[pos + 1] = 255;
+               if (data[pos + 2] < 255 - lightup)
+                  data[pos + 2] += lightup;
+               else
+                  data[pos + 2] = 255;
 
-                  b_ptr++;
-               } // for
+               offset++;
             } // for
-         } // fixed
+         } // for
       }
 
       /// <summary>

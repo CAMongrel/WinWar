@@ -39,22 +39,15 @@ namespace WinWarCS.Data.Resources
 
          if (setData.data != null)
          {
-            unsafe
+            int offset = 0;
+            for (int y = 0; y < 64; y++)
             {
-               fixed (byte* org_ptr = &setData.data[0])
+               for (int x = 0; x < 64; x++)
                {
-                  ushort* ptr = (ushort*)org_ptr;
-
-                  for (int y = 0; y < 64; y++)
-                  {
-                     for (int x = 0; x < 64; x++)
-                     {
-                        visualData[x + y * 64] = *ptr;
-                        ptr++;
-                     }
-                  }
-               } // fixed
-            } // fixed
+                  visualData[x + y * 64] = ReadUShort (offset, setData.data);
+                  offset += 2;
+               }
+            }
          } // if
       }
       // CreateVisualData()
