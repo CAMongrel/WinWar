@@ -32,6 +32,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseRefCounting>false</UseRefCounting>
     <Profiling>false</Profiling>
+    <LinkMode>None</LinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -139,5 +140,9 @@
     <Content Include="..\Common\Assets\SpriteFont1.xnb">
       <Link>Assets\SpriteFont1.xnb</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="MacOSAssetProvider.cs" />
   </ItemGroup>
 </Project>
