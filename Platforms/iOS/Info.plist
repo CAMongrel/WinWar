@@ -12,7 +12,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.camongrel.winwar</string>
 	<key>MinimumOSVersion</key>
-	<string>9.1</string>
+	<string>10.0</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -25,6 +25,16 @@
 	<key>CFBundleName</key>
 	<string>WinWar</string>
 	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>CFBundleShortVersionString</key>
+	<string>0.3</string>
+	<key>CFBundleVersion</key>
+	<string>0.3</string>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
 </plist>
