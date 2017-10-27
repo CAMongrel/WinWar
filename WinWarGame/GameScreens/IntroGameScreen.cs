@@ -77,7 +77,7 @@ namespace WinWarCS.GameScreens
                MainGame.SoundManager.PlaySound(473);
                break;
             case AudioStage.WithAnIngenious:
-               MainGame.SoundManager.PlaySound(549);
+               MainGame.SoundManager.PlaySound(549, true);
                break;
             case AudioStage.WelcomeToTheWorld:
                MainGame.SoundManager.PlaySound(550);

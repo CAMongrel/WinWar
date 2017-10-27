@@ -42,6 +42,17 @@ namespace WinWarCS.Audio
          }
       }
 
+      public void StopAll()
+      {
+         lock (activeSoundEffects)
+         {
+            for (int i = 0; i < activeSoundEffects.Count; i++)
+            {
+               activeSoundEffects[i].Stop(true);
+            }
+         }
+      }
+
       public bool LoadSound(int resIndex)
       {
          if (effectCache.ContainsKey(resIndex) || WarFile.AreResoucesLoaded == false)
@@ -65,7 +76,7 @@ namespace WinWarCS.Audio
          return true;
       }
 
-      public void PlaySound(int resIndex)
+      public void PlaySound(int resIndex, bool stopOthers = false)
       {
          if (IsEnabled == false)
          {
@@ -78,6 +89,11 @@ namespace WinWarCS.Audio
             {
                return;
             }
+         }
+
+         if (stopOthers)
+         {
+            StopAll();
          }
 
          SoundEffect eff = effectCache[resIndex];

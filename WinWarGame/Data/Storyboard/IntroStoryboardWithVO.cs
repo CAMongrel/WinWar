@@ -98,7 +98,7 @@ namespace WinWarCS.Data.Storyboard
                break;
 
             case IntroStage.CaveLoop:
-               if (elapsedTimeInStage >= 3.0)
+               if (elapsedTimeInStage >= 3.3)
                {
                   EnterStage(IntroStage.CaveExit);
                }
