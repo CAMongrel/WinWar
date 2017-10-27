@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using WinWarCS.Data;
 using WinWarCS.Data.Resources;
@@ -11,9 +12,34 @@ namespace WinWarCS.Audio
    {
       private Dictionary<int, SoundEffect> effectCache;
 
+      private List<SoundEffectInstance> activeSoundEffects;
+
+      /// <summary>
+      /// Defines whether playback is enabled. Loading is possible regardles
+      /// </summary>
+      public bool IsEnabled { get; set; }
+
       public SoundManager()
       {
+         IsEnabled = true;
          effectCache = new Dictionary<int, SoundEffect>();
+         activeSoundEffects = new List<SoundEffectInstance>();
+      }
+
+      internal void Update(GameTime gameTime)
+      {
+         lock (activeSoundEffects)
+         {
+            for (int i = activeSoundEffects.Count - 1; i >= 0; i--)
+            {
+               SoundEffectInstance inst = activeSoundEffects[i];
+               if (inst.State == SoundState.Stopped)
+               {
+                  activeSoundEffects.RemoveAt(i);
+                  inst.Dispose();
+               }
+            }
+         }
       }
 
       public bool LoadSound(int resIndex)
@@ -24,23 +50,28 @@ namespace WinWarCS.Audio
          }
 
          RawResource res = WarFile.GetResource(resIndex) as RawResource;
-         if (res == null || 
-            res.Type != ContentFileType.FileWave)
+         if (res == null ||
+             res.Type != ContentFileType.FileWave)
          {
             return false;
          }
 
-         MemoryStream memStream = new MemoryStream(res.Resource.data);
-         SoundEffect eff = SoundEffect.FromStream(memStream);
-         effectCache.Add(resIndex, eff);
-         memStream.Dispose();
-         memStream = null;
+         using (MemoryStream memStream = new MemoryStream(res.Resource.data))
+         {
+            SoundEffect eff = SoundEffect.FromStream(memStream);
+            effectCache.Add(resIndex, eff);
+         }
 
          return true;
       }
 
       public void PlaySound(int resIndex)
       {
+         if (IsEnabled == false)
+         {
+            return;
+         }
+
          if (effectCache.ContainsKey(resIndex) == false)
          {
             if (LoadSound(resIndex) == false)
@@ -50,8 +81,12 @@ namespace WinWarCS.Audio
          }
 
          SoundEffect eff = effectCache[resIndex];
-         eff.CreateInstance().;
-         eff.Play();
+         var inst = eff.CreateInstance();
+         lock (activeSoundEffects)
+         {
+            activeSoundEffects.Add(inst);
+         }
+         inst.Play();
       }
    }
 }

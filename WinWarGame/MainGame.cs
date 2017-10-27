@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WinWarCS.Util;
 using MouseCursor = WinWarCS.Gui.MouseCursor;
 using WinWarCS.Data.Game;
+using WinWarCS.Audio;
 
 namespace WinWarCS
 {
@@ -32,6 +33,9 @@ namespace WinWarCS
       private SpriteFont _spriteFont;
       private BaseGameScreen currentGameScreen;
       private BaseGameScreen nextGameScreen;
+
+      private MusicManager musicManager;
+      private SoundManager soundManager;
 
       private Color backgroundClearColor;
 
@@ -103,6 +107,22 @@ namespace WinWarCS
       internal static SpriteFont DefaultFont {
          get {
             return WinWarGame._spriteFont;
+         }
+      }
+
+      internal static MusicManager MusicManager
+      {
+         get
+         {
+            return WinWarGame.musicManager;
+         }
+      }
+
+      internal static SoundManager SoundManager
+      {
+         get
+         {
+            return WinWarGame.soundManager;
          }
       }
 
@@ -191,8 +211,8 @@ namespace WinWarCS
             loadingException = ex;
          }
 
-         Audio.SoundManager mgr = new Audio.SoundManager();
-         mgr.PlaySound(551);
+         soundManager = new SoundManager();
+         musicManager = new MusicManager();
 
          if (loadingException != null)
          {
@@ -248,23 +268,28 @@ namespace WinWarCS
       protected override void Update (GameTime gameTime)
       {
          Performance.Push("Game loop");
+         soundManager.Update(gameTime);
          Platform.Input.UpdateInput (gameTime);
 
          if (nextGameScreen != null) 
          {
             if (currentGameScreen != null)
-               currentGameScreen.Close ();
+            {
+               currentGameScreen.Close();
+            }
 
             currentGameScreen = nextGameScreen;
             if (currentGameScreen != null)
-               currentGameScreen.InitUI ();
+            {
+               currentGameScreen.InitUI();
+            }
 
             nextGameScreen = null;
          }
 
          if (currentGameScreen != null) 
          {
-            currentGameScreen.Update (gameTime);
+            currentGameScreen.Update(gameTime);
          }
 
          base.Update (gameTime);
