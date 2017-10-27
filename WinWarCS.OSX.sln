@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{C81D780A-5F8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarLib", "DataWarLib\DataWarLib.csproj", "{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarLibTests", "DataWarLib\DataWarLibTests\DataWarLibTests.csproj", "{857E8183-E7FA-493F-AB2F-343E8346FD7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarLibTests", "DataWarLibTests\DataWarLibTests.csproj", "{857E8183-E7FA-493F-AB2F-343E8346FD7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

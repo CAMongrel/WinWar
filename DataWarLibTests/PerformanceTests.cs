@@ -35,8 +35,7 @@ namespace DataWarLibTests
          double result = Performance.Pop ();
 
          // Due to inexact timing, we must use an epsilon test
-         // Should be close though
-         Assert.IsTrue (result >= 0.005 && result <= 0.007);
+         Assert.AreEqual(0.005, result, 0.003);
       }
    }
 }
