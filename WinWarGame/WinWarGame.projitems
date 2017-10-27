@@ -126,5 +126,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Sys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\UI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Resources\TextResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Audio\SoundManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Audio\MusicManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Audio\" />
   </ItemGroup>
 </Project>

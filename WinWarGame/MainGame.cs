@@ -114,7 +114,7 @@ namespace WinWarCS
          AssetProvider = setAssetProvider;
          MainGame.WinWarGame = this;
 
-         Log.Severity = LogSeverity.Debug;
+         Log.Severity = LogSeverity.Fatal;
          Log.Type = LogType.Performance;
 
          this.IsMouseVisible = false;
@@ -190,6 +190,9 @@ namespace WinWarCS
          {
             loadingException = ex;
          }
+
+         Audio.SoundManager mgr = new Audio.SoundManager();
+         mgr.PlaySound(551);
 
          if (loadingException != null)
          {

@@ -90,8 +90,7 @@ namespace WinWarCS.Gui
 
          isPressed = true;
 
-         if (OnMouseDownInside != null)
-            OnMouseDownInside (position);
+         OnMouseDownInside?.Invoke(position);
 
          return true;
       }
@@ -105,8 +104,7 @@ namespace WinWarCS.Gui
 
          isPressed = false;
 
-         if (OnMouseUpInside != null)
-            OnMouseUpInside (position);
+         OnMouseUpInside?.Invoke(position);
 
          return true;
       }

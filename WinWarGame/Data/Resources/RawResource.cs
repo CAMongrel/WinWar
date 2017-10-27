@@ -6,9 +6,9 @@ namespace WinWarCS.Data.Resources
    {
       internal WarResource Resource;
 
-      internal RawResource(WarResource setResource)
+      internal RawResource(WarResource setResource, ContentFileType fileType)
       {
-         Type = ContentFileType.FileUnknown;
+         Type = fileType;
 
          Resource = setResource;
       }
