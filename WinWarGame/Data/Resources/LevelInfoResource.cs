@@ -298,7 +298,7 @@ namespace WinWarCS.Data.Resources
          // 2 bytes FF FF
       }
 
-      private unsafe void ReadStartingResources(byte* ptr)
+      private void ReadStartingResources(WarResource res)
       {
          // 0x5C => Starting amount of lumber (uint) Player 1
          // 0x60 => Starting amount of lumber (uint) Player 2
@@ -307,7 +307,7 @@ namespace WinWarCS.Data.Resources
          // 0x6C => Starting amount of lumber (uint) Player 5?
          for (int i = 0; i < 5; i++)
          {
-            int startLumber = *(int*)(&ptr[0x5C + i * 4]);
+            int startLumber = ReadInt (0x5C + i * 4, res.data);
             if (startLumber > 0)
             {
                if (PlayerInfos[i] == null)
@@ -322,7 +322,7 @@ namespace WinWarCS.Data.Resources
          // 0x80=> Starting amount of gold (uint) Player 5?
          for (int i = 0; i < 5; i++)
          {
-            int startGold = *(int*)(&ptr[0x70 + i * 4]);
+            int startGold = ReadInt (0x70 + i * 4, res.data);
             if (startGold > 0)
             {
                if (PlayerInfos[i] == null)
@@ -332,46 +332,56 @@ namespace WinWarCS.Data.Resources
          }
       }
 
-      private unsafe void ReadPlayerInfo(byte* ptr)
+      private void ReadPlayerInfo(WarResource res)
       {
          // 0xCC, 0xCE => Starting position of camera (divide by 2) (ushort)
-         StartCameraX = (*(ushort*)(&ptr[0xCC])) / 2;
-         StartCameraY = (*(ushort*)(&ptr[0xCE])) / 2;
+         StartCameraX = ReadUShort (0xCC, res.data) / 2;
+         StartCameraY = ReadUShort (0xCE, res.data) / 2;
 
          // 0x86 => if 1, human player is "Humans"
          // 0x84 => if 1, human player is "Orcs"
          Race humanPlayerRace = Race.Humans;
-         if ((*(ushort*)(&ptr[0x86])) > 0)
+         if (ReadUShort (0x86, res.data) > 0) 
+         {
             humanPlayerRace = Race.Humans;
-         else
-            if ((*(ushort*)(&ptr[0x84])) > 0)
-            humanPlayerRace = Race.Orcs;
+         } 
+         else 
+         {
+            if (ReadUShort (0x84, res.data) > 0) 
+            {
+               humanPlayerRace = Race.Orcs;
+            }
+         }
 
-         if (PlayerInfos[0] != null)
-            PlayerInfos[0].Race = humanPlayerRace;
+         if (PlayerInfos [0] != null) 
+         {
+            PlayerInfos [0].Race = humanPlayerRace;
+         }
 
          for (int i = 1; i < 5; i++)
          {
-            if (PlayerInfos[i] != null)
-               PlayerInfos[i].Race = (humanPlayerRace == Race.Humans ? Race.Orcs : Race.Humans);
+            if (PlayerInfos [i] != null) 
+            {
+               PlayerInfos [i].Race = (humanPlayerRace == Race.Humans ? Race.Orcs : Race.Humans);
+            }
          }
       }
 
-      private unsafe void ReadMissionText(byte* ptr)
+      private void ReadMissionText(WarResource res)
       {
          // 0x94 => Offset to mission text (ushort)
-         uint missionTextOffset = *(uint*)(&ptr[0x94]);
+         uint missionTextOffset = ReadUInt (0x94, res.data);
          MissionText = string.Empty;
-         if (missionTextOffset > 0)// 0 => No MissionText
 
+         if (missionTextOffset > 0)// 0 => No MissionText
          {
             StringBuilder sb = new StringBuilder();
-            byte* b_ptr = &ptr[missionTextOffset];
+            uint idx = missionTextOffset;
             // Nullterminated string
-            while (*b_ptr != 0x00)
+            while (res.data[idx] != 0x00)
             {
-               sb.Append((char)*b_ptr);
-               b_ptr++;
+               sb.Append((char)res.data [idx]);
+               idx++;
             }
             MissionText = sb.ToString();
          }
@@ -502,44 +512,38 @@ namespace WinWarCS.Data.Resources
       {
          PlayerInfos = new PlayerInfo[5];
 
-         unsafe
+         ReadHeaders(res);
+
+         ReadStartingResources(res);
+
+         ReadPlayerInfo(res);
+
+         ReadMissionText(res);
+
+         ReadResourceIndices(res);
+
+         // Usually 0x03
+         ushort unk = ReadUShort(0xDA, res.data);
+         // 7 bytes (always 0x0A 0x72 0x77 0x0A 0x79 0x7E 0x00)
+         byte[] unk2 = ReadBytes(0xDC, 7, res.data);
+
+         // 0xE3 start of dynamic data
+         // TODO: Needs figuring out how this is actually stored and what the data means
+         // For now, just search for the next chunk
+         int offset = 0xE3;
+         while (ReadUInt (offset, res.data) != 0xFFFFFFFF)
          {
-            fixed (byte* org_ptr = &res.data[0])
-            {
-               byte* ptr = org_ptr;
-
-               ReadHeaders(res);
-
-               ReadStartingResources(ptr);
-
-               ReadPlayerInfo(ptr);
-
-               ReadMissionText(ptr);
-
-               ReadResourceIndices(res);
-
-               // Usually 0x03
-               ushort unk = ReadUShort(0xDA, res.data);
-               // 7 bytes (always 0x0A 0x72 0x77 0x0A 0x79 0x7E 0x00)
-               byte[] unk2 = ReadBytes(0xDC, 7, res.data);
-
-               // 0xE3 start of dynamic data
-               // TODO: Needs figuring out how this is actually stored and what the data means
-               // For now, just search for the next chunk
-               byte* bptr = (byte*)&ptr[0xE3];
-               while (*(uint*)bptr != 0xFFFFFFFF)
-                  bptr++;
-               bptr += 4;
-               int startObjOffset = (int)bptr - (int)org_ptr;
-               startObjOffset = (int)ReadUShort(startObjOffset, res.data);
-
-               // Read start objects
-               int endOffsetStartObjects = 0;
-               StartObjects = ReadStartObjects(startObjOffset, res, out endOffsetStartObjects);
-               // Read constructs (roads/walls)
-               ReadConstructs(endOffsetStartObjects, res);
-            }
+            offset++;
          }
+         offset += 4;
+         int startObjOffset = offset;
+         startObjOffset = (int)ReadUShort(startObjOffset, res.data);
+
+         // Read start objects
+         int endOffsetStartObjects = 0;
+         StartObjects = ReadStartObjects(startObjOffset, res, out endOffsetStartObjects);
+         // Read constructs (roads/walls)
+         ReadConstructs(endOffsetStartObjects, res);
       }
 
       #endregion

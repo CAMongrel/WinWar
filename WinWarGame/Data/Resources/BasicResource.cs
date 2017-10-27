@@ -27,6 +27,14 @@ namespace WinWarCS.Data.Resources
          return result;
       }
 
+      protected short ReadShort (int index, byte [] data)
+      {
+         if (index < 0 || index >= data.Length)
+            return 0;
+
+         return (short)(data [index + 0] + (data [index + 1] << 8));
+      }
+
       protected ushort ReadUShort(int index, byte[] data)
       {
          if (index < 0 || index >= data.Length)
@@ -84,16 +92,19 @@ namespace WinWarCS.Data.Resources
          return result.ToString();
       }
 
-#if !NETFX_CORE
       internal virtual void WriteToStream(BinaryWriter writer)
       {
-         // Implemented in derived classes
       }
 
-      internal virtual void WriteToFile(string filename)
+      internal void WriteToFile(string filename)
       {
-         // Implemented in derived classes
+         using (var stream = File.OpenWrite(filename))
+         {
+            using (BinaryWriter writer = new BinaryWriter(stream))
+            {
+               WriteToStream(writer);
+            }
+         }
       }
-#endif
    }
 }

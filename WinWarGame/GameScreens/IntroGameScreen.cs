@@ -10,6 +10,7 @@ using WinWarCS.Data;
 using WinWarCS.Gui.Rendering;
 using System.IO;
 using WinWarCS.Gui;
+using WinWarCS.Data.Storyboard;
 
 namespace WinWarCS.GameScreens
 {
@@ -17,27 +18,71 @@ namespace WinWarCS.GameScreens
 
    class IntroGameScreen : BaseGameScreen
    {
+      private bool useVoiceOver;
+
       private Texture2D curTexture;
       private FLCPlayer player;
 
       private IntroFinished introFinished;
 
-      private IntroStoryboard storyboard;
+      private BaseStoryboard storyboard;
 
-      public IntroGameScreen(IntroFinished setIntroFinished)
+      public IntroGameScreen(IntroFinished setIntroFinished, bool setUseVoiceOver = true)
       {
+         useVoiceOver = setUseVoiceOver;
          curTexture = null;
          introFinished = setIntroFinished;
 
          MouseCursor.State = MouseCursorState.None;
 
-         storyboard = new IntroStoryboard();
+         if (useVoiceOver)
+         {
+            storyboard = new IntroStoryboardWithVO();
+
+            MainGame.SoundManager.LoadSound(546);
+            MainGame.SoundManager.LoadSound(547);
+            MainGame.SoundManager.LoadSound(548);
+            MainGame.SoundManager.LoadSound(549);
+            MainGame.SoundManager.LoadSound(550);
+         }
+         else
+         {
+            storyboard = new IntroStoryboardNoVO();
+         }
          storyboard.OnStageSwitched += storyboard_OnStageSwitched;
          storyboard.OnChangeMovieStatus += storyboard_OnChangeMovieStatus;
+         storyboard.OnAudioStageSwitched += Storyboard_OnAudioStageSwitched;
 
          player = new FLCPlayer(MainGame.Device);
          player.OnFrameUpdated += player_OnFrameUpdated;
          player.OnPlaybackFinished += player_OnPlaybackFinished;
+      }
+
+      private void Storyboard_OnAudioStageSwitched(AudioStage newStage)
+      {
+         switch (newStage)
+         {
+            case AudioStage.None:
+               break;
+            case AudioStage.InTheAgeOfChaos:
+               MainGame.SoundManager.PlaySound(546);
+               break;
+            case AudioStage.TheKingdomOfAzeroth:
+               MainGame.SoundManager.PlaySound(547);
+               break;
+            case AudioStage.NoOneKnewWhere:
+               MainGame.SoundManager.PlaySound(548);
+               break;
+            case AudioStage.OpenGate:
+               MainGame.SoundManager.PlaySound(473);
+               break;
+            case AudioStage.WithAnIngenious:
+               MainGame.SoundManager.PlaySound(549, true);
+               break;
+            case AudioStage.WelcomeToTheWorld:
+               MainGame.SoundManager.PlaySound(550);
+               break;
+         }
       }
 
       void storyboard_OnChangeMovieStatus(bool shouldPlay)
@@ -45,12 +90,16 @@ namespace WinWarCS.GameScreens
          if (shouldPlay)
          {
             if (player.IsPlaying && player.IsPaused)
+            {
                player.Play();
+            }
          }
          else
          {
             if (player.IsPlaying)
+            {
                player.Stop();
+            }
          }
       }
 
@@ -138,9 +187,13 @@ namespace WinWarCS.GameScreens
          else
          {
             if (introFinished != null)
+            {
                introFinished(true);
+            }
             else
+            {
                MainGame.WinWarGame.SetNextGameScreen(new MenuGameScreen(false));
+            }
          }
       }
 
@@ -167,7 +220,10 @@ namespace WinWarCS.GameScreens
             float unscaledOffset = (MainGame.OriginalAppHeight - curTexture.Height) / 2;
 
             int yPos = MainGame.ScaledOffsetY + (int)(unscaledOffset * MainGame.ScaleY); // Centered Position
-            yPos = 5;
+            if (useVoiceOver == false)
+            {
+               yPos = 5;
+            }
 
             Rectangle rect = new Rectangle(MainGame.ScaledOffsetX, yPos, 
                (int)(curTexture.Width * MainGame.ScaleX), (int)(curTexture.Height * MainGame.ScaleY));
@@ -176,17 +232,22 @@ namespace WinWarCS.GameScreens
             MainGame.SpriteBatch.Draw(curTexture, rect, Color.FromNonPremultiplied(new Vector4(Vector3.One, storyboard.CurrentAlpha)));
             MainGame.SpriteBatch.End();
 
-            int yStart = 147;
+            if (useVoiceOver == false)
+            {
+               int yStart = 147;
 
-            string introText = storyboard.GetCurrentIntroText();
-            FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, yStart, MainGame.OriginalAppWidth, MainGame.OriginalAppHeight - yStart,Color.White);
+               string introText = storyboard.GetCurrentIntroText();
+               FontRenderer.DrawStringDirect(MainGame.DefaultFont, introText, 0, yStart, MainGame.OriginalAppWidth, MainGame.OriginalAppHeight - yStart, Color.White);
+            }
          }
       }
 
       internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
       {
          if (player != null)
+         {
             player.Stop();
+         }
       }
    }
 }

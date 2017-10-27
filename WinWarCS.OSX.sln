@@ -5,6 +5,12 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinWarGame", "WinWarGame\Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWarCS.MacOS", "Platforms\OSX\WinWarCS.MacOS.csproj", "{C91694A8-23C5-4A46-BDAB-8A808F13529C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{C81D780A-5F80-42DF-8A8E-EBB75E24FD31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarLib", "DataWarLib\DataWarLib.csproj", "{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarLibTests", "DataWarLibTests\DataWarLibTests.csproj", "{857E8183-E7FA-493F-AB2F-343E8346FD7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -18,16 +24,26 @@ Global
 		{C91694A8-23C5-4A46-BDAB-8A808F13529C}.Debug|x86.Build.0 = Debug|Any CPU
 		{C91694A8-23C5-4A46-BDAB-8A808F13529C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C91694A8-23C5-4A46-BDAB-8A808F13529C}.Release|x86.Build.0 = Release|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.Debug|x86.Build.0 = Debug|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.Release|x86.ActiveCfg = Release|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.Release|x86.Build.0 = Release|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.Debug|x86.Build.0 = Debug|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.Release|x86.ActiveCfg = Release|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.Release|x86.Build.0 = Release|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D}.AppStore|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.TextStylePolicy = $1
-		$1.FileWidth = 120
 		$1.TabWidth = 3
 		$1.IndentWidth = 3
-		$1.inheritsSet = VisualStudio
-		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
+		$1.TabsToSpaces = True
 		$0.CSharpFormattingPolicy = $2
 		$2.IndentSwitchBody = True
 		$2.IndentPreprocessorDirectives = False
@@ -49,12 +65,12 @@ Global
 		$2.AfterDelegateDeclarationParameterComma = True
 		$2.NewParentheses = False
 		$2.SpacesBeforeBrackets = False
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
 		$0.DotNetNamingPolicy = $3
-		$3.DirectoryNamespaceAssociation = None
-		$3.ResourceNamePolicy = FileFormatDefault
 		StartupItem = WinWarCS\WinWarCS.MacOS.csproj
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{396D2CC3-F2B4-49B2-B14B-FCDF6C8EE384} = {C81D780A-5F80-42DF-8A8E-EBB75E24FD31}
+		{857E8183-E7FA-493F-AB2F-343E8346FD7D} = {C81D780A-5F80-42DF-8A8E-EBB75E24FD31}
 	EndGlobalSection
 EndGlobal

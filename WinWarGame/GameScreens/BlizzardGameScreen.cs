@@ -38,6 +38,8 @@ namespace WinWarCS.GameScreens
          wnd.AddComponent(img);
 
          elapsedTime = 0;
+
+         MainGame.SoundManager.PlaySound(472);
       }
 
       internal override void Update(Microsoft.Xna.Framework.GameTime gameTime)

@@ -191,9 +191,6 @@ namespace WinWarCS.Data
 
          switch (fileType)
          {
-            case ContentFileType.FileBriefing:
-               return new RawResource(resource);
-
             case ContentFileType.FileCursor:
                {
                   WarResource palRes = null;
@@ -240,29 +237,28 @@ namespace WinWarCS.Data
                return new TableResource(resource);
 
             case ContentFileType.FileText:
-               return new RawResource(resource);
+               return new TextResource(resource);
 
             case ContentFileType.FileTiles:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileTiles);
 
             case ContentFileType.FileTileSet:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileTileSet);
 
             case ContentFileType.FileUI:
                return new UIResource(resource);
 
             case ContentFileType.FileVOC:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileVOC);
 
             case ContentFileType.FileWave:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileWave);
 
             case ContentFileType.FileXMID:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileXMID);
 
             default:
-            case ContentFileType.FileUnknown:
-               return new RawResource(resource);
+               return new RawResource(resource, ContentFileType.FileUnknown);
           }
       }
 

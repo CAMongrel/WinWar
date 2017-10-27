@@ -6,10 +6,12 @@
     <SharedGUID>{04383935-35FE-4983-9D26-841E3804B35C}</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>WinWarGame</Import_RootNamespace>
+    <Import_RootNamespace>WinWarCS</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Data\IAssetProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Storyboard\BaseStoryboard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Storyboard\IntroStoryboardWithVO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\BaseGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\BlizzardGameScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\IntroGameScreen.cs" />
@@ -23,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\Windows\MainMenuWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\Windows\MenuBackgroundWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameScreens\Windows\NewGameWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\IntroStoryboard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Storyboard\IntroStoryboardNoVO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\KnowledgeBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\WarFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\WarResource.cs" />
@@ -120,11 +122,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Util\Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\MathHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Performance.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\UnsafeReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\RectangleF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Sys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\UI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Resources\TextResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Audio\SoundManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Audio\MusicManager.cs" />
   </ItemGroup>
 </Project>
