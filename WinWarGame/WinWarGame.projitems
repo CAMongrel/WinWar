@@ -125,5 +125,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform\RectangleF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Sys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\UI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Resources\TextResource.cs" />
   </ItemGroup>
 </Project>

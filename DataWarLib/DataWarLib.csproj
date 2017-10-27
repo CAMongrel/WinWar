@@ -32,6 +32,9 @@
     <Compile Include="..\WinWarGame\Util\DebugOptions.cs" Link="Util\DebugOptions.cs" />
     <Compile Include="..\WinWarGame\Util\Log.cs" Link="Util\Log.cs" />
     <Compile Include="..\WinWarGame\Util\Performance.cs" Link="Util\Performance.cs" />
+    <Compile Include="..\WinWarGame\Data\Resources\TextResource.cs">
+      <Link>Resources\TextResource.cs</Link>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

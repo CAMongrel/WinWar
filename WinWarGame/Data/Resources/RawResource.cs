@@ -12,6 +12,13 @@ namespace WinWarCS.Data.Resources
 
          Resource = setResource;
       }
+
+      internal override void WriteToStream(System.IO.BinaryWriter writer)
+      {
+         base.WriteToStream(writer);
+
+         writer.Write(Resource.data);
+      }
    }
 }
 

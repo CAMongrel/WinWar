@@ -92,16 +92,19 @@ namespace WinWarCS.Data.Resources
          return result.ToString();
       }
 
-#if !NETFX_CORE
       internal virtual void WriteToStream(BinaryWriter writer)
       {
-         // Implemented in derived classes
       }
 
-      internal virtual void WriteToFile(string filename)
+      internal void WriteToFile(string filename)
       {
-         // Implemented in derived classes
+         using (var stream = File.OpenWrite(filename))
+         {
+            using (BinaryWriter writer = new BinaryWriter(stream))
+            {
+               WriteToStream(writer);
+            }
+         }
       }
-#endif
    }
 }
