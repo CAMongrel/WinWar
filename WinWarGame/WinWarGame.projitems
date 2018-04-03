@@ -130,5 +130,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Resources\TextResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Audio\SoundManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Audio\MusicManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkByteRun.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkColor256.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkDeltaFLC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkDeltaFLI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkFLICopy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkFrameType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\Chunks\FLCChunkUnknown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCChunk.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCChunkHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCFrameBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Video\FLCPlayer.MonoGame.cs" />
   </ItemGroup>
 </Project>

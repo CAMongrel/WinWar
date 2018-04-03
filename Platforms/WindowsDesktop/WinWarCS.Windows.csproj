@@ -73,9 +73,6 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FLCLib.MonoGame">
-      <HintPath>..\..\Libs\Windows\FLCLib.MonoGame.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.0.1014, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MonoGame.Framework.WindowsDX.3.7.0.1014-develop\lib\net45\MonoGame.Framework.dll</HintPath>
     </Reference>
