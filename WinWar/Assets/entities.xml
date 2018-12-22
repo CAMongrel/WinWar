@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<entities>
+	<entity type="0" name="Footman">
+		<ArmorPoints>2</ArmorPoints>
+		<AttackRange>1.5</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>1</MinDamage>
+		<RandomDamage>9</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>60</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>600</TimeToBuild>
+		<IconIndex>0</IconIndex>
+	</entity>
+	<entity type="1" name="Grunt">
+		<ArmorPoints>2</ArmorPoints>
+		<AttackRange>1.5</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>1</MinDamage>
+		<RandomDamage>9</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>60</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>600</TimeToBuild>
+		<IconIndex>1</IconIndex>
+	</entity>
+	<entity type="2" name="Peasant">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>40</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>750</TimeToBuild>
+		<IconIndex>4</IconIndex>
+	</entity>
+	<entity type="3" name="Peon">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>40</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>750</TimeToBuild>
+		<IconIndex>5</IconIndex>
+	</entity>
+	<entity type="4" name="CatapultHumans">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>8</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>255</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>120</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.8</WalkSpeed>
+
+		<GoldCost>900</GoldCost>
+		<LumberCost>200</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>6</IconIndex>
+	</entity>
+	<entity type="5" name="CatapultOrcs">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>8</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>255</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>120</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.8</WalkSpeed>
+
+		<GoldCost>900</GoldCost>
+		<LumberCost>200</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>7</IconIndex>
+	</entity>
+	<entity type="6" name="Knight">
+		<ArmorPoints>5</ArmorPoints>
+		<AttackRange>1.5</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>1</MinDamage>
+		<RandomDamage>13</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>90</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>0.9</WalkSpeed>
+
+		<GoldCost>850</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>800</TimeToBuild>
+		<IconIndex>8</IconIndex>
+	</entity>
+	<entity type="7" name="Raider">
+		<ArmorPoints>5</ArmorPoints>
+		<AttackRange>1.5</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>1</MinDamage>
+		<RandomDamage>13</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>90</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>0.9</WalkSpeed>
+
+		<GoldCost>850</GoldCost>
+		<LumberCost>0</LumberCost>
+		<TimeToBuild>800</TimeToBuild>
+		<IconIndex>9</IconIndex>
+	</entity>
+	<entity type="8" name="Archer">
+		<ArmorPoints>1</ArmorPoints>
+		<AttackRange>5</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>4</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>60</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>450</GoldCost>
+		<LumberCost>50</LumberCost>
+		<TimeToBuild>700</TimeToBuild>
+		<IconIndex>10</IconIndex>
+	</entity>
+	<entity type="9" name="Spearman">
+		<ArmorPoints>1</ArmorPoints>
+		<AttackRange>4</AttackRange>
+		<AttackSpeed>1.0</AttackSpeed>
+		<MinDamage>5</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>60</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>3.0</AggroRange>
+		<WalkSpeed>1.2</WalkSpeed>
+
+		<GoldCost>450</GoldCost>
+		<LumberCost>50</LumberCost>
+		<TimeToBuild>700</TimeToBuild>
+		<IconIndex>12</IconIndex>
+	</entity>
+	<entity type="32" name="FarmHumans">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>400</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>500</GoldCost>
+		<LumberCost>300</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>14</IconIndex>
+	</entity>
+	<entity type="33" name="FarmOrcs">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>400</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>500</GoldCost>
+		<LumberCost>300</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>15</IconIndex>
+	</entity>
+	<entity type="34" name="BarracksHumans">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>800</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>600</GoldCost>
+		<LumberCost>500</LumberCost>
+		<TimeToBuild>1500</TimeToBuild>
+		<IconIndex>16</IconIndex>
+	</entity>
+	<entity type="35" name="BarracksOrcs">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>800</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>600</GoldCost>
+		<LumberCost>500</LumberCost>
+		<TimeToBuild>1500</TimeToBuild>
+		<IconIndex>17</IconIndex>
+	</entity>
+	<entity type="36" name="Church">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>700</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>800</GoldCost>
+		<LumberCost>500</LumberCost>
+		<TimeToBuild>2000</TimeToBuild>
+		<IconIndex>28</IconIndex>
+	</entity>
+	<entity type="37" name="Temple">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>700</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>800</GoldCost>
+		<LumberCost>500</LumberCost>
+		<TimeToBuild>2000</TimeToBuild>
+		<IconIndex>29</IconIndex>
+	</entity>
+	<entity type="38" name="TowerHumans">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>900</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>1400</GoldCost>
+		<LumberCost>300</LumberCost>
+		<TimeToBuild>2000</TimeToBuild>
+		<IconIndex>18</IconIndex>
+	</entity>
+	<entity type="39" name="TowerOrcs">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>900</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>1400</GoldCost>
+		<LumberCost>300</LumberCost>
+		<TimeToBuild>2000</TimeToBuild>
+		<IconIndex>19</IconIndex>
+	</entity>
+	<entity type="40" name="TownhallHumans">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>2500</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>400</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>20</IconIndex>
+	</entity>
+	<entity type="41" name="TownhallOrcs">
+		<ArmorPoints>0</ArmorPoints>
+		<AttackRange>0</AttackRange>
+		<AttackSpeed>0.0</AttackSpeed>
+		<MinDamage>0</MinDamage>
+		<RandomDamage>0</RandomDamage>
+		<DecayRate>0</DecayRate>
+		<MaxHitPoints>2500</MaxHitPoints>
+		<MaxMana>0</MaxMana>
+		<VisibleRange>3.0</VisibleRange>
+		<AggroRange>0.0</AggroRange>
+		<WalkSpeed>0.0</WalkSpeed>
+
+		<GoldCost>400</GoldCost>
+		<LumberCost>400</LumberCost>
+		<TimeToBuild>1000</TimeToBuild>
+		<IconIndex>21</IconIndex>
+	</entity>
+</entities>
