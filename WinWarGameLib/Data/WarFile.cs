@@ -80,12 +80,12 @@ namespace WinWarCS.Data
 
       #region LoadResources
 
-      public static async void LoadResources(IAssetProvider assetProvider)
+      public static void LoadResources(IAssetProvider assetProvider)
       {
          Stream stream = null;
          try
          {
-            stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "Data" + assetProvider.DirectorySeparatorChar + "DATA.WAR");
+            stream = assetProvider.OpenGameDataFile("DATA.WAR");
             LoadResourcesFromStream(stream);
          }
          finally

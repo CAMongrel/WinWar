@@ -70,12 +70,12 @@ namespace WinWarCS.GameScreens.Windows
             }*/
         }
 
-        async void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
             // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog ("Not implemented yet!");
         }
 
-        async void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
             if (WarFile.IsDemo)
             {
@@ -83,7 +83,7 @@ namespace WinWarCS.GameScreens.Windows
                 return;
             }
 
-            Stream resultFile = await MainGame.AssetProvider.OpenContentFile(Path.Combine("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", "TITLE.WAR"));
+            Stream resultFile = MainGame.AssetProvider.OpenGameDataFile("TITLE.WAR");
 
             MovieGameScreen.PlayMovie(resultFile,
                 delegate

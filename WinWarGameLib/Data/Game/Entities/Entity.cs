@@ -558,10 +558,10 @@ namespace WinWarCS.Data.Game
          return this.GetType ().Name;
       }
 
-      public static async void LoadDefaultValues(IAssetProvider assetProvider)
+      public static void LoadDefaultValues(IAssetProvider assetProvider)
       {
          XmlDocument doc = new XmlDocument();
-         using (FileStream stream = await assetProvider.OpenContentFile("Assets" + assetProvider.DirectorySeparatorChar + "entities.xml"))
+         using (FileStream stream = assetProvider.OpenAssetFile("entities.xml"))
          {
             doc.Load(stream);
          }

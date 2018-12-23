@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WinWarCS.Data;
@@ -9,15 +10,76 @@ namespace WinWar
 {
     class NetCoreAssetProvider : IAssetProvider
     {
-        public string InstalledLocation => throw new NotImplementedException();
+        public bool isFullVersion { get; private set; } = false;
 
-        public string ExpectedDataDirectory => throw new NotImplementedException();
+        public string InstalledLocation => Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-        public char DirectorySeparatorChar => throw new NotImplementedException();
+        public string AssetsDirectory => Path.Combine(InstalledLocation, "Assets");
 
-        public Task<FileStream> OpenContentFile(string relativeFilename, bool readOnly = true)
+        public string FullDataDirectory => Path.Combine(AssetsDirectory, "DATA");
+
+        public string DemoDataDirectory => Path.Combine(AssetsDirectory, "DEMODATA");
+
+        public string DataDirectory
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (Directory.Exists(FullDataDirectory))
+                {
+                    isFullVersion = true;
+                    return FullDataDirectory;
+                }
+                else if (Directory.Exists(DemoDataDirectory))
+                {
+                    isFullVersion = false;
+                    return DemoDataDirectory;
+                } else
+                {
+                    return String.Empty;
+                }
+            }
+        }
+
+        public FileStream OpenGameDataFile(string relativeFilename, bool readOnly = true)
+        {
+            string dataDir = DataDirectory;
+            if (string.IsNullOrEmpty(dataDir))
+            {
+                throw new FileNotFoundException("DATA directory not found");
+            }
+
+            FileStream result = null;
+            if (readOnly)
+            {
+                result = File.OpenRead(Path.Combine(dataDir, relativeFilename));
+            }
+            else
+            {
+                result = File.Open(Path.Combine(dataDir, relativeFilename), FileMode.Open);
+            }
+
+            return result;
+        }
+
+        public FileStream OpenAssetFile(string relativeFilename, bool readOnly = true)
+        {
+            string assetDir = AssetsDirectory;
+            if (string.IsNullOrEmpty(assetDir))
+            {
+                throw new FileNotFoundException("Asset directory not found");
+            }
+
+            FileStream result = null;
+            if (readOnly)
+            {
+                result = File.OpenRead(Path.Combine(assetDir, relativeFilename));
+            }
+            else
+            {
+                result = File.Open(Path.Combine(assetDir, relativeFilename), FileMode.Open);
+            }
+
+            return result;
         }
     }
 }
