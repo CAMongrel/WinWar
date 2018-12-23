@@ -3,7 +3,8 @@
 WinWar is a multiplatform (Windows, WindowsStore, OSX, Linux, iOS) port of the original DOS WarCraft: Orcs & Humans PC Game. It is completely rewritten from scratch using only the original art and level data.
 
 It *requires* the original game; no game data is included. Since version 0.2.0 WinWar is compatible with the demo version, which you can find here:
-http://wowpedia.org/Warcraft:_Orcs_%26_Humans_%28Demo%29 
+https://wow.gamepedia.com/Warcraft:_Orcs_%26_Humans_Shareware
+(should be available in the section External Links -> Internet Archive)
 
 ## Supported platforms
 - Windows
@@ -20,6 +21,7 @@ http://wowpedia.org/Warcraft:_Orcs_%26_Humans_%28Demo%29
 
 ## Compiling and Running
 ### Compiling from source
+- Requires .NET Core 2.2
 - Check out the source code from the git repo.
 - Open the solution (.sln file) for your platform using either Xamarin Studio (*nix or iOS) or Visual Studio 2015.
 - Compile the code.
