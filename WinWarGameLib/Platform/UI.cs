@@ -11,24 +11,36 @@ namespace WinWarCS.Platform
 {
     public static class UI
     {
-        public static bool ShowMessageDialog(string message, Action closeAction = null)
+        public static bool ShowMessageDialog(string message, string okButtonText = "Ok", 
+            Action closeAction = null)
         {
             Console.WriteLine("ShowMessageDialog: " + message);
 
             UIWindow result = new UIWindow();
-            UILabel label = new UILabel(message);
-            label.TextAlign = TextAlignHorizontal.Center;
-            result.AddComponent(label);
-            UIButton btn = new UIButton("Ok", 0, 0);
+            result.Width = MainGame.OriginalAppWidth;
+            result.Height = MainGame.OriginalAppHeight;
+
+            UIButton btn = new UIButton(okButtonText, -1, -1);
+            btn.AutoSizeToText();
+            btn.Y = result.Height - btn.Height;
             btn.OnMouseUpInside += (loc) =>
             {
                 result.Close();
-                MainGame.WinWarGame.SystemGameScreen.IsActive = false;
+                MainGame.WinWarGame.SetSystemGameScreenActive(false);
                 closeAction?.Invoke();
             };
             result.AddComponent(btn);
 
-            MainGame.WinWarGame.SystemGameScreen.IsActive = true;
+            btn.CenterXInParent();
+
+            UILabel label = new UILabel(message);
+            label.IsUnformattedText = true;
+            label.TextAlign = TextAlignHorizontal.Center;
+            label.Width = result.Width;
+            label.Height = result.Height - btn.Height;
+            result.AddComponent(label);
+
+            MainGame.WinWarGame.SetSystemGameScreenActive(true);
 
             return true;
         }

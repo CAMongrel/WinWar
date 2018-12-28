@@ -36,28 +36,28 @@ namespace WinWarCS.GameScreens.Windows
             cancelBtn.OnMouseUpInside += cancelBtn_OnMouseUpInside;
         }
 
-        async void networkGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        private void networkGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog("Not implemented yet");
+            Platform.UI.ShowMessageDialog("Not implemented yet");
         }
 
-        async void directLinkGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        private void directLinkGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog("Not implemented yet");
+            Platform.UI.ShowMessageDialog("Not implemented yet");
         }
 
-        async void modemGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        private void modemGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog("Not implemented yet");
+            Platform.UI.ShowMessageDialog("Not implemented yet");
         }
 
-        void singlePlayerBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        private void singlePlayerBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
             new ChooseCampaignWindow();
             Close();
         }
 
-        void cancelBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
+        private void cancelBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
             new MainMenuWindow();
             Close();

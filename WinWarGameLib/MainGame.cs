@@ -27,7 +27,6 @@ namespace WinWarCS
         public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
 
         #region Variables
-
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
@@ -42,7 +41,6 @@ namespace WinWarCS
         private Color backgroundClearColor;
 
         internal static MainGame WinWarGame { get; private set; }
-
         #endregion
 
         #region Properties
@@ -220,7 +218,7 @@ namespace WinWarCS
                 Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" + 
                     AssetProvider.FullDataDirectory + "' or '" + AssetProvider.DemoDataDirectory +
                     "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
-                    "please also copy all the other .WAR files from the data directory.", () =>
+                    "please also copy all the other .WAR files from the data directory.", "Exit", () =>
                     {
                         Environment.Exit(0);
                     });
@@ -347,11 +345,6 @@ namespace WinWarCS
                 GraphicsDevice.Clear(currentGameScreen.BackgroundColor);
 
                 currentGameScreen.Draw(gameTime);
-
-                if (SystemGameScreen.IsActive)
-                {
-                    SystemGameScreen.Draw(gameTime);
-                }
             }
             else
             {
@@ -359,6 +352,11 @@ namespace WinWarCS
             }
 
             base.Draw(gameTime);
+
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.Draw(gameTime);
+            }
 
             MouseCursor.Render(gameTime);
             Performance.Pop();
@@ -404,6 +402,12 @@ namespace WinWarCS
             {
                 currentGameScreen.PointerMoved(scaledPosition);
             }
+        }
+
+        internal void SetSystemGameScreenActive(bool isActive)
+        {
+            SystemGameScreen.IsActive = isActive;
+            IsMouseVisible = isActive;
         }
     }
 }

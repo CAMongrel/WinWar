@@ -72,14 +72,14 @@ namespace WinWarCS.GameScreens.Windows
 
         void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog ("Not implemented yet!");
+            Platform.UI.ShowMessageDialog ("Not implemented yet!");
         }
 
         void replayIntroBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
             if (WarFile.IsDemo)
             {
-                // TODO!!! await WinWarCS.Platform.UI.ShowMessageDialog("No idea ... ask Blizzard");
+                Platform.UI.ShowMessageDialog("No idea ... ask Blizzard");
                 return;
             }
 
