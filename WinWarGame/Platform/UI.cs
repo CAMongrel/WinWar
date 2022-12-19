@@ -23,7 +23,7 @@ namespace WinWarCS.Platform
          alertView.Show ();
 #else
          Console.WriteLine("ShowMessageDialog: " + message);
-         System.Windows.Forms.MessageBox.Show(message, "WinWarCS");
+         /*System.Windows.Forms.MessageBox.Show(message, "WinWarCS");*/
 #endif
          return true;
       }

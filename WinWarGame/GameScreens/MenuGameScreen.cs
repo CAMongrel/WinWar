@@ -11,97 +11,99 @@ using WinWarCS.Gui.Rendering;
 
 namespace WinWarCS.GameScreens
 {
-   class MenuGameScreen : BaseGameScreen
-   {
-      private double elapsedTime;
-      internal static MenuGameScreen Menu { get; private set; }
+    class MenuGameScreen : BaseGameScreen
+    {
+        private double elapsedTime;
+        internal static MenuGameScreen Menu { get; private set; }
 
-      private MenuBackgroundWindow backgroundWindow;
-      private MainMenuWindow mainMenuWindow;
-      private UIWindow textWindow;
+        private MenuBackgroundWindow backgroundWindow;
+        private MainMenuWindow mainMenuWindow;
+        private UIWindow textWindow;
 
-      private bool shouldFadeIn;
+        private bool shouldFadeIn;
 
-      internal MenuGameScreen(bool setShouldFadeIn)
-      {
-         Menu = this;
-         elapsedTime = 0;
+        internal MenuGameScreen(bool setShouldFadeIn)
+        {
+            Menu = this;
+            elapsedTime = 0;
 
-         shouldFadeIn = setShouldFadeIn;
-      }
+            shouldFadeIn = setShouldFadeIn;
 
-      internal void ResetFade()
-      {
-         elapsedTime = 0;
-      }
+            MainGame.SoundManager.StopAll();
+        }
 
-      internal override void InitUI()
-      {
-         elapsedTime = 0;
+        internal void ResetFade()
+        {
+            elapsedTime = 0;
+        }
 
-         MouseCursor.State = MouseCursorState.Pointer;
+        internal override void InitUI()
+        {
+            elapsedTime = 0;
 
-         backgroundWindow = new MenuBackgroundWindow();
-         mainMenuWindow = new MainMenuWindow();
+            MouseCursor.State = MouseCursorState.Pointer;
 
-         textWindow = new UIWindow();
-         UIImage img = new UIImage(WWTexture.FromImageResource("Text 'WarCraft'"));
-         textWindow.AddComponent(img);
-         textWindow.Height = img.Height;
-      }
+            backgroundWindow = new MenuBackgroundWindow();
+            mainMenuWindow = new MainMenuWindow();
 
-      internal override Microsoft.Xna.Framework.Color BackgroundColor
-      {
-         get
-         {
-            return Microsoft.Xna.Framework.Color.Black;
-         }
-      }
+            textWindow = new UIWindow();
+            UIImage img = new UIImage(WWTexture.FromImageResource("Text 'WarCraft'"));
+            textWindow.AddComponent(img);
+            textWindow.Height = img.Height;
+        }
 
-      internal override void Update(GameTime gameTime)
-      {
-         base.Update(gameTime);
+        internal override Microsoft.Xna.Framework.Color BackgroundColor
+        {
+            get
+            {
+                return Microsoft.Xna.Framework.Color.Black;
+            }
+        }
 
-         elapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
+        internal override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
 
-         if (shouldFadeIn && elapsedTime < 10.5)
-         {
-            float alpha = (float)(elapsedTime / 10.5);
-            if (alpha > 1.0f)
-               alpha = 1.0f;
+            elapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
 
-            textWindow.Alpha = 1.0f;
-            backgroundWindow.Alpha = alpha;
-            mainMenuWindow.Alpha = alpha;
-         }
-         else
-         {
-            backgroundWindow.Alpha = 1.0f;
-            mainMenuWindow.Alpha = 1.0f;
-            textWindow.Alpha = 0.0f;
-         }
-      }
+            if (shouldFadeIn && elapsedTime < 10.5)
+            {
+                float alpha = (float)(elapsedTime / 10.5);
+                if (alpha > 1.0f)
+                    alpha = 1.0f;
 
-      internal override void Draw(GameTime gameTime)
-      {
-         UIWindowManager.Render();
+                textWindow.Alpha = 1.0f;
+                backgroundWindow.Alpha = alpha;
+                mainMenuWindow.Alpha = alpha;
+            }
+            else
+            {
+                backgroundWindow.Alpha = 1.0f;
+                mainMenuWindow.Alpha = 1.0f;
+                textWindow.Alpha = 0.0f;
+            }
+        }
 
-         FontRenderer.DrawStringDirect (MainGame.DefaultFont, "Version: " + MainGame.Version, 270, 194, Color.White, 0.5f);
-      }
+        internal override void Draw(GameTime gameTime)
+        {
+            UIWindowManager.Render();
 
-      internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         UIWindowManager.PointerDown(position, pointerType);
-      }
+            FontRenderer.DrawStringDirect(MainGame.DefaultFont, "Version: " + MainGame.Version, 270, 194, Color.White, 0.5f);
+        }
 
-      internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         UIWindowManager.PointerUp(position, pointerType);
-      }
+        internal override void PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            UIWindowManager.PointerDown(position, pointerType);
+        }
 
-      internal override void PointerMoved(Vector2 position)
-      {
-         UIWindowManager.PointerMoved(position);
-      }
-   }
+        internal override void PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            UIWindowManager.PointerUp(position, pointerType);
+        }
+
+        internal override void PointerMoved(Vector2 position)
+        {
+            UIWindowManager.PointerMoved(position);
+        }
+    }
 }
