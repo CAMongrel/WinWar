@@ -111,60 +111,60 @@ namespace WinWarCS.GameScreens
             }
         }
 
-        async void storyboard_OnStageSwitched(IntroStage newStage)
+        void storyboard_OnStageSwitched(IntroStage newStage)
         {
             switch (newStage)
             {
                 case IntroStage.Castle:
-                    player.Open(await GetMovieFile("HINTRO1.WAR"));
+                    player.Open(GetMovieFile("HINTRO1.WAR"));
                     player.PauseAfterFirstFrame = true;
                     player.ShouldLoop = false;
                     break;
 
                 case IntroStage.CastleLoop:
-                    player.Open(await GetMovieFile("HINTRO2.WAR"));
+                    player.Open(GetMovieFile("HINTRO2.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = true;
                     break;
 
                 case IntroStage.Swamp:
-                    player.Open(await GetMovieFile("OINTRO1.WAR"));
+                    player.Open(GetMovieFile("OINTRO1.WAR"));
                     player.PauseAfterFirstFrame = true;
                     player.ShouldLoop = false;
                     break;
 
                 case IntroStage.SwampLoop:
-                    player.Open(await GetMovieFile("OINTRO2.WAR"));
+                    player.Open(GetMovieFile("OINTRO2.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = true;
                     break;
 
                 case IntroStage.SwampFortressEnter:
-                    player.Open(await GetMovieFile("OINTRO3.WAR"));
+                    player.Open(GetMovieFile("OINTRO3.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = false;
                     break;
 
                 case IntroStage.CaveEnter:
-                    player.Open(await GetMovieFile("CAVE1.WAR"));
+                    player.Open(GetMovieFile("CAVE1.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = false;
                     break;
 
                 case IntroStage.CaveLoop:
-                    player.Open(await GetMovieFile("CAVE2.WAR"));
+                    player.Open(GetMovieFile("CAVE2.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = true;
                     break;
 
                 case IntroStage.CaveExit:
-                    player.Open(await GetMovieFile("CAVE3.WAR"));
+                    player.Open(GetMovieFile("CAVE3.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = false;
                     break;
 
                 case IntroStage.BlizzardLogo:
-                    player.Open(await GetMovieFile("TITLE.WAR"));
+                    player.Open(GetMovieFile("TITLE.WAR"));
                     player.PauseAfterFirstFrame = false;
                     player.ShouldLoop = false;
                     break;
@@ -173,9 +173,9 @@ namespace WinWarCS.GameScreens
             player.Play();
         }
 
-        internal async Task<Stream> GetMovieFile(string filename)
+        internal Stream GetMovieFile(string filename)
         {
-            return await MainGame.AssetProvider.OpenContentFile(Path.Combine("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data", filename));
+            return MainGame.AssetProvider.OpenGameDataFile(filename);
         }
 
         void player_OnPlaybackFinished(FLCFile file, bool didFinishNormally)

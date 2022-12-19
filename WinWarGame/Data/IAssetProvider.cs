@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace WinWarCS.Data
 {
-   public interface IAssetProvider
-   {
-      string InstalledLocation { get; }
-      string ExpectedDataDirectory { get; }
+    public interface IAssetProvider
+    {
+        bool isFullVersion { get; }
+        string InstalledLocation { get; }
+        string AssetsDirectory { get; }
+        string FullDataDirectory { get; }
+        string DemoDataDirectory { get; }
+        string DataDirectory { get; }
 
-      char DirectorySeparatorChar { get; }
-
-      Task<FileStream> OpenContentFile(string relativeFilename, bool readOnly = true);
-   }
+        FileStream OpenGameDataFile(string relativeFilename, bool readOnly = true);
+        FileStream OpenAssetFile(string relativeFilename, bool readOnly = true);
+    }
 }

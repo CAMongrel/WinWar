@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WinWarCS.Gui;
 #if __IOS__
 using UIKit;
 #elif OSX
@@ -8,25 +9,41 @@ using MonoMac.AppKit;
 
 namespace WinWarCS.Platform
 {
-   public static class UI
-   {
-      public static async Task<bool> ShowMessageDialog(string message)
-      {
-#if OSX
-         NSAlert alert = NSAlert.WithMessage (message, "Ok", null, null, "");
-         alert.RunModal ();
-#elif WINFX_CORE
-         Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog(message, "WinWarCS - WarCraft for Windows Modern UI");
-         await dlg.ShowAsync();
-#elif __IOS__
-         UIAlertView alertView = new UIAlertView ("WinWar", message, null, "Ok", null);
-         alertView.Show ();
-#else
-         Console.WriteLine("ShowMessageDialog: " + message);
-         /*System.Windows.Forms.MessageBox.Show(message, "WinWarCS");*/
-#endif
-         return true;
-      }
-   }
+    public static class UI
+    {
+        public static bool ShowMessageDialog(string message, string okButtonText = "Ok",
+            Action closeAction = null)
+        {
+            Console.WriteLine("ShowMessageDialog: " + message);
+
+            UIWindow result = new UIWindow();
+            result.Width = MainGame.OriginalAppWidth;
+            result.Height = MainGame.OriginalAppHeight;
+
+            UIButton btn = new UIButton(okButtonText, -1, -1);
+            btn.AutoSizeToText();
+            btn.Y = result.Height - btn.Height;
+            btn.OnMouseUpInside += (loc) =>
+            {
+                result.Close();
+                MainGame.WinWarGame.SetSystemGameScreenActive(false);
+                closeAction?.Invoke();
+            };
+            result.AddComponent(btn);
+
+            btn.CenterXInParent();
+
+            UILabel label = new UILabel(message);
+            label.IsUnformattedText = true;
+            label.TextAlign = TextAlignHorizontal.Center;
+            label.Width = result.Width;
+            label.Height = result.Height - btn.Height;
+            result.AddComponent(label);
+
+            MainGame.WinWarGame.SetSystemGameScreenActive(true);
+
+            return true;
+        }
+    }
 }
 

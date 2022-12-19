@@ -2,8 +2,9 @@
 
 WinWar is a multiplatform (Windows, Linux, macOS) port of the original DOS Warcraft: Orcs & Humans PC Game. It is completely rewritten from scratch using only the original art and level data.
 
-It *requires* the original game; no game data is included. Since version 0.2.0 WinWar is compatible with the demo version (if you can still find it somewhere).
-You can also buy Warcraft at GOG: https://www.gog.com/de/game/warcraft_bundle
+It *requires* the original game; no game data is included. Since version 0.2.0 WinWar is compatible with the demo version (which you may find here: https://wow.gamepedia.com/Warcraft:_Orcs_%26_Humans_Shareware).  
+
+You can (and should!) also buy Warcraft at GOG: https://www.gog.com/de/game/warcraft_bundle
 
 ## Supported platforms
 - Desktop/OpenGL (Windows, Linux, macOS)

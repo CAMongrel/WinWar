@@ -11,111 +11,129 @@ using WinWarCS.Data;
 #endregion
 namespace WinWarCS.Gui
 {
-   internal class UIButton : UIBaseComponent
-   {
-      #region Variables
-      private WWTexture backgroundNotClicked;
-      private WWTexture backgroundClicked;
-      private SpriteFont font;
-      private UIColorizedText colText;
-      protected bool isPressed;
-      #endregion
+    internal class UIButton : UIBaseComponent
+    {
+        #region Variables
+        private WWTexture backgroundNotClicked;
+        private WWTexture backgroundClicked;
+        private SpriteFont font;
+        private UIColorizedText colText;
+        protected bool isPressed;
+        #endregion
 
-      #region Events
-      internal event OnPointerDownInside OnMouseDownInside;
-      internal event OnPointerUpInside OnMouseUpInside;
-      #endregion
+        #region Events
+        internal event OnPointerDownInside OnMouseDownInside;
+        internal event OnPointerUpInside OnMouseUpInside;
+        #endregion
 
-      #region Properties
-      internal string Text 
-      { 
-         get { return colText.Text; }
-         set { colText.Text = value; } 
-      }
-      #endregion
+        #region Properties
+        internal string Text
+        {
+            get { return colText.Text; }
+            set { colText.Text = value; }
+        }
+        #endregion
 
-      #region Constructor
-      internal UIButton (string setText, int releaseButtonResourceIndex, int pressedButtonResourceIndex)
-      {
-         colText = new UIColorizedText(setText);
-         font = MainGame.DefaultFont;
+        #region Constructor
+        internal UIButton(string setText, int releaseButtonResourceIndex, int pressedButtonResourceIndex)
+        {
+            colText = new UIColorizedText(setText);
+            font = MainGame.DefaultFont;
 
-         isPressed = false;
+            isPressed = false;
 
-         AutoSetButtonImage (releaseButtonResourceIndex, pressedButtonResourceIndex);
-      }
-      #endregion
+            AutoSetButtonImage(releaseButtonResourceIndex, pressedButtonResourceIndex);
+        }
+        #endregion
 
-      #region AutoSetButtonImage
-      private void AutoSetButtonImage (int releaseButtonResourceIndex, int pressedButtonResourceIndex)
-      {
-         backgroundNotClicked = WWTexture.FromImageResource(WarFile.GetImageResource(releaseButtonResourceIndex));
-         backgroundClicked = WWTexture.FromImageResource(WarFile.GetImageResource(pressedButtonResourceIndex));
+        #region AutoSetButtonImage
+        private void AutoSetButtonImage(int releaseButtonResourceIndex, int pressedButtonResourceIndex)
+        {
+            if (releaseButtonResourceIndex < 0 ||
+                pressedButtonResourceIndex < 0)
+            {
+                Width = 0;
+                Height = 0;
+                return;
+            }
 
-         Width = (int)(backgroundNotClicked.Width);
-         Height = (int)(backgroundNotClicked.Height);
-      }
-      #endregion
+            backgroundNotClicked = WWTexture.FromImageResource(WarFile.GetImageResource(releaseButtonResourceIndex));
+            backgroundClicked = WWTexture.FromImageResource(WarFile.GetImageResource(pressedButtonResourceIndex));
 
-      #region Render
-      internal override void Draw()
-      {
-         base.Draw();
+            Width = (int)(backgroundNotClicked.Width);
+            Height = (int)(backgroundNotClicked.Height);
+        }
+        #endregion
 
-         WWTexture background = null;
-         if (isPressed)
-            background = backgroundClicked;
-         else
-            background = backgroundNotClicked;
+        #region AutoSizeToText
+        public void AutoSizeToText()
+        {
+            var size = font.MeasureString(colText.Text);
+            var padding = 5;
+            Width = (int)size.X + (padding * 2);
+            Height = (int)size.Y + (padding * 2);
+        }
+        #endregion
 
-         if (background == null)
-         {
-            return;
-         }
+        #region Render
+        internal override void Draw()
+        {
+            base.Draw();
 
-         Vector2 screenPos = ScreenPosition;
+            WWTexture background = null;
+            if (isPressed)
+            {
+                background = backgroundClicked;
+            }
+            else
+            {
+                background = backgroundNotClicked;
+            }
 
-         Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));
-         background.RenderOnScreen (screenPos.X, screenPos.Y, Width, Height, col);
+            Vector2 screenPos = ScreenPosition;
 
-         colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlignHorizontal.Center, col, Color.Yellow);
-      }
-      #endregion
+            Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
+            background?.RenderOnScreen(screenPos.X, screenPos.Y, Width, Height, col);
 
-      #region MouseDown
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         if (!base.PointerDown (position, pointerType))
-            return false;
+            colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font,
+                TextAlignHorizontal.Center, col, Color.Yellow);
+        }
+        #endregion
 
-         isPressed = true;
+        #region MouseDown
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            if (!base.PointerDown(position, pointerType))
+                return false;
 
-         OnMouseDownInside?.Invoke(position);
+            isPressed = true;
 
-         return true;
-      }
-      #endregion
+            OnMouseDownInside?.Invoke(position);
 
-      #region MouseUp
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         if (!base.PointerUp (position, pointerType))
-            return false;
+            return true;
+        }
+        #endregion
 
-         isPressed = false;
+        #region MouseUp
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            if (!base.PointerUp(position, pointerType))
+                return false;
 
-         OnMouseUpInside?.Invoke(position);
+            isPressed = false;
 
-         return true;
-      }
-      #endregion
+            OnMouseUpInside?.Invoke(position);
 
-      #region ToString
-      public override string ToString ()
-      {
-         return Text;
-      }
-      #endregion
+            return true;
+        }
+        #endregion
 
-   }
+        #region ToString
+        public override string ToString()
+        {
+            return Text;
+        }
+        #endregion
+
+    }
 }

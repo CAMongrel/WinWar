@@ -9,61 +9,66 @@ using WinWarCS.Gui.Rendering;
 
 namespace WinWarCS.Gui
 {
-   class UILabel : UIBaseComponent
-   {
-      #region Variables
-      private UIColorizedText colText;
-      internal string Text 
-      { 
-         get { return colText.Text; }
-         set 
-         { 
-            colText.Text = value; 
-         } 
-      }
-      private SpriteFont font;
+    class UILabel : UIBaseComponent
+    {
+        #region Variables
+        private UIColorizedText colText;
+        internal string Text
+        {
+            get { return colText.Text; }
+            set
+            {
+                colText.Text = value;
+            }
+        }
+        private SpriteFont font;
 
-      #endregion
+        #endregion
 
-      #region Properties
-      internal TextAlignHorizontal TextAlign { get; set; }
-      #endregion
+        #region Properties
+        internal TextAlignHorizontal TextAlign { get; set; }
 
-      #region Constructor
+        internal bool IsUnformattedText { get; set; } = false;
+        #endregion
 
-      internal UILabel (string setText)
-      {
-         colText = new UIColorizedText(setText);
-         font = MainGame.DefaultFont;
-         TextAlign = TextAlignHorizontal.Center;
-      }
+        #region Constructor
+        internal UILabel(string setText)
+        {
+            colText = new UIColorizedText(setText);
+            font = MainGame.DefaultFont;
+            TextAlign = TextAlignHorizontal.Center;
+        }
+        #endregion
 
-      #endregion
+        #region Render
+        internal override void Draw()
+        {
+            base.Draw();
 
-      #region Render
+            Vector2 screenPos = ScreenPosition;
 
-      internal override void Draw()
-      {
-         base.Draw();
+            Color col = Color.FromNonPremultiplied(new Vector4(Vector3.One, CompositeAlpha));
+            Color hotKeyCol = Color.Yellow;
 
-         Vector2 screenPos = ScreenPosition;
+            if (IsUnformattedText)
+            {
+                colText.RenderMultiLineUnformatted(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlign, col);
+            }
+            else
+            {
+                colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlign, col, hotKeyCol);
+            }
+        }
+        #endregion
 
-         Color col = Color.FromNonPremultiplied (new Vector4 (Vector3.One, CompositeAlpha));
-         Color hotKeyCol = Color.Yellow;
+        #region ToString
 
-         colText.Render(screenPos.X, screenPos.Y, (float)Width, (float)Height, font, TextAlign, col, hotKeyCol);
-      }
+        public override string ToString()
+        {
+            return Text;
+        }
 
-      #endregion
+        #endregion
 
-      #region ToString
-
-      public override string ToString ()
-      {
-         return Text;
-      }
-
-      #endregion
-
-   }
+    }
 }

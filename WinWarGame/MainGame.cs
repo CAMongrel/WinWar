@@ -22,7 +22,7 @@ namespace WinWarCS
     {
         public static int MajorVersion = 0;
         public static int MinorVersion = 2;
-        public static int RevisionVersion = 3;
+        public static int RevisionVersion = 4;
 
         public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
 
@@ -33,6 +33,8 @@ namespace WinWarCS
         private SpriteFont _spriteFont;
         private BaseGameScreen currentGameScreen;
         private BaseGameScreen nextGameScreen;
+
+        internal SystemGameScreen SystemGameScreen;
 
         private MusicManager musicManager;
         private SoundManager soundManager;
@@ -176,12 +178,12 @@ namespace WinWarCS
 #endif
         }
 
-        private async Task<bool> ValidateDataWar()
+        private bool ValidateDataWar()
         {
             Stream stream = null;
             try
             {
-                stream = await MainGame.AssetProvider.OpenContentFile("Assets" + MainGame.AssetProvider.DirectorySeparatorChar + "Data" + MainGame.AssetProvider.DirectorySeparatorChar + "DATA.WAR");
+                stream = MainGame.AssetProvider.OpenGameDataFile("DATA.WAR");
                 return true;
             }
             catch (Exception ex)
@@ -204,18 +206,24 @@ namespace WinWarCS
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override async void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
 
-            WinWarCS.Util.Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
+            SystemGameScreen = new SystemGameScreen();
 
-            bool result = await ValidateDataWar();
+            Log.Write(Util.LogType.Generic, Util.LogSeverity.Status, "WinWarCS -- Version: " + Version);
+
+            bool result = ValidateDataWar();
             if (result == false)
             {
-                await Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" + AssetProvider.ExpectedDataDirectory +
-                "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
-                "please also copy all the other .WAR files from the data directory.");
+                Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" +
+                    AssetProvider.FullDataDirectory + "' or '" + AssetProvider.DemoDataDirectory +
+                    "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
+                    "please also copy all the other .WAR files from the data directory.", "Exit", () =>
+                    {
+                        Environment.Exit(0);
+                    });
                 return;
             }
 
@@ -237,7 +245,7 @@ namespace WinWarCS
 
             if (loadingException != null)
             {
-                await Platform.UI.ShowMessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").");
+                Platform.UI.ShowMessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").");
                 return;
             }
 
@@ -281,6 +289,9 @@ namespace WinWarCS
 
         internal void SetNextGameScreen(BaseGameScreen setNextGameScreen)
         {
+            // Ensure that all audio is stopped when switchting game screens
+            soundManager?.StopAll();
+
             nextGameScreen = setNextGameScreen;
         }
 
@@ -316,6 +327,11 @@ namespace WinWarCS
                 currentGameScreen.Update(gameTime);
             }
 
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.Draw(gameTime);
+            }
+
             base.Update(gameTime);
             Performance.Pop();
         }
@@ -338,6 +354,11 @@ namespace WinWarCS
                 GraphicsDevice.Clear(backgroundClearColor);
             }
 
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.Draw(gameTime);
+            }
+
             base.Draw(gameTime);
 
             MouseCursor.Render(gameTime);
@@ -346,6 +367,12 @@ namespace WinWarCS
 
         internal void PointerPressed(Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
         {
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.PointerDown(scaledPosition, pointerType);
+                return;
+            }
+
             if (currentGameScreen != null)
             {
                 currentGameScreen.PointerDown(scaledPosition, pointerType);
@@ -354,6 +381,12 @@ namespace WinWarCS
 
         internal void PointerReleased(Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
         {
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.PointerUp(scaledPosition, pointerType);
+                return;
+            }
+
             if (currentGameScreen != null)
             {
                 currentGameScreen.PointerUp(scaledPosition, pointerType);
@@ -362,10 +395,22 @@ namespace WinWarCS
 
         internal void PointerMoved(Microsoft.Xna.Framework.Vector2 scaledPosition)
         {
+            if (SystemGameScreen.IsActive)
+            {
+                SystemGameScreen.PointerMoved(scaledPosition);
+                return;
+            }
+
             if (currentGameScreen != null)
             {
                 currentGameScreen.PointerMoved(scaledPosition);
             }
+        }
+
+        internal void SetSystemGameScreenActive(bool isActive)
+        {
+            SystemGameScreen.IsActive = isActive;
+            IsMouseVisible = isActive;
         }
     }
 }
