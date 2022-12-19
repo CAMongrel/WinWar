@@ -12,7 +12,8 @@ You can also buy Warcraft at GOG: https://www.gog.com/de/game/warcraft_bundle
 ## Screenshots
 ![Intro](/../screenshots/Screenshots/Intro.png?raw=true "Intro")
 ![Orc1](/../screenshots/Screenshots/Orc1.png?raw=true "Orc1")
-![iPad](/../screenshots/Screenshots/iPad.jpg?raw=true "iPad")
+![iPad](/../screenshots/Screenshots/iPad.jpg?raw=true "iPad")  
+(Note: iOS is no longer officially supported)
 
 ## Compiling and Running
 ### Compiling from source
@@ -30,6 +31,7 @@ You can also buy Warcraft at GOG: https://www.gog.com/de/game/warcraft_bundle
 - Originally written in C++
 - Switched to C# sometime in 2008
 - Later moved to MonoGame as base framework to support multiple platforms
+- Updated to .NET 6 in 2022
 - Note: Due to the age of the project, parts of the codebase are written in a way which I'm not particularly proud of. They will be refactored over time.
 
 ## Acknowledgements
