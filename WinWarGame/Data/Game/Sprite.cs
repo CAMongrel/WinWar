@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data.Resources;
-using WinWarCS.Graphics;
-using WinWarCS.Util;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    class SpriteFrame
    {

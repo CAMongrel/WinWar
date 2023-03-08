@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    public enum PointerType
    {

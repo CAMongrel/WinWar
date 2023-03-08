@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarCS.Data.Storyboard
+namespace WinWarGame.Data.Storyboard
 {
     enum IntroStage
     {

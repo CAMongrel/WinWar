@@ -2,19 +2,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Text;
-using WinWarCS.GameScreens;
 using Microsoft.Xna.Framework.Input;
-using WinWarCS.Data;
-using WinWarCS.Gui;
 using System.IO;
 using System.Threading.Tasks;
-using WinWarCS.Util;
-using MouseCursor = WinWarCS.Gui.MouseCursor;
-using WinWarCS.Data.Game;
-using WinWarCS.Audio;
-using WinWarCS.Graphics;
+using MouseCursor = WinWarGame.Gui.MouseCursor;
+using WinWarGame.Audio;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.GameScreens;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Util;
 
-namespace WinWarCS
+namespace WinWarGame
 {
     /// <summary>
     /// This is the main type for your game
@@ -362,7 +362,7 @@ namespace WinWarCS
 
             base.Draw(gameTime);
 
-            MouseCursor.Render(gameTime);
+            Gui.MouseCursor.Render(gameTime);
             Performance.Pop();
         }
 

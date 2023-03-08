@@ -1,5 +1,5 @@
-﻿using WinWar.Desktop.Windows;
-using WinWarCS;
+﻿using WinWar.Desktop;
+using WinWarGame;
 
 var assetProvider = new NetAssetProvider();
 

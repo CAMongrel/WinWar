@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data.Game;
-using WinWarCS.Graphics;
-using WinWarCS.Gui.Input;
+using WinWarGame.Data.Game;
+using WinWarGame.Graphics;
+using WinWarGame.Gui.Input;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    class UIMinimapControl : UIBaseComponent
    {

@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
-namespace WinWarCS.Data
+namespace WinWarGame.Data
 {
    public enum ContentFileType : int
    {

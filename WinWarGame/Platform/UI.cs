@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using WinWarCS.Gui;
+using WinWarGame.Gui;
+
 #if __IOS__
 using UIKit;
 #elif OSX
 using MonoMac.AppKit;
 #endif
 
-namespace WinWarCS.Platform
+namespace WinWarGame.Platform
 {
     public static class UI
     {

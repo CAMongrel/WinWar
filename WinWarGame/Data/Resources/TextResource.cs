@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 #endregion
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class TextResource : BasicResource
    {

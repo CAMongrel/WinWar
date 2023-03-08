@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public struct SpriteResourceFrame
    {

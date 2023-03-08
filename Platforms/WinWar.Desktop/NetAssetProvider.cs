@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data;
+using WinWarGame.Data;
 
-namespace WinWar.Desktop.Windows
+namespace WinWar.Desktop
 {
     class NetAssetProvider : IAssetProvider
     {

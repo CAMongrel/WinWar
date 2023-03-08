@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Data
+namespace WinWarGame.Data
 {
     public interface IAssetProvider
     {

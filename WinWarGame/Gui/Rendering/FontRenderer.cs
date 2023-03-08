@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Graphics;
+using WinWarGame.Graphics;
 
-namespace WinWarCS.Gui.Rendering
+namespace WinWarGame.Gui.Rendering
 {
     internal static class FontRenderer
     {

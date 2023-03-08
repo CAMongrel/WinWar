@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.GameScreens.Windows;
-using WinWarCS.Graphics;
-using WinWarCS.Gui;
-using WinWarCS.Gui.Rendering;
+using WinWarGame.GameScreens.Windows;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Gui.Rendering;
 
-namespace WinWarCS.GameScreens
+namespace WinWarGame.GameScreens
 {
     class MenuGameScreen : BaseGameScreen
     {

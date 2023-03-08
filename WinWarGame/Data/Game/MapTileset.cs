@@ -3,17 +3,18 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWar\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 23:01
-using WinWarCS.Data.Resources;
+
+using WinWarGame.Data.Resources;
 
 #region Using directives
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data;
+using WinWarGame.Data;
 
 #endregion
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    internal enum Tileset : int
    {

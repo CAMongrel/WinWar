@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class ImageResource : BasicResource
    {

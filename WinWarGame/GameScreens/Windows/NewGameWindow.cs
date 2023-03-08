@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Gui;
+using WinWarGame.Gui;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
     class NewGameWindow : UIWindow
     {

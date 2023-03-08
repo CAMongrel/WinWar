@@ -3,18 +3,19 @@
 // Path: P:\Projekte\WinWarCS\WinWarEngine\Data
 // Creation date: 18.11.2009 10:13
 // Last modified: 27.11.2009 10:10
-using WinWarCS.Util;
+
+using WinWarGame.Data.Resources;
+using WinWarGame.Util;
 
 #region Using directives
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
 #endregion
 
-namespace WinWarCS.Data
+namespace WinWarGame.Data
 {
     public enum DataWarFileType
     {

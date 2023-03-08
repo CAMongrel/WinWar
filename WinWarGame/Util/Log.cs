@@ -1,9 +1,9 @@
 ﻿using System;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
 // TODO: Make platform specific log writer
 
-namespace WinWarCS.Util
+namespace WinWarGame.Util
 {
    [Flags]
    public enum LogType

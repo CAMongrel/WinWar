@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    internal class HumanBarracks : Building
    {

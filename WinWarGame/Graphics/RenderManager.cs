@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace WinWarCS.Graphics
+namespace WinWarGame.Graphics
 {
    public static class RenderManager
    {

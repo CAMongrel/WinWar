@@ -3,7 +3,7 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWarEngine\Data\Resources
 // Creation date: 27.11.2009 20:22
 // Last modified: 29.11.2009 13:31
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
 #region Using directives
 using System;
@@ -12,7 +12,7 @@ using System.Text;
 
 #endregion
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class LevelVisualResource : BasicResource
    {

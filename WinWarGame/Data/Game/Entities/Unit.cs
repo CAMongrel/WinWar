@@ -1,7 +1,8 @@
 ﻿using System;
-using WinWarCS.Util;
+using WinWarGame.Util;
+using WinWarGame.Data.Resources;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    enum Orientation
    {
@@ -95,7 +96,7 @@ namespace WinWarCS.Data.Game
 
          if (CurrentMap != null) 
          {
-            CurrentMap.CreateEntity (this.TileX, this.TileY, WinWarCS.Data.Resources.LevelObjectType.Orc_corpse, null);
+            CurrentMap.CreateEntity (this.TileX, this.TileY, LevelObjectType.Orc_corpse, null);
          }
       }
 

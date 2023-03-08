@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using WinWarCS.Gui.Rendering;
 using System.Collections.Generic;
-using WinWarCS.Graphics;
+using WinWarGame.Graphics;
+using WinWarGame.Gui.Rendering;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
     enum TextAlignHorizontal
     {

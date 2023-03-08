@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
-namespace WinWarCS.Gui.Input
+namespace WinWarGame.Gui.Input
 {
    class UIMapControlInputHandlerClassic : UIMapControlInputHandler
    {

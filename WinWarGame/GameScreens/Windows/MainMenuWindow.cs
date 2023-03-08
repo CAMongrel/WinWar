@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data;
-using WinWarCS.Data.Game;
-using WinWarCS.Data.Resources;
-using WinWarCS.Gui;
+using WinWarGame.Data.Game;
+using WinWarGame.Data.Resources;
 using System.IO;
+using WinWarGame.Data;
+using WinWarGame.Gui;
+using WinWarGame.Platform;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
     class MainMenuWindow : UIWindow
     {
@@ -106,7 +107,7 @@ namespace WinWarCS.GameScreens.Windows
 
         void quitGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            WinWarCS.Platform.Sys.Exit();
+            Sys.Exit();
         }
     }
 }

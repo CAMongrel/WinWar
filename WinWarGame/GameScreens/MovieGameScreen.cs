@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using WinWarCS.Gui;
+using WinWarGame.Gui;
 
-namespace WinWarCS.GameScreens
+namespace WinWarGame.GameScreens
 {
     internal delegate void MovieFinished(bool wasCancelled);
 
