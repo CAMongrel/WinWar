@@ -16,7 +16,7 @@ namespace WinWarCS.Gui
         #region Variables
         private WWTexture backgroundNotClicked;
         private WWTexture backgroundClicked;
-        private SpriteFont font;
+        private Font font;
         private UIColorizedText colText;
         protected bool isPressed;
         #endregion

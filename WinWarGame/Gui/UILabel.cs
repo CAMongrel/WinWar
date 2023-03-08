@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarCS.Graphics;
 using WinWarCS.Gui.Rendering;
 
 namespace WinWarCS.Gui
@@ -21,7 +22,7 @@ namespace WinWarCS.Gui
                 colText.Text = value;
             }
         }
-        private SpriteFont font;
+        private Font font;
 
         #endregion
 

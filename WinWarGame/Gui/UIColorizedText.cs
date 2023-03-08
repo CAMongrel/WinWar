@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using WinWarCS.Gui.Rendering;
 using System.Collections.Generic;
+using WinWarCS.Graphics;
 
 namespace WinWarCS.Gui
 {
@@ -18,6 +19,11 @@ namespace WinWarCS.Gui
         private string text1;
         private string hotkeyText;
         private string text2;
+
+        /// <summary>
+        /// Whether to add line breaks even if there is no whitespace, e.g. in long file paths.
+        /// </summary>
+        public bool WrapInline { get; set; } = true; 
 
         internal char HotKey;
         internal string Text
@@ -54,10 +60,10 @@ namespace WinWarCS.Gui
         {
             HotKey = (char)0x00;
 
-            int idx = rawText.IndexOf("@1");
+            var idx = rawText.IndexOf("@1", StringComparison.Ordinal);
             if (idx != -1)
             {
-                int idx2 = rawText.IndexOf("@2", idx + 1);
+                var idx2 = rawText.IndexOf("@2", idx + 1, StringComparison.Ordinal);
                 if (idx2 != -1)
                 {
                     text1 = rawText.Substring(0, idx);
@@ -79,54 +85,15 @@ namespace WinWarCS.Gui
             }
         }
 
-        internal Vector2 GetSize(SpriteFont font)
+        private Vector2 GetSize(Font font)
         {
             return font.MeasureString(text1 + hotkeyText + text2);
         }
 
-        internal string[] WrapLines(SpriteFont font, string fullText, float maxWidth)
-        {
-            List<string> result = new List<string>();
-
-            string[] paragraphs = fullText.Split("\r\n");
-
-            foreach (string p in paragraphs)
-            {
-                string[] words = p.Split(' ');
-                string curLine = "";
-                float lineWidth = 0.0f;
-                float spaceWidth = font.MeasureString(" ").X;
-
-                for (int i = 0; i < words.Length; i++)
-                {
-                    Vector2 size = font.MeasureString(words[i]);
-                    if (lineWidth > 0.0f)
-                    {
-                        if (lineWidth + size.X > maxWidth)
-                        {
-                            result.Add(curLine);
-                            lineWidth = 0.0f;
-                            curLine = "";
-                        }
-                    }
-
-                    lineWidth += size.X + spaceWidth;
-                    curLine += words[i] + " ";
-                }
-
-                if (string.IsNullOrWhiteSpace(curLine) == false)
-                {
-                    result.Add(curLine);
-                }
-            }
-
-            return result.ToArray();
-        }
-
         internal void RenderMultiLineUnformatted(float x, float y, float width, float height,
-            SpriteFont font, TextAlignHorizontal align, Color textColor)
+            Font font, TextAlignHorizontal align, Color textColor)
         {
-            string[] lines = WrapLines(font, UnformattedText, width);
+            string[] lines = font.WrapLines(UnformattedText, width, true);
             if (lines.Length == 0)
             {
                 return;
@@ -169,7 +136,7 @@ namespace WinWarCS.Gui
             MainGame.SpriteBatch.End();
         }
 
-        internal void Render(float x, float y, float width, float height, SpriteFont font,
+        internal void Render(float x, float y, float width, float height, Font font,
             TextAlignHorizontal align, Color textColor, Color hotKeyColor)
         {
             Vector2 fullSize = GetSize(font);

@@ -12,6 +12,7 @@ using WinWarCS.Util;
 using MouseCursor = WinWarCS.Gui.MouseCursor;
 using WinWarCS.Data.Game;
 using WinWarCS.Audio;
+using WinWarCS.Graphics;
 
 namespace WinWarCS
 {
@@ -30,7 +31,7 @@ namespace WinWarCS
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SpriteFont _spriteFont;
+        private Font _spriteFont;
         private BaseGameScreen currentGameScreen;
         private BaseGameScreen nextGameScreen;
 
@@ -122,7 +123,7 @@ namespace WinWarCS
             }
         }
 
-        internal static SpriteFont DefaultFont
+        internal static Font DefaultFont
         {
             get
             {
@@ -274,7 +275,7 @@ namespace WinWarCS
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _spriteFont = this.Content.Load<SpriteFont>("DefaultFont");
+            _spriteFont = new Font(this.Content.Load<SpriteFont>("DefaultFont"));
             // TODO: use this.Content to load your game content here
         }
 
