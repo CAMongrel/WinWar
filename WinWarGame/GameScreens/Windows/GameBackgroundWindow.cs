@@ -179,8 +179,10 @@ namespace WinWarGame.GameScreens.Windows
 
          bool leftClickNeeded = false;
          if (MapControl.InputHandler.InputMode == InputMode.Classic)
+         {
             // TODO: Use me
             leftClickNeeded = true;
+         }
 
          bool shouldScroll = false;
 
@@ -199,9 +201,13 @@ namespace WinWarGame.GameScreens.Windows
             scrollDelta.Y -= scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (newState == MouseCursorState.None)
+            {
                newState = MouseCursorState.ScrollTop;
+            }
             else
+            {
                newState = MouseCursorState.ScrollTopleft;
+            }
          }
          if (currentPointerPos.X >= Width - 3)
          {
