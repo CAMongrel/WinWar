@@ -65,6 +65,7 @@ namespace WinWarGame.Util
       }
 
       // Specialized logging methods
+      // ReSharper disable once InconsistentNaming
       internal static void AI(string entityString, string message, LogSeverity severity = LogSeverity.Debug)
       {
          LogInternal(LogType.AI, severity, entityString + ": " + message);
