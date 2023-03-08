@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace WinWarGame.Data.Resources
 {
@@ -120,10 +123,55 @@ namespace WinWarGame.Data.Resources
                         Frames[i].image_data[temp_index + 2] = (byte)(addPal.data[pal_index + 2] * 4);
                         Frames[i].image_data[temp_index + 3] = 255;
                      }
+
+                     // Some manual fixes
+                     // TODO: Figure out how this really works
+                  
+                     if ((Frames[i].image_data[temp_index + 0] == 0xCC) &&
+                         (Frames[i].image_data[temp_index + 1] == 0) &&
+                         (Frames[i].image_data[temp_index + 2] == 0xD4))
+                     {
+                        Frames[i].image_data[temp_index + 0] = 0x14;
+                        Frames[i].image_data[temp_index + 1] = 0x30;
+                        Frames[i].image_data[temp_index + 2] = 0x4d;
+                     }
+                  
+                     if ((Frames[i].image_data[temp_index + 0] == 0xFC) &&
+                         (Frames[i].image_data[temp_index + 1] == 0) &&
+                         (Frames[i].image_data[temp_index + 2] == 0xFC))
+                     {
+                        Frames[i].image_data[temp_index + 0] = 0x28;
+                        Frames[i].image_data[temp_index + 1] = 0x30;
+                        Frames[i].image_data[temp_index + 2] = 0x30;
+                     }
                   }
                }
             }
          }
+      }
+      
+      internal override void WriteToFile(string filename)
+      {
+         if (FrameCount < 1)
+         {
+            return;
+         }
+
+         SpriteResourceFrame frame1 = Frames[0];
+         Image<Rgba32> image = new Image<Rgba32>(MaxWidth, MaxHeight);
+         for (int y = 0; y < frame1.height; y++)
+         {
+            var span = image.DangerousGetPixelRowMemory(y).Span;
+            for (int x = 0; x < frame1.width; x++)
+            {
+               int idx = ((y + frame1.disp_y) * MaxWidth + (x + frame1.disp_x)) * 4;
+               span[x].R = frame1.image_data[idx + 0];
+               span[x].G = frame1.image_data[idx + 1];
+               span[x].B = frame1.image_data[idx + 2];
+               span[x].A = frame1.image_data[idx + 3];
+            }
+         }
+         image.Save(filename);
       }
    }
 }

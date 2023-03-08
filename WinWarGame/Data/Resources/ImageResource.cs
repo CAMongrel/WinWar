@@ -72,7 +72,7 @@ namespace WinWarGame.Data.Resources
                   cnt++;
                   image_data[cnt] = 255;// (byte)(((image_data[cnt - 3] == 0) && (image_data[cnt - 2] == 0) && (image_data[cnt - 1] == 0)) ? 0 : 255);
                   cnt++;
-
+                  
                   if ((image_data[cnt - 4] == 228) &&
                       (image_data[cnt - 3] == 108) &&
                       (image_data[cnt - 2] == 228))
@@ -80,6 +80,18 @@ namespace WinWarGame.Data.Resources
                      image_data[cnt - 4] = (byte)(addPal.data[pal_index] * 4);
                      image_data[cnt - 3] = (byte)(addPal.data[pal_index + 1] * 4);
                      image_data[cnt - 2] = (byte)(addPal.data[pal_index + 2] * 4);
+                  }
+                  
+                  // Some manual fixes
+                  // TODO: Figure out how this really works
+                  
+                  if ((image_data[cnt - 4] == 0xCC) &&
+                      (image_data[cnt - 3] == 0) &&
+                      (image_data[cnt - 2] == 0xD4))
+                  {
+                     image_data[cnt - 4] = 0x14;
+                     image_data[cnt - 3] = 0x30;
+                     image_data[cnt - 2] = 0x4d;
                   }
                }
             }

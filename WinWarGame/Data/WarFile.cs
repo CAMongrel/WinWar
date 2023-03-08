@@ -506,7 +506,7 @@ namespace WinWarGame.Data
 
         #region DumpResourcesToAssetPath
 
-        public static void DumpResourcesToAssetPath(string subfolder)
+        public static void DumpResourcesToAssetPath(string subfolder, bool onlyKnownTypes)
         {
             string fn = Path.Combine(MainGame.AssetProvider.AssetsDirectory, subfolder);
             if (Directory.Exists(fn) == false)
@@ -523,11 +523,22 @@ namespace WinWarGame.Data
                     case ContentFileType.FileImage:
                     {
                         var imgRes = (ImageResource)res;
-                        imgRes.WriteToFile(outfn + ".jpg");
+                        imgRes.WriteToFile(outfn + ".png");
                     }
                         break;
+                    
+                    case ContentFileType.FileSprite:
+                    {
+                        var sprRes = (SpriteResource)res;
+                        sprRes.WriteToFile(outfn + ".png");
+                    }
+                        break;
+                    
                     default:
-                        res.WriteToFile(outfn + ".res");
+                        if (onlyKnownTypes == false)
+                        {
+                            res.WriteToFile(outfn + ".res");
+                        }
                         break;
                 }
             }
