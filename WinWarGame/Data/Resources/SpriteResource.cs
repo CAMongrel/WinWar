@@ -28,6 +28,7 @@ namespace WinWarGame.Data.Resources
       internal SpriteResourceFrame[] Frames;
 
       internal SpriteResource(WarResource data, WarResource palette, WarResource addPalette)
+         : base(data)
       {
          Type = ContentFileType.FileSprite;
 

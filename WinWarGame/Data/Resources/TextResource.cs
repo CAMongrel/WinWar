@@ -15,6 +15,7 @@ namespace WinWarGame.Data.Resources
 
       #region Constructor
       internal TextResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileText;
 

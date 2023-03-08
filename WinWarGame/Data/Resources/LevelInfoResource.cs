@@ -219,6 +219,7 @@ namespace WinWarGame.Data.Resources
       #region Constructor
 
       internal LevelInfoResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileLevelInfo;
 

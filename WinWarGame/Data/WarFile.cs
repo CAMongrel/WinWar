@@ -188,7 +188,9 @@ namespace WinWarGame.Data
 
             ContentFileType fileType = ContentFileType.FileUnknown;
             if (ke != null)
+            {
                 fileType = ke.type;
+            }
 
             switch (fileType)
             {

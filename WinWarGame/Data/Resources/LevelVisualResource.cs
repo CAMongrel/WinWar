@@ -22,6 +22,7 @@ namespace WinWarGame.Data.Resources
       /// Create level visual resource
       /// </summary>
       internal LevelVisualResource(WarResource setData)
+         : base(setData)
       {
          Type = ContentFileType.FileLevelVisual;
 

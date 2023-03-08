@@ -27,13 +27,7 @@ namespace WinWarGame.GameScreens
          }
       }
 
-      internal bool IsCampaignLevel
-      {
-         get
-         {
-            return Campaign != null;
-         }
-      }
+      internal bool IsCampaignLevel => Campaign != null;
 
       private GameBackgroundWindow backgroundWindow;
 

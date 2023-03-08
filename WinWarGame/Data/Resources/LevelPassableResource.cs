@@ -15,6 +15,7 @@ namespace WinWarGame.Data.Resources
       /// Create level visual resource
       /// </summary>
       internal LevelPassableResource(WarResource setData)
+         : base(setData)
       {
          Type = ContentFileType.FileLevelPassable;
 

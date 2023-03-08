@@ -7,6 +7,7 @@ namespace WinWarGame.Data.Resources
       internal byte[] Colors;
 
       internal PaletteResource(WarResource setData)
+         : base(setData)
       {
          Type = ContentFileType.FilePalette;
 

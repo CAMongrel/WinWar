@@ -15,6 +15,7 @@ namespace WinWarGame.Data.Resources
       internal byte[] image_data;
 
       internal ImageResource(WarResource imgResource, WarResource palette, WarResource addPalette)
+         : base(imgResource)
       {
          Type = ContentFileType.FileImage;
 

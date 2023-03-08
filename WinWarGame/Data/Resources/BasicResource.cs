@@ -7,20 +7,30 @@ namespace WinWarGame.Data.Resources
 {
    public abstract class BasicResource
    {
+      private WarResource originalResource;
+
+      public WarResource Resource => originalResource;
+      
       public ContentFileType Type { get; protected set; }
 
-      protected BasicResource()
+      protected BasicResource(WarResource setResource)
       {
+         originalResource = setResource;
          Type = ContentFileType.FileUnknown;
       }
 
       protected byte[] ReadBytes(int index, int count, byte[] data)
       {
+         if (count < 0)
+         {
+            return Array.Empty<byte>();
+         }
+         
          int diff = data.Length - (index + count);
          if (diff < 0)
+         {
             count += diff;
-         if (count < 0)
-            return new byte[0];
+         }
 
          byte[] result = new byte[count];
          Array.Copy(data, index, result, 0, count);
@@ -30,15 +40,19 @@ namespace WinWarGame.Data.Resources
       protected short ReadShort (int index, byte [] data)
       {
          if (index < 0 || index >= data.Length)
+         {
             return 0;
+         }
 
-         return (short)(data [index + 0] + (data [index + 1] << 8));
+         return (short)(data [index + 0] + (data[index + 1] << 8));
       }
 
       protected ushort ReadUShort(int index, byte[] data)
       {
          if (index < 0 || index >= data.Length)
+         {
             return 0;
+         }
 
          return (ushort)(data[index + 0] + (data[index + 1] << 8));
       }
@@ -46,7 +60,9 @@ namespace WinWarGame.Data.Resources
       protected uint ReadUInt(int index, byte[] data)
       {
          if (index < 0 || index >= data.Length)
+         {
             return 0;
+         }
 
          return (uint)(data[index + 0] + (data[index + 1] << 8) + (data[index + 2] << 16) + (data[index + 3] << 24));
       }
@@ -54,7 +70,9 @@ namespace WinWarGame.Data.Resources
       protected int ReadInt(int index, byte[] data)
       {
          if (index < 0 || index >= data.Length)
+         {
             return 0;
+         }
 
          return data[index + 0] + (data[index + 1] << 8) + (data[index + 2] << 16) + (data[index + 3] << 24);
       }
@@ -63,7 +81,9 @@ namespace WinWarGame.Data.Resources
       {
          ushort resIndex = ReadUShort(offset, res.data);
          if (resIndex == 0 || resIndex == 0xFFFF)
+         {
             return 0;
+         }
 
          return (ushort)(resIndex - 2);
       }
@@ -72,7 +92,9 @@ namespace WinWarGame.Data.Resources
       {
          int resIndex = ReadInt(offset, res.data);
          if (resIndex == 0 || resIndex >= 0xFFFF)
+         {
             return 0;
+         }
 
          return resIndex - 2;
       }
@@ -92,10 +114,11 @@ namespace WinWarGame.Data.Resources
          return result.ToString();
       }
 
-      internal virtual void WriteToStream(BinaryWriter writer)
+      internal virtual void WriteToStream(System.IO.BinaryWriter writer)
       {
+         writer.Write(originalResource.data);
       }
-
+      
       internal virtual void WriteToFile(string filename)
       {
          using (var stream = File.OpenWrite(filename))

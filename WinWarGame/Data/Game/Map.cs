@@ -52,13 +52,15 @@ namespace WinWarGame.Data.Game
       /// <summary>
       /// All placed roads
       /// </summary>
-      /// <value>The roads.</value>
       internal List<Construct> Roads { get; private set; }
 
       internal List<Construct> Walls { get; private set; }
 
       internal List<BasePlayer> Players { get; private set; }
 
+      /// <summary>
+      /// The BasePlayer controlled by the human sitting behind the screen (the "player") 
+      /// </summary>
       internal BasePlayer HumanPlayer
       {
          get
@@ -129,9 +131,13 @@ namespace WinWarGame.Data.Game
 
             BasePlayer pl = null;
             if (i == 0)
+            {
                pl = new HumanPlayer();
+            }
             else
+            {
                pl = new AIPlayer();
+            }
 
             pl.Gold = levelInfo.PlayerInfos[i].StartGold;
             pl.Lumber = levelInfo.PlayerInfos[i].StartLumber;
@@ -168,7 +174,9 @@ namespace WinWarGame.Data.Game
 
          // Test
          if (DebugOptions.ShowFullMapOnLoad)
-            ShowMap();
+         {
+            RevealFullMap();
+         }
 
          Performance.Pop();
       }
@@ -196,7 +204,9 @@ namespace WinWarGame.Data.Game
       internal MapDiscover GetDiscoverStateAtTile(int tileX, int tileY)
       {
          if (tileX < 0 || tileX >= MapWidth || tileY < 0 || tileY >= MapHeight)
+         {
             return MapDiscover.Unknown;
+         }
 
          return mapDiscoverState[tileX + tileY * MapWidth];
       }
@@ -204,13 +214,17 @@ namespace WinWarGame.Data.Game
       private void HideMap()
       {
          for (int i = 0; i < mapDiscoverState.Length; i++)
+         {
             mapDiscoverState[i] = MapDiscover.Unknown;
+         }
       }
 
-      private void ShowMap()
+      private void RevealFullMap()
       {
          for (int i = 0; i < mapDiscoverState.Length; i++)
+         {
             mapDiscoverState[i] = MapDiscover.Visible;
+         }
       }
 
       private void DiscoverMapAt(int centerTileX, int centerTileY, double visibleRange)
@@ -223,7 +237,9 @@ namespace WinWarGame.Data.Game
             int tileY = centerTileY + (int)actualY;
 
             if (tileY < 0 || tileY >= MapHeight)
+            {
                continue;
+            }
 
             for (int x = -(int)visibleRange; x <= (int)visibleRange; x++)
             {
@@ -231,11 +247,15 @@ namespace WinWarGame.Data.Game
                int tileX = centerTileX + (int)actualX;
 
                if (tileX < 0 || tileX >= MapWidth)
+               {
                   continue;
+               }
 
                double sqrDist = actualX * actualX + actualY * actualY;
                if (sqrDiscoverRange >= sqrDist)
+               {
                   mapDiscoverState[tileX + tileY * MapWidth] = MapDiscover.Visible;
+               }
             }
          }
       }
@@ -264,10 +284,12 @@ namespace WinWarGame.Data.Game
       }
       #endregion
 
-      private BasePlayer getPlayer(byte playerIndex)
+      private BasePlayer GetPlayer(byte playerIndex)
       {
-         if (playerIndex >= 0 && playerIndex < Players.Count)
+         if (playerIndex < Players.Count)
+         {
             return Players[playerIndex];
+         }
 
          return null;
       }
@@ -281,7 +303,7 @@ namespace WinWarGame.Data.Game
          for (int i = 0; i < levelInfo.StartObjects.Length; i++)
          {
             LevelObject lo = levelInfo.StartObjects[i];
-            BasePlayer newOwner = getPlayer(lo.Player);
+            BasePlayer newOwner = GetPlayer(lo.Player);
             if (CreateEntity(lo.X, lo.Y, lo.Type, newOwner) == false)
                Log.Write(LogType.Generic, LogSeverity.Status, "Failed to place entity of type '" + lo.Type + "' at " + lo.X + "," + lo.Y + ".");
          }

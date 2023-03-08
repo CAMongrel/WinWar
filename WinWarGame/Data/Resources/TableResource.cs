@@ -24,6 +24,7 @@ namespace WinWarGame.Data.Resources
 
       #region Constructor
       internal TableResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileTable;
 

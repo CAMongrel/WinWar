@@ -89,6 +89,7 @@ namespace WinWarGame.Data.Resources
 
       #region Constructor
       internal UIResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileUI;
 

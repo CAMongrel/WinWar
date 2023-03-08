@@ -12,6 +12,7 @@ namespace WinWarGame.Data.Resources
       public ushort HotSpotY { get; private set; }
 
       internal CursorResource(WarResource data, WarResource palette)
+         : base(data)
       {
          Type = ContentFileType.FileCursor;
 
