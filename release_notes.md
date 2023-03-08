@@ -1,5 +1,8 @@
 # WinWar
 ## Release Notes
+### 0.2.6
+- 
+
 ### 0.2.5
 - Switched to .NET 7
 

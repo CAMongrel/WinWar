@@ -26,7 +26,7 @@ namespace WinWarGame
     {
         public static readonly int MajorVersion = 0;
         public static readonly int MinorVersion = 2;
-        public static readonly int RevisionVersion = 5;
+        public static readonly int RevisionVersion = 6;
 
         public static readonly string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
 
