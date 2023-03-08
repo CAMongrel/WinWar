@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Gui.Input
+namespace WinWarGame.Gui.Input
 {
    class UIMapControlInputHandlerEnhancedTouch : UIMapControlInputHandler
    {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Platform
+namespace WinWarGame.Platform
 {
    public static class Sys
    {

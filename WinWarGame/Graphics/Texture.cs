@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data;
+using WinWarGame.Data.Resources;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 #if !NETFX_CORE
@@ -22,7 +22,7 @@ using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 using Matrix = Microsoft.Xna.Framework.Matrix;
 
 #endregion
-namespace WinWarCS.Graphics
+namespace WinWarGame.Graphics
 {
     internal class WWTexture : IDisposable
     {

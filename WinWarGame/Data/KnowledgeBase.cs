@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
-namespace WinWarCS.Data
+namespace WinWarGame.Data
 {
    public enum ContentFileType : int
    {
@@ -663,12 +663,16 @@ namespace WinWarCS.Data
          for (int i = 0; i < database.Length; i++)
          {
             if (database[i] == null || database[i].text == null)
+            {
                continue;
+            }
 
-            if (hashes.ContainsKey (database [i].text.ToLowerInvariant ()))
+            if (hashes.ContainsKey(database[i].text.ToLowerInvariant()))
+            {
                continue;
+            }
 
-            hashes.Add (database[i].text.ToLowerInvariant (), database[i].id);
+            hashes.Add(database[i].text.ToLowerInvariant(), database[i].id);
          }
       }
 

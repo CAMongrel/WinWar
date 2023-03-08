@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.MacOS
+namespace WinWarGame.MacOS
 {
    internal class BaseAbility
    {

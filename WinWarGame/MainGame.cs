@@ -1,19 +1,23 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Text;
-using WinWarCS.GameScreens;
 using Microsoft.Xna.Framework.Input;
-using WinWarCS.Data;
-using WinWarCS.Gui;
 using System.IO;
 using System.Threading.Tasks;
-using WinWarCS.Util;
-using MouseCursor = WinWarCS.Gui.MouseCursor;
-using WinWarCS.Data.Game;
-using WinWarCS.Audio;
+using MouseCursor = WinWarGame.Gui.MouseCursor;
+using WinWarGame.Audio;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.GameScreens;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Util;
 
-namespace WinWarCS
+#nullable enable
+
+namespace WinWarGame
 {
     /// <summary>
     /// This is the main type for your game
@@ -30,7 +34,7 @@ namespace WinWarCS
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SpriteFont _spriteFont;
+        private Font _spriteFont;
         private BaseGameScreen currentGameScreen;
         private BaseGameScreen nextGameScreen;
 
@@ -122,7 +126,7 @@ namespace WinWarCS
             }
         }
 
-        internal static SpriteFont DefaultFont
+        internal static Font DefaultFont
         {
             get
             {
@@ -147,10 +151,13 @@ namespace WinWarCS
         }
 
         internal static IAssetProvider AssetProvider { get; private set; }
+
+        internal static Dictionary<string, string> StartParameters;
         #endregion
 
-        public MainGame(IAssetProvider setAssetProvider)
+        public MainGame(IAssetProvider setAssetProvider, Dictionary<string, string> setStartParameters)
         {
+            StartParameters = setStartParameters;
             AssetProvider = setAssetProvider;
             MainGame.WinWarGame = this;
 
@@ -255,13 +262,21 @@ namespace WinWarCS
             }
             else
             {
-                // Play intro
-                SetNextGameScreen(new IntroGameScreen(
-                   delegate (bool wasCancelled)
-                   {
+                bool bPlayIntro = HasStartParameter("skipintro") == false;
 
-                       SetNextGameScreen(new MenuGameScreen(!wasCancelled));
-                   }));
+                // Play intro
+                if (bPlayIntro)
+                {
+                    SetNextGameScreen(new IntroGameScreen(
+                        delegate (bool wasCancelled)
+                        {
+                            SetNextGameScreen(new MenuGameScreen(!wasCancelled));
+                        }));
+                }
+                else
+                {
+                    SetNextGameScreen(new MenuGameScreen(false));
+                }
             }
         }
 
@@ -274,7 +289,7 @@ namespace WinWarCS
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _spriteFont = this.Content.Load<SpriteFont>("DefaultFont");
+            _spriteFont = new Font(this.Content.Load<SpriteFont>("DefaultFont"));
             // TODO: use this.Content to load your game content here
         }
 
@@ -361,7 +376,7 @@ namespace WinWarCS
 
             base.Draw(gameTime);
 
-            MouseCursor.Render(gameTime);
+            Gui.MouseCursor.Render(gameTime);
             Performance.Pop();
         }
 
@@ -411,6 +426,26 @@ namespace WinWarCS
         {
             SystemGameScreen.IsActive = isActive;
             IsMouseVisible = isActive;
+        }
+
+        internal static bool HasStartParameter(string param)
+        {
+            return GetStartParameter(param) != null;
+        }
+        
+        internal static string? GetStartParameter(string param)
+        {
+            param = param.ToUpperInvariant();
+            foreach (var pair in StartParameters)
+            {
+                var key = pair.Key.ToUpperInvariant();
+                key = key.TrimStart('-');
+                if (key == param)
+                {
+                    return pair.Value;
+                }
+            }
+            return null;
         }
     }
 }

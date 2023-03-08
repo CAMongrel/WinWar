@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data.Resources;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    internal class AStarNode : IMapPathNode
    {

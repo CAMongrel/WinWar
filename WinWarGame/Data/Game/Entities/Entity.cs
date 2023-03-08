@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
-using WinWarCS.Util;
-using WinWarCS.Graphics;
 using System.IO;
 using System.Xml;
 using System.Globalization;
-using WinWarCS.Gui;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Util;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -15,7 +15,7 @@ using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 using RectangleF = System.Drawing.RectangleF;
 #endif
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
     internal class Entity
     {

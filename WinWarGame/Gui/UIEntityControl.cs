@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using WinWarCS.Data.Game;
-using WinWarCS.Data;
-using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
-using WinWarCS.Graphics;
-using WinWarCS.Util;
-using WinWarCS.GameScreens;
+using WinWarGame.Graphics;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.Data.Resources;
+using WinWarGame.GameScreens;
+using WinWarGame.Util;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    internal class UIEntityControl : UIBaseComponent
    {

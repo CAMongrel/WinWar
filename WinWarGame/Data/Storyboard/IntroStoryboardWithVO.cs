@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Data.Storyboard
+namespace WinWarGame.Data.Storyboard
 {
     /// <summary>
     /// Storyboard for Intro movie with VoiceOver

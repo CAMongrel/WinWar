@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Util;
 using Microsoft.Xna.Framework;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
 	class StateMachine
 	{

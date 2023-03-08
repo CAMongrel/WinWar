@@ -1,9 +1,9 @@
 ﻿using System;
-using WinWarCS.Util;
 using Microsoft.Xna.Framework;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data.Resources;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    class StateBuilding : State
    {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Graphics;
-using WinWarCS.Gui;
-using WinWarCS.Data.Game;
-using WinWarCS.Data;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
    class IngameMenuWindow : UIWindow
    {

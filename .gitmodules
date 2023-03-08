@@ -1,3 +1,3 @@
-[submodule "Submodules/.\\FLCLib"]
-	path = Submodules/.\\FLCLib
+[submodule "Submodules/FLCLib"]
+	path = Submodules/FLCLib
 	url = https://github.com/CAMongrel/FLCLib

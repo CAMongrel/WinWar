@@ -1,8 +1,8 @@
 ﻿using System;
-using WinWarCS.Data.Game;
-using WinWarCS.Data;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    internal class UISpriteButton : UIButton
    {

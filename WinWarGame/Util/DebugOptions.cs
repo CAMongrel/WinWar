@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Util
+namespace WinWarGame.Util
 {
    public class DebugOptions
    {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.GameScreens;
-using WinWarCS.Gui;
+using WinWarGame.GameScreens;
+using WinWarGame.Gui;
 
-namespace WinWarCS.GameScreens
+namespace WinWarGame.GameScreens
 {
     class SystemGameScreen : BaseGameScreen
     {

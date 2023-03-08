@@ -1,6 +1,6 @@
 using System;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class RawResource : BasicResource
    {

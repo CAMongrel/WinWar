@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using WinWarCS.Util;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data.Resources;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    internal class BuildEntity : Entity
    {

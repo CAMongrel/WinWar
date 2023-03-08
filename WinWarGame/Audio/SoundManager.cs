@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using WinWarCS.Data;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data;
+using WinWarGame.Data.Resources;
 
-namespace WinWarCS.Audio
+namespace WinWarGame.Audio
 {
    public class SoundManager
    {

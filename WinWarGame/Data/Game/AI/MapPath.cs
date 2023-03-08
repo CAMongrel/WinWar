@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    public interface IMapPathNode
    {

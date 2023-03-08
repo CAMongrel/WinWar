@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Audio
+namespace WinWarGame.Audio
 {
    public class MusicManager
    {

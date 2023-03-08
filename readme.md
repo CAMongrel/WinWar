@@ -18,12 +18,12 @@ You can (and should!) also buy Warcraft at GOG: https://www.gog.com/de/game/warc
 
 ## Compiling and Running
 ### Compiling from source
-- Clone the source code from the git repo.
+- Clone the source code from the git repo including submodules, e.g. `git clone --recurse-submodules https://github.com/CAMongrel/WinWar`
 - Open the solution (WinWar.Desktop.sln file) in Visual Studio 2022.
 - Compile the code.
 
 ### Running
-- Before running the game you must copy over the data files from a Warcraft 1 retail or demo version. To do that, copy everything from the DATA directory of Warcraft 1 (contains 40 .WAR files in retail, but only one .WAR file in the demo version) to a subdirectory named "Data" below the "Assets" directory in the output folder containing the binary (usually bin/Debug, but that differs depending on platform).
+- Before running the game you have to copy over the data files from a Warcraft 1 retail or demo version. To do that, copy everything from the DATA directory of Warcraft 1 (contains 40 .WAR files in retail, but only one .WAR file in the demo version) to a subdirectory named "Data" below the "Assets" directory in the output folder containing the binary (usually bin/Debug, but that differs depending on platform).
 - Run the WinWar executable either from your IDE or from disk.
 - Enjoy
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    enum PlayerType
    {

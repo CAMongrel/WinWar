@@ -3,9 +3,11 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWarEngine\Data\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 23:04
-using WinWarCS.Util;
-using WinWarCS.Graphics;
+
 using Microsoft.Xna.Framework.Graphics;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Util;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -13,11 +15,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data;
 
 #endregion
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    enum MapDiscover
    {

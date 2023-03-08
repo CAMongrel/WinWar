@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
 	internal class BinaryHeap<T> : IEnumerable<T>
 	{

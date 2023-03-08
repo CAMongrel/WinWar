@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    class StateIdle : State
    {

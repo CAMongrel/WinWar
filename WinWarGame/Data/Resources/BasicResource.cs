@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public abstract class BasicResource
    {
@@ -96,7 +96,7 @@ namespace WinWarCS.Data.Resources
       {
       }
 
-      internal void WriteToFile(string filename)
+      internal virtual void WriteToFile(string filename)
       {
          using (var stream = File.OpenWrite(filename))
          {

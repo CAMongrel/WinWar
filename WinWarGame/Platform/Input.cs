@@ -2,13 +2,13 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using WinWarCS.Gui;
-using MouseCursor = WinWarCS.Gui.MouseCursor;
+using WinWarGame.Gui;
+using MouseCursor = WinWarGame.Gui.MouseCursor;
 #if IOS
 using UIKit;
 #endif
 
-namespace WinWarCS.Platform
+namespace WinWarGame.Platform
 {
     public static class Input
     {
@@ -31,7 +31,7 @@ namespace WinWarCS.Platform
             Vector2 scaledPosition = new Microsoft.Xna.Framework.Vector2((mousePos.X - MainGame.ScaledOffsetX) / MainGame.ScaleX,
                (mousePos.Y - MainGame.ScaledOffsetY) / MainGame.ScaleY);
 
-            MouseCursor.Position = scaledPosition;
+            Gui.MouseCursor.Position = scaledPosition;
 
             if (mousePos != prevMousePos)
             {

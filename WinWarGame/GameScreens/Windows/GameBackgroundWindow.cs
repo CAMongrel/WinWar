@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data.Game;
-using WinWarCS.Gui;
-using WinWarCS.Gui.Input;
-using WinWarCS.Data;
-using WinWarCS.Util;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.Gui;
+using WinWarGame.Gui.Input;
+using WinWarGame.Util;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
    class GameBackgroundWindow : UIWindow
    {

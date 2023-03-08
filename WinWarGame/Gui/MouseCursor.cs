@@ -1,12 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
-using WinWarCS.Data;
-using WinWarCS.Data.Game;
-using WinWarCS.Data.Resources;
-using WinWarCS.Graphics;
+using WinWarGame.Data.Game;
 using Microsoft.Xna.Framework.Graphics;
+using WinWarGame.Data;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    public enum MouseCursorState
    {
