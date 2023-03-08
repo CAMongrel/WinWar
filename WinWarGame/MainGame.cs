@@ -24,26 +24,25 @@ namespace WinWarGame
     /// </summary>
     public class MainGame : Game
     {
-        public static int MajorVersion = 0;
-        public static int MinorVersion = 2;
-        public static int RevisionVersion = 4;
+        public static readonly int MajorVersion = 0;
+        public static readonly int MinorVersion = 2;
+        public static readonly int RevisionVersion = 5;
 
-        public static string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
+        public static readonly string Version = MajorVersion + "." + MinorVersion + "." + RevisionVersion;
 
         #region Variables
 
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private Font _spriteFont;
-        private BaseGameScreen currentGameScreen;
-        private BaseGameScreen nextGameScreen;
+        private readonly SpriteBatch spriteBatch;
+        private Font? spriteFont;
+        private BaseGameScreen? currentGameScreen;
+        private BaseGameScreen? nextGameScreen;
 
-        internal SystemGameScreen SystemGameScreen;
+        internal SystemGameScreen? SystemGameScreen;
 
-        private MusicManager musicManager;
-        private SoundManager soundManager;
+        private readonly MusicManager musicManager;
+        private readonly SoundManager soundManager;
 
-        private Color backgroundClearColor;
+        private readonly Color backgroundClearColor;
 
         internal static MainGame WinWarGame { get; private set; }
 
@@ -54,21 +53,8 @@ namespace WinWarGame
         internal const int OriginalAppWidth = 320;
         internal const int OriginalAppHeight = 200;
 
-        internal static int AppWidth
-        {
-            get
-            {
-                return WinWarGame.Window.ClientBounds.Width;
-            }
-        }
-
-        internal static int AppHeight
-        {
-            get
-            {
-                return WinWarGame.Window.ClientBounds.Height;
-            }
-        }
+        internal static int AppWidth => WinWarGame.Window.ClientBounds.Width;
+        internal static int AppHeight => WinWarGame.Window.ClientBounds.Height;
 
         internal static int ScaledOffsetX
         {
@@ -122,15 +108,15 @@ namespace WinWarGame
         {
             get
             {
-                return WinWarGame._spriteBatch;
+                return WinWarGame.spriteBatch;
             }
         }
 
-        internal static Font DefaultFont
+        internal static Font? DefaultFont
         {
             get
             {
-                return WinWarGame._spriteFont;
+                return WinWarGame.spriteFont;
             }
         }
 
@@ -150,9 +136,9 @@ namespace WinWarGame
             }
         }
 
-        internal static IAssetProvider AssetProvider { get; private set; }
+        internal static IAssetProvider? AssetProvider { get; private set; }
 
-        internal static Dictionary<string, string> StartParameters;
+        internal static Dictionary<string, string> StartParameters = new Dictionary<string, string>();
         #endregion
 
         public MainGame(IAssetProvider setAssetProvider, Dictionary<string, string> setStartParameters)
@@ -173,13 +159,19 @@ namespace WinWarGame
             currentGameScreen = null;
             nextGameScreen = null;
 
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 320 * 3;
-            _graphics.PreferredBackBufferHeight = 200 * 3;
-            _graphics.ApplyChanges();
+            var graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 320 * 3;
+            graphics.PreferredBackBufferHeight = 200 * 3;
+            graphics.ApplyChanges();
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            
             Content.RootDirectory = "Assets";
 
+            soundManager = new SoundManager();
+            musicManager = new MusicManager();
+            
 #if IOS
             MouseCursor.IsVisible = false;
 #endif
@@ -187,23 +179,20 @@ namespace WinWarGame
 
         private bool ValidateDataWar()
         {
-            Stream stream = null;
+            Stream? stream = null;
             try
             {
-                stream = MainGame.AssetProvider.OpenGameDataFile("DATA.WAR");
-                return true;
+                stream = MainGame.AssetProvider?.OpenGameDataFile("DATA.WAR");
+                return stream != null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // If anything goes wrong, just return false
                 return false;
             }
             finally
             {
-                if (stream != null)
-                {
-                    stream.Dispose();
-                    stream = null;
-                }
+                stream?.Dispose();
             }
         }
 
@@ -224,8 +213,8 @@ namespace WinWarGame
             bool result = ValidateDataWar();
             if (result == false)
             {
-                Platform.UI.ShowMessageDialog("DATA.WAR not found at expected location '" +
-                    AssetProvider.FullDataDirectory + "' or '" + AssetProvider.DemoDataDirectory +
+                Platform.UI.ShowMessageDialog("DATA.WAR not found or not loadable at expected location '" +
+                    AssetProvider?.FullDataDirectory + "' or '" + AssetProvider?.DemoDataDirectory +
                     "'. Please copy the DATA.WAR from the demo or the full version to that location.\r\nIf you have the full version, " +
                     "please also copy all the other .WAR files from the data directory.", "Exit", () =>
                     {
@@ -233,8 +222,6 @@ namespace WinWarGame
                     });
                 return;
             }
-
-            Exception loadingException = null;
 
             try
             {
@@ -244,15 +231,7 @@ namespace WinWarGame
             }
             catch (Exception ex)
             {
-                loadingException = ex;
-            }
-
-            soundManager = new SoundManager();
-            musicManager = new MusicManager();
-
-            if (loadingException != null)
-            {
-                Platform.UI.ShowMessageDialog("An error occured during loading of DATA.WAR (" + loadingException + ").");
+                Platform.UI.ShowMessageDialog("An error occured during loading of DATA.WAR (" + ex + ").");
                 return;
             }
 
@@ -286,11 +265,7 @@ namespace WinWarGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            _spriteFont = new Font(this.Content.Load<SpriteFont>("DefaultFont"));
-            // TODO: use this.Content to load your game content here
+            spriteFont = new Font(this.Content.Load<SpriteFont>("DefaultFont"));
         }
 
         /// <summary>
@@ -304,7 +279,7 @@ namespace WinWarGame
 
         internal void SetNextGameScreen(BaseGameScreen setNextGameScreen)
         {
-            // Ensure that all audio is stopped when switchting game screens
+            // Ensure that all audio is stopped when switching game screens
             soundManager?.StopAll();
 
             nextGameScreen = setNextGameScreen;
@@ -323,26 +298,17 @@ namespace WinWarGame
 
             if (nextGameScreen != null)
             {
-                if (currentGameScreen != null)
-                {
-                    currentGameScreen.Close();
-                }
+                currentGameScreen?.Close();
 
                 currentGameScreen = nextGameScreen;
-                if (currentGameScreen != null)
-                {
-                    currentGameScreen.InitUI();
-                }
+                currentGameScreen?.InitUI();
 
                 nextGameScreen = null;
             }
 
-            if (currentGameScreen != null)
-            {
-                currentGameScreen.Update(gameTime);
-            }
+            currentGameScreen?.Update(gameTime);
 
-            if (SystemGameScreen.IsActive)
+            if (SystemGameScreen is { IsActive: true })
             {
                 SystemGameScreen.Draw(gameTime);
             }
@@ -369,7 +335,7 @@ namespace WinWarGame
                 GraphicsDevice.Clear(backgroundClearColor);
             }
 
-            if (SystemGameScreen.IsActive)
+            if (SystemGameScreen is { IsActive: true })
             {
                 SystemGameScreen.Draw(gameTime);
             }
@@ -380,51 +346,45 @@ namespace WinWarGame
             Performance.Pop();
         }
 
-        internal void PointerPressed(Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
+        internal void PointerPressed(Vector2 scaledPosition, PointerType pointerType)
         {
-            if (SystemGameScreen.IsActive)
+            if (SystemGameScreen is { IsActive: true })
             {
                 SystemGameScreen.PointerDown(scaledPosition, pointerType);
                 return;
             }
 
-            if (currentGameScreen != null)
-            {
-                currentGameScreen.PointerDown(scaledPosition, pointerType);
-            }
+            currentGameScreen?.PointerDown(scaledPosition, pointerType);
         }
 
-        internal void PointerReleased(Microsoft.Xna.Framework.Vector2 scaledPosition, PointerType pointerType)
+        internal void PointerReleased(Vector2 scaledPosition, PointerType pointerType)
         {
-            if (SystemGameScreen.IsActive)
+            if (SystemGameScreen is { IsActive: true })
             {
                 SystemGameScreen.PointerUp(scaledPosition, pointerType);
                 return;
             }
 
-            if (currentGameScreen != null)
-            {
-                currentGameScreen.PointerUp(scaledPosition, pointerType);
-            }
+            currentGameScreen?.PointerUp(scaledPosition, pointerType);
         }
 
-        internal void PointerMoved(Microsoft.Xna.Framework.Vector2 scaledPosition)
+        internal void PointerMoved(Vector2 scaledPosition)
         {
-            if (SystemGameScreen.IsActive)
+            if (SystemGameScreen is { IsActive: true })
             {
                 SystemGameScreen.PointerMoved(scaledPosition);
                 return;
             }
 
-            if (currentGameScreen != null)
-            {
-                currentGameScreen.PointerMoved(scaledPosition);
-            }
+            currentGameScreen?.PointerMoved(scaledPosition);
         }
 
         internal void SetSystemGameScreenActive(bool isActive)
         {
-            SystemGameScreen.IsActive = isActive;
+            if (SystemGameScreen != null)
+            {
+                SystemGameScreen.IsActive = isActive;
+            }
             IsMouseVisible = isActive;
         }
 
