@@ -96,7 +96,7 @@ namespace WinWarGame.Data.Resources
       {
       }
 
-      internal void WriteToFile(string filename)
+      internal virtual void WriteToFile(string filename)
       {
          using (var stream = File.OpenWrite(filename))
          {

@@ -663,12 +663,16 @@ namespace WinWarGame.Data
          for (int i = 0; i < database.Length; i++)
          {
             if (database[i] == null || database[i].text == null)
+            {
                continue;
+            }
 
-            if (hashes.ContainsKey (database [i].text.ToLowerInvariant ()))
+            if (hashes.ContainsKey(database[i].text.ToLowerInvariant()))
+            {
                continue;
+            }
 
-            hashes.Add (database[i].text.ToLowerInvariant (), database[i].id);
+            hashes.Add(database[i].text.ToLowerInvariant(), database[i].id);
          }
       }
 

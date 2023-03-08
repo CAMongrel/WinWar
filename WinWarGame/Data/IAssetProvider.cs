@@ -8,7 +8,7 @@ namespace WinWarGame.Data
 {
     public interface IAssetProvider
     {
-        bool isFullVersion { get; }
+        bool IsFullVersion { get; }
         string InstalledLocation { get; }
         string AssetsDirectory { get; }
         string FullDataDirectory { get; }

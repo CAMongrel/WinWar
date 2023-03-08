@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
@@ -13,6 +14,8 @@ using WinWarGame.GameScreens;
 using WinWarGame.Graphics;
 using WinWarGame.Gui;
 using WinWarGame.Util;
+
+#nullable enable
 
 namespace WinWarGame
 {
@@ -148,10 +151,13 @@ namespace WinWarGame
         }
 
         internal static IAssetProvider AssetProvider { get; private set; }
+
+        internal static Dictionary<string, string> StartParameters;
         #endregion
 
-        public MainGame(IAssetProvider setAssetProvider)
+        public MainGame(IAssetProvider setAssetProvider, Dictionary<string, string> setStartParameters)
         {
+            StartParameters = setStartParameters;
             AssetProvider = setAssetProvider;
             MainGame.WinWarGame = this;
 
@@ -256,13 +262,21 @@ namespace WinWarGame
             }
             else
             {
-                // Play intro
-                SetNextGameScreen(new IntroGameScreen(
-                   delegate (bool wasCancelled)
-                   {
+                bool bPlayIntro = HasStartParameter("skipintro") == false;
 
-                       SetNextGameScreen(new MenuGameScreen(!wasCancelled));
-                   }));
+                // Play intro
+                if (bPlayIntro)
+                {
+                    SetNextGameScreen(new IntroGameScreen(
+                        delegate (bool wasCancelled)
+                        {
+                            SetNextGameScreen(new MenuGameScreen(!wasCancelled));
+                        }));
+                }
+                else
+                {
+                    SetNextGameScreen(new MenuGameScreen(false));
+                }
             }
         }
 
@@ -412,6 +426,26 @@ namespace WinWarGame
         {
             SystemGameScreen.IsActive = isActive;
             IsMouseVisible = isActive;
+        }
+
+        internal static bool HasStartParameter(string param)
+        {
+            return GetStartParameter(param) != null;
+        }
+        
+        internal static string? GetStartParameter(string param)
+        {
+            param = param.ToUpperInvariant();
+            foreach (var pair in StartParameters)
+            {
+                var key = pair.Key.ToUpperInvariant();
+                key = key.TrimStart('-');
+                if (key == param)
+                {
+                    return pair.Value;
+                }
+            }
+            return null;
         }
     }
 }

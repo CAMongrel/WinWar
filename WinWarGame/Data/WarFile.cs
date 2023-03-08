@@ -196,7 +196,9 @@ namespace WinWarGame.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new CursorResource(resource, palRes);
                     }
@@ -205,7 +207,9 @@ namespace WinWarGame.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new ImageResource(resource, palRes, rawResources[191]);
                     }
@@ -229,7 +233,9 @@ namespace WinWarGame.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new SpriteResource(resource, palRes, rawResources[191]);
                     }
@@ -356,10 +362,14 @@ namespace WinWarGame.Data
         public static ImageResource GetImageResource(int id)
         {
             if ((id < 0 || id >= KnowledgeBase.Count))
+            {
                 return null;
+            }
 
             if (KnowledgeBase[id].type != ContentFileType.FileImage)
+            {
                 return null;
+            }
 
             return GetResource(id) as ImageResource;
         }
@@ -424,13 +434,19 @@ namespace WinWarGame.Data
         public static BasicResource GetResource(int index)
         {
             if ((index < 0) || (index >= Count))
+            {
                 return null;
+            }
 
             if (resourcesDict.ContainsKey(index))
+            {
                 return resourcesDict[index];
+            }
 
             if (rawResources[index] == null)
+            {
                 return null;
+            }
 
             // Lazy-load the requested resource
             Performance.Push("Load resource " + index);
@@ -488,5 +504,34 @@ namespace WinWarGame.Data
 
         #endregion
 
+        #region DumpResourcesToAssetPath
+
+        public static void DumpResourcesToAssetPath(string subfolder)
+        {
+            string fn = Path.Combine(MainGame.AssetProvider.AssetsDirectory, subfolder);
+            if (Directory.Exists(fn) == false)
+            {
+                Directory.CreateDirectory(fn);
+            }
+            for (int i = 0; i < WarFile.Count; i++)
+            {
+                string outfn = Path.Combine(fn, "res_" + i.ToString("D4"));
+
+                var res = WarFile.GetResource(i);
+                switch (res.Type)
+                {
+                    case ContentFileType.FileImage:
+                    {
+                        var imgRes = (ImageResource)res;
+                        imgRes.WriteToFile(outfn + ".jpg");
+                    }
+                        break;
+                    default:
+                        res.WriteToFile(outfn + ".res");
+                        break;
+                }
+            }
+        }
+        #endregion
     }
 }

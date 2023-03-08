@@ -20,7 +20,7 @@ namespace WinWarGame.GameScreens.Windows
          UIResource res = WarFile.GetUIResource(setRace == Race.Humans ? 391 : 392);
 
          background = new UIImage(WWTexture.FromImageResource(WarFile.GetImageResource(res.BackgroundImageResourceIndex)));
-         background.InitWithUIResource (res);
+         background.InitWithUIResource(res);
          AddComponent (background);
 
          background.CenterOnScreen();

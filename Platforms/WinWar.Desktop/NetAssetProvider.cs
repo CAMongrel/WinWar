@@ -11,7 +11,7 @@ namespace WinWar.Desktop
 {
     class NetAssetProvider : IAssetProvider
     {
-        public bool isFullVersion { get; private set; } = false;
+        public bool IsFullVersion { get; private set; } = false;
 
         public string InstalledLocation => Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
@@ -27,12 +27,12 @@ namespace WinWar.Desktop
             {
                 if (Directory.Exists(FullDataDirectory))
                 {
-                    isFullVersion = true;
+                    IsFullVersion = true;
                     return FullDataDirectory;
                 }
                 else if (Directory.Exists(DemoDataDirectory))
                 {
-                    isFullVersion = false;
+                    IsFullVersion = false;
                     return DemoDataDirectory;
                 }
                 else
