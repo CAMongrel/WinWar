@@ -21,8 +21,9 @@ namespace WinWarGame.Data.Game
       {
       }
 
-      internal virtual void Leave()
+      internal virtual bool Leave()
       {
+         return true;
       }
    }
 }
