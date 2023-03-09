@@ -5,135 +5,195 @@ using WinWarGame.Util;
 
 namespace WinWarGame.Data.Game
 {
-   class StateAttackMove : State
-   {
-      internal int destX;
-      internal int destY;
-      internal int targetX;
-      internal int targetY;
+    class StateAttackMove : State
+    {
+        private readonly int destX;
+        private readonly int destY;
+        private int targetX;
+        private int targetY;
 
-      internal bool bUpdatePath;
+        private bool bUpdatePath;
 
-      internal int curNodeIdx;
+        private int curNodeIdx;
 
-      internal double moveTimer;
+        private double moveTimer;
 
-      internal MapPath Path;
-      internal MapPath TargetPath;
+        private MapPath path;
+        private MapPath targetPath;
+        
+        private bool isMoving;
+        private bool leaveRequested;
 
-      internal StateAttackMove(Entity Owner, int X, int Y)
-         : base(Owner)
-      {
-         Path = null;
-         TargetPath = null;
-         destX = X;
-         destY = Y;
-         bUpdatePath = true;
-      }
+        internal StateAttackMove(Entity owner, int x, int y)
+            : base(owner)
+        {
+            path = null;
+            targetPath = null;
+            destX = x;
+            destY = y;
+            bUpdatePath = true;
+            
+            isMoving = false;
+            leaveRequested = false;
+        }
 
-      internal override bool Enter()
-      {
-         moveTimer = 1.0f;
-         curNodeIdx = -1;
-         Path = Owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, destX, destY);
-         if (Path == null)
+        internal override bool Enter()
+        {
+            moveTimer = 1.0f;
+            curNodeIdx = -1;
+            
+            var owner = Owner;
+            if (owner == null)
+            {
+                return false;
+            }
+            
+            path = owner.CurrentMap.CalcPath(owner.TileX, owner.TileY, destX, destY);
+            if (path == null)
+            {
+                return false;
+            }
+
+            curNodeIdx = 0;
+            bUpdatePath = false;
+
+            return true;
+        }
+        
+        internal override bool Leave()
+        {
+            if (isMoving == false)
+            {
+                return true;
+            }
+
+            leaveRequested = true;
             return false;
+        }
 
-         curNodeIdx = 0;
-         bUpdatePath = false;
-
-         return true;
-      }
-
-      internal override void Update(GameTime gameTime)
-      {
-         moveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-         if (moveTimer > 0)
-            return;
-
-         moveTimer = 1.0f;
-
-         this.Owner.UpdateHateList();
-
-         HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
-         if (entry.Target == null)
-         {
-            Log.AI(this.Owner?.ToString(), "No enemy ... moving!");
-
-            if (bUpdatePath)
+        internal override void Update(GameTime gameTime)
+        {
+            moveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+            if (moveTimer > 0)
             {
-               Path = Owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, destX, destY);
-               if (Path != null)
-               {
-                  curNodeIdx = 0;
-                  bUpdatePath = false;
-               }
+                return;
             }
 
-            if (curNodeIdx == -1 || Path == null)
-               return;
-
-            if (curNodeIdx >= Path.Count)
+            var owner = Owner;
+            if (owner == null)
             {
-               this.Owner.Idle();
-               return;
+                return;
+            }
+            
+            moveTimer = 1.0f;
+
+            owner.UpdateHateList();
+
+            HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
+            if (entry.Target == null)
+            {
+                Log.AI(owner.ToString(), "No enemy ... moving!");
+
+                if (bUpdatePath)
+                {
+                    path = owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, destX, destY);
+                    if (path != null)
+                    {
+                        curNodeIdx = 0;
+                        bUpdatePath = false;
+                    }
+                }
+
+                if (curNodeIdx == -1 || path == null)
+                {
+                    leaveRequested = false;
+                    isMoving = false;
+                    return;
+                }
+
+                if (curNodeIdx >= path.Count)
+                {
+                    leaveRequested = false;
+                    isMoving = false;
+                    owner.Idle();
+                    return;
+                }
+                
+                if (leaveRequested)
+                {
+                    isMoving = false;
+                    return;
+                }
+
+                IMapPathNode node = path[curNodeIdx++];
+                // TODO!!! Move, not Set
+                owner.SetPosition(node.X, node.Y);
+                return;
             }
 
-            IMapPathNode node = Path[curNodeIdx++];
-            // TODO!!! Move, not Set
-            Owner.SetPosition (node.X, node.Y);
-            return;
-         }
+            owner.CurrentTarget = entry.Target;
 
-         this.Owner.CurrentTarget = entry.Target;
+            Log.AI(owner.ToString(), "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueID);
 
-         Log.AI(this.Owner?.ToString(), "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueID);
+            bUpdatePath = true;
+            path = null;
 
-         bUpdatePath = true;
-         Path = null;
+            MoveOrAttack(entry.Target);
+        }
 
-         MoveOrAttack(entry.Target);
-      }
-
-      private void MoveOrAttack(Entity ent)
-      {
-         float offx = this.Owner.X - ent.X;
-         float offy = this.Owner.Y - ent.Y;
-
-         double sqr_dist = (offx * offx + offy * offy);
-
-         double sqr_meleerange = ent.AttackRange * ent.AttackRange;
-
-         if (sqr_dist < sqr_meleerange)
-         {
-            if (this.Owner.CanAttack && ent.ShouldBeAttacked)
+        private void MoveOrAttack(Entity ent)
+        {
+            if (leaveRequested)
             {
-               // Target is in range -> Perform an attack
-               this.Owner.PerformAttack(ent);
+                isMoving = false;
+                return;
             }
-         }
-         else
-         {
-            // Target is out of range -> Move towards it
-
-            Log.AI(this.Owner?.ToString(), "Target is out of range ... moving towards it!");
-
-            // If no path has been calculated yet or if the target has moved, calculate new path
-            if (TargetPath == null || ent.X != targetX || ent.Y != targetY)
+            
+            var owner = Owner;
+            if (owner == null)
             {
-               targetX = ent.TileX;
-               targetY = ent.TileY;
-               TargetPath = Owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, targetX, targetY);
-               if (TargetPath == null)
-                  return;
-               curNodeIdx = 0;
+                return;
             }
+            
+            float offx = owner.X - ent.X;
+            float offy = owner.Y - ent.Y;
 
-            IMapPathNode node = TargetPath[curNodeIdx++];
-            // TODO!!! Move, not Set
-            Owner.SetPosition (node.X, node.Y);
-         }
-      }
-   }
+            double sqrDist = (offx * offx + offy * offy);
+
+            double sqrMeleeRange = ent.AttackRange * ent.AttackRange;
+
+            if (sqrDist < sqrMeleeRange)
+            {
+                if (owner.CanAttack && ent.ShouldBeAttacked)
+                {
+                    // Target is in range -> Perform an attack
+                    owner.PerformAttack(ent);
+                }
+            }
+            else
+            {
+                // Target is out of range -> Move towards it
+
+                Log.AI(this.Owner?.ToString(), "Target is out of range ... moving towards it!");
+
+                // If no path has been calculated yet or if the target has moved, calculate new path
+                if (targetPath == null || ent.X != targetX || ent.Y != targetY)
+                {
+                    targetX = ent.TileX;
+                    targetY = ent.TileY;
+                    targetPath = owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, targetX, targetY);
+                    if (targetPath == null)
+                    {
+                        return;
+                    }
+
+                    curNodeIdx = 0;
+                }
+
+                IMapPathNode node = targetPath[curNodeIdx++];
+                // TODO!!! Move, not Set
+                owner.SetPosition(node.X, node.Y);
+            }
+        }
+    }
 }
-
