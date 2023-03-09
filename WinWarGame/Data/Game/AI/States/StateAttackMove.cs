@@ -89,14 +89,14 @@ namespace WinWarGame.Data.Game
 
             owner.UpdateHateList();
 
-            HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
+            HateListEntry entry = owner.HateList.GetHighestHateListEntry();
             if (entry.Target == null)
             {
                 Log.AI(owner.ToString(), "No enemy ... moving!");
 
                 if (bUpdatePath)
                 {
-                    path = owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, destX, destY);
+                    path = owner.CurrentMap.CalcPath(owner.TileX, owner.TileY, destX, destY);
                     if (path != null)
                     {
                         curNodeIdx = 0;

@@ -5,116 +5,138 @@ using WinWarGame.Util;
 
 namespace WinWarGame.Data.Game
 {
-   class StateAttack : State
-   {
-      internal int targetX;
-      internal int targetY;
+    class StateAttack : State
+    {
+        private int targetX;
+        private int targetY;
 
-      internal double attackTimer;
+        private double attackTimer;
 
-      internal int curNodeIdx;
+        private int curNodeIdx;
 
-      internal MapPath Path;
+        private MapPath Path;
 
-      internal StateAttack(Entity Owner, Entity Target)
-         : base(Owner)
-      {
-         if (Target == null)
-            throw new ArgumentNullException("Target");
+        internal StateAttack(Entity owner, Entity target)
+            : base(owner)
+        {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
 
-         Owner.CurrentTarget = Target;
-         Path = null;
-      }
+            owner.CurrentTarget = target;
+            Path = null;
+        }
 
-      internal override bool Enter()
-      {
-         if (Owner is Unit) 
-         {
-            Unit unit = (Unit)Owner;
-            unit.Sprite.SetCurrentAnimationByName ("Attack");
-         }
-
-         Owner.HateList.SetHateValue(Owner.CurrentTarget, 25, HateListParam.PushToTop);
-
-         Log.AI(this.Owner.ToString(), "Attacking " + Owner.CurrentTarget.Name + Owner.CurrentTarget.UniqueID);
-
-         targetX = Owner.CurrentTarget.TileX;
-         targetY = Owner.CurrentTarget.TileY;
-
-         // TODO: This may lead to bugs, if the user manages to quickly switch states.
-         // This must be fixed by moving the attackTimer to the unit itself.
-         attackTimer = 0;
-
-         return true;
-      }
-
-      internal override void Update(GameTime gameTime)
-      {
-         attackTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-         if (attackTimer > 0)
-            return;
-
-         attackTimer = Owner.AttackSpeed;
-
-         this.Owner.UpdateHateList();
-
-         HateListEntry entry = this.Owner.HateList.GetHighestHateListEntry();
-         if (entry.Target == null)
-         {
-            this.Owner.Idle();
-            return;
-         }
-
-         MoveOrAttack(entry.Target);
-      }
-
-      private void MoveOrAttack(Entity ent)
-      {
-         float offx = ent.X - this.Owner.X;
-         float offy = ent.Y - this.Owner.Y;
-
-         double sqr_dist = (offx * offx + offy * offy);
-
-         double sqr_meleerange = ent.AttackRange * ent.AttackRange;
-
-         if (sqr_dist < sqr_meleerange)
-         {
-            // Target is in range -> Perform an attack
-            if (this.Owner.PerformAttack (ent)) 
+        internal override bool Enter()
+        {
+            var owner = Owner;
+            if (owner == null)
             {
-               if (this.Owner is Unit) 
-               {
-                  Unit unit = (Unit)this.Owner;
-                  unit.Orientation = Unit.OrientationFromDiff (offx, offy);
-                  unit.Sprite.CurrentAnimation.Reset ();
-               }
+                return false;
             }
-         }
-         else
-         {
-            // Target is out of range -> Move towards it
-
-            // If no path has been calculated yet or if the target has moved, calculate new path
-            if (Path == null || ent.TileX != targetX || ent.TileY != targetY)
+            
+            if (owner is Unit unit)
             {
-               targetX = ent.TileX;
-               targetY = ent.TileY;
-               Path = Owner.CurrentMap.CalcPath(Owner.TileX, Owner.TileY, targetX, targetY);
-               if (Path == null)
-                  return;
-               curNodeIdx = 0;
+                unit.Sprite.SetCurrentAnimationByName("Attack");
             }
 
-            if (curNodeIdx < Path.Count)
+            owner.HateList.SetHateValue(owner.CurrentTarget, 25, HateListParam.PushToTop);
+
+            Log.AI(owner.ToString(), "Attacking " + owner.CurrentTarget.Name + owner.CurrentTarget.UniqueID);
+
+            targetX = owner.CurrentTarget.TileX;
+            targetY = owner.CurrentTarget.TileY;
+
+            // TODO: This may lead to bugs, if the user manages to quickly switch states.
+            // This must be fixed by moving the attackTimer to the unit itself.
+            attackTimer = 0;
+
+            return true;
+        }
+
+        internal override void Update(GameTime gameTime)
+        {
+            attackTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+            if (attackTimer > 0)
             {
-               IMapPathNode node = Path[curNodeIdx++];
-               // TODO!!! Move, not Set
-               Owner.SetPosition (node.X, node.Y);
+                return;
+            }
+            
+            var owner = Owner;
+            if (owner == null)
+            {
+                return;
+            }
+
+            attackTimer = owner.AttackSpeed;
+
+            owner.UpdateHateList();
+
+            HateListEntry entry = owner.HateList.GetHighestHateListEntry();
+            if (entry.Target == null)
+            {
+                owner.Idle();
+                return;
+            }
+
+            MoveOrAttack(entry.Target);
+        }
+
+        private void MoveOrAttack(Entity ent)
+        {
+            var owner = Owner;
+            if (owner == null)
+            {
+                return;
+            }
+            
+            float offx = ent.X - this.Owner.X;
+            float offy = ent.Y - this.Owner.Y;
+
+            double sqrDist = (offx * offx + offy * offy);
+
+            double sqrMeleerange = ent.AttackRange * ent.AttackRange;
+
+            if (sqrDist < sqrMeleerange)
+            {
+                // Target is in range -> Perform an attack
+                if (owner.PerformAttack(ent))
+                {
+                    if (owner is Unit unit)
+                    {
+                        unit.Orientation = Unit.OrientationFromDiff(offx, offy);
+                        unit.Sprite.CurrentAnimation.Reset();
+                    }
+                }
             }
             else
-               Log.Error("Error calculating path");
-         }
-      }
-   }
-}
+            {
+                // Target is out of range -> Move towards it
 
+                // If no path has been calculated yet or if the target has moved, calculate new path
+                if (Path == null || ent.TileX != targetX || ent.TileY != targetY)
+                {
+                    targetX = ent.TileX;
+                    targetY = ent.TileY;
+                    Path = owner.CurrentMap.CalcPath(owner.TileX, owner.TileY, targetX, targetY);
+                    if (Path == null)
+                    {
+                        return;
+                    }
+
+                    curNodeIdx = 0;
+                }
+
+                if (curNodeIdx < Path.Count)
+                {
+                    IMapPathNode node = Path[curNodeIdx++];
+                    // TODO!!! Move, not Set
+                    owner.SetPosition(node.X, node.Y);
+                }
+                else
+                {
+                    Log.Error("Error calculating path");
+                }
+            }
+        }
+    }
+}
