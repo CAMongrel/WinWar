@@ -133,7 +133,7 @@ namespace WinWarGame.Data.Game
 
             owner.CurrentTarget = entry.Target;
 
-            Log.AI(owner.ToString(), "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueID);
+            Log.AI(owner.ToString(), "Enemy spotted! Attacking " + entry.Target.Name + entry.Target.UniqueId);
 
             bUpdatePath = true;
             path = null;

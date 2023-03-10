@@ -136,16 +136,18 @@ namespace WinWarGame
             }
         }
 
-        internal static IAssetProvider? AssetProvider { get; private set; }
+        internal static IAssetProvider AssetProvider => WinWarGame.assetProvider!;
+        private readonly IAssetProvider assetProvider;
 
         internal static Dictionary<string, string> StartParameters = new Dictionary<string, string>();
         #endregion
 
         public MainGame(IAssetProvider setAssetProvider, Dictionary<string, string> setStartParameters)
         {
-            StartParameters = setStartParameters;
-            AssetProvider = setAssetProvider;
             MainGame.WinWarGame = this;
+            
+            StartParameters = setStartParameters;
+            assetProvider = setAssetProvider;
 
             Log.Severity = LogSeverity.Fatal;
             Log.Type = LogType.Performance;

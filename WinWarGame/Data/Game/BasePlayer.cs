@@ -3,94 +3,135 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarGame.Data.Game.Definitions;
 
 namespace WinWarGame.Data.Game
 {
-   enum PlayerType
-   {
-      Human,
-      AI
-   }
+    enum PlayerType
+    {
+        Human,
+        AI
+    }
 
-   internal class BasePlayer
-   {
-      internal string Name { get; set; }
+    internal class BasePlayer : IScriptObject
+    {
+        public string Name { get; set; }
 
-      internal Race Race { get; set; }
+        internal Race Race { get; set; }
 
-      internal PlayerType PlayerType { get; private set; }
+        internal PlayerType PlayerType { get; private set; }
 
-      internal List<Entity> Entities { get; private set; }
+        internal List<Entity> Entities { get; private set; }
 
-      internal int Gold { get; set; }
+        internal int Gold { get; private set; }
 
-      internal int Lumber { get; set; }
+        internal int Lumber { get; private set; }
 
-      internal BasePlayer (PlayerType setPlayerType)
-      {
-         Name = "Player";
-         Race = Game.Race.Humans;
-         PlayerType = setPlayerType;
-         Entities = new List<Entity> ();
-         Gold = 0;
-         Lumber = 0;
-      }
+        internal BasePlayer(PlayerType setPlayerType)
+        {
+            Name = "Player";
+            Race = Game.Race.Humans;
+            PlayerType = setPlayerType;
+            Entities = new List<Entity>();
+            Gold = 0;
+            Lumber = 0;
+        }
 
-      internal void ClaimeOwnership(Entity setEntity)
-      {
-         if (setEntity == null)
-            return;
+        internal void ClaimOwnership(Entity setEntity)
+        {
+            if (setEntity == null)
+            {
+                return;
+            }
 
-         if (setEntity.Owner == this)
-            return;
+            if (setEntity.Owner == this)
+            {
+                return;
+            }
 
-         Entities.Add (setEntity);
+            Entities.Add(setEntity);
 
-         setEntity.AssignOwner (this);
-      }
+            setEntity.AssignOwner(this);
+        }
 
-      internal void RemoveOwnership(Entity setEntity)
-      {
-         if (setEntity == null)
-            return;
+        internal void RemoveOwnership(Entity setEntity)
+        {
+            if (setEntity == null)
+            {
+                return;
+            }
 
-         if (setEntity.Owner != this)
-            return;
+            if (setEntity.Owner != this)
+            {
+                return;
+            }
 
-         if (Entities.Contains (setEntity))
-            Entities.Remove (setEntity);
+            if (Entities.Contains(setEntity))
+            {
+                Entities.Remove(setEntity);
+            }
 
-         setEntity.AssignOwner(null);
-      }
+            setEntity.AssignOwner(null);
+        }
 
-      public bool IsNeutralTowards (BasePlayer player)
-      {
-         if (player == null)
-            return true;
+        public void SetGold(int gold)
+        {
+            Gold = gold;
+        }
+        
+        public void ModifyGold(int deltaGold)
+        {
+            Gold += deltaGold;
+        }
+        
+        public void SetLumber(int lumber)
+        {
+            Lumber = lumber;
+        }
+        
+        public void ModifyLumber(int deltaLumber)
+        {
+            Lumber += deltaLumber;
+        }
 
-         return false;
-      }
+        public bool IsNeutralTowards(BasePlayer player)
+        {
+            if (player == null)
+            {
+                return true;
+            }
 
-      public bool IsHostileTowards (BasePlayer player)
-      {
-         if (player == null)
             return false;
+        }
 
-         if (player != this)
-            return true;
+        public bool IsHostileTowards(BasePlayer player)
+        {
+            if (player == null)
+            {
+                return false;
+            }
 
-         return false;
-      }
+            if (player != this)
+            {
+                return true;
+            }
 
-      public bool IsFriendlyTowards (BasePlayer player)
-      {
-         if (player == null)
             return false;
+        }
 
-         if (player == this)
-            return true;
+        public bool IsFriendlyTowards(BasePlayer player)
+        {
+            if (player == null)
+            {
+                return false;
+            }
 
-         return false;
-      }
-   }
+            if (player == this)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }

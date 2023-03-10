@@ -12,194 +12,207 @@ using WinWarGame.Gui.Input;
 
 namespace WinWarGame.Gui
 {
-   enum MapUnitOrder
-   {
-      None,
-      Move,
-      Attack,
-      Harvest,
-      Repair
-   }
+    enum MapUnitOrder
+    {
+        None,
+        Move,
+        Attack,
+        Harvest,
+        Repair
+    }
 
-   class UIMapControl : UIBaseComponent
-   {
-      private float mapOffsetX;
-      private float mapOffsetY;
+    class UIMapControl : UIBaseComponent
+    {
+        private float mapOffsetX;
+        private float mapOffsetY;
 
-      internal int CameraTileX { get { return ((int)mapOffsetX / TileWidth); } }
+        internal int CameraTileX
+        {
+            get { return ((int)mapOffsetX / TileWidth); }
+        }
 
-      internal int CameraTileY { get { return ((int)mapOffsetY / TileHeight); } }
+        internal int CameraTileY
+        {
+            get { return ((int)mapOffsetY / TileHeight); }
+        }
 
-      internal int MapWidth {
-         get { return (CurrentMap != null ? CurrentMap.MapWidth : 1); }
-      }
+        internal int MapWidth
+        {
+            get { return (CurrentMap != null ? CurrentMap.MapWidth : 1); }
+        }
 
-      internal int MapHeight {
-         get { return (CurrentMap != null ? CurrentMap.MapHeight : 1); }
-      }
+        internal int MapHeight
+        {
+            get { return (CurrentMap != null ? CurrentMap.MapHeight : 1); }
+        }
 
-      internal int TileWidth {
-         get { return (CurrentMap != null ? CurrentMap.TileWidth : 1); }
-      }
+        internal int TileWidth
+        {
+            get { return (CurrentMap != null ? CurrentMap.TileWidth : 1); }
+        }
 
-      internal int TileHeight {
-         get { return (CurrentMap != null ? CurrentMap.TileHeight : 1); }
-      }
+        internal int TileHeight
+        {
+            get { return (CurrentMap != null ? CurrentMap.TileHeight : 1); }
+        }
 
-      internal int WidthInTiles {
-         get { return (CurrentMap != null ? Width / TileWidth : 1); }
-      }
+        internal int WidthInTiles
+        {
+            get { return (CurrentMap != null ? Width / TileWidth : 1); }
+        }
 
-      internal int HeightInTiles {
-         get { return (CurrentMap != null ? Height / TileHeight : 1); }
-      }
+        internal int HeightInTiles
+        {
+            get { return (CurrentMap != null ? Height / TileHeight : 1); }
+        }
 
-      internal Map CurrentMap { get; private set; }
+        internal Map CurrentMap { get; private set; }
 
-      internal UIMapControlInputHandler InputHandler { get; private set; }
+        internal UIMapControlInputHandler InputHandler { get; private set; }
 
-      #region Events
-      internal event EventHandler OnSelectedEntitiesChanged;
-      #endregion
+        #region Events
 
-      internal UIMapControl ()
-      {
-         CurrentMap = null;
+        internal event EventHandler OnSelectedEntitiesChanged;
 
-         #if IOS
-         SetInputMode (InputMode.EnhancedTouch);
-         #else
-         SetInputMode (InputMode.EnhancedMouse);
-         #endif
-      }
+        #endregion
 
-      internal void SetInputMode(InputMode setMode)
-      {
-         switch (setMode) 
-         {
-         case InputMode.Classic:
-            InputHandler = new UIMapControlInputHandlerClassic (this);
-            break;
+        internal UIMapControl()
+        {
+            CurrentMap = null;
 
-         case InputMode.EnhancedMouse:
-            InputHandler = new UIMapControlInputHandlerEnhancedMouse (this);
-            break;
+#if IOS
+            SetInputMode (InputMode.EnhancedTouch);
+#else
+            SetInputMode(InputMode.EnhancedMouse);
+#endif
+        }
 
-         case InputMode.EnhancedTouch:
-            InputHandler = new UIMapControlInputHandlerEnhancedTouch (this);
-            break;
-         }
+        internal void SetInputMode(InputMode setMode)
+        {
+            switch (setMode)
+            {
+                case InputMode.Classic:
+                    InputHandler = new UIMapControlInputHandlerClassic(this);
+                    break;
 
-         InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
-      }
+                case InputMode.EnhancedMouse:
+                    InputHandler = new UIMapControlInputHandlerEnhancedMouse(this);
+                    break;
 
-      internal void GetTileXY(float x, float y, out int tileX, out int tileY)
-      {
-         tileX = (int)((x + mapOffsetX) / (float)TileWidth);
-         tileY = (int)((y + mapOffsetY) / (float)TileHeight);
-      }
+                case InputMode.EnhancedTouch:
+                    InputHandler = new UIMapControlInputHandlerEnhancedTouch(this);
+                    break;
+            }
 
-      void inputHandler_OnMapDidScroll (float setMapOffsetX, float setMapOffsetY)
-      {
-         SetCameraOffset (setMapOffsetX, setMapOffsetY);
-      }
+            InputHandler.OnMapDidScroll += inputHandler_OnMapDidScroll;
+        }
 
-      internal void SetCameraOffset (float setCamOffsetX, float setCamOffsetY)
-      {
-         mapOffsetX = setCamOffsetX;
-         mapOffsetY = setCamOffsetY;
+        internal void GetTileXY(float x, float y, out int tileX, out int tileY)
+        {
+            tileX = (int)((x + mapOffsetX) / (float)TileWidth);
+            tileY = (int)((y + mapOffsetY) / (float)TileHeight);
+        }
 
-         if (mapOffsetX < 0)
-            mapOffsetX = 0;
-         if (mapOffsetY < 0)
-            mapOffsetY = 0;
+        void inputHandler_OnMapDidScroll(float setMapOffsetX, float setMapOffsetY)
+        {
+            SetCameraOffset(setMapOffsetX, setMapOffsetY);
+        }
 
-         float maxX = (this.MapWidth * this.TileWidth) - this.Width;
-         if (mapOffsetX > maxX)
-            mapOffsetX = maxX;
-         float maxY = (this.MapHeight * this.TileHeight) - this.Height;
-         if (mapOffsetY > maxY)
-            mapOffsetY = maxY;
-      }
+        internal void SetCameraOffset(float setCamOffsetX, float setCamOffsetY)
+        {
+            mapOffsetX = setCamOffsetX;
+            mapOffsetY = setCamOffsetY;
 
-      internal void LoadCampaignLevel (Race race, int level)
-      {
-         string basenameInfo = race + " " + level;
+            if (mapOffsetX < 0)
+            {
+                mapOffsetX = 0;
+            }
+            if (mapOffsetY < 0)
+            {
+                mapOffsetY = 0;
+            }
 
-         LevelInfoResource levelInfo = WarFile.GetResourceByName(basenameInfo) as LevelInfoResource;
-         LevelPassableResource levelPassable = WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
-         LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
+            float maxX = (this.MapWidth * this.TileWidth) - this.Width;
+            if (mapOffsetX > maxX)
+            {
+                mapOffsetX = maxX;
+            }
 
-         if (InputHandler != null)
-         {
-            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
-         }
+            float maxY = (this.MapHeight * this.TileHeight) - this.Height;
+            if (mapOffsetY > maxY)
+            {
+                mapOffsetY = maxY;
+            }
+        }
 
-         CurrentMap = new Map(levelInfo, levelVisual, levelPassable);
-         SetCameraOffset(levelInfo.StartCameraX * CurrentMap.TileWidth, levelInfo.StartCameraY * CurrentMap.TileHeight);
+        internal void SetCurrentMap(Map map)
+        {
+            InputHandler?.SetMapUnitOrder(MapUnitOrder.None);
+            
+            CurrentMap = map;
+            SetCameraOffset(map.StartCameraX * CurrentMap.TileWidth,
+                map.StartCameraY * CurrentMap.TileHeight);
 
-         CurrentMap.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
-      }
+            CurrentMap.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
+        }
 
-      private void HandleOnSelectedEntitiesChanged(object sender, EventArgs e)
-      {
-         if (OnSelectedEntitiesChanged != null)
-            OnSelectedEntitiesChanged(sender, e);
-      }
+        /*internal void LoadLevel(string basename)
+        {
+            LevelInfoResource levelInfo = WarFile.GetResourceByName(basename) as LevelInfoResource;
+            LevelPassableResource levelPassable =
+                WarFile.GetResource(levelInfo.PassableResourceIndex) as LevelPassableResource;
+            LevelVisualResource levelVisual = WarFile.GetResource(levelInfo.VisualResourceIndex) as LevelVisualResource;
 
-      internal void LoadCustomLevel (string basename)
-      {
-         if (InputHandler != null)
-         {
-            InputHandler.SetMapUnitOrder(MapUnitOrder.None);
-         }
+            if (InputHandler != null)
+            {
+                InputHandler.SetMapUnitOrder(MapUnitOrder.None);
+            }
 
-         throw new NotImplementedException();
-         //LevelPassableResource levelPassable = new LevelPassableResource (basename + " (Passable)");
-         //LevelVisualResource levelVisual = new LevelVisualResource (basename + " (Visual)");
+            CurrentMap = new Map(basename, levelInfo, levelVisual, levelPassable);
+            SetCameraOffset(levelInfo.StartCameraX * CurrentMap.TileWidth,
+                levelInfo.StartCameraY * CurrentMap.TileHeight);
 
-         //CurrentMap = new Map (null, levelVisual, levelPassable);
-      }
+            CurrentMap.OnSelectedEntitiesChanged += HandleOnSelectedEntitiesChanged;
+        }*/
 
-      internal override void Update (GameTime gameTime)
-      {
-         base.Update (gameTime);
+        private void HandleOnSelectedEntitiesChanged(object sender, EventArgs e)
+        {
+            OnSelectedEntitiesChanged?.Invoke(sender, e);
+        }
 
-         if (CurrentMap != null) 
-         {
-            CurrentMap.Update (gameTime);
-         }
-      }
+        internal override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
 
-      internal override void Draw()
-      {
-         base.Draw();
+            CurrentMap?.Update(gameTime);
+        }
 
-         if (CurrentMap != null) 
-         {
-            CurrentMap.Render (this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
-         }
+        internal override void Draw()
+        {
+            base.Draw();
 
-         // Render selection rectangle
-         if (InputHandler.IsSpanningRectangle)
-         {
-            WWTexture.RenderRectangle (InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
-         }
-      }
-       
-      internal override bool PointerDown (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         return InputHandler.PointerDown (position, pointerType);
-      }
+            CurrentMap?.Render(this.X, this.Y, this.Width, this.Height, mapOffsetX, mapOffsetY);
 
-      internal override bool PointerUp (Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
-      {
-         return InputHandler.PointerUp (position, pointerType);
-      }
+            // Render selection rectangle
+            if (InputHandler.IsSpanningRectangle)
+            {
+                WWTexture.RenderRectangle(InputHandler.SelectionRectangle, new Color(0, 255, 0), 3);
+            }
+        }
 
-      internal override bool PointerMoved (Microsoft.Xna.Framework.Vector2 position)
-      {
-         return InputHandler.PointerMoved (position);
-      }
-   }
+        internal override bool PointerDown(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            return InputHandler.PointerDown(position, pointerType);
+        }
+
+        internal override bool PointerUp(Microsoft.Xna.Framework.Vector2 position, PointerType pointerType)
+        {
+            return InputHandler.PointerUp(position, pointerType);
+        }
+
+        internal override bool PointerMoved(Microsoft.Xna.Framework.Vector2 position)
+        {
+            return InputHandler.PointerMoved(position);
+        }
+    }
 }

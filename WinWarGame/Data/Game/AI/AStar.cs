@@ -29,11 +29,11 @@ namespace WinWarGame.Data.Game
         private int fieldWidth;
         private int fieldHeight;
 
-        internal bool UseHeuristic;
+        private bool useHeuristic;
 
         internal AStar2D()
         {
-            UseHeuristic = true;
+            useHeuristic = true;
             fieldWidth = 0;
             fieldHeight = 0;
             field = null;
@@ -135,10 +135,10 @@ namespace WinWarGame.Data.Game
             return null;
         }
 
-        private sbyte ProcessLowestNode(int endX, int endY, List<AStarNode> Closed, BinaryHeap<AStarNode> OpenHeap)
+        private sbyte ProcessLowestNode(int endX, int endY, List<AStarNode> closed, BinaryHeap<AStarNode> openHeap)
         {
-            AStarNode node = OpenHeap.Remove();
-            Closed.Add(node);
+            AStarNode node = openHeap.Remove();
+            closed.Add(node);
 
             if (node == null)
             {
@@ -174,13 +174,13 @@ namespace WinWarGame.Data.Game
                         return 2;
                     }
 
-                    if (field[newX, newY] > 0 || GetClosedNode(newX, newY, Closed) != null)
+                    if (field[newX, newY] > 0 || GetClosedNode(newX, newY, closed) != null)
                     {
                         continue;
                     }
 
                     int index = 0;
-                    AStarNode oNode = GetOpenHeapNode(newX, newY, OpenHeap, out index);
+                    AStarNode oNode = GetOpenHeapNode(newX, newY, openHeap, out index);
                     if (oNode != null)
                     {
                         // Node is already in the open list
@@ -191,7 +191,7 @@ namespace WinWarGame.Data.Game
                             oNode.parent = node;
                             oNode.G = g;
 
-                            OpenHeap.ChangeItem(index, oNode.F, oNode);
+                            openHeap.ChangeItem(index, oNode.F, oNode);
                         }
                     }
                     else
@@ -206,7 +206,7 @@ namespace WinWarGame.Data.Game
                         n.G = node.G + SQRT[x * x + y * y];
                         int offX = Math.Abs(n.X - endX);
                         int offY = Math.Abs(n.Y - endY);
-                        if (UseHeuristic == false)
+                        if (useHeuristic == false)
                         {
                             n.H = 0;
                         }
@@ -224,7 +224,7 @@ namespace WinWarGame.Data.Game
                             n.H = (Math.Abs(n.X - endX) + Math.Abs(n.Y - endY)) * 10;
                         }
 
-                        OpenHeap.Add(n.F, n);
+                        openHeap.Add(n.F, n);
                     }
                 }
             }
@@ -232,41 +232,44 @@ namespace WinWarGame.Data.Game
             return 0;
         }
 
-        public MapPath FindPath(int startX, int startY, int endX, int endY, bool useHeuristic = true)
+        public MapPath FindPath(int startX, int startY, int endX, int endY, bool setUseHeuristic = true)
         {
             if (field == null)
             {
                 return null;
             }
 
-            UseHeuristic = useHeuristic;
+            useHeuristic = setUseHeuristic;
 
             List<AStarNode> closed = new List<AStarNode>();
             BinaryHeap<AStarNode> openHeap = new BinaryHeap<AStarNode>(fieldWidth * fieldHeight);
-            AStarNode Root;
 
-            Root = new AStarNode
+            AStarNode root = new AStarNode
             {
                 parent = null,
                 X = startX,
                 Y = startY,
                 G = 0
             };
-            int offX = Math.Abs(Root.X - endX);
-            int offY = Math.Abs(Root.Y - endY);
-            if (UseHeuristic == false)
+            int offX = Math.Abs(root.X - endX);
+            int offY = Math.Abs(root.Y - endY);
+            if (useHeuristic == false)
             {
-                Root.H = 0;
+                root.H = 0;
             }
             else
             {
                 if (offX > offY)
-                    Root.H = 14 * offY + 10 * (offX - offY);
+                {
+                    root.H = 14 * offY + 10 * (offX - offY);
+                }
                 else
-                    Root.H = 14 * offX + 10 * (offY - offX);
+                {
+                    root.H = 14 * offX + 10 * (offY - offX);
+                }
             }
 
-            openHeap.Add(Root.F, Root);
+            openHeap.Add(root.F, root);
 
             int res = ProcessLowestNode(endX, endY, closed, openHeap);
             while (res == 0)
@@ -275,7 +278,9 @@ namespace WinWarGame.Data.Game
             }
 
             if (res == -1)
+            {
                 return null;
+            }
 
             AStarNode node = res switch
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarGame.Data;
 using WinWarGame.Data.Game;
 using WinWarGame.Gui;
 
@@ -36,9 +37,12 @@ namespace WinWarGame.GameScreens.Windows
         private void StartNewCampaign(Race setRace)
         {
             Campaign campaign = new Campaign(setRace);
+            campaign.LoadDefinitions(Campaign.GetDefaultCampaignFilename(setRace, WarFile.IsDemo));
             campaign.StartNew();
 
-            MainGame.WinWarGame.SetNextGameScreen(new LevelGameScreen(campaign));
+            var map = campaign.LoadCurrentMap();
+
+            MainGame.WinWarGame.SetNextGameScreen(new LevelGameScreen(map));
         }
 
         private void orcBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
