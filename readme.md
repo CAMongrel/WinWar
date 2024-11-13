@@ -1,3 +1,7 @@
+>
+> With the release of Warcraft 1 Remastered on the 13th of November 2024 this project has lost its purpose, so it's getting archived now.
+>
+
 ## Summary
 
 WinWar is a multiplatform (Windows, Linux, macOS) port of the original DOS Warcraft: Orcs & Humans PC Game. It is completely rewritten from scratch using only the original art and level data.
