@@ -1,0 +1,40 @@
+{
+  "Levels": [
+    {
+      "ScriptName" : "Orc1"
+    },
+    {
+      "ScriptName" : "Orc2"
+    },
+    {
+      "ScriptName" : "Orc3"
+    },
+    {
+      "ScriptName" : "Orc4"
+    },
+    {
+      "ScriptName" : "Orc5"
+    },
+    {
+      "ScriptName" : "Orc6"
+    },
+    {
+      "ScriptName" : "Orc7"
+    },
+    {
+      "ScriptName" : "Orc8"
+    },
+    {
+      "ScriptName" : "Orc9"
+    },
+    {
+      "ScriptName" : "Orc10"
+    },
+    {
+      "ScriptName" : "Orc11"
+    },
+    {
+      "ScriptName" : "Orc12"
+    }
+  ]
+}

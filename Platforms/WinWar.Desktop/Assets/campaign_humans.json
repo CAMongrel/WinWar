@@ -1,0 +1,40 @@
+{
+  "Levels": [
+    {
+      "ScriptName" : "Human1"
+    },
+    {
+      "ScriptName" : "Human2"
+    },
+    {
+      "ScriptName" : "Human3"
+    },
+    {
+      "ScriptName" : "Human4"
+    },
+    {
+      "ScriptName" : "Human5"
+    },
+    {
+      "ScriptName" : "Human6"
+    },
+    {
+      "ScriptName" : "Human7"
+    },
+    {
+      "ScriptName" : "Human8"
+    },
+    {
+      "ScriptName" : "Human9"
+    },
+    {
+      "ScriptName" : "Human10"
+    },
+    {
+      "ScriptName" : "Human11"
+    },
+    {
+      "ScriptName" : "Human12"
+    }
+  ]
+}

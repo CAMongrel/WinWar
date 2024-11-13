@@ -1,9 +1,9 @@
 ﻿using System;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 
 // TODO: Make platform specific log writer
 
-namespace WinWarCS.Util
+namespace WinWarGame.Util
 {
    [Flags]
    public enum LogType
@@ -28,8 +28,8 @@ namespace WinWarCS.Util
 
    public static class Log
    {
-      public static LogType Type = LogType.Game;
-      public static LogSeverity Severity = LogSeverity.Debug;
+      public static LogType Type { get; set; } = LogType.Game;
+      public static LogSeverity Severity { get; set; }= LogSeverity.Debug;
 
       private static string GetTimestamp()
       {
@@ -38,10 +38,13 @@ namespace WinWarCS.Util
 
       private static void LogInternal(LogType type, LogSeverity severity, string message, bool forced = false)
       {
-#if !NETFX_CORE
-         if (forced || (((int)severity <= (int)Severity) && ((Type & type) == type)))
+         bool shouldLog = forced ||
+                          (((int)severity <= (int)Severity) && ((Type & type) == type));
+                          
+         if (shouldLog)
+         {
             Console.WriteLine(GetTimestamp() + "[" + severity + "] [" + type + "]: " + message);
-#endif
+         }
       }
 
       internal static void Write(LogType type, LogSeverity severity, string message)
@@ -65,6 +68,7 @@ namespace WinWarCS.Util
       }
 
       // Specialized logging methods
+      // ReSharper disable once InconsistentNaming
       internal static void AI(string entityString, string message, LogSeverity severity = LogSeverity.Debug)
       {
          LogInternal(LogType.AI, severity, entityString + ": " + message);

@@ -3,7 +3,9 @@
 // Path: D:\Projekte\Henning\C#\WinWarCS\WinWar\Game
 // Creation date: 27.11.2009 20:22
 // Last modified: 27.11.2009 22:25
-using WinWarCS.Util;
+
+using WinWarGame.Graphics;
+using WinWarGame.Util;
 
 #region Using directives
 using Microsoft.Xna.Framework;
@@ -12,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using WinWarCS.Graphics;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -21,7 +22,7 @@ using RectangleF = System.Drawing.RectangleF;
 #endif
 #endregion
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    /// <summary>
    /// Tile

@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
+
 #endregion
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    #region Constructs
    public enum ConstructType
@@ -218,6 +219,7 @@ namespace WinWarCS.Data.Resources
       #region Constructor
 
       internal LevelInfoResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileLevelInfo;
 

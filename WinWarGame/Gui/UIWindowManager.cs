@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinWarGame.Util;
+using MathHelper = WinWarGame.Util.MathHelper;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
     internal static class UIWindowManager
     {
@@ -63,7 +65,7 @@ namespace WinWarCS.Gui
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {
-                if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+                if (!MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                     continue;
 
                 if (windows[i].PointerDown(position, pointerType))
@@ -77,7 +79,7 @@ namespace WinWarCS.Gui
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {
-                if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+                if (!MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                     continue;
 
                 if (windows[i].PointerUp(position, pointerType))
@@ -91,7 +93,7 @@ namespace WinWarCS.Gui
         {
             for (int i = windows.Count - 1; i >= 0; i--)
             {
-                if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
+                if (!MathHelper.InsideRect(position, new Rectangle((int)windows[i].X, (int)windows[i].Y, windows[i].Width, windows[i].Height)))
                     continue;
 
                 if (windows[i].PointerMoved(position))

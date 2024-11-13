@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Util;
 using Microsoft.Xna.Framework;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
 	class StateMachine
 	{
@@ -32,14 +32,21 @@ namespace WinWarCS.Data.Game
          if (requestedNewState.Owner == null)
             throw new ArgumentNullException("requestedNewState.owner");
 
-         Log.AI(owner.ToString(), "Changing state to " + requestedNewState.ToString());
+         Log.AI(owner.ToString(), "Requesting state change to " + requestedNewState.ToString());
 
          State previousState = CurrentState;
 
-         Log.AI(owner.ToString(), "Previous state was " + (previousState != null ? previousState.ToString() : "null"));
+         Log.AI(owner.ToString(), "Current state ist " + (previousState != null ? previousState.ToString() : "null"));
 
          if (CurrentState != null)
-            CurrentState.Leave();
+         {
+            bool didLeave = CurrentState.Leave();
+            if (didLeave == false)
+            {
+               Log.AI(owner.ToString(), "Current state rejects leave, aborting state change and trying again later.");
+               return;
+            }
+         }
 
          CurrentState = requestedNewState;
          requestedNewState = null;

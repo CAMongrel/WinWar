@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
     internal class UIBaseComponentList
     {

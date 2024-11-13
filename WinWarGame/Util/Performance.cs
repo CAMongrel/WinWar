@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WinWarCS.Util
+namespace WinWarGame.Util
 {
    public static class Performance
    {

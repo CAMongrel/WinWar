@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using WinWarCS.Data.Resources;
 using Microsoft.Xna.Framework;
-using WinWarCS.Util;
-using WinWarCS.Graphics;
 using System.IO;
 using System.Xml;
 using System.Globalization;
-using WinWarCS.Gui;
+using WinWarGame.Data.Game.Definitions;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Util;
 
 #if NETFX_CORE
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
@@ -15,9 +16,9 @@ using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 using RectangleF = System.Drawing.RectangleF;
 #endif
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
-    internal class Entity
+    internal class Entity : IScriptObject, IScriptEntity
     {
         private static Dictionary<LevelObjectType, Dictionary<string, string>> defaultValueDict;
 
@@ -26,34 +27,13 @@ namespace WinWarCS.Data.Game
         public float X { get; private set; }
         public float Y { get; private set; }
 
-        public int TileX
-        {
-            get
-            {
-                return (int)X;// / (float)CurrentMap.TileWidth); 
-            }
-        }
-        public int TileY
-        {
-            get
-            {
-                return (int)Y; // / (float)CurrentMap.TileHeight); 
-            }
-        }
-        public virtual int TileSizeX
-        {
-            get
-            {
-                return 1;
-            }
-        }
-        public virtual int TileSizeY
-        {
-            get
-            {
-                return 1;
-            }
-        }
+        public int TileX => (int)X; // / (float)CurrentMap.TileWidth); 
+
+        public int TileY => (int)Y; // / (float)CurrentMap.TileHeight); 
+
+        public virtual int TileSizeX => 1;
+
+        public virtual int TileSizeY => 1;
 
         public BasePlayer Owner { get; private set; }
 
@@ -69,15 +49,9 @@ namespace WinWarCS.Data.Game
 
         internal LevelObjectType Type { get; private set; }
 
-        public string Name
-        {
-            get
-            {
-                return ToString();
-            }
-        }
+        public string Name => ToString();
 
-        public int UniqueID { get; set; }
+        public int UniqueId { get; set; }
 
         /// <summary>
         /// Attack range
@@ -307,7 +281,7 @@ namespace WinWarCS.Data.Game
         /// </summary>
         public Entity CurrentTarget
         {
-            get { return currentTarget; }
+            get => currentTarget;
             set
             {
                 PreviousTarget = currentTarget;
@@ -329,7 +303,7 @@ namespace WinWarCS.Data.Game
         /// </summary>
         public void Die()
         {
-            Log.AI(this.ToString(), "Dieing...");
+            Log.AI(this.ToString(), "Dying...");
             StateMachine.ChangeState(new StateDeath(this));
         } // Idle()
 
@@ -348,17 +322,22 @@ namespace WinWarCS.Data.Game
             }
         } // AttackMove(x, y)
 
+        public void Attack(IScriptEntity target)
+        {
+            Attack((Entity)target);
+        }
+
         /// <summary>
         /// Orders the entity to attack the given target
         /// </summary>
-        /// <param name="Target">The entity to attack</param>
-        public void Attack(Entity Target)
+        /// <param name="target">The entity to attack</param>
+        public void Attack(Entity target)
         {
             if (CanAttack)
             {
-                Log.AI(this.ToString(), "Attacking " + Target.Name + Target.UniqueID);
+                Log.AI(this.ToString(), "Attacking " + target.Name + target.UniqueId);
 
-                StateMachine.ChangeState(new StateAttack(this, Target));
+                StateMachine.ChangeState(new StateAttack(this, target));
             }
         } // Attack(Target)
 
@@ -385,8 +364,8 @@ namespace WinWarCS.Data.Game
                 damage = 0;
 
             HitPoints -= (short)damage;
-            Log.AI(this.ToString(), this.Name + this.UniqueID + " takes " + damage + " point(s) of damage. (reduced by armor and effects)");
-            Log.AI(this.ToString(), this.Name + this.UniqueID + " has " + this.HitPoints + " hitpoints left.");
+            Log.AI(this.ToString(), this.Name + this.UniqueId + " takes " + damage + " point(s) of damage. (reduced by armor and effects)");
+            Log.AI(this.ToString(), this.Name + this.UniqueId + " has " + this.HitPoints + " hitpoints left.");
             if (HitPoints <= 0)
                 Die();
 
@@ -404,7 +383,7 @@ namespace WinWarCS.Data.Game
 
             int damage = this.MinDamage + CurrentMap.Rnd.Next(this.RandomDamage);
 
-            Log.AI(this.ToString(), "Hitting " + Target.Name + Target.UniqueID + " for " + damage + " (unmitigated) point(s) of damage.");
+            Log.AI(this.ToString(), "Hitting " + Target.Name + Target.UniqueId + " for " + damage + " (unmitigated) point(s) of damage.");
 
             Target.TakeDamage((short)damage, this);
 

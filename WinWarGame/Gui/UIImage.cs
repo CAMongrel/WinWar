@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data.Resources;
-using WinWarCS.Graphics;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    class UIImage : UIBaseComponent
    {

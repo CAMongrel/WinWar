@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data.Game;
+using WinWarGame.Data.Game;
 #if !NETFX_CORE
 using RectangleF = System.Drawing.RectangleF;
 #else
 using RectangleF = WinWarCS.Platform.WindowsRT.RectangleF;
 #endif
 
-namespace WinWarCS.Gui.Input
+namespace WinWarGame.Gui.Input
 {
    class UIMapControlInputHandlerEnhancedMouse : UIMapControlInputHandler
    {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    abstract class State
    {
@@ -21,8 +21,9 @@ namespace WinWarCS.Data.Game
       {
       }
 
-      internal virtual void Leave()
+      internal virtual bool Leave()
       {
+         return true;
       }
    }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data;
+using WinWarGame.Data;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class LevelPassableResource : BasicResource
    {
@@ -15,6 +15,7 @@ namespace WinWarCS.Data.Resources
       /// Create level visual resource
       /// </summary>
       internal LevelPassableResource(WarResource setData)
+         : base(setData)
       {
          Type = ContentFileType.FileLevelPassable;
 

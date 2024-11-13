@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data;
-using WinWarCS.Data.Game;
-using WinWarCS.Data.Resources;
-using WinWarCS.Gui;
+using WinWarGame.Data.Game;
+using WinWarGame.Data.Resources;
 using System.IO;
+using WinWarGame.Data;
+using WinWarGame.Gui;
+using WinWarGame.Platform;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
     class MainMenuWindow : UIWindow
     {
         internal MainMenuWindow()
         {
             this.Y = 70;
-
+            
             InitWithUIResource("Main Menu Text");
 
             // Start new game
@@ -34,40 +35,6 @@ namespace WinWarCS.GameScreens.Windows
             // Quit Game
             UIButton quitGameBtn = Components[3] as UIButton;
             quitGameBtn.OnMouseUpInside += quitGameBtn_OnMouseUpInside;
-
-            /*string unitName = "Goldmine";
-
-            SpriteResource res = WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName));
-            res.CreateImageData (false, false, false);
-            Sprite spr = new Sprite (res);
-            spr.CurrentFrame.WriteToFile ("/Users/henningthole/temp/paltest/mine_kb.png");
-
-            for (int i = 0; i < WarFile.Count; i++) 
-            {
-               if (KnowledgeBase.KB_List [i].type == WarFileType.FilePalette) 
-               {
-                  res = new SpriteResource (WarFile.GetResourceByName (unitName), WarFile.GetResource (i));
-                  res.CreateImageData (false, false, false);
-                  spr = new Sprite (res);
-                  spr.CurrentFrame.WriteToFile ("/Users/henningthole/temp/paltest/mine_pal_" + i + ".png");
-               }
-            }*/
-
-            /*UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName(unitName))));
-            //sprImg.Sprite.SetCurrentAnimationByName ("Walk");
-            sprImg.X = 10;
-            sprImg.Y = 10;
-            AddComponent(sprImg);*/
-
-            /*for (int i = 0; i <= (int)Orientation.NorthWest; i++) 
-            {
-               UISpriteImage sprImg = new UISpriteImage(new UnitSprite(WarFile.GetSpriteResource(KnowledgeBase.IndexByName("Orc Grunt"))));
-               sprImg.Sprite.SetCurrentAnimationByName ("Walk");
-               sprImg.Orientation = (Orientation)i;
-               sprImg.X = 30 + 30 * i;
-               sprImg.Y = 10;
-               AddComponent(sprImg);
-            }*/
         }
 
         private void loadGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
@@ -106,7 +73,7 @@ namespace WinWarCS.GameScreens.Windows
 
         void quitGameBtn_OnMouseUpInside(Microsoft.Xna.Framework.Vector2 position)
         {
-            WinWarCS.Platform.Sys.Exit();
+            Sys.Exit();
         }
     }
 }

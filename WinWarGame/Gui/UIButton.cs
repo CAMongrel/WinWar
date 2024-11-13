@@ -4,19 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Graphics;
-using WinWarCS.Gui.Rendering;
-using WinWarCS.Data;
+using WinWarGame.Gui.Rendering;
+using WinWarGame.Data;
+using WinWarGame.Graphics;
 
 #endregion
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
     internal class UIButton : UIBaseComponent
     {
         #region Variables
         private WWTexture backgroundNotClicked;
         private WWTexture backgroundClicked;
-        private SpriteFont font;
+        private Font font;
         private UIColorizedText colText;
         protected bool isPressed;
         #endregion

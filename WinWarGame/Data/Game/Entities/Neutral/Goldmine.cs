@@ -1,7 +1,7 @@
 ﻿using System;
-using WinWarCS.Data.Resources;
+using WinWarGame.Data.Resources;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    internal class Goldmine : Building
    {

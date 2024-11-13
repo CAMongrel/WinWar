@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class TableResource : BasicResource
    {
@@ -24,6 +24,7 @@ namespace WinWarCS.Data.Resources
 
       #region Constructor
       internal TableResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileTable;
 

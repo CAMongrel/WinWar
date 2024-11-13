@@ -1,11 +1,11 @@
 ﻿using System;
-using WinWarCS.Data.Game;
 using Microsoft.Xna.Framework.Graphics;
-using WinWarCS.Util;
-using WinWarCS.Graphics;
 using System.Collections.Generic;
+using WinWarGame.Data.Game;
+using WinWarGame.Graphics;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    internal class SpriteFrameData
    {

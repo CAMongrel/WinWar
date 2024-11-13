@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using WinWarCS.Util;
+using Microsoft.Xna.Framework.Graphics;
+using WinWarGame.Util;
 
-namespace WinWarCS.Data.Game
+namespace WinWarGame.Data.Game
 {
    class StateMove : State
    {
@@ -24,11 +25,17 @@ namespace WinWarCS.Data.Game
 
       internal MapPath Path;
 
+      private bool isMoving;
+      private bool leaveRequested;
+
       internal StateMove(Entity Owner, int targetTileX, int targetTileY)
          : base(Owner)
       {
          this.targetTileX = targetTileX;
          this.targetTileY = targetTileY;
+
+         isMoving = false;
+         leaveRequested = false;
       }
 
       internal override bool Enter()
@@ -47,8 +54,10 @@ namespace WinWarCS.Data.Game
 
             IMapPathNode initialNode = Path[curNodeIdx++];
             if (initialNode == null)
+            {
                return false;
-            
+            }
+
             targetPosX = initialNode.X;
             targetPosY = initialNode.Y;
 
@@ -67,11 +76,24 @@ namespace WinWarCS.Data.Game
          return true;
       }
 
+      internal override bool Leave()
+      {
+         if (isMoving == false)
+         {
+            return true;
+         }
+
+         leaveRequested = true;
+         return false;
+      }
+
       internal override void Update(GameTime gameTime)
       {
          moveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
          if (moveTimer > 0) 
          {
+            isMoving = true;
+            
             float scale = (float)(1.0f - (moveTimer / walkDistance));
 
             movePosX = scale * (targetPosX - startPosX);
@@ -95,12 +117,24 @@ namespace WinWarCS.Data.Game
          movePosY = startPosY;
 
          if (curNodeIdx == -1 || Path == null)
+         {
+            leaveRequested = false;
+            isMoving = false;
             return;
+         }
 
          if (curNodeIdx >= Path.Count - 1)
          {
+            leaveRequested = false;
+            isMoving = false;
             Owner.SetPosition (targetPosX, targetPosY);
             this.Owner.Idle();
+            return;
+         }
+
+         if (leaveRequested)
+         {
+            isMoving = false;
             return;
          }
 

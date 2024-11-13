@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Data;
-using WinWarCS.Gui.Rendering;
+using WinWarGame.Data;
 using System.IO;
-using WinWarCS.Gui;
-using WinWarCS.Data.Storyboard;
+using WinWarGame.Data.Storyboard;
+using WinWarGame.Gui;
+using WinWarGame.Gui.Rendering;
 
-namespace WinWarCS.GameScreens
+namespace WinWarGame.GameScreens
 {
     internal delegate void IntroFinished(bool wasCancelled);
 

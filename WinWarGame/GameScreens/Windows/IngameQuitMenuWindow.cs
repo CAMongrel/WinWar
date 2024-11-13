@@ -1,11 +1,12 @@
 ﻿using System;
-using WinWarCS.Data.Resources;
-using WinWarCS.Data;
-using WinWarCS.Data.Game;
-using WinWarCS.Gui;
-using WinWarCS.Graphics;
+using WinWarGame.Data;
+using WinWarGame.Data.Game;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Gui;
+using WinWarGame.Platform;
 
-namespace WinWarCS.GameScreens.Windows
+namespace WinWarGame.GameScreens.Windows
 {
    internal class IngameQuitMenuWindow : UIWindow
    {
@@ -19,7 +20,7 @@ namespace WinWarCS.GameScreens.Windows
          UIResource res = WarFile.GetUIResource(setRace == Race.Humans ? 391 : 392);
 
          background = new UIImage(WWTexture.FromImageResource(WarFile.GetImageResource(res.BackgroundImageResourceIndex)));
-         background.InitWithUIResource (res);
+         background.InitWithUIResource(res);
          AddComponent (background);
 
          background.CenterOnScreen();
@@ -45,7 +46,7 @@ namespace WinWarCS.GameScreens.Windows
 
       void quitButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)
       {
-         WinWarCS.Platform.Sys.Exit ();
+         Sys.Exit ();
       }
 
       void cancelButton_OnMouseUpInside (Microsoft.Xna.Framework.Vector2 position)

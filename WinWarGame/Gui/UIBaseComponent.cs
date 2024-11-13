@@ -3,15 +3,15 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Util;
-using WinWarCS.Graphics;
-using WinWarCS.Data.Resources;
-using WinWarCS.Data;
-
+using WinWarGame.Data;
+using WinWarGame.Data.Resources;
+using WinWarGame.Graphics;
+using WinWarGame.Util;
+using MathHelper = WinWarGame.Util.MathHelper;
 
 #endregion
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
    internal delegate void OnPointerDownInside(Vector2 position);
    internal delegate void OnPointerUpInside(Vector2 position);
@@ -127,7 +127,7 @@ namespace WinWarCS.Gui
 
          for (int i = 0; i < resource.Labels.Count; i++)
          {
-            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Labels[i];
+            UIResource.UIEntry me = resource.Labels[i];
 
             UILabel label = new UILabel(me.Text);
             label.X = (int)me.X;
@@ -138,7 +138,7 @@ namespace WinWarCS.Gui
 
          for (int i = 0; i < resource.Elements.Count; i++)
          {
-            WinWarCS.Data.Resources.UIResource.UIEntry me = resource.Elements[i];
+            UIResource.UIEntry me = resource.Elements[i];
 
             if (me.Type == UIResource.UIEntryType.ValueList)
             {
@@ -285,7 +285,7 @@ namespace WinWarCS.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerDown(relPosition, pointerType))
@@ -304,7 +304,7 @@ namespace WinWarCS.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerUp(relPosition, pointerType))
@@ -323,7 +323,7 @@ namespace WinWarCS.Gui
          for (int i = components.Count - 1; i >= 0; i--)
          {
             Vector2 screenPos = components[i].ScreenPosition;
-            if (!WinWarCS.Util.MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
+            if (!MathHelper.InsideRect(position, new Rectangle((int)screenPos.X, (int)screenPos.Y, components[i].Width, components[i].Height)))
                continue;
 
             if (components[i].PointerMoved(relPosition))

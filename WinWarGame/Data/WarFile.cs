@@ -3,18 +3,19 @@
 // Path: P:\Projekte\WinWarCS\WinWarEngine\Data
 // Creation date: 18.11.2009 10:13
 // Last modified: 27.11.2009 10:10
-using WinWarCS.Util;
+
+using WinWarGame.Data.Resources;
+using WinWarGame.Util;
 
 #region Using directives
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using WinWarCS.Data.Resources;
 using System.Threading.Tasks;
 #endregion
 
-namespace WinWarCS.Data
+namespace WinWarGame.Data
 {
     public enum DataWarFileType
     {
@@ -187,7 +188,9 @@ namespace WinWarCS.Data
 
             ContentFileType fileType = ContentFileType.FileUnknown;
             if (ke != null)
+            {
                 fileType = ke.type;
+            }
 
             switch (fileType)
             {
@@ -195,7 +198,9 @@ namespace WinWarCS.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new CursorResource(resource, palRes);
                     }
@@ -204,7 +209,9 @@ namespace WinWarCS.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new ImageResource(resource, palRes, rawResources[191]);
                     }
@@ -228,7 +235,9 @@ namespace WinWarCS.Data
                     {
                         WarResource palRes = null;
                         if (ke != null)
+                        {
                             palRes = rawResources[ke.param];
+                        }
 
                         return new SpriteResource(resource, palRes, rawResources[191]);
                     }
@@ -355,10 +364,14 @@ namespace WinWarCS.Data
         public static ImageResource GetImageResource(int id)
         {
             if ((id < 0 || id >= KnowledgeBase.Count))
+            {
                 return null;
+            }
 
             if (KnowledgeBase[id].type != ContentFileType.FileImage)
+            {
                 return null;
+            }
 
             return GetResource(id) as ImageResource;
         }
@@ -423,13 +436,19 @@ namespace WinWarCS.Data
         public static BasicResource GetResource(int index)
         {
             if ((index < 0) || (index >= Count))
+            {
                 return null;
+            }
 
             if (resourcesDict.ContainsKey(index))
+            {
                 return resourcesDict[index];
+            }
 
             if (rawResources[index] == null)
+            {
                 return null;
+            }
 
             // Lazy-load the requested resource
             Performance.Push("Load resource " + index);
@@ -487,5 +506,45 @@ namespace WinWarCS.Data
 
         #endregion
 
+        #region DumpResourcesToAssetPath
+
+        public static void DumpResourcesToAssetPath(string subfolder, bool onlyKnownTypes)
+        {
+            string fn = Path.Combine(MainGame.AssetProvider.AssetsDirectory, subfolder);
+            if (Directory.Exists(fn) == false)
+            {
+                Directory.CreateDirectory(fn);
+            }
+            for (int i = 0; i < WarFile.Count; i++)
+            {
+                string outfn = Path.Combine(fn, "res_" + i.ToString("D4"));
+
+                var res = WarFile.GetResource(i);
+                switch (res.Type)
+                {
+                    case ContentFileType.FileImage:
+                    {
+                        var imgRes = (ImageResource)res;
+                        imgRes.WriteToFile(outfn + ".png");
+                    }
+                        break;
+                    
+                    case ContentFileType.FileSprite:
+                    {
+                        var sprRes = (SpriteResource)res;
+                        sprRes.WriteToFile(outfn + ".png");
+                    }
+                        break;
+                    
+                    default:
+                        if (onlyKnownTypes == false)
+                        {
+                            res.WriteToFile(outfn + ".res");
+                        }
+                        break;
+                }
+            }
+        }
+        #endregion
     }
 }

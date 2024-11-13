@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinWarCS.Gui.Rendering;
+using WinWarGame.Gui.Rendering;
+using WinWarGame.Graphics;
 
-namespace WinWarCS.Gui
+namespace WinWarGame.Gui
 {
     class UILabel : UIBaseComponent
     {
@@ -21,7 +22,7 @@ namespace WinWarCS.Gui
                 colText.Text = value;
             }
         }
-        private SpriteFont font;
+        private Font font;
 
         #endregion
 

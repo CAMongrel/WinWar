@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 #endregion
 
-namespace WinWarCS.Data.Resources
+namespace WinWarGame.Data.Resources
 {
    public class UIResource : BasicResource
    {
@@ -89,6 +89,7 @@ namespace WinWarCS.Data.Resources
 
       #region Constructor
       internal UIResource(WarResource data)
+         : base(data)
       {
          Type = ContentFileType.FileUI;
 
